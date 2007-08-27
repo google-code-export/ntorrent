@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="nTorrent" default="compile" basedir=".">
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="releases"/>
+
+	
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac destdir="${build}" srcdir="${src}" encoding="UTF-8" source="1.6" target="1.6" debug="on">
+        <classpath>
+          <pathelement path="./"/>
+            <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
+            <pathelement location="lib/xmlrpc/xmlrpc-client-3.1.jar"/>
+            <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
+    	</classpath>
+    </javac>    	
+        	
+  </target>
+
+  <target name="dist" depends="compile" description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}"/>
+  	<echo>Building jar file!</echo>
+    <jar jarfile="nTorrent.jar" basedir="${build}">
+    	<zipfileset src="lib/xmlrpc/ws-commons-util-1.0.2.jar" />
+    	<zipfileset src="lib/xmlrpc/xmlrpc-client-3.1.jar" />
+    	<zipfileset src="lib/xmlrpc/xmlrpc-common-3.1.jar" />
+    	<manifest>
+			<attribute name="Main-Class" value="ntorrent.NTorrent" />
+    	</manifest>
+    </jar>
+  	
+  	<echo>Building tar file of jar!</echo>
+  	<tar destfile="${dist}/nTorrent-bin-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
+  			<exclude name="*settings/**"/>
+  			<exclude name=".**"/>
+  			<exclude name="build/**"/>
+  			<exclude name="releases/**"/>
+			<exclude name="build.xml"/>
+			<exclude name="lib/**"/>
+			<exclude name="src/**"/>
+  	</tar>
+
+	<delete file="nTorrent.jar"/>
+		
+
+  	<echo>Building tar file of source!</echo>
+  	<tar destfile="${dist}/nTorrent-src-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
+  			<exclude name="*settings/**"/>
+  			<exclude name=".**"/>
+  			<exclude name="build/**"/>
+  			<exclude name="releases/**"/>
+  	</tar>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+  </target>
+</project>
