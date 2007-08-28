@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -38,8 +39,8 @@ import ntorrent.model.TorrentTableModel;
 
 public class MainGui {
 	private MainGlassPane listener = new MainGlassPane();
-	public JFrame rootWin = new JFrame("nTorrent");
-	public StatusBarComponent statusBar = new StatusBarComponent();
+	private JFrame rootWin = new JFrame("nTorrent");
+	private StatusBarComponent statusBar = new StatusBarComponent();
 	private MenuBarComponent menuBar = new MenuBarComponent();
 	private FileTabComponent fileTab = new FileTabComponent(listener);
 	private MainTableComponent table = new MainTableComponent(); 
@@ -69,6 +70,13 @@ public class MainGui {
 		content.add(splitPane,BorderLayout.CENTER);
 		content.add(statusBar.getStatusBar(),BorderLayout.SOUTH);
 		return content;
+	}
+	
+	public void showError(String message){
+		JOptionPane.showMessageDialog(getRootWin(), 
+				message,
+				"Error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public TorrentTableModel getTorrentTableModel(){

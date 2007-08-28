@@ -23,18 +23,23 @@ package ntorrent.gui.dialogues;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import ntorrent.controller.Controller;
+
 public class PromptAbout {
 	JFrame window = new JFrame();
 	JTextArea about = new JTextArea();
+
 	public PromptAbout(){
 		about.setText(
 				"nTorrent is licensed under GPLv3\n" +
-				"Author: Kim Eik"
+				"Author: Kim Eik\n\n" +
+				"http://ntorrent-java.sf.net"
 				);
 		about.setEditable(false);
 		about.setFocusable(false);
 		window.setVisible(true);
 		window.add(about);
+		window.setLocationRelativeTo(Controller.getGui().getRootWin());
 	}
 	
 	public void drawWindow(){

@@ -36,9 +36,8 @@ public class ContentThread extends Controller implements Runnable {
 			//must be separated
 			try {
 				torrents.update();
-			} catch (XmlRpcException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				Controller.getGui().showError(e.getLocalizedMessage());
 			}
 		}
 	}
