@@ -27,7 +27,6 @@ import ntorrent.io.type.CustomTypeFactory;
 
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.apache.xmlrpc.client.XmlRpcLiteHttpTransportFactory;
 
 public class RpcConnection {
 	XmlRpcClientConfigImpl config;

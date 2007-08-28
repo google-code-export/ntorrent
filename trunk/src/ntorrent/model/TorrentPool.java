@@ -35,7 +35,7 @@ public class TorrentPool {
 
 	TorrentPool(){}
 
-	public TorrentPool(Rpc r, TorrentTableModel t){
+	public TorrentPool(Rpc r, TorrentTableModel t) throws XmlRpcException{
 		rpc = r;
 		table = t;
 		update(false);
@@ -52,45 +52,40 @@ public class TorrentPool {
 		else
 			viewset = new TorrentSet();
 	}
-	public void update(){ update(true);}
-	private void update(boolean refresh){
-		try {
-			//Inefficient!
-			torrents = new TorrentSet();
-			
-			Vector<Object>[] updateList = rpc.getCompleteList(view);
-			System.out.println("Running update on "+updateList.length+" torrents");
-			for(Vector obj : updateList){
-				TorrentFile tf;
-				//hash
-				String hash = (String)obj.get(0);
-				if((tf = viewset.get(hash)) == null){
-					if((tf = torrents.get(hash)) == null){
-						//Torrent doesnt exist.
-						System.out.println("Adding torrent "+hash);
-						tf = new TorrentFile(hash);
-						torrents.add(tf);
-						//name
-						tf.setFilename((String)obj.get(1));
-						//size
-						tf.setByteSize((Long)obj.get(2));
-					}
-					viewset.add(torrents.get(hash));
+	public void update() throws XmlRpcException{ update(true);}
+	private void update(boolean refresh) throws XmlRpcException{
+		//Inefficient!
+		torrents = new TorrentSet();
+		
+		Vector<Object>[] updateList = rpc.getCompleteList(view);
+		//System.out.println("Running update on "+updateList.length+" torrents");
+		for(Vector obj : updateList){
+			TorrentFile tf;
+			//hash
+			String hash = (String)obj.get(0);
+			if((tf = viewset.get(hash)) == null){
+				if((tf = torrents.get(hash)) == null){
+					//Torrent doesnt exist.
+					System.out.println("Adding torrent "+hash);
+					tf = new TorrentFile(hash);
+					torrents.add(tf);
+					//name
+					tf.setFilename((String)obj.get(1));
+					//size
+					tf.setByteSize((Long)obj.get(2));
 				}
-				//up-total
-				tf.setBytesUploaded((Long)obj.get(3));
-				//down-total
-				tf.setBytesDownloaded((Long)obj.get(4));
-				//down-rate
-				tf.setRateDown((Long)obj.get(5));
-				//up-rate
-				tf.setRateUp((Long)obj.get(6));
-				//state
-				tf.setStarted(((Long)obj.get(7) == 1 ? true : false));
+				viewset.add(torrents.get(hash));
 			}
-		} catch (XmlRpcException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//up-total
+			tf.setBytesUploaded((Long)obj.get(3));
+			//down-total
+			tf.setBytesDownloaded((Long)obj.get(4));
+			//down-rate
+			tf.setRateDown((Long)obj.get(5));
+			//up-rate
+			tf.setRateUp((Long)obj.get(6));
+			//state
+			tf.setStarted(((Long)obj.get(7) == 1 ? true : false));
 		}
 		
 		if((table.getRowCount() > 0) && refresh){

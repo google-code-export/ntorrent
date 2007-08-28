@@ -74,7 +74,8 @@ public class MainGui {
 	public TorrentTableModel getTorrentTableModel(){
 		return (TorrentTableModel)table.getTable().getModel();
 	}
-	/* Not in use atm.
+	 
+	//Not in use atm.
 	public FileTabComponent getFileTab() {
 		return fileTab;
 	}
@@ -102,6 +103,6 @@ public class MainGui {
 	public ViewTabComponent getViewTab() {
 		return viewTab;
 	}
-	*/
+	
 
 }

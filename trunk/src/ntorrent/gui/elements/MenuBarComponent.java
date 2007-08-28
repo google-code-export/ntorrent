@@ -32,6 +32,8 @@ public class MenuBarComponent{
 	public MenuBarComponent(){
 		Menu file = new Menu("File");
 		Menu help = new Menu("Help");
+		file.add("connect");
+		file.addSeparator();
 		file.add("add torrent");
 		file.add("add url");
 		file.addSeparator();
