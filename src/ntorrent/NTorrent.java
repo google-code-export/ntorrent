@@ -41,8 +41,6 @@ public class NTorrent{
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			Controller.drawMainGui();
-			//Controller.load("http://kb17.yi.org", "netbrain", "halloen");
-			//Controller.startThreads();
 	    } 
 	    catch (Exception e) {
 	    	e.printStackTrace();
