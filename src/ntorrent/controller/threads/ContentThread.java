@@ -20,18 +20,24 @@
 
 package ntorrent.controller.threads;
 
+import org.apache.xmlrpc.XmlRpcException;
+
 import ntorrent.controller.Controller;
 
 public class ContentThread extends Controller implements Runnable {
+	
 	public void run(){
 		while(true){
 			try {
 				Thread.sleep(3000);
 				torrents.update();
 			} catch (InterruptedException e) {
+				System.out.println("interrupted: "+this);
+			} catch (XmlRpcException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
+	
 }

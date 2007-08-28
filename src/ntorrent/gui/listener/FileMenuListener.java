@@ -20,46 +20,54 @@
 
 package ntorrent.gui.listener;
 
+import java.awt.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import ntorrent.controller.Controller;
+import ntorrent.gui.dialogues.PromptEnv;
 import ntorrent.gui.dialogues.PromptFile;
 import ntorrent.gui.dialogues.PromptString;
+
+import org.apache.xmlrpc.XmlRpcException;
 
 public class FileMenuListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
-		if(s.equalsIgnoreCase("add torrent")){
-			PromptFile filePrompt = new PromptFile();
-			if(filePrompt.getFile() != null){
+		if(e.getSource() instanceof Menu)
+			if(s.equalsIgnoreCase("add torrent")){
+				PromptFile filePrompt = new PromptFile();
+				if(filePrompt.getFile() != null){
+					try {
+						Controller.getRpc().loadTorrent(filePrompt.getFile());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (XmlRpcException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					System.out.println("add torrent");
+				}
+			}else if(s.equalsIgnoreCase("add url")){
+				PromptString stringPrompt = new PromptString();
 				try {
-					Controller.getRpc().loadTorrent(filePrompt.getFile());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					Controller.getRpc().loadTorrent(stringPrompt.getInput());
 				} catch (XmlRpcException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				System.out.println("add torrent");
+			}else if(s.equalsIgnoreCase("quit")){
+				System.out.println("QUIT!");
+				System.exit(0);
+			}else if(s.equalsIgnoreCase("connect")){
+				PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
+				env.drawWindow();
+				//((Menu)e.getSource()).getItem(0).setEnabled(false);
 			}
-		}else if(s.equalsIgnoreCase("add url")){
-			PromptString stringPrompt = new PromptString();
-			try {
-				Controller.getRpc().loadTorrent(stringPrompt.getInput());
-			} catch (XmlRpcException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}else if(s.equalsIgnoreCase("quit")){
-			System.out.println("QUIT!");
-			System.exit(0);
-		}
+
 
 	}
 

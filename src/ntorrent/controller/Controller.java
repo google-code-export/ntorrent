@@ -30,17 +30,18 @@ import ntorrent.io.Rpc;
 import ntorrent.io.RpcConnection;
 import ntorrent.model.TorrentPool;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
 public class Controller {
-	protected static ContentThread mainContentThread;
+	protected static Thread mainContentThread;
 	protected static StatusThread statusThread;
 	protected static TorrentPool torrents;
 	protected static MainGui gui = new MainGui();
 	protected static Rpc rpc;
 	private static RpcConnection conn;
 	
-	public static void load(String host, String username, String password) throws MalformedURLException{
+	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
 		conn = new RpcConnection(host);
 		conn.setUsername(username);
 		conn.setPassword(password);
@@ -49,23 +50,27 @@ public class Controller {
 		rpc = new Rpc(client);
 		torrents = new TorrentPool(rpc,gui.getTorrentTableModel());
 		gui.getTorrentTableModel().fillData(torrents);
+		gui.getTorrentTableModel().fireTableDataChanged();
+		gui.getViewTab().getViewPane().setEnabled(true);
+		startThreads();
 	}
 	
 	public static void drawMainGui(){
 		//3.Draw gui.
 		gui.drawMainWindow();
+		gui.getViewTab().getViewPane().setEnabled(false);
 	}
 	
-	public static void startThreads(){
+	private static void startThreads(){
 		//4.Start threads.
-		mainContentThread = new ContentThread();
-		statusThread = new StatusThread();
-		mainContentThread.run();
+		mainContentThread = new Thread(new ContentThread());
+		//statusThread = new StatusThread();
+		mainContentThread.start();
 	}
 	
 	public static void changeMainPane(String name){
 		torrents.setView(name);
-		torrents.update();
+		mainContentThread.interrupt();
 	}
 	
 	public static MainGui getGui() {

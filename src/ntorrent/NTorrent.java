@@ -20,30 +20,18 @@
 
 package ntorrent;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import ntorrent.controller.Controller;
-import ntorrent.gui.dialogues.PromptEnv;
 
-public class NTorrent implements ActionListener {
-	static PromptEnv env;
-	
-	public void promptEnv(){
-		//1.Prompt for connection settings.
-		env = new PromptEnv(this);
-	}
-	
+public class NTorrent{
 	/**
 	 * @param args
+	 * @throws MalformedURLException 
 	 */
-	public static void main(String[] args) {
-		NTorrent nt = new NTorrent();
-		nt.promptEnv();
+	public static void main(String[] args) throws MalformedURLException {
 		System.out.println(
 				"nTorrent  Copyright (C) 2007  Kim Eik\n" +
 				"This program comes with ABSOLUTELY NO WARRANTY\n" +
@@ -52,24 +40,13 @@ public class NTorrent implements ActionListener {
 				);
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			Controller.drawMainGui();
+			//Controller.load("http://kb17.yi.org", "netbrain", "halloen");
+			//Controller.startThreads();
 	    } 
 	    catch (Exception e) {
 	    	e.printStackTrace();
 	    }
 		
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		try {
-			Controller.load(env.getHost(), env.getUsername(), env.getPassword());
-			env.closeWindow();
-			Controller.drawMainGui();
-			Controller.startThreads();
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(env.getWindow(),e1.getMessage(),".",
-				    JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-
 }
