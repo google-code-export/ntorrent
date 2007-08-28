@@ -67,9 +67,10 @@ public class PromptEnv implements ActionListener {
 	}
 	
 	public void drawWindow(){
-		window.setVisible(true);
 		window.pack();
 		window.validate();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
 	
 	public void closeWindow(){

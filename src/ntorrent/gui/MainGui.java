@@ -57,9 +57,10 @@ public class MainGui {
 		rootWin.setPreferredSize(new Dimension(1024,768));
 		rootWin.setMenuBar(menuBar.getMenubar());
 		rootWin.setContentPane(getContentPane());
-		rootWin.setVisible(true);
 		rootWin.validate();
 		rootWin.pack();
+		rootWin.setLocationRelativeTo(null);
+		rootWin.setVisible(true);
 	}
 	
 	private JPanel getContentPane(){
