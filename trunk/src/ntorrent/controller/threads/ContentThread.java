@@ -20,8 +20,6 @@
 
 package ntorrent.controller.threads;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import ntorrent.controller.Controller;
 
 public class ContentThread extends Controller implements Runnable {

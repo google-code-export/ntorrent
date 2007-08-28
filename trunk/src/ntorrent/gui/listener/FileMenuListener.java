@@ -54,7 +54,8 @@ public class FileMenuListener implements ActionListener {
 			}else if(s.equalsIgnoreCase("add url")){
 				PromptString stringPrompt = new PromptString();
 				try {
-					Controller.getRpc().loadTorrent(stringPrompt.getInput());
+					if(stringPrompt.getInput() != null)
+						Controller.getRpc().loadTorrent(stringPrompt.getInput());
 				} catch (XmlRpcException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

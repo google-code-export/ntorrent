@@ -23,8 +23,6 @@ package ntorrent.gui.dialogues;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import ntorrent.controller.Controller;
-
 public class PromptAbout {
 	JFrame window = new JFrame();
 	JTextArea about = new JTextArea();
@@ -37,13 +35,13 @@ public class PromptAbout {
 				);
 		about.setEditable(false);
 		about.setFocusable(false);
-		window.setVisible(true);
 		window.add(about);
-		window.setLocationRelativeTo(Controller.getGui().getRootWin());
 	}
 	
 	public void drawWindow(){
 		window.validate();
 		window.pack();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
 }

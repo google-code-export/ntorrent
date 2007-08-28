@@ -20,16 +20,15 @@
 
 package ntorrent.gui.dialogues;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class PromptString {
+import ntorrent.controller.Controller;
 
-	JFrame window = new JFrame();
+public class PromptString {
 	String input = new String();
 	
 	public PromptString(){
-		input = (String)JOptionPane.showInputDialog(window,null);
+		input = (String)JOptionPane.showInputDialog(Controller.getGui().getRootWin(),null);
 	}
 	
 	public String getInput() {
