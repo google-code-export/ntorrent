@@ -31,7 +31,7 @@ public class PromptFile {
     File file;
     
 	public PromptFile(){
-		int returnVal = fc.showOpenDialog(Controller.getGui().rootWin);
+		int returnVal = fc.showOpenDialog(Controller.getGui().getRootWin());
 		if (returnVal == JFileChooser.APPROVE_OPTION)
             file = fc.getSelectedFile();
 		

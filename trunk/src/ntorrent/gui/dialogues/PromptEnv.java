@@ -30,7 +30,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -101,11 +100,7 @@ public class PromptEnv implements ActionListener {
 		try {
 			Controller.load(getHost(), getUsername(), getPassword());
 		} catch (Exception x) {
-			JOptionPane.showMessageDialog(Controller.getGui().
-					getRootWin(), 
-					x.getLocalizedMessage(),
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
+			Controller.getGui().showError(x.getLocalizedMessage());
 		}
 	}
 }
