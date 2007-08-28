@@ -30,9 +30,12 @@ public class ContentThread extends Controller implements Runnable {
 		while(true){
 			try {
 				Thread.sleep(3000);
-				torrents.update();
 			} catch (InterruptedException e) {
 				System.out.println("interrupted: "+this);
+			}
+			//must be separated
+			try {
+				torrents.update();
 			} catch (XmlRpcException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
