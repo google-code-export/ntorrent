@@ -69,7 +69,7 @@ public class TorrentPool {
 			if((tf = viewset.get(hash)) == null){
 				if((tf = torrents.get(hash)) == null){
 					//Torrent doesnt exist.
-					System.out.println("Adding torrent "+hash);
+					//System.out.println("Adding torrent "+hash);
 					tf = new TorrentFile(hash);
 					torrents.add(tf);
 					//name

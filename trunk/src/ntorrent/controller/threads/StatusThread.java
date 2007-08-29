@@ -45,6 +45,7 @@ public class StatusThread extends Controller implements Runnable {
 				bar.repaint();
 			} catch (XmlRpcException e) {
 				Controller.getGui().showError(e.getLocalizedMessage());
+				Controller.writeToLog(e);
 			}	
 			
 			try {

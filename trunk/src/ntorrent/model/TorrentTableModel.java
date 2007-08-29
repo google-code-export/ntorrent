@@ -21,6 +21,8 @@
 package ntorrent.model;
 import javax.swing.table.AbstractTableModel;
 
+import ntorrent.controller.Controller;
+
 public class TorrentTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	//Vector<String> columns = new Vector<String>();
@@ -38,7 +40,7 @@ public class TorrentTableModel extends AbstractTableModel{
 	
 	public void fillData(TorrentPool torrents){
 		data = torrents;
-		System.out.println("Created JTable");
+		Controller.writeToLog("Created JTable");
 	}
 	
 	public int getColumnCount() {

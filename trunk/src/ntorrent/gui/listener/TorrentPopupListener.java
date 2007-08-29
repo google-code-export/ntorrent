@@ -86,22 +86,22 @@ public class TorrentPopupListener extends MouseAdapter implements ActionListener
 		String command = e.getActionCommand();
 		for(int i : selectedRows)
 			if(command.equals("start")){
-				System.out.println("do start action");
+				Controller.writeToLog("Starting torrent");
 				Controller.getTorrents().start(i);
 			}else if(command.equals("stop")){
-				System.out.println("do stop action");
+				Controller.writeToLog("Stopping torrent");
 				Controller.getTorrents().stop(i);
 			}else if(command.equals("open")){
-				System.out.println("do open action");
+				Controller.writeToLog("Setting torrent open");
 				Controller.getTorrents().open(i);
 			} else if(command.equals("check hash")){
-				System.out.println("do hash check action");
+				Controller.writeToLog("Hash checking torrent");
 				Controller.getTorrents().checkHash(i);
 			}else if(command.equals("close")){
-				System.out.println("do close action");
+				Controller.writeToLog("Setting torrent closed");
 				Controller.getTorrents().close(i);
 			} else if(command.equals("erase")){
-				System.out.println("do remove torrent action");
+				Controller.writeToLog("Erasing torrent");
 				Controller.getTorrents().erase(i);
 			}
 	}   

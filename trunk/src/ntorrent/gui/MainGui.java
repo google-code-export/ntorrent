@@ -36,10 +36,11 @@ import ntorrent.gui.elements.StatusBarComponent;
 import ntorrent.gui.elements.ViewTabComponent;
 import ntorrent.gui.listener.MainGlassPane;
 import ntorrent.model.TorrentTableModel;
+import ntorrent.settings.Constants;
 
 public class MainGui {
 	private MainGlassPane listener = new MainGlassPane();
-	private JFrame rootWin = new JFrame("nTorrent");
+	private JFrame rootWin = new JFrame(Constants.getReleaseName());
 	private StatusBarComponent statusBar = new StatusBarComponent();
 	private MenuBarComponent menuBar = new MenuBarComponent();
 	private FileTabComponent fileTab = new FileTabComponent(listener);
@@ -111,6 +112,10 @@ public class MainGui {
 	
 	public ViewTabComponent getViewTab() {
 		return viewTab;
+	}
+	
+	public void writeToLog(String msg){
+		fileTab.writeToLog(msg+"\n");
 	}
 	
 

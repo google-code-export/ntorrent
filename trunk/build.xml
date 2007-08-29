@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="nTorrent" default="compile" basedir=".">
+<project name="nTorrent" default="run" basedir=".">
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="dist" location="releases"/>
-
+  <property name="property.file" location=".project.properties"/>
+  <touch file="${property.file}"/>
+ <!-- <propertyfile file="${property.file}">
+	  <entry  key="project.name" value="nTorrent"/>
+  </propertyfile>-->
 	
   <target name="init">
     <!-- Create the time stamp -->
@@ -25,19 +29,22 @@
         	
   </target>
 
-  <target name="dist" depends="compile" description="generate the distribution" >
+	<target name="jar" depends="compile">
+	  	<buildnumber/>
+	  	<echo>Building jar file!</echo>
+	    <jar jarfile="nTorrent.jar" basedir="${build}">
+	    	<zipfileset src="lib/xmlrpc/ws-commons-util-1.0.2.jar" />
+	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-3.1.jar" />
+	    	<zipfileset src="lib/xmlrpc/xmlrpc-common-3.1.jar" />
+	    	<manifest>
+				<attribute name="Main-Class" value="ntorrent.NTorrent" />
+	    	</manifest>
+	    </jar>	
+	</target>
+	
+  <target name="dist" depends="jar" description="generate the distribution" >
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}"/>
-  	<echo>Building jar file!</echo>
-    <jar jarfile="nTorrent.jar" basedir="${build}">
-    	<zipfileset src="lib/xmlrpc/ws-commons-util-1.0.2.jar" />
-    	<zipfileset src="lib/xmlrpc/xmlrpc-client-3.1.jar" />
-    	<zipfileset src="lib/xmlrpc/xmlrpc-common-3.1.jar" />
-    	<manifest>
-			<attribute name="Main-Class" value="ntorrent.NTorrent" />
-    	</manifest>
-    </jar>
-  	
   	<echo>Building tar file of jar!</echo>
   	<tar destfile="${dist}/nTorrent-bin-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
   			<exclude name="*settings/**"/>
@@ -45,8 +52,11 @@
   			<exclude name="build/**"/>
   			<exclude name="releases/**"/>
 			<exclude name="build.xml"/>
+  			<exclude name="codetemplates.xml"/>
 			<exclude name="lib/**"/>
 			<exclude name="src/**"/>
+  			<exclude name="*.dat"/>
+  			<exclude name="build.number"/>
   	</tar>
 
 	<delete file="nTorrent.jar"/>
@@ -58,8 +68,20 @@
   			<exclude name=".**"/>
   			<exclude name="build/**"/>
   			<exclude name="releases/**"/>
+			<exclude name="*.dat"/>
   	</tar>
   </target>
+	
+  <target name="run" depends="compile">
+  	<java fork="true" classname="ntorrent.NTorrent">
+    <classpath>
+      <pathelement location="${build}"/>
+        <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
+        <pathelement location="lib/xmlrpc/xmlrpc-client-3.1.jar"/>
+        <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
+    </classpath>
+  	</java>
+	</target>
 
   <target name="clean" description="clean up" >
     <!-- Delete the ${build} and ${dist} directory trees -->
