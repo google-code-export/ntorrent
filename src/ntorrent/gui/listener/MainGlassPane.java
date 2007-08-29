@@ -31,12 +31,13 @@ public class MainGlassPane extends JComponent implements ChangeListener{
 	private static final long serialVersionUID = 1L;
 
 	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
 		JTabbedPane pane = (JTabbedPane)e.getSource();
 		if(pane.getName().equals("views"))
 			Controller.changeMainPane(pane.getTitleAt(pane.getSelectedIndex()));
-		else
-			System.out.println("panechange");
+		else{
+			//Filepanechange
+		}
+			
 	}
 
 }

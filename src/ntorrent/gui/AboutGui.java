@@ -23,14 +23,15 @@ package ntorrent.gui;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import ntorrent.settings.Constants;
+
 public class AboutGui {
 	JFrame window = new JFrame();
 	JTextArea about = new JTextArea();
 
 	public AboutGui(){
 		about.setText(
-				"nTorrent is licensed under GPLv3\n" +
-				"Author: Kim Eik\n\n" +
+				Constants.getLicense() +
 				"http://ntorrent-java.sf.net"
 				);
 		about.setEditable(false);

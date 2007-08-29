@@ -42,26 +42,21 @@ public class FileMenuListener implements ActionListener {
 				if(filePrompt.getFile() != null){
 					try {
 						Controller.getRpc().loadTorrent(filePrompt.getFile());
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (XmlRpcException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					} catch (IOException x) {
+						Controller.writeToLog(x);
+					} catch (XmlRpcException x) {
+						Controller.writeToLog(x);
 					}
-					System.out.println("add torrent");
 				}
 			}else if(s.equalsIgnoreCase("add url")){
 				PromptString stringPrompt = new PromptString();
 				try {
 					if(stringPrompt.getInput() != null)
 						Controller.getRpc().loadTorrent(stringPrompt.getInput());
-				} catch (XmlRpcException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (XmlRpcException x) {
+					Controller.writeToLog(x);
 				}
 			}else if(s.equalsIgnoreCase("quit")){
-				System.out.println("QUIT!");
 				System.exit(0);
 			}else if(s.equalsIgnoreCase("connect")){
 				PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());

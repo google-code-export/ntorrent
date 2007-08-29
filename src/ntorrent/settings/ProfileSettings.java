@@ -29,7 +29,6 @@ public class ProfileSettings extends Settings{
 	public String username;
 	
 	public ProfileSettings() {
-		System.out.println("Reading profile");
 		try {
 			if(!deserialize(Constants.profile,this)){
 				this.host = "http://";
@@ -68,7 +67,6 @@ public class ProfileSettings extends Settings{
 	}
 	
 	public void saveSettings(){
-		System.out.println("Writing profile");
 		try {
 			serialize(Constants.profile,this);
 		} catch (IllegalArgumentException e) {

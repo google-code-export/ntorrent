@@ -46,6 +46,7 @@ public class Controller {
 	private static ProfileSettings profile = new ProfileSettings();
 	
 	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
+		writeToLog("Connecting.");
 		conn = new RpcConnection(host);
 		conn.setUsername(username);
 		conn.setPassword(password);
@@ -60,6 +61,7 @@ public class Controller {
 	}
 	
 	public static void drawMainGui(){
+		writeToLog("Drawing gui");
 		//3.Draw gui.
 		gui.drawMainWindow();
 		gui.getViewTab().getViewPane().setEnabled(false);
@@ -70,6 +72,7 @@ public class Controller {
 	}
 	
 	private static void startThreads(){
+		writeToLog("Starting threads.");
 		//4.Start threads.
 		mainContentThread = new Thread(new ContentThread());
 		statusThread = new Thread(new StatusThread());
@@ -96,5 +99,15 @@ public class Controller {
 	
 	public static ProfileSettings getProfile() {
 		return profile;
+	}
+	
+	public static void writeToLog(String msg){
+		gui.writeToLog(msg);
+	}
+	
+	public static void writeToLog(Exception x){
+		writeToLog(x.getMessage());
+		for(StackTraceElement s : x.getStackTrace())
+			writeToLog("Line: "+s.getLineNumber()+"\t"+s.getFileName());
 	}
 }

@@ -30,7 +30,7 @@ public class ContentThread extends Controller implements Runnable {
 			try {
 				Thread.sleep(LocalSettings.vintervall);
 			} catch (InterruptedException e) {
-				System.out.println("interrupted: "+this);
+				//Interrupt.
 			}
 			//must be separated
 			try {
@@ -38,6 +38,7 @@ public class ContentThread extends Controller implements Runnable {
 				statusThread.interrupt();
 			} catch (Exception e) {
 				Controller.getGui().showError(e.getLocalizedMessage());
+				Controller.writeToLog(e);
 			}
 		}
 	}

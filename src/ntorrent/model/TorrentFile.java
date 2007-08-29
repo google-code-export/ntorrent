@@ -38,7 +38,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	private boolean started;
 	
 	TorrentFile(String h){
-		System.out.println("Creating torrent: "+h);
+		//Controller.writeToLog("New torrent: "+h);
 		hash = h;
 	}
 	

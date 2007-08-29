@@ -28,14 +28,14 @@ import javax.swing.event.ChangeListener;
 
 public class FileTabComponent {
 	JTabbedPane filePane = new JTabbedPane();
+	JTextArea log = new JTextArea();
 	
 	public FileTabComponent(ChangeListener listener){
+		log.setEditable(false);
 		filePane.setName("file");
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
 		filePane.addTab("info", new JLabel("Is available soon"));
 		filePane.addTab("file list", new JLabel("Is available soon!"));
-		JTextArea log = new JTextArea();
-		log.setEditable(false);
 		filePane.addTab("log",new JScrollPane(log));
 		//filePane.addTab("tracker list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
@@ -46,5 +46,10 @@ public class FileTabComponent {
 	
 	public JTabbedPane getFilePane() {
 		return filePane;
+	}
+	
+	public void writeToLog(String msg){
+		log.append(msg);
+		log.getTreeLock();
 	}
 }

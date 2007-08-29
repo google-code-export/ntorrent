@@ -20,7 +20,53 @@
 package ntorrent.settings;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+import ntorrent.controller.Controller;
+
+
+
+
 
 public final class Constants {
-	public static final File profile = new File(".profile.dat");
+	static Properties systemProperties = new Properties();
+	
+	private static final String NAME = "nTorrent";
+	private static final String VERSION = "0.1.alpha";
+	public static final File profile = new File("profile.dat");
+	public static final File settings = new File("settings.dat");
+	
+
+	
+	public static String getReleaseName(){
+		final String BUILD;
+		
+		FileInputStream stream;
+		try {
+			stream = new FileInputStream("build.number");
+			systemProperties.load(stream);
+		} catch (FileNotFoundException x) {
+			// TODO Auto-generated catch block
+			Controller.writeToLog(x);
+		} catch (IOException x) {
+			Controller.writeToLog(x);
+		}
+		
+		BUILD = systemProperties.getProperty("build.number");
+		return  NAME+"-"+VERSION+" (build "+BUILD+")";
+	}
+	
+	public static String getLicense(){
+		return getReleaseName()+"\n\nCopyright (C) 2007  Kim Eik\n"+
+	     "This program comes with ABSOLUTELY NO WARRANTY\n"+
+	     "This is free software, and you are welcome to \n" +
+	     "redistribute it under certain conditions.\n\n";
+	}
+	
+	public static void main(String[] args){
+		System.out.println(getReleaseName());
+	}
 }

@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import javax.swing.UIManager;
 
 import ntorrent.controller.Controller;
+import ntorrent.settings.Constants;
 
 public class NTorrent{
 	/**
@@ -32,12 +33,7 @@ public class NTorrent{
 	 * @throws MalformedURLException 
 	 */
 	public static void main(String[] args) throws MalformedURLException {
-		System.out.println(
-				"nTorrent  Copyright (C) 2007  Kim Eik\n" +
-				"This program comes with ABSOLUTELY NO WARRANTY\n" +
-				"This is free software, and you are welcome to redistribute it\n" +
-				"under certain conditions.\n"
-				);
+		System.out.println(Constants.getLicense());
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			Controller.drawMainGui();

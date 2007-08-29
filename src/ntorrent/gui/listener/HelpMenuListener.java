@@ -31,7 +31,6 @@ public class HelpMenuListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
 		if(s.equalsIgnoreCase("about")){
-			System.out.println("About");
 			AboutGui about = new AboutGui();
 			about.drawWindow();
 		}else if(s.equalsIgnoreCase("settings")){

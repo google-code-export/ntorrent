@@ -113,6 +113,7 @@ public class PromptEnv implements ActionListener {
 			Controller.getProfile().saveSettings();
 		} catch (Exception x) {
 			Controller.getGui().showError(x.getLocalizedMessage());
+			Controller.writeToLog(x);
 		}
 	}
 }
