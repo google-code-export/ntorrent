@@ -34,6 +34,7 @@ public class ContentThread extends Controller implements Runnable {
 			//must be separated
 			try {
 				torrents.update();
+				statusThread.interrupt();
 			} catch (Exception e) {
 				Controller.getGui().showError(e.getLocalizedMessage());
 			}

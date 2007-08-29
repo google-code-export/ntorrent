@@ -21,10 +21,41 @@
 
 package ntorrent.controller.threads;
 
+import org.apache.xmlrpc.XmlRpcException;
+
 import ntorrent.controller.Controller;
+import ntorrent.gui.elements.StatusBarComponent;
 
 public class StatusThread extends Controller implements Runnable {
+	StatusBarComponent bar = getGui().getStatusBar();
 	public void run(){
-		//Refresh statusbar
+		boolean firstRun = true;		
+		while(true){
+			
+			try {
+				if(firstRun){
+					bar.setPort(rpc.getPortRange());
+					bar.setMaxUploadRate((int)rpc.getUploadRate()/1024);
+					bar.setMaxDownloadRate((int)rpc.getDownloadRate()/1024);
+					firstRun = false;
+				}
+				//Seeders
+				//Leechers and so on.
+				bar.repaint();
+			} catch (XmlRpcException e) {
+				Controller.getGui().showError(e.getLocalizedMessage());
+			}	
+			
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+				updateRate();
+			}
+		}
+	}
+	
+	private void updateRate(){
+		bar.setDownloadRate(torrents.getRateDown());
+		bar.setUploadRate(torrents.getRateUp());
 	}
 }

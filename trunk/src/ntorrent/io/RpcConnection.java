@@ -27,6 +27,7 @@ import ntorrent.io.type.CustomTypeFactory;
 
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.apache.xmlrpc.client.XmlRpcLiteHttpTransportFactory;
 
 public class RpcConnection {
 	XmlRpcClientConfigImpl config;
@@ -38,7 +39,7 @@ public class RpcConnection {
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
 		client = new XmlRpcClient();
-		//client.setTransportFactory(new XmlRpcLiteHttpTransportFactory(client));
+		client.setTransportFactory(new XmlRpcLiteHttpTransportFactory(client));
 		client.setConfig(config);
 		client.setTypeFactory(new CustomTypeFactory(null));
 	}

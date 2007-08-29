@@ -20,7 +20,10 @@
 
 package ntorrent.gui.elements;
 
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.event.ChangeListener;
 
 public class FileTabComponent {
@@ -28,15 +31,17 @@ public class FileTabComponent {
 	
 	public FileTabComponent(ChangeListener listener){
 		filePane.setName("file");
-		filePane.addTab("peer list", null);
-		filePane.addTab("info", null);
-		filePane.addTab("file list", null);
-		filePane.addTab("tracker list", null);
-		filePane.addTab("chunk list", null);
-		filePane.addTab("chunks seen", null);
+		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
+		filePane.addTab("info", new JLabel("Is available soon"));
+		filePane.addTab("file list", new JLabel("Is available soon!"));
+		JTextArea log = new JTextArea();
+		log.setEditable(false);
+		filePane.addTab("log",new JScrollPane(log));
+		//filePane.addTab("tracker list", new JLabel("not supported by rtorrent"));
+		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
+		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
 		filePane.addChangeListener(listener);
-		//disabled atm.
-		filePane.setVisible(false);
+		filePane.setVisible(true);
 	}
 	
 	public JTabbedPane getFilePane() {
