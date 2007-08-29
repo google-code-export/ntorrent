@@ -21,13 +21,14 @@
 package ntorrent.controller.threads;
 
 import ntorrent.controller.Controller;
+import ntorrent.settings.LocalSettings;
 
 public class ContentThread extends Controller implements Runnable {
 	
 	public void run(){
 		while(true){
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(LocalSettings.vintervall);
 			} catch (InterruptedException e) {
 				System.out.println("interrupted: "+this);
 			}

@@ -17,26 +17,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.settings;
 
-package ntorrent.gui.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import ntorrent.gui.AboutGui;
-import ntorrent.gui.SettingsGui;
-
-public class HelpMenuListener implements ActionListener {
-
-	public void actionPerformed(ActionEvent e) {
-		String s = e.getActionCommand();
-		if(s.equalsIgnoreCase("about")){
-			System.out.println("About");
-			AboutGui about = new AboutGui();
-			about.drawWindow();
-		}else if(s.equalsIgnoreCase("settings")){
-			new SettingsGui();
-		}
-	}
-
+public class LocalSettings extends Settings {
+	private static final long serialVersionUID = 1L;
+	@Description("Update intervall / view")
+	public static int vintervall = 3000;
+	
+	@Description("Update intervall / status")
+	public static int sintervall = 5000;
+	
 }

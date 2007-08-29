@@ -18,16 +18,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.dialogues;
+package ntorrent.gui;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-public class PromptAbout {
+public class AboutGui {
 	JFrame window = new JFrame();
 	JTextArea about = new JTextArea();
 
-	public PromptAbout(){
+	public AboutGui(){
 		about.setText(
 				"nTorrent is licensed under GPLv3\n" +
 				"Author: Kim Eik\n\n" +

@@ -30,9 +30,11 @@ import ntorrent.gui.dialogues.PromptEnv;
 import ntorrent.io.Rpc;
 import ntorrent.io.RpcConnection;
 import ntorrent.model.TorrentPool;
+import ntorrent.settings.ProfileSettings;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
+
 
 public class Controller {
 	protected static Thread mainContentThread;
@@ -41,6 +43,7 @@ public class Controller {
 	protected static MainGui gui = new MainGui();
 	protected static Rpc rpc;
 	private static RpcConnection conn;
+	private static ProfileSettings profile = new ProfileSettings();
 	
 	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
 		conn = new RpcConnection(host);
@@ -61,6 +64,8 @@ public class Controller {
 		gui.drawMainWindow();
 		gui.getViewTab().getViewPane().setEnabled(false);
 		PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
+		env.setHost(profile.getHost());
+		env.setUsername(profile.getUsername());
 		env.drawWindow();
 	}
 	
@@ -87,5 +92,9 @@ public class Controller {
 	
 	public static TorrentPool getTorrents() {
 		return torrents;
+	}
+	
+	public static ProfileSettings getProfile() {
+		return profile;
 	}
 }

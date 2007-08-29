@@ -95,11 +95,22 @@ public class PromptEnv implements ActionListener {
 	public String getPassword() {
 		return password.getText();
 	}
+	
+	public void setHost(String host) {
+		this.host.setText(host);
+	}
+	
+	public void setUsername(String username) {
+		this.username.setText(username);
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		closeWindow();
 		try {
 			Controller.load(getHost(), getUsername(), getPassword());
+			Controller.getProfile().setHost(getHost());
+			Controller.getProfile().setUsername(getUsername());
+			Controller.getProfile().saveSettings();
 		} catch (Exception x) {
 			Controller.getGui().showError(x.getLocalizedMessage());
 		}

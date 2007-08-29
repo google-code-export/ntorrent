@@ -25,6 +25,7 @@ import org.apache.xmlrpc.XmlRpcException;
 
 import ntorrent.controller.Controller;
 import ntorrent.gui.elements.StatusBarComponent;
+import ntorrent.settings.LocalSettings;
 
 public class StatusThread extends Controller implements Runnable {
 	StatusBarComponent bar = getGui().getStatusBar();
@@ -47,7 +48,7 @@ public class StatusThread extends Controller implements Runnable {
 			}	
 			
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(LocalSettings.sintervall);
 			} catch (InterruptedException e1) {
 				updateRate();
 			}
