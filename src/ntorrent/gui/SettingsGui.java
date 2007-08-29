@@ -18,25 +18,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.listener;
+package ntorrent.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-import ntorrent.gui.AboutGui;
-import ntorrent.gui.SettingsGui;
-
-public class HelpMenuListener implements ActionListener {
-
-	public void actionPerformed(ActionEvent e) {
-		String s = e.getActionCommand();
-		if(s.equalsIgnoreCase("about")){
-			System.out.println("About");
-			AboutGui about = new AboutGui();
-			about.drawWindow();
-		}else if(s.equalsIgnoreCase("settings")){
-			new SettingsGui();
-		}
+public class SettingsGui {
+	JFrame window = new JFrame();
+	public SettingsGui() {
+		window.setAlwaysOnTop(true);
+		window.add(new JLabel("Coming soon"));
+		window.validate();
+		window.pack();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
 
 }

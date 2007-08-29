@@ -65,6 +65,8 @@ public class FileMenuListener implements ActionListener {
 				System.exit(0);
 			}else if(s.equalsIgnoreCase("connect")){
 				PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
+				env.setHost(Controller.getProfile().getHost());
+				env.setUsername(Controller.getProfile().getUsername());
 				env.drawWindow();
 			}
 
