@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import ntorrent.controller.threads.ContentThread;
 import ntorrent.controller.threads.StatusThread;
 import ntorrent.gui.MainGui;
+import ntorrent.gui.dialogues.PromptEnv;
 import ntorrent.io.Rpc;
 import ntorrent.io.RpcConnection;
 import ntorrent.model.TorrentPool;
@@ -35,7 +36,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 
 public class Controller {
 	protected static Thread mainContentThread;
-	protected static StatusThread statusThread;
+	protected static Thread statusThread;
 	protected static TorrentPool torrents;
 	protected static MainGui gui = new MainGui();
 	protected static Rpc rpc;
@@ -59,13 +60,16 @@ public class Controller {
 		//3.Draw gui.
 		gui.drawMainWindow();
 		gui.getViewTab().getViewPane().setEnabled(false);
+		PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
+		env.drawWindow();
 	}
 	
 	private static void startThreads(){
 		//4.Start threads.
 		mainContentThread = new Thread(new ContentThread());
-		//statusThread = new StatusThread();
+		statusThread = new Thread(new StatusThread());
 		mainContentThread.start();
+		statusThread.start();
 	}
 	
 	public static void changeMainPane(String name){

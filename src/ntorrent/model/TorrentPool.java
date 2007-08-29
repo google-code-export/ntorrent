@@ -32,6 +32,7 @@ public class TorrentPool {
 	String view = "main";
 	Rpc rpc;
 	TorrentTableModel table;
+	long rateUp,rateDown;
 
 	TorrentPool(){}
 
@@ -39,6 +40,7 @@ public class TorrentPool {
 		rpc = r;
 		table = t;
 		update(false);
+		rateUp = rateDown = 0;
 	}	
 	
 	//From viewset
@@ -54,6 +56,7 @@ public class TorrentPool {
 	}
 	public void update() throws XmlRpcException{ update(true);}
 	private void update(boolean refresh) throws XmlRpcException{
+		rateUp = rateDown = 0;
 		//Inefficient!
 		torrents = new TorrentSet();
 		
@@ -82,8 +85,10 @@ public class TorrentPool {
 			tf.setBytesDownloaded((Long)obj.get(4));
 			//down-rate
 			tf.setRateDown((Long)obj.get(5));
+			rateDown += (Long)obj.get(5);
 			//up-rate
 			tf.setRateUp((Long)obj.get(6));
+			rateUp += (Long)obj.get(6);
 			//state
 			tf.setStarted(((Long)obj.get(7) == 1 ? true : false));
 		}
@@ -93,6 +98,13 @@ public class TorrentPool {
 		}
 	}
 	
+	public long getRateDown() {
+		return rateDown;
+	}
+	
+	public long getRateUp() {
+		return rateUp;
+	}
 
 	public void checkHash(int i){
 		rpc.fileCommand(get(i).getHash(),"d.check_hash");

@@ -28,7 +28,7 @@ public class Byte implements Comparable<Byte>{
 		bytes = b;
 	}
 	
-	public Long getValue(){ return bytes;}
+	public long getValue(){ return bytes;}
 	
 	public String toString(){
 		int x = 0;
@@ -48,5 +48,9 @@ public class Byte implements Comparable<Byte>{
 
 	public int compareTo(Byte o) {
 		return (int) (this.bytes-o.bytes);
+	}
+
+	public void setValue(long l) {
+		bytes = l;
 	}
 }

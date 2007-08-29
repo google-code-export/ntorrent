@@ -86,5 +86,35 @@ public class Rpc{
 		client.execute("load",params);
 		}
 	}
+	
+	public String getPortRange() throws XmlRpcException{
+		Object[] params = {};
+		return ((String)client.execute("get_port_range",params));
+	}
+	
+	public long getDownloadRate() throws XmlRpcException{
+		Object[] params = {};
+		return ((Long)client.execute("get_download_rate", params));
+	}
+	
+	public long getUploadRate() throws XmlRpcException{
+		Object[] params = {};
+		return ((Long)client.execute("get_upload_rate", params));		
+	}
+	
+	
+	/**
+	 * get_port_range
+	 * get_ip
+	 * get_download_rate
+	 * get_upload_rate
+	 * set_upload_rate
+	 * set_download_rate
+	 * d.get_message
+	 * d.get_size_files
+	 * system.client_version
+	 * system.hostname
+	 * system.library_version
+	 */
 
 }
