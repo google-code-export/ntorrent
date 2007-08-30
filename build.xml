@@ -3,9 +3,9 @@
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="dist" location="releases"/>
-  <property name="property.file" location=".project.properties"/>
+<!--<property name="property.file" location=".project.properties"/>
   <touch file="${property.file}"/>
- <!-- <propertyfile file="${property.file}">
+  <propertyfile file="${property.file}">
 	  <entry  key="project.name" value="nTorrent"/>
   </propertyfile>-->
 	
