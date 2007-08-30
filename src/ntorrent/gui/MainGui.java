@@ -68,6 +68,7 @@ public class MainGui {
 		JPanel content = new JPanel(new BorderLayout());
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				viewTab.getViewPane(), fileTab.getFilePane());
+		splitPane.setDividerLocation(400);
 		content.setBackground(Color.LIGHT_GRAY);
 		content.add(splitPane,BorderLayout.CENTER);
 		content.add(statusBar.getStatusBar(),BorderLayout.SOUTH);

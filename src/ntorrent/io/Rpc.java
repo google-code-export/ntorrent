@@ -25,28 +25,56 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Vector;
 
+import ntorrent.controller.Controller;
+
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
 public class Rpc{
 	XmlRpcClient client;
+	String systemClientVersion;
+	String systemLibraryVersion;
+	
 	public Rpc(XmlRpcClient c){
 		client = c;
+		Object[] params = {};
+		try {
+			systemClientVersion = (String)c.execute("system.client_version", params);
+			systemLibraryVersion = (String)c.execute("system.library_version", params);
+			Controller.writeToLog("Host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
+		} catch (XmlRpcException e) {
+			Controller.writeToLog(e);
+			Controller.getGui().showError(e.getLocalizedMessage());
+		}
+
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Vector<Object>[] getCompleteList(String view) throws XmlRpcException{
 		Object[] result;
 		Object[] params = {view,
-					"d.get_hash=",
-					"d.get_base_filename=",
-					"d.get_size_bytes=",
-					"d.get_up_total=",
-					"d.get_completed_bytes=",
-					"d.get_down_rate=",
-					"d.get_up_rate=",
-					"d.get_state="};
-		result = (Object[])client.execute("call_download",params);
+					"d.get_hash=",	//constant
+					"d.get_name=", //constant
+					"d.get_size_bytes=", //constant
+					"d.get_up_total=",	//variable
+					"d.get_completed_bytes=", //variable
+					"d.get_down_rate=", //variable
+					"d.get_up_rate=", //variable
+					"d.get_state=",		//variable
+					"d.get_size_files=",//constant
+					"d.get_base_path=", //constant
+					"d.get_message=", //relative
+					"d.get_priority=", //relative
+					"d.get_tied_to_file=" //constant?
+					//"d.get_chunk_size="//constant?
+				
+					};
+		result = (Object[])client.execute("d.multicall",params);
+		//get_size_chunks = size in chunks
+		return multicallToVector(result);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Vector<Object>[] multicallToVector(Object[] result){
 		Vector<Object>[] out = new Vector[result.length];
 		for(int x = 0; x < result.length; x++){
 			out[x] = new Vector<Object>();
@@ -67,8 +95,7 @@ public class Rpc{
 		try {
 			client.execute(command,params);
 		} catch (XmlRpcException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Controller.writeToLog(e);
 		}
 	}
 	
@@ -102,19 +129,52 @@ public class Rpc{
 		return ((Long)client.execute("get_upload_rate", params));		
 	}
 	
+	public String getSystemClientVersion() {
+		return systemClientVersion;
+	}
+	
+	public String getSystemLibraryVersion() {
+		return systemLibraryVersion;
+	}
+	
+	public Vector<Object>[] getFileList(String hash) throws XmlRpcException{
+		Object[] result;
+		Object[] params = {hash,"i/0",
+				"f.get_priority=",
+				"f.get_path=",
+				"f.get_size_bytes="
+				};
+		result = (Object[])client.execute("f.multicall",params);
+		return multicallToVector(result);
+		
+	}
 	
 	/**
-	 * get_port_range
-	 * get_ip
-	 * get_download_rate
-	 * get_upload_rate
+	 *  Index 109 String: 'f.get_completed_chunks'
+  Index 110 String: 'f.get_frozen_path'
+  Index 111 String: 'f.get_is_created'
+  Index 112 String: 'f.get_is_open'
+  Index 113 String: 'f.get_last_touched'
+  Index 114 String: 'f.get_match_depth_next'
+  Index 115 String: 'f.get_match_depth_prev'
+  Index 116 String: 'f.get_offset'
+  Index 117 String: 'f.get_path'
+  Index 118 String: 'f.get_path_components'
+  Index 119 String: 'f.get_path_depth'
+  Index 120 String: 'f.get_priority'
+  Index 121 String: 'f.get_range_first'
+  Index 122 String: 'f.get_range_second'
+  Index 123 String: 'f.get_size_bytes'
+  Index 124 String: 'f.get_size_chunks'
+  Index 125 String: 'f.multicall'
+  Index 126 String: 'f.set_priority'
+
+	 */
+	
+	/**
 	 * set_upload_rate
 	 * set_download_rate
-	 * d.get_message
-	 * d.get_size_files
-	 * system.client_version
-	 * system.hostname
-	 * system.library_version
+
 	 */
 
 }

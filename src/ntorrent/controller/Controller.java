@@ -30,6 +30,7 @@ import ntorrent.gui.dialogues.PromptEnv;
 import ntorrent.io.Rpc;
 import ntorrent.io.RpcConnection;
 import ntorrent.model.TorrentPool;
+import ntorrent.settings.Constants;
 import ntorrent.settings.ProfileSettings;
 
 import org.apache.xmlrpc.XmlRpcException;
@@ -61,6 +62,7 @@ public class Controller {
 	}
 	
 	public static void drawMainGui(){
+		writeToLog(Constants.getReleaseName());
 		writeToLog("Drawing gui");
 		//3.Draw gui.
 		gui.drawMainWindow();
