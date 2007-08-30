@@ -56,7 +56,6 @@
 			<exclude name="lib/**"/>
 			<exclude name="src/**"/>
   			<exclude name="*.dat"/>
-  			<exclude name="build.number"/>
   	</tar>
 
 	<delete file="nTorrent.jar"/>
