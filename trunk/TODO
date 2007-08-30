@@ -1,3 +1,5 @@
-* Detailed file view. (FilePane)
 * Smart updating of view.
+* updating torrent info can be done more efficiantly. (lazy)
+* More file info can be added. own fileinfo thread?
+* interactive filelist.
 * Settings

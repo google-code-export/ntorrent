@@ -25,7 +25,7 @@ import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
-import ntorrent.gui.listener.TorrentPopupListener;
+import ntorrent.gui.listener.TorrentTableListener;
 import ntorrent.model.TorrentFile;
 import ntorrent.model.TorrentTableModel;
 import ntorrent.model.render.PercentRenderer;
@@ -53,7 +53,7 @@ public class MainTableComponent {
 		table.setDefaultRenderer(TorrentFile.class, new TorrentTitleRenderer());
 		table.setDefaultRenderer(Percent.class, new PercentRenderer());
 		//TorrentPopUpListener tp = new TorrentPopUpListener();
-		table.addMouseListener(new TorrentPopupListener());
+		table.addMouseListener(new TorrentTableListener());
 		
 		TableColumn column = null;
 		for (int i = 0; i < table.getColumnCount(); i++) {

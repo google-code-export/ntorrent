@@ -36,6 +36,11 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	private Bit rateUp = new Bit(1);
 	private Percent percentFinished = new Percent(1);
 	private boolean started;
+	private int numFiles;
+	private String filePath;
+	private String tiedToFile;
+	private String message;
+	private long priority;
 	
 	TorrentFile(String h){
 		//Controller.writeToLog("New torrent: "+h);
@@ -49,15 +54,26 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	void setRateDown(Long r){ rateDown = new Bit(r); }
 	void setRateUp(Long r){ rateUp = new Bit(r); }
 	void setStarted(boolean b){ started = b; }
+	void setFiles(long num) { numFiles = (int)num; }
+	void setFilePath(String s){ filePath = s; }
+	void setTiedToFile(String s){ tiedToFile = s; }
+	void setMessage(String s){message = s;}
+	void setPriority(long pri){priority = pri;}
 	
-	String getHash(){return hash;}
-	String getFilename(){ return filename; }
-	Byte getByteSize(){ return byteSize; }
-	Byte getBytesUploaded(){ return bytesUploaded;}
-	Byte getBytesDownloaded(){ return bytesDownloaded;}
-	Bit getRateDown(){ return rateDown; }
-	Bit getRateUp(){ return rateUp; }
+	public String getHash(){return hash;}
+	public String getFilename(){ return filename; }
+	public Byte getByteSize(){ return byteSize; }
+	public Byte getBytesUploaded(){ return bytesUploaded;}
+	public Byte getBytesDownloaded(){ return bytesDownloaded;}
+	public Bit getRateDown(){ return rateDown; }
+	public Bit getRateUp(){ return rateUp; }
+	public int getNumFiles() { return numFiles; }
+	public String getFilePath() {return filePath;}
+	public String getTiedToFile() {return tiedToFile;}
+	public String getMessage() {return message;}
+	public long getPriority() {return priority;}
 	public boolean isStarted(){ return started; }
+	
 	Percent getPercentFinished(){
 		long down = getBytesDownloaded().getValue();
 		long total = getByteSize().getValue();

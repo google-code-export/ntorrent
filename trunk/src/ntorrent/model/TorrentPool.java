@@ -70,12 +70,19 @@ public class TorrentPool {
 				if((tf = torrents.get(hash)) == null){
 					//Torrent doesnt exist.
 					//System.out.println("Adding torrent "+hash);
+					//Constants
 					tf = new TorrentFile(hash);
 					torrents.add(tf);
 					//name
 					tf.setFilename((String)obj.get(1));
 					//size
 					tf.setByteSize((Long)obj.get(2));
+					//num files
+					tf.setFiles((Long)obj.get(8));
+					//tied
+					tf.setTiedToFile((String)obj.get(12));
+					//base path
+					tf.setFilePath((String)obj.get(9));
 				}
 				viewset.add(torrents.get(hash));
 			}
@@ -91,6 +98,10 @@ public class TorrentPool {
 			rateUp += (Long)obj.get(6);
 			//state
 			tf.setStarted(((Long)obj.get(7) == 1 ? true : false));
+			//message
+			tf.setMessage((String)obj.get(10));
+			//priority
+			tf.setPriority((Long)obj.get(11));
 		}
 		
 		if((table.getRowCount() > 0) && refresh){

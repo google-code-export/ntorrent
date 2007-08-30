@@ -32,14 +32,18 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-import ntorrent.controller.Controller;
+import org.apache.xmlrpc.XmlRpcException;
 
-public class TorrentPopupListener extends MouseAdapter implements ActionListener {
+import ntorrent.controller.Controller;
+import ntorrent.gui.elements.FileTabComponent;
+import ntorrent.model.TorrentFile;
+
+public class TorrentTableListener extends MouseAdapter implements ActionListener {
 
 	JPopupMenu popup;
 	Vector<Integer> selectedRows = new Vector<Integer>();
 
-	public TorrentPopupListener(){
+	public TorrentTableListener(){
 		String seperator = "---";
 		String[] menuItems = {
 				"start",
@@ -65,13 +69,32 @@ public class TorrentPopupListener extends MouseAdapter implements ActionListener
 	
     public void mousePressed(MouseEvent e) {
         maybeShowPopup(e);
+        hideFileTab();
     }
 
-    public void mouseReleased(MouseEvent e) {
+
+
+	public void mouseReleased(MouseEvent e) {
         maybeShowPopup(e);
+        maybeShowFileTab(e);
     }
 
-    private void maybeShowPopup(MouseEvent e) {
+	private void maybeShowFileTab(MouseEvent e) {
+		JTable source = (JTable)e.getSource();
+		if(source.getSelectedRowCount() == 1){
+			TorrentFile tf = ((TorrentFile)source.getValueAt(source.getSelectedRow(), 0));
+			FileTabComponent panel = Controller.getGui().getFileTab();
+			panel.getInfoPanel().setInfo(tf);
+			try {
+				panel.getFileList().setInfo(Controller.getRpc().getFileList(tf.getHash()));
+			} catch (XmlRpcException x) {
+				Controller.writeToLog(x);
+			}
+		}
+		
+	}
+
+	private void maybeShowPopup(MouseEvent e) {
     	JTable source = (JTable)e.getComponent();
     	if(source.getSelectedRowCount() > 0)
 	        if (e.isPopupTrigger()) {
@@ -81,6 +104,12 @@ public class TorrentPopupListener extends MouseAdapter implements ActionListener
 	            popup.show(source,  e.getX(), e.getY());
 	        }
     }
+    
+	private void hideFileTab() {
+    	FileTabComponent panel = Controller.getGui().getFileTab();
+    	panel.getFileList().hideInfo();
+    	panel.getInfoPanel().hideInfo();
+	}
     
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
