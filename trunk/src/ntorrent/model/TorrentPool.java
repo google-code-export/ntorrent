@@ -22,6 +22,7 @@ package ntorrent.model;
 
 import java.util.Vector;
 
+import ntorrent.controller.Controller;
 import ntorrent.io.Rpc;
 
 import org.apache.xmlrpc.XmlRpcException;
@@ -86,6 +87,8 @@ public class TorrentPool {
 				}
 				viewset.add(torrents.get(hash));
 			}
+			//set new update
+			tf.touch();
 			//up-total
 			tf.setBytesUploaded((Long)obj.get(3));
 			//down-total
@@ -107,6 +110,8 @@ public class TorrentPool {
 		if((table.getRowCount() > 0) && refresh){
 			table.fireTableRowsUpdated(0, table.getRowCount()-1);
 		}
+		
+		removeOutdated();
 	}
 	
 	public long getRateDown() {
@@ -134,6 +139,17 @@ public class TorrentPool {
 	}
 	public void stop(int i){
 		rpc.fileCommand(get(i).getHash(), "d.stop");
+	}
+
+	private void removeOutdated() {
+		for(int x = 0; x < viewset.size(); x++){
+			TorrentFile tf = viewset.get(x);
+			if(tf.isOutOfDate()){
+				Controller.writeToLog("Detected removed torrent");
+				viewset.remove(x);
+				table.fireTableRowsDeleted(x, x);
+			}
+		}
 	}	
 	
 }

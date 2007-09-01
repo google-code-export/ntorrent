@@ -40,6 +40,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 public class Controller {
 	protected static Thread mainContentThread;
 	protected static Thread statusThread;
+	protected static Thread torrentThread;
 	protected static TorrentPool torrents;
 	protected static MainGui gui = new MainGui();
 	protected static Rpc rpc;
