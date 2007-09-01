@@ -23,6 +23,8 @@ package ntorrent.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -50,6 +52,8 @@ public class MainGui {
 	public MainGui(){
 		//mainContent = getTableView();
 		viewTab = new ViewTabComponent(listener,table.getTable());
+		Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
+		rootWin.setIconImage(icon);
 	}
 	
 	public void drawMainWindow(){
