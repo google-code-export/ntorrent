@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import javax.swing.UIManager;
 
 import ntorrent.controller.Controller;
+import ntorrent.gui.elements.ProcessTrayIcon;
 import ntorrent.settings.Constants;
 
 public class NTorrent{
@@ -37,6 +38,7 @@ public class NTorrent{
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			Controller.drawMainGui();
+			new ProcessTrayIcon();
 	    } 
 	    catch (Exception e) {
 	    	e.printStackTrace();
