@@ -41,6 +41,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	private String tiedToFile;
 	private String message;
 	private long priority;
+	private long lastUpdate;
 	
 	TorrentFile(String h){
 		//Controller.writeToLog("New torrent: "+h);
@@ -59,6 +60,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	void setTiedToFile(String s){ tiedToFile = s; }
 	void setMessage(String s){message = s;}
 	void setPriority(long pri){priority = pri;}
+	void touch(){ lastUpdate = System.currentTimeMillis();}
 	
 	public String getHash(){return hash;}
 	public String getFilename(){ return filename; }
@@ -73,6 +75,9 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	public String getMessage() {return message;}
 	public long getPriority() {return priority;}
 	public boolean isStarted(){ return started; }
+	public boolean isOutOfDate(){ 
+		return System.currentTimeMillis()-lastUpdate > 3000;
+	}
 	
 	Percent getPercentFinished(){
 		long down = getBytesDownloaded().getValue();
