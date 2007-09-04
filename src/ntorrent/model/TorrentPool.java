@@ -140,6 +140,16 @@ public class TorrentPool {
 	public void stop(int i){
 		rpc.fileCommand(get(i).getHash(), "d.stop");
 	}
+	
+	public void stopAll(){
+		//for(TorrentFile tf : torrents)
+			//rpc.fileCommand(tf.getHash(), "d.stop");
+	}
+	
+	public void startAll(){
+		//for(TorrentFile tf : torrents)
+			//rpc.fileCommand(tf.getHash(), "d.start");		
+	}
 
 	private void removeOutdated() {
 		for(int x = 0; x < viewset.size(); x++){

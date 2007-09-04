@@ -20,22 +20,6 @@
 
 package ntorrent.gui.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import ntorrent.gui.AboutGui;
-import ntorrent.gui.SettingsGui;
-
-public class HelpMenuListener implements ActionListener {
-
-	public void actionPerformed(ActionEvent e) {
-		String s = e.getActionCommand();
-		if(s.equalsIgnoreCase("about")){
-			AboutGui about = new AboutGui();
-			about.drawWindow();
-		}else if(s.equalsIgnoreCase("settings")){
-			new SettingsGui();
-		}
-	}
+public class HelpMenuListener extends SuperActionListener {
 
 }

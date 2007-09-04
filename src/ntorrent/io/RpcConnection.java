@@ -25,6 +25,7 @@ import java.net.URL;
 
 import ntorrent.io.type.CustomTypeFactory;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.apache.xmlrpc.client.XmlRpcLiteHttpTransportFactory;
@@ -36,8 +37,6 @@ public class RpcConnection {
 	public RpcConnection(String url) throws MalformedURLException{
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(url));
-		config.setEnabledForExtensions(true);
-		config.setEnabledForExceptions(true);
 		client = new XmlRpcClient();
 		client.setTransportFactory(new XmlRpcLiteHttpTransportFactory(client));
 		client.setConfig(config);
@@ -52,8 +51,11 @@ public class RpcConnection {
 		config.setBasicPassword(p);
 	}
 	
-	public XmlRpcClient connect(){
+	public XmlRpcClient connect() throws XmlRpcException{
        client.setConfig(config);
-        return client;
+       //makes sure that server and client speak the same dialect.
+       Object[] params = {"i8"};
+       client.execute("xmlrpc_dialect", params);
+       return client;
 	}
 }

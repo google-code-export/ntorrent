@@ -19,25 +19,24 @@
  */
 package ntorrent.gui.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Window;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import ntorrent.controller.Controller;
 
-/**
- * @author netbrain
- *
- */
-public class TrayListener implements MouseListener, ActionListener {
+public class TrayListener extends SuperActionListener implements MouseListener {
 
 	public void mouseClicked(MouseEvent e) {
-		if(!Controller.getGui().getRootWin().isFocused()){
-			Controller.getGui().getRootWin().requestFocus();
+		switch (e.getButton()){
+		case MouseEvent.BUTTON1:
+			Window window = Controller.getGui().getRootWin(); 
+			if(!window.isFocused()){
+				window.requestFocus();
+				window.toFront();
+			}
+			break;
 		}
-		
-			
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -56,11 +55,6 @@ public class TrayListener implements MouseListener, ActionListener {
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
