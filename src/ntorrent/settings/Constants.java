@@ -50,8 +50,9 @@ public final class Constants {
 		
 		@Override
 		public String toString() {
-			// TODO Auto-generated method stub
-			return getFriendlyName(this);
+			String friendly = getFriendlyName(this);
+			return friendly.substring(0,1).toUpperCase()+
+			friendly.substring(1);
 		}
 		
 		public static String getFriendlyName(Enum<menuItems> e){
