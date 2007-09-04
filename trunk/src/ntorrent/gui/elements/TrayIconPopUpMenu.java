@@ -17,9 +17,33 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.gui.elements;
 
-package ntorrent.gui.listener;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import ntorrent.settings.Constants;
+import ntorrent.settings.Constants.menuItems;
 
-public class FileMenuListener extends SuperActionListener {
+public class TrayIconPopUpMenu {
+	PopupMenu popup = new PopupMenu();
+	public TrayIconPopUpMenu() {
+		String[] menu = {
+				menuItems.ADD_TORRENT.toString(),
+				menuItems.ADD_URL.toString(),
+				menuItems.START_ALL.toString(),
+				menuItems.STOP_ALL.toString(),
+				menuItems.QUIT.toString()
+				
+		};
+		
+		for(String mi : menu){
+			MenuItem menuItem = new MenuItem(mi);
+			menuItem.addActionListener(Constants.trayListener);
+			popup.add(menuItem);
+		}
+	}
 	
+	public PopupMenu getPopup() {
+		return popup;
+	}
 }

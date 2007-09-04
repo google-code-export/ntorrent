@@ -26,10 +26,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import ntorrent.controller.Controller;
-
-
-
-
+import ntorrent.gui.listener.TrayListener;
 
 public final class Constants {
 	static Properties systemProperties = new Properties();
@@ -38,7 +35,47 @@ public final class Constants {
 	private static final String VERSION = "0.1.alpha";
 	public static final File profile = new File("profile.dat");
 	public static final File settings = new File("settings.dat");
+	public static final TrayListener trayListener = new TrayListener();
 	
+	
+	public static enum menuItems {
+		ADD_TORRENT,
+		ADD_URL,
+		QUIT,
+		CONNECT,
+		START_ALL,
+		STOP_ALL,
+		SETTINGS,
+		ABOUT;
+		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return getFriendlyName(this);
+		}
+		
+		public static String getFriendlyName(Enum<menuItems> e){
+			String name = e.name();
+			String s = "";
+			String[] splitted = name.split("_");
+			for (String piece : splitted){
+				s += (s == "") ? piece : " "+piece;
+			}
+			return s.toLowerCase();
+		}
+		
+		public static menuItems getFromString(String s){
+			String[] splitted = s.split(" ");
+			s = "";
+			for(String piece : splitted)
+				s += (s == "") ? piece : "_"+piece;
+			for (menuItems a : menuItems.values()){
+				if(a.name().equalsIgnoreCase(s))
+					return a;
+			}
+			return null;
+		}
+	} 
 
 	
 	public static String getReleaseName(){
