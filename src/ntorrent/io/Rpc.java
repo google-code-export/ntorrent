@@ -100,6 +100,7 @@ public class Rpc{
 	}
 	
 	public void loadTorrent(File torrent) throws IOException, XmlRpcException{
+		Controller.writeToLog("Loading torrent from file: "+torrent );
 		byte[] source = new byte[(int)torrent.length()];
 		FileInputStream reader = new FileInputStream(torrent);
 		reader.read(source, 0, source.length);
@@ -108,6 +109,7 @@ public class Rpc{
 	}
 	
 	public void loadTorrent(String url) throws XmlRpcException{
+		Controller.writeToLog("Loading torrent from url: "+url);
 		if(url != null){
 		Object[] params = {url};
 		client.execute("load",params);
