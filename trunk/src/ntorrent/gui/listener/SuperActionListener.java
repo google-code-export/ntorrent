@@ -35,7 +35,7 @@ import org.apache.xmlrpc.XmlRpcException;
 
 public class SuperActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-		switch(Constants.menuItems.getFromString(e.getActionCommand())){
+		switch(Constants.Commands.getFromString(e.getActionCommand())){
 			case ADD_TORRENT:
 				PromptFile filePrompt = new PromptFile();
 				if(filePrompt.getFile() != null){

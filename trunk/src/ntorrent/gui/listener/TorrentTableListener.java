@@ -32,11 +32,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import ntorrent.controller.Controller;
+import ntorrent.controller.threads.TorrentCommandThread;
 import ntorrent.gui.elements.FileTabComponent;
 import ntorrent.model.TorrentFile;
+
+import org.apache.xmlrpc.XmlRpcException;
 
 public class TorrentTableListener extends MouseAdapter implements ActionListener {
 
@@ -112,26 +113,8 @@ public class TorrentTableListener extends MouseAdapter implements ActionListener
 	}
     
 	public void actionPerformed(ActionEvent e) {
-		String command = e.getActionCommand();
-		for(int i : selectedRows)
-			if(command.equals("start")){
-				Controller.writeToLog("Starting torrent");
-				Controller.getTorrents().start(i);
-			}else if(command.equals("stop")){
-				Controller.writeToLog("Stopping torrent");
-				Controller.getTorrents().stop(i);
-			}else if(command.equals("open")){
-				Controller.writeToLog("Setting torrent open");
-				Controller.getTorrents().open(i);
-			} else if(command.equals("check hash")){
-				Controller.writeToLog("Hash checking torrent");
-				Controller.getTorrents().checkHash(i);
-			}else if(command.equals("close")){
-				Controller.writeToLog("Setting torrent closed");
-				Controller.getTorrents().close(i);
-			} else if(command.equals("erase")){
-				Controller.writeToLog("Erasing torrent");
-				Controller.getTorrents().erase(i);
-			}
+		Runnable torrentCommand = new TorrentCommandThread(e.getActionCommand(),selectedRows);
+		Thread actionThread = new Thread(torrentCommand);
+		actionThread.start();
 	}   
 }
