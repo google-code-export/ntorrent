@@ -22,10 +22,6 @@ package ntorrent.gui.elements;
 import java.awt.Image;
 import java.awt.PopupMenu;
 
-/**
- * @author netbrain
- *
- */
 public class TrayIcon extends java.awt.TrayIcon {
 	
 	public TrayIcon(Image image) {
