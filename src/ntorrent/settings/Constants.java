@@ -38,7 +38,7 @@ public final class Constants {
 	public static final TrayListener trayListener = new TrayListener();
 	
 	
-	public static enum menuItems {
+	public static enum Commands {
 		ADD_TORRENT,
 		ADD_URL,
 		QUIT,
@@ -46,7 +46,13 @@ public final class Constants {
 		START_ALL,
 		STOP_ALL,
 		SETTINGS,
-		ABOUT;
+		ABOUT,
+		STOP,
+		START,
+		OPEN,
+		CHECK_HASH,
+		CLOSE,
+		ERASE;
 		
 		@Override
 		public String toString() {
@@ -55,7 +61,7 @@ public final class Constants {
 			friendly.substring(1);
 		}
 		
-		public static String getFriendlyName(Enum<menuItems> e){
+		public static String getFriendlyName(Enum<Commands> e){
 			String name = e.name();
 			String s = "";
 			String[] splitted = name.split("_");
@@ -65,12 +71,12 @@ public final class Constants {
 			return s.toLowerCase();
 		}
 		
-		public static menuItems getFromString(String s){
+		public static Commands getFromString(String s){
 			String[] splitted = s.split(" ");
 			s = "";
 			for(String piece : splitted)
 				s += (s == "") ? piece : "_"+piece;
-			for (menuItems a : menuItems.values()){
+			for (Commands a : Commands.values()){
 				if(a.name().equalsIgnoreCase(s))
 					return a;
 			}

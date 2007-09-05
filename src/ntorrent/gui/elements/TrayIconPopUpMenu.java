@@ -22,17 +22,17 @@ package ntorrent.gui.elements;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import ntorrent.settings.Constants;
-import ntorrent.settings.Constants.menuItems;
+import ntorrent.settings.Constants.Commands;
 
 public class TrayIconPopUpMenu {
 	PopupMenu popup = new PopupMenu();
 	public TrayIconPopUpMenu() {
 		String[] menu = {
-				menuItems.ADD_TORRENT.toString(),
-				menuItems.ADD_URL.toString(),
-				menuItems.START_ALL.toString(),
-				menuItems.STOP_ALL.toString(),
-				menuItems.QUIT.toString()
+				Commands.ADD_TORRENT.toString(),
+				Commands.ADD_URL.toString(),
+				Commands.START_ALL.toString(),
+				Commands.STOP_ALL.toString(),
+				Commands.QUIT.toString()
 				
 		};
 		

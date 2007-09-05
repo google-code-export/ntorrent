@@ -22,7 +22,7 @@ package ntorrent.gui.elements;
 
 import java.awt.Menu;
 import java.awt.MenuBar;
-import ntorrent.settings.Constants.menuItems;
+import ntorrent.settings.Constants.Commands;
 import ntorrent.gui.listener.FileMenuListener;
 import ntorrent.gui.listener.HelpMenuListener;
 
@@ -32,19 +32,19 @@ public class MenuBarComponent{
 	public MenuBarComponent(){
 		Menu file = new Menu("File");
 		Menu help = new Menu("Help");
-		file.add(menuItems.CONNECT.toString());
+		file.add(Commands.CONNECT.toString());
 		file.addSeparator();
-		file.add(menuItems.ADD_TORRENT.toString());
-		file.add(menuItems.ADD_URL.toString());
+		file.add(Commands.ADD_TORRENT.toString());
+		file.add(Commands.ADD_URL.toString());
 		file.addSeparator();
-		file.add(menuItems.START_ALL.toString());
-		file.add(menuItems.STOP_ALL.toString());
+		file.add(Commands.START_ALL.toString());
+		file.add(Commands.STOP_ALL.toString());
 		file.addSeparator();
-		file.add(menuItems.QUIT.toString());
+		file.add(Commands.QUIT.toString());
 		menubar.add(file);
 		menubar.add(help);
-		help.add(menuItems.SETTINGS.toString());
-		help.add(menuItems.ABOUT.toString());
+		help.add(Commands.SETTINGS.toString());
+		help.add(Commands.ABOUT.toString());
 		file.addActionListener(new FileMenuListener());
 		help.addActionListener(new HelpMenuListener());
 	}
