@@ -36,8 +36,7 @@ public class MainTableComponent {
 	JTable table = new JTable(new TorrentTableModel());
 	
 	public MainTableComponent(){
-		//Not stable... probably make own sorter.
-		//table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(false);
 		table.setRowMargin(5);
