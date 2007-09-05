@@ -19,39 +19,33 @@
  */
 package ntorrent.gui.elements;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
+import java.awt.Image;
+import java.awt.PopupMenu;
 
-import ntorrent.settings.Constants;
-import ntorrent.settings.Constants.Commands;
-
-public class TrayIconPopUpMenu {
-	JPopupMenu popup = new JPopupMenu();
-	public TrayIconPopUpMenu() {
-		String[] menu = {
-				Commands.ADD_TORRENT.toString(),
-				Commands.ADD_URL.toString(),
-				null,
-				Commands.START_ALL.toString(),
-				Commands.STOP_ALL.toString(),
-				null,
-				Commands.QUIT.toString()
-				
-		};
-		
-		for(String mi : menu){
-			if(mi == null)
-				popup.addSeparator();
-			else{
-				JMenuItem menuItem = new JMenuItem(mi);
-				menuItem.addActionListener(Constants.trayListener);
-				popup.add(menuItem);
-			}
-		}
-		
+/**
+ * @author netbrain
+ *
+ */
+public class TrayIcon extends java.awt.TrayIcon {
+	
+	public TrayIcon(Image image) {
+		super(image);
 	}
 	
-	public JPopupMenu getPopup() {
-		return popup;
+	public TrayIcon(Image image, String string) {
+		super(image,string);
 	}
+	
+	
+	public TrayIcon(Image image, String string, PopupMenu popup) {
+		super(image, string, popup);
+	}
+
+	@Override
+	public void displayMessage(String caption, String text, MessageType messageType) {
+		// TODO format this messagebox to a more ntorrent'ish style.
+		super.displayMessage(caption, text, messageType);
+	}
+
+
 }

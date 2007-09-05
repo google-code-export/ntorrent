@@ -23,10 +23,11 @@ import java.awt.Window;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JPopupMenu;
+
 import ntorrent.controller.Controller;
 
 public class TrayListener extends SuperActionListener implements MouseListener {
-
 	public void mouseClicked(MouseEvent e) {
 		switch (e.getButton()){
 		case MouseEvent.BUTTON1:
@@ -36,7 +37,13 @@ public class TrayListener extends SuperActionListener implements MouseListener {
 				window.toFront();
 			}
 			break;
-		}
+		case MouseEvent.BUTTON3:
+			JPopupMenu popup = Controller.getTrayIcon().getPopup();
+            popup.setLocation(e.getX(), e.getY());
+            popup.setInvoker(popup);
+            popup.setVisible(true);
+			break;
+		}		
 	}
 
 	public void mouseEntered(MouseEvent e) {

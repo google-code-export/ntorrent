@@ -27,6 +27,7 @@ import ntorrent.controller.threads.ContentThread;
 import ntorrent.controller.threads.StatusThread;
 import ntorrent.gui.MainGui;
 import ntorrent.gui.dialogues.PromptEnv;
+import ntorrent.gui.elements.ProcessTrayIcon;
 import ntorrent.io.Rpc;
 import ntorrent.io.RpcConnection;
 import ntorrent.model.TorrentPool;
@@ -46,6 +47,7 @@ public class Controller {
 	protected static Rpc rpc;
 	private static RpcConnection conn;
 	private static ProfileSettings profile = new ProfileSettings();
+	private static ProcessTrayIcon trayIcon;
 	
 	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
 		writeToLog("Connecting.");
@@ -68,6 +70,7 @@ public class Controller {
 		//3.Draw gui.
 		gui.drawMainWindow();
 		gui.getViewTab().getViewPane().setEnabled(false);
+		trayIcon = new ProcessTrayIcon();
 		PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
 		env.setHost(profile.getHost());
 		env.setUsername(profile.getUsername());
@@ -102,6 +105,10 @@ public class Controller {
 	
 	public static ProfileSettings getProfile() {
 		return profile;
+	}
+	
+	public static ProcessTrayIcon getTrayIcon() {
+		return trayIcon;
 	}
 	
 	public static void writeToLog(String msg){
