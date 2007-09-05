@@ -74,6 +74,7 @@ public class TorrentPool {
 					//Constants
 					tf = new TorrentFile(hash);
 					torrents.add(tf);
+					table.fireTableRowsInserted(torrents.indexOf(tf), torrents.indexOf(tf));
 					//name
 					tf.setFilename((String)obj.get(1));
 					//size
