@@ -1,31 +1,37 @@
 package ntorrent.gui.elements;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Color;
 import java.util.Vector;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import ntorrent.model.FileTableModel;
 
 public class FileList {
 	//Simple filelist.
-	JPanel container = new JPanel(new  GridLayout(0,3,10,5));
-	JPanel stretchPrevent = new JPanel(new FlowLayout(FlowLayout.LEADING));
-	JScrollPane fileList = new JScrollPane(stretchPrevent);
+	JTable filetable = new JTable(new FileTableModel());
+	JScrollPane fileList;
 	
 	FileList(){
-		stretchPrevent.add(container);
-		container.setOpaque(false);
-		stretchPrevent.setOpaque(false);
-		container.setVisible(false);
-		headers();
-	}
-	
-	private void headers(){
-		container.add(new JLabel("Priority"));
-		container.add(new JLabel("Filename"));
-		container.add(new JLabel("Size"));
+		filetable.setOpaque(false);
+		filetable.setAutoCreateRowSorter(true);
+		filetable.setBackground(Color.white);
+		filetable.setFillsViewportHeight(true);
+		
+		/*TableColumn column = null;
+		for (int i = 0; i < filetable.getColumnCount(); i++) {
+			column = filetable.getColumnModel().getColumn(i);
+			switch (i){
+				case 0:
+					column.setPreferredWidth(10);
+				case 2:
+					column.setPreferredWidth(100);
+				
+			}
+		}*/
+		
+		fileList  = new JScrollPane(filetable);
 	}
 	
 	public JScrollPane getFileList() {
@@ -33,17 +39,14 @@ public class FileList {
 	}
 
 	public void hideInfo() {
-		container.setVisible(false);
+		fileList.setVisible(false);
 	}
 
 	public void setInfo(Vector<Object>[] list) {
-		container.removeAll();
-		headers();
-		for(Vector obj : list)
+		FileTableModel table = ((FileTableModel)filetable.getModel());
+		table.clear();
+		for(int y = 0; y < list.length; y++)
 			for(int x = 0; x < 3; x++)
-				container.add(new JLabel(""+obj.get(x).getClass().cast(obj.get(x))));
-		container.setVisible(true);
-		
-		
+				table.setValueAt(list[y].get(x), y, x);
 	}
 }
