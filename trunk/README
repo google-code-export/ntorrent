@@ -1,3 +1,10 @@
+Requires java 1.6
+
+run program with
 java -jar nTorrent.jar
+
+if you add file assosciations in your os. 
+you can specify these extra arguments.
+java -jar nTorrent.jar ["file.torrent"|["file2.torrent"]..]
 
 
