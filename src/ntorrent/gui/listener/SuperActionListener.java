@@ -41,7 +41,7 @@ public class SuperActionListener implements ActionListener {
 				PromptFile filePrompt = new PromptFile();
 				if(filePrompt.getFile() != null){
 					try {
-						Controller.getRpc().loadTorrent(filePrompt.getFile());
+						Controller.loadTorrent(filePrompt.getFile());
 					} catch (IOException x) {
 						Controller.writeToLog(x);
 					} catch (XmlRpcException x) {
@@ -51,12 +51,8 @@ public class SuperActionListener implements ActionListener {
 				break;
 			case ADD_URL:
 				PromptString stringPrompt = new PromptString();
-				try {
-					if(stringPrompt.getInput() != null)
-						Controller.getRpc().loadTorrent(stringPrompt.getInput());
-				} catch (XmlRpcException x) {
-					Controller.writeToLog(x);
-				}				
+				if(stringPrompt.getInput() != null)
+					Controller.loadTorrent(stringPrompt.getInput());				
 				break;
 			case CONNECT:
 				PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());

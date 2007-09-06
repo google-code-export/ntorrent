@@ -37,8 +37,6 @@ import ntorrent.controller.threads.TorrentCommandThread;
 import ntorrent.gui.elements.FileTabComponent;
 import ntorrent.model.TorrentFile;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 public class TorrentTableListener extends MouseAdapter implements ActionListener {
 
 	JPopupMenu popup;
@@ -86,11 +84,7 @@ public class TorrentTableListener extends MouseAdapter implements ActionListener
 			TorrentFile tf = ((TorrentFile)source.getValueAt(source.getSelectedRow(), 0));
 			FileTabComponent panel = Controller.getGui().getFileTab();
 			panel.getInfoPanel().setInfo(tf);
-			try {
-				panel.getFileList().setInfo(Controller.getRpc().getFileList(tf.getHash()));
-			} catch (XmlRpcException x) {
-				Controller.writeToLog(x);
-			}
+			panel.getFileList().setInfo(Controller.getFileList(tf.getHash()));
 		}
 		
 	}
