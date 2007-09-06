@@ -1,0 +1,88 @@
+2007-09-06  kei060
+
+	* : generating version 0.2
+	* : updated build.xml to exlude ChangeLog generator
+	* : ups, wrong nTorrent.sh
+	* : updated nTorrent.sh to take torrent files as arguments and pass
+	  them on to jar file.
+	* : java 1.6 is needed.
+	* : a little note on how to use file assosciations.
+	* : ntorrent now accepts a list of torrent files as input argument
+	  to the program. the torrent files will automaticly be loaded as
+	  soon as the process starts and connects to a rtorrent server. if
+	  ntorrent is already running, then the filelist will be passed on
+	  through a socket on port 4050 and added if ntorrent is connected
+	  to a rtorrent server.
+
+2007-09-05  kei060
+
+	* :
+	* : pretty trayicon menu
+	* : minor update bug fixed when adding new torrents.
+	* : my fears were confirmed.. very unstable :)
+	* : added default rowsorter to main content table. might be
+	  unstable. but only one way to find out.
+	* : set user actions on torrents in a own thread to prevent gui
+	  blocking.
+	* : changed the filelist to a jtable component.
+
+2007-09-04  kei060
+
+	* : added debug info to log.
+	* : minor change that give a more human friendly menu names.
+	* : Added tray icon popupmenu + minor code fix.
+	* : added javadoc of xmlrpc to the classpath
+	* : removed target and source version from javac tag. might be the
+	  cause of a bug.
+
+2007-09-02  kei060
+
+	* :
+
+2007-09-01  kei060
+
+	* : ntorrent now detects deleted torrents on server properly.
+	* : Added tray icon and window icon.
+	* : fixed ntorrent launcher to change to basedir. added a ntorrent
+	  icon.
+
+2007-08-31  kei060
+
+	* :
+	* : Added a simple ntorrent bash script.
+	* : added eclipse project data.
+
+2007-08-30  kei060
+
+	* : added some more todo's on my todo list.
+	* : minor bugfix
+	* : minor bug fix
+	* : Added a filelist. which shows files contained in each torrent.
+	  Added a file info tab, which shows detailed information about
+	  torrent. changed todo list for next version.
+
+2007-08-29  kei060
+
+	* : added build.number. added program logging feature.revised ant
+	  build file.++ minor changes.
+	* :
+	* : Added a "remember last profile" feature. Was getting tireing to
+	  write username:pass@host for every load.
+	* : Added a simple statusbar.
+
+2007-08-28  kei060
+
+	* : set windowplacement on middle of screen.
+	* : Added some graphical exception handling.
+	* : minor bug that prevented view change. fixed.
+	* : Added support for basic auth. added "connect" to file menu. and
+	  a connect dialogue.
+	* : Added support for basic auth. added "connect" to file menu. and
+	  a connect dialogue.
+
+2007-08-27  kei060
+
+	* : renamed ntorrent to trunk
+	* : Initial import. (currently broken)
+	* : Initial import.
+
