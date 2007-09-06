@@ -21,7 +21,10 @@
 
 package ntorrent.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Vector;
 
 import ntorrent.controller.threads.ContentThread;
 import ntorrent.controller.threads.StatusThread;
@@ -48,6 +51,7 @@ public class Controller {
 	private static RpcConnection conn;
 	private static ProfileSettings profile = new ProfileSettings();
 	private static ProcessTrayIcon trayIcon;
+	private static String[] filesToLoad = {};
 	
 	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
 		writeToLog("Connecting.");
@@ -62,6 +66,7 @@ public class Controller {
 		gui.getTorrentTableModel().fireTableDataChanged();
 		gui.getViewTab().getViewPane().setEnabled(true);
 		startThreads();
+		loadStartupFiles();
 	}
 	
 	public static void drawMainGui(){
@@ -95,9 +100,9 @@ public class Controller {
 		return gui;
 	}
 	
-	public static Rpc getRpc() {
+	/*public static Rpc getRpc() {
 		return rpc;
-	}
+	}*/
 	
 	public static TorrentPool getTorrents() {
 		return torrents;
@@ -120,4 +125,46 @@ public class Controller {
 		for(StackTraceElement s : x.getStackTrace())
 			writeToLog("Line: "+s.getLineNumber()+"\t"+s.getFileName());
 	}
+	
+	public static boolean loadTorrent(String url){
+		if(rpc != null)
+			try {
+				rpc.loadTorrent(url);
+				return true;
+			} catch (XmlRpcException e) {
+				writeToLog(e);
+			}
+		return false;
+	}
+	
+	public static boolean loadTorrent(File file) throws IOException, XmlRpcException{
+		if(rpc != null){
+			rpc.loadTorrent(file);
+			return true;
+		}
+		return false;
+	}
+
+	public static Vector<Object>[] getFileList(String hash) {
+		try {
+			return rpc.getFileList(hash);
+		} catch (XmlRpcException e) {
+			writeToLog(e);
+		}
+		return null;
+	}
+
+	public static void setStartupFiles(String[] args) {
+		filesToLoad = args;
+	}
+	
+	private static void loadStartupFiles(){
+			try {
+				for(String file: filesToLoad)
+					loadTorrent(new File(file));
+			} catch (Exception x){
+				writeToLog(x);
+			}
+	}
+	
 }

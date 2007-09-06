@@ -39,6 +39,7 @@ public class FileTabComponent {
 		filePane.addTab("info", infoPanel.getInfoPanel());
 		filePane.addTab("file list", fileList.getFileList());
 		filePane.addTab("log",new JScrollPane(log));
+		filePane.setSelectedIndex(2);
 		//filePane.addTab("tracker list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));

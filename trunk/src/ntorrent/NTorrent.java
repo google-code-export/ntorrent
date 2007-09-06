@@ -20,27 +20,49 @@
 
 package ntorrent;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 
 import javax.swing.UIManager;
 
 import ntorrent.controller.Controller;
+import ntorrent.io.Client;
+import ntorrent.io.Server;
 import ntorrent.settings.Constants;
 
 public class NTorrent{
+	public static void init(){
+
+	}
+	
 	/**
 	 * @param args
 	 * @throws MalformedURLException 
 	 */
 	public static void main(String[] args) throws MalformedURLException {
 		System.out.println(Constants.getLicense());
+		//connect to existing process
 		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Controller.drawMainGui();
-	    } 
-	    catch (Exception e) {
-	    	e.printStackTrace();
-	    }
-		
+			new Client(args);
+		} catch(ConnectException x) {
+			//start process
+			try {
+		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				Controller.drawMainGui();
+				Controller.setStartupFiles(args);
+		    } 
+		    catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+			//start socket server
+			try {
+				new Server().start();
+			} catch (IOException e) {
+				Controller.writeToLog(e);
+			}
+		} catch (IOException x) {
+			x.printStackTrace();
+		}	
 	}
 }

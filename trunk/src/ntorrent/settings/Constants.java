@@ -36,6 +36,7 @@ public final class Constants {
 	public static final File profile = new File("profile.dat");
 	public static final File settings = new File("settings.dat");
 	public static final TrayListener trayListener = new TrayListener();
+	private static final int commPort = 4050;
 	
 	
 	public static enum Commands {
@@ -110,7 +111,7 @@ public final class Constants {
 	     "redistribute it under certain conditions.\n\n";
 	}
 	
-	public static void main(String[] args){
-		System.out.println(getReleaseName());
+	public static int getCommPort() {
+		return commPort;
 	}
 }

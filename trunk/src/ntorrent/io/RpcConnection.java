@@ -39,7 +39,6 @@ public class RpcConnection {
 		config.setServerURL(new URL(url));
 		client = new XmlRpcClient();
 		client.setTransportFactory(new XmlRpcLiteHttpTransportFactory(client));
-		client.setConfig(config);
 		client.setTypeFactory(new CustomTypeFactory(null));
 	}
 	
