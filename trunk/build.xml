@@ -56,6 +56,7 @@
 			<exclude name="lib/**"/>
 			<exclude name="src/**"/>
   			<exclude name="*.dat"/>
+			<exclude name="svn2cl/**"/>
   	</tar>
 
 	<delete file="nTorrent.jar"/>
@@ -68,6 +69,8 @@
   			<exclude name="build/**"/>
   			<exclude name="releases/**"/>
 			<exclude name="*.dat"/>
+			<exclude name="svn2cl/**"/>
+
   	</tar>
   </target>
 	
