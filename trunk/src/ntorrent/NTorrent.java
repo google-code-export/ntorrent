@@ -21,7 +21,7 @@
 package ntorrent;
 
 import java.io.IOException;
-import java.net.ConnectException;
+import java.net.BindException;
 import java.net.MalformedURLException;
 
 import javax.swing.UIManager;
@@ -41,28 +41,25 @@ public class NTorrent{
 	 * @throws MalformedURLException 
 	 */
 	public static void main(String[] args) throws MalformedURLException {
-		System.out.println(Constants.getLicense());
-		//connect to existing process
+		//start socket server
 		try {
-			new Client(args);
-		} catch(ConnectException x) {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Server().start();
+			
 			//start process
+			System.out.println(Constants.getLicense());
+			Controller.drawMainGui();
+			Controller.setStartupFiles(args);
+		} catch(BindException e) {
+			//Server already started.
+			//connect to existing process
 			try {
-		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				Controller.drawMainGui();
-				Controller.setStartupFiles(args);
-		    } 
-		    catch (Exception e) {
-		    	e.printStackTrace();
-		    }
-			//start socket server
-			try {
-				new Server().start();
-			} catch (IOException e) {
-				Controller.writeToLog(e);
-			}
-		} catch (IOException x) {
-			x.printStackTrace();
-		}	
+				new Client(args);
+			} catch (IOException x) {
+				x.printStackTrace();
+			}	
+		} catch (Exception e) {
+			Controller.writeToLog(e);
+		}
 	}
 }
