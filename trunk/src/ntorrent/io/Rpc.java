@@ -100,6 +100,7 @@ public class Rpc{
 	}
 	
 	public void loadTorrent(File torrent) throws IOException, XmlRpcException{
+		//TODO why is this block of code target of NoSuchElementException?
 		Controller.writeToLog("Loading torrent from file: "+torrent );
 		byte[] source = new byte[(int)torrent.length()];
 		FileInputStream reader = new FileInputStream(torrent);
