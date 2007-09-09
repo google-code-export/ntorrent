@@ -26,6 +26,6 @@ public class LocalSettings extends Settings {
 	public static int vintervall = 3000;
 	
 	@Description("Update intervall / status")
-	public static int sintervall = 5000;
+	public static int sintervall = 60000;
 	
 }

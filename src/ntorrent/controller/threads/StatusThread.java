@@ -49,6 +49,7 @@ public class StatusThread extends Controller implements Runnable {
 			}	
 			
 			try {
+				//doesn't need to update so often. rate is updated when interrupted.
 				Thread.sleep(LocalSettings.sintervall);
 			} catch (InterruptedException e1) {
 				updateRate();
@@ -56,7 +57,7 @@ public class StatusThread extends Controller implements Runnable {
 		}
 	}
 	
-	private void updateRate(){
+	public void updateRate(){
 		bar.setDownloadRate(torrents.getRateDown());
 		bar.setUploadRate(torrents.getRateUp());
 	}
