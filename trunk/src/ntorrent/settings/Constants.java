@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import ntorrent.controller.Controller;
 import ntorrent.gui.listener.TrayListener;
 
 public final class Constants {
@@ -94,10 +93,9 @@ public final class Constants {
 			stream = new FileInputStream("build.number");
 			systemProperties.load(stream);
 		} catch (FileNotFoundException x) {
-			// TODO Auto-generated catch block
-			Controller.writeToLog(x);
+			x.printStackTrace();
 		} catch (IOException x) {
-			Controller.writeToLog(x);
+			x.printStackTrace();
 		}
 		
 		BUILD = systemProperties.getProperty("build.number");
