@@ -93,8 +93,10 @@ public final class Constants {
 			stream = new FileInputStream("build.number");
 			systemProperties.load(stream);
 		} catch (FileNotFoundException x) {
+			//do not change
 			x.printStackTrace();
 		} catch (IOException x) {
+			//do not change
 			x.printStackTrace();
 		}
 		
