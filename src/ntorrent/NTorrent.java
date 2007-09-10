@@ -32,10 +32,6 @@ import ntorrent.io.Server;
 import ntorrent.settings.Constants;
 
 public class NTorrent{
-	public static void init(){
-
-	}
-	
 	/**
 	 * @param args
 	 * @throws MalformedURLException 
