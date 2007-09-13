@@ -152,6 +152,11 @@ public class Rpc{
 		
 	}
 	
+	public void setFilePriority(String hash,int index,int pri) throws XmlRpcException{
+		Object[] params = {hash,index,pri};
+		client.execute("f.set_priority",params);
+	}
+	
 	/**
 	 *  Index 109 String: 'f.get_completed_chunks'
   Index 110 String: 'f.get_frozen_path'
