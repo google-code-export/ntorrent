@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.io;
+package ntorrent.io.socket;
 
 import java.io.File;
 import java.io.IOException;

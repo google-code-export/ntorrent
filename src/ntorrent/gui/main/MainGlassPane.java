@@ -18,20 +18,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.dialogues;
+package ntorrent.gui.main;
+import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import javax.swing.JOptionPane;
+import ntorrent.Controller;
 
-import ntorrent.controller.Controller;
 
-public class PromptString {
-	String input = new String();
-	
-	public PromptString(){
-		input = (String)JOptionPane.showInputDialog(Controller.getGui().getRootWin(),null);
+public class MainGlassPane extends JComponent implements ChangeListener{
+	private static final long serialVersionUID = 1L;
+
+	public void stateChanged(ChangeEvent e) {
+		JTabbedPane pane = (JTabbedPane)e.getSource();
+		if(pane.getName().equals("views"))
+			Controller.changeMainPane(pane.getTitleAt(pane.getSelectedIndex()));
+		else{
+			//Filepanechange
+		}
+			
 	}
-	
-	public String getInput() {
-		return input;
-	}
+
 }

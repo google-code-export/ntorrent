@@ -18,8 +18,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.listener;
+package ntorrent.gui.dialogue;
 
-public class FileMenuListener extends SuperActionListener {
+import javax.swing.JOptionPane;
+
+import ntorrent.Controller;
+
+public class PromptString {
+	String input = new String();
 	
+	public PromptString(){
+		input = (String)JOptionPane.showInputDialog(Controller.getGui().getRootWin(),null);
+	}
+	
+	public String getInput() {
+		return input;
+	}
 }

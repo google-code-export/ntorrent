@@ -22,8 +22,8 @@ package ntorrent.model;
 
 import java.util.Vector;
 
-import ntorrent.controller.Controller;
-import ntorrent.io.Rpc;
+import ntorrent.Controller;
+import ntorrent.io.xmlrpc.Rpc;
 
 import org.apache.xmlrpc.XmlRpcException;
 

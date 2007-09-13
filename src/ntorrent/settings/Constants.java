@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import ntorrent.gui.listener.TrayListener;
+import ntorrent.gui.tray.TrayListener;
 
 public final class Constants {
 	static Properties systemProperties = new Properties();

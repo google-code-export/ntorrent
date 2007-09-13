@@ -1,8 +1,8 @@
-package ntorrent.controller.threads;
+package ntorrent.threads;
 
 import java.util.Vector;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 import ntorrent.settings.Constants.Commands;
 
 public class TorrentCommandThread implements Runnable {

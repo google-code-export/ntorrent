@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.dialogues;
+package ntorrent.gui.dialogue;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -33,7 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 
 public class PromptEnv implements ActionListener {
 	private JFrame window = new JFrame();

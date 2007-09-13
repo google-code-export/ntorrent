@@ -17,11 +17,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.controller.threads;
+package ntorrent.threads;
 
 import java.util.Vector;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
 

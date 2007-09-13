@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.io.type;
+package ntorrent.io.xmlrpc.type;
 
 import org.apache.ws.commons.util.NamespaceContextImpl;
 import org.apache.xmlrpc.common.TypeFactoryImpl;

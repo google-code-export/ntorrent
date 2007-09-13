@@ -26,9 +26,8 @@ import java.net.MalformedURLException;
 
 import javax.swing.UIManager;
 
-import ntorrent.controller.Controller;
-import ntorrent.io.Client;
-import ntorrent.io.Server;
+import ntorrent.io.socket.Client;
+import ntorrent.io.socket.Server;
 import ntorrent.settings.Constants;
 
 public class NTorrent{

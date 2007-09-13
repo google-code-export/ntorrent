@@ -18,29 +18,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.controller.threads;
+package ntorrent.gui.dialogue;
 
-import ntorrent.controller.Controller;
-import ntorrent.settings.LocalSettings;
+import java.io.File;
 
-public class ContentThread extends Controller implements Runnable {
-	
-	public void run(){
-		while(true){
-			try {
-				Thread.sleep(LocalSettings.vintervall);
-			} catch (InterruptedException e) {
-				//Interrupt.
-			}
-			//must be separated
-			try {
-				torrents.update();
-				statusThread.interrupt();
-			} catch (Exception e) {
-				Controller.getGui().showError(e.getLocalizedMessage());
-				Controller.writeToLog(e);
-			}
-		}
+import javax.swing.JFileChooser;
+
+import ntorrent.Controller;
+
+public class PromptFile {
+	final JFileChooser fc = new JFileChooser();
+    File file;
+    
+	public PromptFile(){
+		int returnVal = fc.showOpenDialog(Controller.getGui().getRootWin());
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+            file = fc.getSelectedFile();
+		
 	}
 	
+	public File getFile() {
+		return file;
+	}
 }

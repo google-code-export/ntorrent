@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.io;
+package ntorrent.io.socket;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.net.Socket;
 
 import org.apache.xmlrpc.XmlRpcException;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 
 class ThreadedClientHandler extends Thread {
 
