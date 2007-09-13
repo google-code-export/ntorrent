@@ -18,7 +18,8 @@ public class FileList {
 	
 	FileList(){
 		filetable.setOpaque(false);
-		filetable.setAutoCreateRowSorter(true);
+		//not stable here either
+		//filetable.setAutoCreateRowSorter(true);
 		filetable.setBackground(Color.white);
 		filetable.setFillsViewportHeight(true);
 		filetable.addMouseListener(listener);
