@@ -18,14 +18,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.io;
+package ntorrent.io.xmlrpc;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Vector;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;

@@ -18,13 +18,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.io;
+package ntorrent.io.socket;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 import ntorrent.settings.Constants;
 
 public class Server extends Thread{

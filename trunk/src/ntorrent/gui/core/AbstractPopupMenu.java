@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.elements;
+package ntorrent.gui.core;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;

@@ -17,31 +17,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.elements;
 
-import java.awt.Image;
-import java.awt.PopupMenu;
+package ntorrent.threads;
 
-public class TrayIcon extends java.awt.TrayIcon {
+import ntorrent.Controller;
+import ntorrent.settings.LocalSettings;
+
+public class ContentThread extends Controller implements Runnable {
 	
-	public TrayIcon(Image image) {
-		super(image);
+	public void run(){
+		while(true){
+			try {
+				Thread.sleep(LocalSettings.vintervall);
+			} catch (InterruptedException e) {
+				//Interrupt.
+			}
+			//must be separated
+			try {
+				torrents.update();
+				statusThread.interrupt();
+			} catch (Exception e) {
+				Controller.getGui().showError(e.getLocalizedMessage());
+				Controller.writeToLog(e);
+			}
+		}
 	}
 	
-	public TrayIcon(Image image, String string) {
-		super(image,string);
-	}
-	
-	
-	public TrayIcon(Image image, String string, PopupMenu popup) {
-		super(image, string, popup);
-	}
-
-	@Override
-	public void displayMessage(String caption, String text, MessageType messageType) {
-		// TODO format this messagebox to a more ntorrent'ish style.
-		super.displayMessage(caption, text, messageType);
-	}
-
-
 }

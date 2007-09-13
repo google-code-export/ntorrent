@@ -18,12 +18,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.io;
+package ntorrent.io.xmlrpc;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ntorrent.io.type.CustomTypeFactory;
+import ntorrent.io.xmlrpc.type.CustomTypeFactory;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;

@@ -21,7 +21,7 @@
 package ntorrent.model;
 import javax.swing.table.AbstractTableModel;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 
 public class TorrentTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;

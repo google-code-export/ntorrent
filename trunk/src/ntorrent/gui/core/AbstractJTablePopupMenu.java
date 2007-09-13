@@ -1,4 +1,4 @@
-package ntorrent.gui.elements;
+package ntorrent.gui.core;
 
 import java.awt.event.ActionEvent;
 import java.util.Vector;

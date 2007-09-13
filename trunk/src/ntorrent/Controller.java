@@ -19,23 +19,23 @@
  */
 
 
-package ntorrent.controller;
+package ntorrent;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Vector;
 
-import ntorrent.controller.threads.ContentThread;
-import ntorrent.controller.threads.StatusThread;
 import ntorrent.gui.MainGui;
-import ntorrent.gui.dialogues.PromptEnv;
-import ntorrent.gui.elements.ProcessTrayIcon;
-import ntorrent.io.Rpc;
-import ntorrent.io.RpcConnection;
+import ntorrent.gui.dialogue.PromptEnv;
+import ntorrent.gui.tray.ProcessTrayIcon;
+import ntorrent.io.xmlrpc.Rpc;
+import ntorrent.io.xmlrpc.RpcConnection;
 import ntorrent.model.TorrentPool;
 import ntorrent.settings.Constants;
 import ntorrent.settings.ProfileSettings;
+import ntorrent.threads.ContentThread;
+import ntorrent.threads.StatusThread;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;

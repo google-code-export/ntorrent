@@ -17,23 +17,23 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.listener;
+package ntorrent.gui.core;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import ntorrent.controller.Controller;
+import ntorrent.Controller;
 import ntorrent.gui.AboutGui;
 import ntorrent.gui.SettingsGui;
-import ntorrent.gui.dialogues.PromptEnv;
-import ntorrent.gui.dialogues.PromptFile;
-import ntorrent.gui.dialogues.PromptString;
+import ntorrent.gui.dialogue.PromptEnv;
+import ntorrent.gui.dialogue.PromptFile;
+import ntorrent.gui.dialogue.PromptString;
 import ntorrent.settings.Constants;
 
 import org.apache.xmlrpc.XmlRpcException;
 
-public class SuperActionListener implements ActionListener {
+public abstract class SuperActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() != null)
 		switch(Constants.Commands.getFromString(e.getActionCommand())){

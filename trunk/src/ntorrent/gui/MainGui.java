@@ -31,12 +31,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import ntorrent.gui.elements.FileTabComponent;
-import ntorrent.gui.elements.MainTableComponent;
-import ntorrent.gui.elements.MenuBarComponent;
-import ntorrent.gui.elements.StatusBarComponent;
-import ntorrent.gui.elements.ViewTabComponent;
-import ntorrent.gui.listener.MainGlassPane;
+import ntorrent.gui.main.MainGlassPane;
+import ntorrent.gui.main.file.FileTabComponent;
+import ntorrent.gui.main.view.MainTableComponent;
+import ntorrent.gui.main.view.ViewTabComponent;
+import ntorrent.gui.menu.MenuBarComponent;
+import ntorrent.gui.status.StatusBarComponent;
 import ntorrent.model.TorrentTableModel;
 import ntorrent.settings.Constants;
 
