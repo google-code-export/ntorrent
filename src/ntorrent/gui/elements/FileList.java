@@ -8,6 +8,7 @@ import javax.swing.JTable;
 
 import ntorrent.gui.listener.FileTableListener;
 import ntorrent.model.FileTableModel;
+import ntorrent.model.units.Byte;
 
 public class FileList {
 	//Simple filelist.
@@ -51,6 +52,9 @@ public class FileList {
 		table.clear();
 		for(int y = 0; y < list.length; y++)
 			for(int x = 0; x < 3; x++)
-				table.setValueAt(list[y].get(x), y, x);
+				if(x == 2)
+					table.setValueAt(new Byte((Long)list[y].get(x)), y, x);
+				else
+					table.setValueAt(list[y].get(x), y, x);
 	}
 }
