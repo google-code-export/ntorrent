@@ -6,18 +6,21 @@ import java.util.Vector;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import ntorrent.gui.listener.FileTableListener;
 import ntorrent.model.FileTableModel;
 
 public class FileList {
 	//Simple filelist.
 	JTable filetable = new JTable(new FileTableModel());
 	JScrollPane fileList;
+	FileTableListener listener = new FileTableListener();
 	
 	FileList(){
 		filetable.setOpaque(false);
 		filetable.setAutoCreateRowSorter(true);
 		filetable.setBackground(Color.white);
 		filetable.setFillsViewportHeight(true);
+		filetable.addMouseListener(listener);
 		
 		/*TableColumn column = null;
 		for (int i = 0; i < filetable.getColumnCount(); i++) {
@@ -42,7 +45,8 @@ public class FileList {
 		fileList.setVisible(false);
 	}
 
-	public void setInfo(Vector<Object>[] list) {
+	public void setInfo(String hash,Vector<Object>[] list) {
+		listener.setHash(hash);
 		FileTableModel table = ((FileTableModel)filetable.getModel());
 		table.clear();
 		for(int y = 0; y < list.length; y++)

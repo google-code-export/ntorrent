@@ -42,8 +42,8 @@ public class TorrentCommandThread implements Runnable {
 				for(int i : rows)
 					Controller.getTorrents().close(i);
 				break;
-			case ERASE:
-				Controller.writeToLog("Erasing torrent(s)");
+			case REMOVE:
+				Controller.writeToLog("Removing torrent(s)");
 				for(int i : rows)
 					Controller.getTorrents().erase(i);
 				break;

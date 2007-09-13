@@ -21,60 +21,41 @@
 package ntorrent.gui.listener;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 
 import ntorrent.controller.Controller;
 import ntorrent.controller.threads.TorrentCommandThread;
+import ntorrent.gui.elements.AbstractJTablePopupMenu;
 import ntorrent.gui.elements.FileTabComponent;
 import ntorrent.model.TorrentFile;
+import ntorrent.settings.Constants.Commands;
 
-public class TorrentTableListener extends MouseAdapter implements ActionListener {
-
-	JPopupMenu popup;
-	Vector<Integer> selectedRows = new Vector<Integer>();
-
+public class TorrentTableListener extends AbstractJTablePopupMenu{
+	final static String[] menuItems = {
+			Commands.START.toString(),
+			Commands.STOP.toString(),
+			null,
+			Commands.OPEN.toString(),
+			Commands.CHECK_HASH.toString(),
+			Commands.CLOSE.toString(),
+			null,
+			Commands.REMOVE.toString()};
+	
 	public TorrentTableListener(){
-		String seperator = "---";
-		String[] menuItems = {
-				"start",
-				"stop",
-				seperator,
-				"open",
-				"check hash",
-				"close",
-				seperator,
-				"erase"};
-		
-	    popup = new JPopupMenu();
-	    for(String mitem : menuItems){
-	    	if(mitem.equals(seperator)){
-	    		popup.add(new JSeparator(SwingConstants.HORIZONTAL));
-	    	} else{
-		    	JMenuItem menuItem = new JMenuItem(mitem);
-		    	menuItem.addActionListener(this);
-		    	popup.add(menuItem);
-	    	}
-	    }
+		super(menuItems);
 	}	
 	
     public void mousePressed(MouseEvent e) {
-        maybeShowPopup(e);
+    	super.mousePressed(e);
         hideFileTab();
     }
 
 
 
 	public void mouseReleased(MouseEvent e) {
-        maybeShowPopup(e);
+        super.mouseReleased(e);
         maybeShowFileTab(e);
     }
 
@@ -84,12 +65,12 @@ public class TorrentTableListener extends MouseAdapter implements ActionListener
 			TorrentFile tf = ((TorrentFile)source.getValueAt(source.getSelectedRow(), 0));
 			FileTabComponent panel = Controller.getGui().getFileTab();
 			panel.getInfoPanel().setInfo(tf);
-			panel.getFileList().setInfo(Controller.getFileList(tf.getHash()));
+			panel.getFileList().setInfo(tf.getHash(),Controller.getFileList(tf.getHash()));
 		}
 		
 	}
 
-	private void maybeShowPopup(MouseEvent e) {
+	protected void maybeShowPopup(MouseEvent e) {
     	JTable source = (JTable)e.getComponent();
     	if(source.getSelectedRowCount() > 0)
 	        if (e.isPopupTrigger()) {

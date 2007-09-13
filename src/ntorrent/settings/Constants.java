@@ -52,7 +52,7 @@ public final class Constants {
 		OPEN,
 		CHECK_HASH,
 		CLOSE,
-		ERASE;
+		REMOVE;
 		
 		@Override
 		public String toString() {
