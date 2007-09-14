@@ -45,8 +45,8 @@ public class MainTableComponent {
 		table.setRowHeight(25);
 		table.setBackground(Color.white);
 		//table.setSelectionBackground(Color.LIGHT_GRAY);
-		table.setSelectionBackground(new Color(210,225,225));
-		table.setSelectionForeground(Color.black);
+		//table.setSelectionBackground(new Color(210,225,225));
+		//table.setSelectionForeground(Color.black);
 		table.setFillsViewportHeight(true);
 		//table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.setDefaultRenderer(TorrentFile.class, new TorrentTitleRenderer());
