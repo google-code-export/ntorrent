@@ -97,23 +97,22 @@ public class Rpc{
 		} catch (XmlRpcException e) {
 			Controller.writeToLog(e);
 		}
-	}
+	}	
 	
 	public void loadTorrent(File torrent) throws IOException, XmlRpcException{
-		//TODO why is this block of code target of NoSuchElementException?
 		Controller.writeToLog("Loading torrent from file: "+torrent );
 		byte[] source = new byte[(int)torrent.length()];
 		FileInputStream reader = new FileInputStream(torrent);
 		reader.read(source, 0, source.length);
 		Object[] params = {source};
-		client.execute("load_raw", params);
+		client.execute("load_raw_verbose", params);
 	}
 	
 	public void loadTorrent(String url) throws XmlRpcException{
 		Controller.writeToLog("Loading torrent from url: "+url);
 		if(url != null){
 		Object[] params = {url};
-		client.execute("load",params);
+		client.execute("load_verbose",params);
 		}
 	}
 	
