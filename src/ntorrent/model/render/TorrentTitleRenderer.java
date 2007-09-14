@@ -43,8 +43,11 @@ public class TorrentTitleRenderer implements TableCellRenderer {
 		
 		JLabel component = new JLabel(tf.toString(),icon,JLabel.LEADING);
 		
-		if(isSelected)
+		if(isSelected){
 			component.setOpaque(true);
+			component.setBackground(table.getSelectionBackground());
+			component.setForeground(table.getSelectionForeground());
+		}
 		return component;
 	}
 
