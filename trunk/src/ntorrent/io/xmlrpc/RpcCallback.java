@@ -17,30 +17,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package ntorrent.threads;
+package ntorrent.io.xmlrpc;
 
 import ntorrent.Controller;
-import ntorrent.settings.LocalSettings;
 
-public class ContentThread extends Controller implements Runnable {
-	
-	public void run(){
-		while(true){
-			try {
-				rpc.getCompleteList(torrents.getView(),torrents);
-				statusThread.interrupt();
-			} catch (Exception e) {
-				Controller.getGui().showError(e.getLocalizedMessage());
-				Controller.writeToLog(e);
-			}
-			
-			try {
-				Thread.sleep(LocalSettings.vintervall);
-			} catch (InterruptedException e) {
-				//Interrupt.
-			}
-		}
+import org.apache.xmlrpc.XmlRpcRequest;
+
+public abstract class RpcCallback implements org.apache.xmlrpc.client.AsyncCallback {
+	public void handleError(XmlRpcRequest pRequest, Throwable pError){
+		String parameters = "";
+		for(int x = 0; x < pRequest.getParameterCount(); x++)
+			parameters += pRequest.getParameter(x)+" ";
+		Controller.writeToLog(pRequest.getMethodName()+"("+ parameters+")");
+		Controller.writeToLog(pError);
 	}
 	
+	public abstract void handleResult(XmlRpcRequest pRequest, Object pResult);
+
 }

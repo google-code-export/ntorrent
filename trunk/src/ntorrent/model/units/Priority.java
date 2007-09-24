@@ -17,30 +17,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.model.units;
 
-package ntorrent.threads;
 
-import ntorrent.Controller;
-import ntorrent.settings.LocalSettings;
-
-public class ContentThread extends Controller implements Runnable {
+public class Priority {
+	Integer pri;
 	
-	public void run(){
-		while(true){
-			try {
-				rpc.getCompleteList(torrents.getView(),torrents);
-				statusThread.interrupt();
-			} catch (Exception e) {
-				Controller.getGui().showError(e.getLocalizedMessage());
-				Controller.writeToLog(e);
-			}
-			
-			try {
-				Thread.sleep(LocalSettings.vintervall);
-			} catch (InterruptedException e) {
-				//Interrupt.
-			}
-		}
+	public Priority(long p){
+		pri = (int)p;
 	}
 	
+	public String toString() {
+		switch(pri){
+			case 0: return "off";
+			case 1: return "low";
+			case 2: return "high";
+			default: return "wuff";
+		}
+	}
 }

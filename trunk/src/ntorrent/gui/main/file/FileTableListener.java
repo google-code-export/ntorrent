@@ -41,12 +41,14 @@ public class FileTableListener extends AbstractJTablePopupMenu {
 	
 	protected void maybeShowPopup(MouseEvent e) {
     	JTable source = (JTable)e.getComponent();
-        if (e.isPopupTrigger()) {
-        	selectedRows.clear();
-            for(int i : source.getSelectedRows())
-            	selectedRows.add(i);
-            popup.show(source,  e.getX(), e.getY());
-        }
+    	if(source.getSelectedRowCount() >= 1){
+	        if (e.isPopupTrigger()) {
+	        	selectedRows.clear();
+	            for(int i : source.getSelectedRows())
+	            	selectedRows.add(i);
+	            popup.show(source,  e.getX(), e.getY());
+	        }
+    	}     	
     }	
 
 	public void actionPerformed(ActionEvent e) {

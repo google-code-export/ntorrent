@@ -59,7 +59,7 @@ public class MainTableComponent {
 		    column = table.getColumnModel().getColumn(i);
 		    if (i == 0) {
 		        column.setPreferredWidth(300); //third column is bigger
-		    }else if(i == 7){
+		    }else if(i == 9 || i == 10){
 		    	column.setPreferredWidth(32);
 		    } else {
 		        column.setPreferredWidth(75);

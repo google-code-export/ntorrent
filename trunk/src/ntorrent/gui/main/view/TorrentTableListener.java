@@ -66,7 +66,8 @@ public class TorrentTableListener extends AbstractJTablePopupMenu{
 			FileTabComponent panel = Controller.getGui().getFileTab();
 			panel.getInfoPanel().setInfo(tf);
 			panel.getFileList().setInfo(tf.getHash(),Controller.getFileList(tf.getHash()));
-		}
+		}else
+			hideFileTab();
 		
 	}
 

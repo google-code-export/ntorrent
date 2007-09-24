@@ -34,9 +34,6 @@ public class MainGlassPane extends JComponent implements ChangeListener{
 		JTabbedPane pane = (JTabbedPane)e.getSource();
 		if(pane.getName().equals("views"))
 			Controller.changeMainPane(pane.getTitleAt(pane.getSelectedIndex()));
-		else{
-			//Filepanechange
-		}
 			
 	}
 
