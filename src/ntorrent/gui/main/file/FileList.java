@@ -48,6 +48,7 @@ public class FileList {
 	}
 
 	public void setInfo(String hash,Vector<Object>[] list) {
+		filetable.clearSelection();
 		filetable.setVisible(true);
 		listener.setHash(hash);
 		FileTableModel table = ((FileTableModel)filetable.getModel());
