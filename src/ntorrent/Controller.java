@@ -31,6 +31,7 @@ import ntorrent.gui.dialogue.PromptEnv;
 import ntorrent.gui.tray.ProcessTrayIcon;
 import ntorrent.io.xmlrpc.Rpc;
 import ntorrent.io.xmlrpc.RpcConnection;
+import ntorrent.io.xmlrpc.RpcQueue;
 import ntorrent.model.TorrentPool;
 import ntorrent.settings.Constants;
 import ntorrent.settings.ProfileSettings;
@@ -38,7 +39,6 @@ import ntorrent.threads.ContentThread;
 import ntorrent.threads.StatusThread;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClient;
 
 
 public class Controller {
@@ -59,7 +59,7 @@ public class Controller {
 		conn.setUsername(username);
 		conn.setPassword(password);
 		//2.Connect to server
-		XmlRpcClient client = conn.connect();
+		RpcQueue client = conn.connect();
 		rpc = new Rpc(client);
 		torrents = new TorrentPool(rpc,gui.getTorrentTableModel());
 		gui.getTorrentTableModel().fillData(torrents);
@@ -117,10 +117,12 @@ public class Controller {
 	}
 	
 	public static void writeToLog(String msg){
+		System.out.println(msg);
 		gui.writeToLog(msg);
 	}
 	
-	public static void writeToLog(Exception x){
+	public static void writeToLog(Throwable x){
+		x.printStackTrace();
 		writeToLog(x.getMessage());
 		for(StackTraceElement s : x.getStackTrace())
 			writeToLog("Line: "+s.getLineNumber()+"\t"+s.getFileName());

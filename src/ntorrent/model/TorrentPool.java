@@ -24,10 +24,12 @@ import java.util.Vector;
 
 import ntorrent.Controller;
 import ntorrent.io.xmlrpc.Rpc;
+import ntorrent.io.xmlrpc.RpcCallback;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.XmlRpcRequest;
 
-public class TorrentPool {
+public class TorrentPool extends RpcCallback{
 	TorrentSet torrents = new TorrentSet();
 	private TorrentSet viewset = new TorrentSet();
 	String view = "main";
@@ -40,79 +42,27 @@ public class TorrentPool {
 	public TorrentPool(Rpc r, TorrentTableModel t) throws XmlRpcException{
 		rpc = r;
 		table = t;
-		update(false);
 		rateUp = rateDown = 0;
 	}	
+	
+	
+	public String getView() {
+		return view;
+	}
 	
 	//From viewset
 	public int size(){ return viewset.size(); }
 	public TorrentFile get(int index){ return viewset.get(index);	}
 
 	public void setView(String v){
+		//tsk tsk
+		torrents = new TorrentSet();
+		
 		view = v;
 		if(v.equalsIgnoreCase("main"))
 			viewset = torrents;
 		else
 			viewset = new TorrentSet();
-	}
-	public void update() throws XmlRpcException{ update(true);}
-	private void update(boolean refresh) throws XmlRpcException{
-		rateUp = rateDown = 0;
-		//Inefficient!
-		torrents = new TorrentSet();
-		
-		Vector<Object>[] updateList = rpc.getCompleteList(view);
-		//System.out.println("Running update on "+updateList.length+" torrents");
-		for(Vector obj : updateList){
-			TorrentFile tf;
-			//hash
-			String hash = (String)obj.get(0);
-			if((tf = viewset.get(hash)) == null){
-				if((tf = torrents.get(hash)) == null){
-					//Torrent doesnt exist.
-					//System.out.println("Adding torrent "+hash);
-					//Constants
-					tf = new TorrentFile(hash);
-					torrents.add(tf);
-					table.fireTableRowsInserted(torrents.indexOf(tf), torrents.indexOf(tf));
-					//name
-					tf.setFilename((String)obj.get(1));
-					//size
-					tf.setByteSize((Long)obj.get(2));
-					//num files
-					tf.setFiles((Long)obj.get(8));
-					//tied
-					tf.setTiedToFile((String)obj.get(12));
-					//base path
-					tf.setFilePath((String)obj.get(9));
-				}
-				viewset.add(torrents.get(hash));
-			}
-			//set new update
-			tf.touch();
-			//up-total
-			tf.setBytesUploaded((Long)obj.get(3));
-			//down-total
-			tf.setBytesDownloaded((Long)obj.get(4));
-			//down-rate
-			tf.setRateDown((Long)obj.get(5));
-			rateDown += (Long)obj.get(5);
-			//up-rate
-			tf.setRateUp((Long)obj.get(6));
-			rateUp += (Long)obj.get(6);
-			//state
-			tf.setStarted(((Long)obj.get(7) == 1 ? true : false));
-			//message
-			tf.setMessage((String)obj.get(10));
-			//priority
-			tf.setPriority((Long)obj.get(11));
-		}
-		
-		if((table.getRowCount() > 0) && refresh){
-			table.fireTableRowsUpdated(0, table.getRowCount()-1);
-		}
-		
-		removeOutdated();
 	}
 	
 	public long getRateDown() {
@@ -156,11 +106,36 @@ public class TorrentPool {
 		for(int x = 0; x < viewset.size(); x++){
 			TorrentFile tf = viewset.get(x);
 			if(tf.isOutOfDate()){
-				Controller.writeToLog("Detected removed torrent");
 				viewset.remove(x);
 				table.fireTableRowsDeleted(x, x);
 			}
 		}
-	}	
+	}
+
+	@Override
+	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
+		Object[] obj = (Object[])pResult;
+		
+		for(int x = 0; x < obj.length; x++){
+			Object[] raw = (Object[])obj[x];
+			TorrentFile tf = torrents.get((String)raw[0]);
+			if(tf == null){
+				tf = new TorrentFile((String)raw[0]);
+				torrents.add(tf);
+				table.fireTableRowsInserted(x, x);
+			}
+			tf.update(raw);
+			setRate(tf);
+			viewset = torrents;
+		}
+		table.fireTableRowsUpdated(0, obj.length);
+		removeOutdated();
+	}
+	
+	private void setRate(TorrentFile tf){
+		rateUp = rateDown = 0;
+		rateUp += tf.getRateUp().getValue();
+		rateDown += tf.getRateDown().getValue();
+	}
 	
 }

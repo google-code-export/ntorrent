@@ -8,6 +8,7 @@ import javax.swing.JTable;
 
 import ntorrent.model.FileTableModel;
 import ntorrent.model.units.Byte;
+import ntorrent.model.units.Priority;
 
 public class FileList {
 	//Simple filelist.
@@ -43,16 +44,19 @@ public class FileList {
 	}
 
 	public void hideInfo() {
-		fileList.setVisible(false);
+		filetable.setVisible(false);
 	}
 
 	public void setInfo(String hash,Vector<Object>[] list) {
+		filetable.setVisible(true);
 		listener.setHash(hash);
 		FileTableModel table = ((FileTableModel)filetable.getModel());
 		table.clear();
 		for(int y = 0; y < list.length; y++)
 			for(int x = 0; x < 3; x++)
-				if(x == 2)
+				if(x == 0)
+					table.setValueAt(new Priority((Long)list[y].get(x)), y, x);
+				else if(x == 2)
 					table.setValueAt(new Byte((Long)list[y].get(x)), y, x);
 				else
 					table.setValueAt(list[y].get(x), y, x);

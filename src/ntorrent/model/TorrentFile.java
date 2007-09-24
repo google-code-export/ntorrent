@@ -23,6 +23,7 @@ package ntorrent.model;
 import ntorrent.model.units.Bit;
 import ntorrent.model.units.Byte;
 import ntorrent.model.units.Percent;
+import ntorrent.model.units.Priority;
 import ntorrent.model.units.Ratio;
 
 
@@ -40,8 +41,12 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	private String filePath;
 	private String tiedToFile;
 	private String message;
-	private long priority;
+	private Priority priority;
 	private long lastUpdate;
+	private Long trackerNum;
+	private Long peersComplete;
+	private Long peersNotConnected;
+	private Long peersConnected;
 	
 	TorrentFile(String h){
 		//Controller.writeToLog("New torrent: "+h);
@@ -59,8 +64,8 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	void setFilePath(String s){ filePath = s; }
 	void setTiedToFile(String s){ tiedToFile = s; }
 	void setMessage(String s){message = s;}
-	void setPriority(long pri){priority = pri;}
-	void touch(){ lastUpdate = System.currentTimeMillis();}
+	void setPriority(long pri){priority = new Priority(pri);}
+	private void touch(){ lastUpdate = System.currentTimeMillis();}
 	
 	public String getHash(){return hash;}
 	public String getFilename(){ return filename; }
@@ -73,7 +78,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	public String getFilePath() {return filePath;}
 	public String getTiedToFile() {return tiedToFile;}
 	public String getMessage() {return message;}
-	public long getPriority() {return priority;}
+	public Priority getPriority() {return priority;}
 	public boolean isStarted(){ return started; }
 	public boolean isOutOfDate(){ 
 		return System.currentTimeMillis()-lastUpdate > 3000;
@@ -116,5 +121,63 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		return getFilename().compareToIgnoreCase(o.getFilename());
 	}
 	
+	public void update(Object[] raw){
+		touch();
+		setFilename((String)raw[1]);
+		setByteSize((Long)raw[2]);
+		setFiles((Long)raw[3]);
+		setFilePath((String)raw[4]);
+		setBytesUploaded((Long)raw[5]);
+		setBytesDownloaded((Long)raw[6]);
+		setRateDown((Long)raw[7]);
+		setRateUp((Long)raw[8]);
+		setStarted((Long)raw[9] == 1);
+		setMessage((String)raw[10]);
+		setPriority((Long)raw[11]);
+		setTiedToFile((String)raw[12]);
+		setPeersConnected((Long)raw[13]);
+		setPeersNotConnected((Long)raw[14]);
+		setPeersComplete((Long)raw[15]);
+		setTrackerSize((Long)raw[16]);
+	}
+
+	private void setTrackerSize(Long long1) {
+		// TODO Auto-generated method stub
+		trackerNum = long1;
+	}
+
+	private void setPeersComplete(Long long1) {
+		// TODO Auto-generated method stub
+		peersComplete = long1;
+	}
+
+	private void setPeersNotConnected(Long long1) {
+		// TODO Auto-generated method stub
+		peersNotConnected = long1;
+	}
+
+	private void setPeersConnected(Long long1) {
+		// TODO Auto-generated method stub
+		peersConnected = long1;
+	}
 	
+	public Long getPeersComplete() {
+		return peersComplete;
+	}
+	
+	public Long getPeersConnected() {
+		return peersConnected;
+	}
+	
+	public Long getPeersNotConnected() {
+		return peersNotConnected;
+	}
+	
+	public Long getPeersTotal(){
+		return getPeersConnected()+getPeersNotConnected();
+	}
+	
+	public Long getTrackerNum() {
+		return trackerNum;
+	}
 }

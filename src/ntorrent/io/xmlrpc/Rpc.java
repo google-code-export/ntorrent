@@ -28,15 +28,22 @@ import java.util.Vector;
 import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.XmlRpcRequest;
+import org.apache.xmlrpc.client.AsyncCallback;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
 public class Rpc{
-	XmlRpcClient client;
+	RpcQueue client;
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
+	RpcCallback nullCallback = new RpcCallback(){
+		@Override
+		public void handleResult(XmlRpcRequest pRequest, Object pResult) {}
+	};
+	
 	public Rpc(XmlRpcClient c){
-		client = c;
+		client = (RpcQueue)c;
 		Object[] params = {};
 		try {
 			systemClientVersion = (String)c.execute("system.client_version", params);
@@ -49,28 +56,31 @@ public class Rpc{
 
 	}
 	
-	public Vector<Object>[] getCompleteList(String view) throws XmlRpcException{
-		Object[] result;
+	public Vector<Object>[] getCompleteList(String view,AsyncCallback c) throws XmlRpcException{
 		Object[] params = {view,
 					"d.get_hash=",	//constant
 					"d.get_name=", //constant
 					"d.get_size_bytes=", //constant
+					"d.get_size_files=",//constant
+					"d.get_base_path=", //constant
 					"d.get_up_total=",	//variable
 					"d.get_completed_bytes=", //variable
 					"d.get_down_rate=", //variable
 					"d.get_up_rate=", //variable
 					"d.get_state=",		//variable
-					"d.get_size_files=",//constant
-					"d.get_base_path=", //constant
 					"d.get_message=", //relative
 					"d.get_priority=", //relative
-					"d.get_tied_to_file=" //constant?
-					//"d.get_chunk_size="//constant?
-				
+					"d.get_tied_to_file=", //constant?
+					"d.get_peers_connected=",
+					"d.get_peers_not_connected=",
+					"d.get_peers_complete=",
+					"d.get_tracker_size="
 					};
-		result = (Object[])client.execute("d.multicall",params);
+		//result = (Object[])client.execute("d.multicall",params);
 		//get_size_chunks = size in chunks
-		return multicallToVector(result);
+		//return multicallToVector(result);
+		client.executeAsync("d.multicall",params,c);
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -85,18 +95,15 @@ public class Rpc{
 		return out;
 	}
 
-	public Vector<Object>[] getCompleteList() throws XmlRpcException{
+	/*public Vector<Object>[] getCompleteList() throws XmlRpcException{
 		return getCompleteList("main");
-	}
+	}*/
 	
 	
 	public void fileCommand(String hash,String command){
 		Object[] params = {hash};
-		try {
-			client.execute(command,params);
-		} catch (XmlRpcException e) {
-			Controller.writeToLog(e);
-		}
+		client.executeAsync(command,params, null);
+
 	}	
 	
 	public void loadTorrent(File torrent) throws IOException, XmlRpcException{
@@ -105,14 +112,14 @@ public class Rpc{
 		FileInputStream reader = new FileInputStream(torrent);
 		reader.read(source, 0, source.length);
 		Object[] params = {source};
-		client.execute("load_raw_verbose", params);
+		client.executeAsync("load_raw_verbose", params,null);
 	}
 	
 	public void loadTorrent(String url) throws XmlRpcException{
 		Controller.writeToLog("Loading torrent from url: "+url);
 		if(url != null){
 		Object[] params = {url};
-		client.execute("load_verbose",params);
+		client.executeAsync("load_verbose",params, null);
 		}
 	}
 	
@@ -153,7 +160,7 @@ public class Rpc{
 	
 	public void setFilePriority(String hash,int index,int pri) throws XmlRpcException{
 		Object[] params = {hash,index,pri};
-		client.execute("f.set_priority",params);
+		client.executeAsync("f.set_priority",params,null);
 	}
 	
 	/**
