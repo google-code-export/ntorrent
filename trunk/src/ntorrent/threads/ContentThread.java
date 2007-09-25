@@ -30,12 +30,11 @@ public class ContentThread extends Controller implements Runnable {
 			rpc.getTorrentSet(torrents.getView(), torrents);
 			while(true){
 				try {
-					Thread.sleep(LocalSettings.vintervall);
 					rpc.getTorrentVariables(torrents.getView(),torrents);
 					statusThread.interrupt();
+					Thread.sleep(LocalSettings.vintervall);
 				} catch (InterruptedException e) {
-					System.out.println("Doing complete refresh");
-					torrents.getTable().fireTableDataChanged();
+					//torrents.getTable().fireTableDataChanged();
 					rpc.getTorrentSet(torrents.getView(), torrents);
 				}
 			}
