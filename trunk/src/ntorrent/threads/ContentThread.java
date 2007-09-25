@@ -34,7 +34,7 @@ public class ContentThread extends Controller implements Runnable {
 					statusThread.interrupt();
 					Thread.sleep(LocalSettings.vintervall);
 				} catch (InterruptedException e) {
-					//torrents.getTable().fireTableDataChanged();
+					torrents.getTable().fireTableDataChanged();
 					rpc.getTorrentSet(torrents.getView(), torrents);
 				}
 			}
