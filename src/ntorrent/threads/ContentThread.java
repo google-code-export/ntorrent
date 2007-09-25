@@ -26,20 +26,22 @@ import ntorrent.settings.LocalSettings;
 public class ContentThread extends Controller implements Runnable {
 	
 	public void run(){
-		while(true){
-			try {
-				rpc.getCompleteList(torrents.getView(),torrents);
-				statusThread.interrupt();
-			} catch (Exception e) {
-				Controller.getGui().showError(e.getLocalizedMessage());
-				Controller.writeToLog(e);
+		try {
+			rpc.getTorrentSet(torrents.getView(), torrents);
+			while(true){
+				try {
+					Thread.sleep(LocalSettings.vintervall);
+					rpc.getTorrentVariables(torrents.getView(),torrents);
+					statusThread.interrupt();
+				} catch (InterruptedException e) {
+					System.out.println("Doing complete refresh");
+					torrents.getTable().fireTableDataChanged();
+					rpc.getTorrentSet(torrents.getView(), torrents);
+				}
 			}
-			
-			try {
-				Thread.sleep(LocalSettings.vintervall);
-			} catch (InterruptedException e) {
-				//Interrupt.
-			}
+		} catch (Exception e) {
+			Controller.getGui().showError(e.getLocalizedMessage());
+			Controller.writeToLog(e);
 		}
 	}
 	

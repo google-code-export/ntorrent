@@ -24,14 +24,22 @@ public class Priority {
 	Integer pri;
 	
 	public Priority(long p){
+		this(p,true);
+	}
+	
+	public Priority(long p, boolean torrent){
 		pri = (int)p;
+		
+		if(!torrent && pri == 2)
+			pri++;
 	}
 	
 	public String toString() {
 		switch(pri){
 			case 0: return "off";
 			case 1: return "low";
-			case 2: return "high";
+			case 2: return "norm";
+			case 3: return "high";
 			default: return "wuff";
 		}
 	}

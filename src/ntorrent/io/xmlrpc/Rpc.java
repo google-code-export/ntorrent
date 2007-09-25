@@ -28,7 +28,6 @@ import java.util.Vector;
 import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.client.AsyncCallback;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
@@ -37,10 +36,31 @@ public class Rpc{
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
-	RpcCallback nullCallback = new RpcCallback(){
-		@Override
-		public void handleResult(XmlRpcRequest pRequest, Object pResult) {}
+	Object[] constant = {			
+			"d.get_hash=",	//ID
+			"d.get_name=", //constant
+			"d.get_size_bytes=", //constant
+			"d.get_size_files=",//constant
+			"d.get_base_path=", //constant}
 	};
+	
+	public static Object[] variable = {
+			"", //reserved for view
+			"d.get_hash=",	//ID
+			"d.get_up_total=",	//variable
+			"d.get_completed_bytes=", //variable
+			"d.get_down_rate=", //variable
+			"d.get_up_rate=", //variable
+			"d.get_state=",		//variable
+			"d.get_message=", //relative
+			"d.get_priority=", //relative
+			"d.get_tied_to_file=", //constant?
+			"d.get_peers_connected=",
+			"d.get_peers_not_connected=",
+			"d.get_peers_complete=",
+			"d.get_tracker_size="	
+	};
+	
 	
 	public Rpc(XmlRpcClient c){
 		client = (RpcQueue)c;
@@ -56,31 +76,21 @@ public class Rpc{
 
 	}
 	
-	public Vector<Object>[] getCompleteList(String view,AsyncCallback c) throws XmlRpcException{
-		Object[] params = {view,
-					"d.get_hash=",	//constant
-					"d.get_name=", //constant
-					"d.get_size_bytes=", //constant
-					"d.get_size_files=",//constant
-					"d.get_base_path=", //constant
-					"d.get_up_total=",	//variable
-					"d.get_completed_bytes=", //variable
-					"d.get_down_rate=", //variable
-					"d.get_up_rate=", //variable
-					"d.get_state=",		//variable
-					"d.get_message=", //relative
-					"d.get_priority=", //relative
-					"d.get_tied_to_file=", //constant?
-					"d.get_peers_connected=",
-					"d.get_peers_not_connected=",
-					"d.get_peers_complete=",
-					"d.get_tracker_size="
-					};
-		//result = (Object[])client.execute("d.multicall",params);
-		//get_size_chunks = size in chunks
-		//return multicallToVector(result);
+	public void getTorrentVariables(String view, AsyncCallback c) throws XmlRpcException{
+		variable[0] = view;
+		client.executeAsync("d.multicall",variable,c);
+	}
+	
+	public void getTorrentSet(String view, AsyncCallback c) throws XmlRpcException{
+		Object[] params = new Object[constant.length+variable.length];
+		params[0] = view;
+		int offset;
+		for(offset = 0; offset < constant.length; offset++)
+			params[offset+1] = constant[offset];
+		for(int x = 1; x < variable.length; x++)
+			params[offset+x] = variable[x];
+		
 		client.executeAsync("d.multicall",params,c);
-		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -162,33 +172,5 @@ public class Rpc{
 		Object[] params = {hash,index,pri};
 		client.executeAsync("f.set_priority",params,null);
 	}
-	
-	/**
-	 *  Index 109 String: 'f.get_completed_chunks'
-  Index 110 String: 'f.get_frozen_path'
-  Index 111 String: 'f.get_is_created'
-  Index 112 String: 'f.get_is_open'
-  Index 113 String: 'f.get_last_touched'
-  Index 114 String: 'f.get_match_depth_next'
-  Index 115 String: 'f.get_match_depth_prev'
-  Index 116 String: 'f.get_offset'
-  Index 117 String: 'f.get_path'
-  Index 118 String: 'f.get_path_components'
-  Index 119 String: 'f.get_path_depth'
-  Index 120 String: 'f.get_priority'
-  Index 121 String: 'f.get_range_first'
-  Index 122 String: 'f.get_range_second'
-  Index 123 String: 'f.get_size_bytes'
-  Index 124 String: 'f.get_size_chunks'
-  Index 125 String: 'f.multicall'
-  Index 126 String: 'f.set_priority'
-
-	 */
-	
-	/**
-	 * set_upload_rate
-	 * set_download_rate
-
-	 */
 
 }

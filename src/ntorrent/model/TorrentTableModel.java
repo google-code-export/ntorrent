@@ -69,8 +69,8 @@ public class TorrentTableModel extends AbstractTableModel{
 				case 1: return row.getByteSize();
 				case 2: return row.getBytesDownloaded();
 				case 3: return row.getBytesUploaded();
-				case 4:	return row.getPeersComplete();
-				case 5: return row.getPeersConnected();
+				case 4:	return ""+row.getSeeders()+" ("+row.getPeersTotal()+")";
+				case 5: return ""+row.getLeechers();
 				case 6: return row.getRateDown();
 				case 7: return row.getRateUp();
 				case 8: return row.getPercentFinished();

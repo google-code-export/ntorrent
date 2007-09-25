@@ -64,11 +64,11 @@ public abstract class SuperActionListener implements ActionListener {
 				System.exit(0);				
 				break;
 			case START_ALL:
-				Controller.writeToLog("Starting all torrents.(not currenlty active bug #9)");
+				Controller.writeToLog("Starting all torrents.");
 				Controller.getTorrents().startAll();
 				break;
 			case STOP_ALL:
-				Controller.writeToLog("Stopping all torrents. (not currenlty active bug #9)");
+				Controller.writeToLog("Stopping all torrents.");
 				Controller.getTorrents().stopAll();
 				break;
 			case ABOUT:

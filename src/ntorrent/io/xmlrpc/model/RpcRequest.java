@@ -19,8 +19,6 @@
  */
 package ntorrent.io.xmlrpc.model;
 
-import java.util.TimeZone;
-
 import ntorrent.io.xmlrpc.RpcCallback;
 
 import org.apache.xmlrpc.XmlRpcRequest;
