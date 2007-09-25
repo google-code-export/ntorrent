@@ -104,10 +104,6 @@ public class Rpc{
 		}
 		return out;
 	}
-
-	/*public Vector<Object>[] getCompleteList() throws XmlRpcException{
-		return getCompleteList("main");
-	}*/
 	
 	
 	public void fileCommand(String hash,String command){
@@ -132,7 +128,7 @@ public class Rpc{
 		client.executeAsync("load_verbose",params, null);
 		}
 	}
-	
+	//@TODO deprecated
 	public String getPortRange() throws XmlRpcException{
 		Object[] params = {};
 		return ((String)client.execute("get_port_range",params));
@@ -147,6 +143,7 @@ public class Rpc{
 		Object[] params = {};
 		return ((Long)client.execute("get_upload_rate", params));		
 	}
+	//
 	
 	public String getSystemClientVersion() {
 		return systemClientVersion;
