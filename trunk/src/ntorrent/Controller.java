@@ -100,10 +100,6 @@ public class Controller {
 		return gui;
 	}
 	
-	/*public static Rpc getRpc() {
-		return rpc;
-	}*/
-	
 	public static TorrentPool getTorrents() {
 		return torrents;
 	}
@@ -167,6 +163,10 @@ public class Controller {
 			} catch (Exception x){
 				writeToLog(x);
 			}
+	}
+	
+	public static Thread getMainContentThread() {
+		return mainContentThread;
 	}
 	
 }

@@ -20,6 +20,7 @@
 
 package ntorrent.model.render;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.ImageIcon;
@@ -42,6 +43,9 @@ public class TorrentTitleRenderer implements TableCellRenderer {
 			icon = new ImageIcon("icons/stopped.png");
 		
 		JLabel component = new JLabel(tf.toString(),icon,JLabel.LEADING);
+		
+		if(tf.getMessage().length() > 0)
+			component.setForeground(Color.RED);
 		
 		if(isSelected){
 			component.setOpaque(true);

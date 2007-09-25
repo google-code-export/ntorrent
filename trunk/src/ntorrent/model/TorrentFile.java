@@ -121,24 +121,30 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		return getFilename().compareToIgnoreCase(o.getFilename());
 	}
 	
-	public void update(Object[] raw){
-		touch();
+	/**@TODO not happy with this solution**/
+	public void initialize(Object[] raw){
 		setFilename((String)raw[1]);
 		setByteSize((Long)raw[2]);
 		setFiles((Long)raw[3]);
 		setFilePath((String)raw[4]);
-		setBytesUploaded((Long)raw[5]);
-		setBytesDownloaded((Long)raw[6]);
-		setRateDown((Long)raw[7]);
-		setRateUp((Long)raw[8]);
-		setStarted((Long)raw[9] == 1);
-		setMessage((String)raw[10]);
-		setPriority((Long)raw[11]);
-		setTiedToFile((String)raw[12]);
-		setPeersConnected((Long)raw[13]);
-		setPeersNotConnected((Long)raw[14]);
-		setPeersComplete((Long)raw[15]);
-		setTrackerSize((Long)raw[16]);
+	}
+	
+	/**@TODO not happy with this solution**/
+	public void update(Object[] raw){
+		int l = raw.length;
+		touch();
+		setBytesUploaded((Long)raw[l-12]);
+		setBytesDownloaded((Long)raw[l-11]);
+		setRateDown((Long)raw[l-10]);
+		setRateUp((Long)raw[l-9]);
+		setStarted((Long)raw[l-8] == 1);
+		setMessage((String)raw[l-7]);
+		setPriority((Long)raw[l-6]);
+		setTiedToFile((String)raw[l-5]);
+		setPeersConnected((Long)raw[l-4]);
+		setPeersNotConnected((Long)raw[l-3]);
+		setPeersComplete((Long)raw[l-2]);
+		setTrackerSize((Long)raw[l-1]);
 	}
 
 	private void setTrackerSize(Long long1) {
@@ -161,8 +167,12 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		peersConnected = long1;
 	}
 	
-	public Long getPeersComplete() {
+	public Long getSeeders() {
 		return peersComplete;
+	}
+	
+	public Long getLeechers(){
+		return getPeersConnected()-getSeeders();
 	}
 	
 	public Long getPeersConnected() {
@@ -176,6 +186,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	public Long getPeersTotal(){
 		return getPeersConnected()+getPeersNotConnected();
 	}
+	
 	
 	public Long getTrackerNum() {
 		return trackerNum;

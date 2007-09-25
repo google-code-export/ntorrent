@@ -20,8 +20,6 @@
 
 package ntorrent.model;
 
-import java.util.Vector;
-
 import ntorrent.Controller;
 import ntorrent.io.xmlrpc.Rpc;
 import ntorrent.io.xmlrpc.RpcCallback;
@@ -50,14 +48,15 @@ public class TorrentPool extends RpcCallback{
 		return view;
 	}
 	
+	public TorrentTableModel getTable() {
+		return table;
+	}
+	
 	//From viewset
 	public int size(){ return viewset.size(); }
 	public TorrentFile get(int index){ return viewset.get(index);	}
 
 	public void setView(String v){
-		//tsk tsk
-		torrents = new TorrentSet();
-		
 		view = v;
 		if(v.equalsIgnoreCase("main"))
 			viewset = torrents;
@@ -93,13 +92,13 @@ public class TorrentPool extends RpcCallback{
 	}
 	
 	public void stopAll(){
-		//for(TorrentFile tf : torrents)
-			//rpc.fileCommand(tf.getHash(), "d.stop");
+		for(TorrentFile tf : torrents)
+			rpc.fileCommand(tf.getHash(), "d.stop");
 	}
 	
 	public void startAll(){
-		//for(TorrentFile tf : torrents)
-			//rpc.fileCommand(tf.getHash(), "d.start");		
+		for(TorrentFile tf : torrents)
+			rpc.fileCommand(tf.getHash(), "d.start");		
 	}
 
 	private void removeOutdated() {
@@ -114,28 +113,39 @@ public class TorrentPool extends RpcCallback{
 
 	@Override
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
+
+		rateUp = rateDown = 0;
 		Object[] obj = (Object[])pResult;
+		int viewSize = viewset.size();
+		boolean fullUpdate = true;
+		if(pRequest.getParameterCount() == Rpc.variable.length)
+			fullUpdate = false;
 		
+		/**@TODO not happy with this solution**/
 		for(int x = 0; x < obj.length; x++){
 			Object[] raw = (Object[])obj[x];
 			TorrentFile tf = torrents.get((String)raw[0]);
-			if(tf == null){
+			if(tf == null && fullUpdate){
 				tf = new TorrentFile((String)raw[0]);
+				tf.initialize(raw);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
+			}else if(tf == null && !fullUpdate){
+				Controller.getMainContentThread().interrupt();
+				break;
 			}
+	
+			viewset.add(tf);
 			tf.update(raw);
-			setRate(tf);
-			viewset = torrents;
+			
+			rateUp += tf.getRateUp().getValue();
+			rateDown += tf.getRateDown().getValue();
+			
 		}
-		table.fireTableRowsUpdated(0, obj.length);
+		if(viewSize == 0)
+			table.fireTableDataChanged();
+		else
+			table.fireTableRowsUpdated(0, obj.length);
 		removeOutdated();
-	}
-	
-	private void setRate(TorrentFile tf){
-		rateUp = rateDown = 0;
-		rateUp += tf.getRateUp().getValue();
-		rateDown += tf.getRateDown().getValue();
-	}
-	
+	}	
 }

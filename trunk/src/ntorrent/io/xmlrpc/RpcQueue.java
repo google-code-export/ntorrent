@@ -62,7 +62,7 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 			RpcRequest req = queue.poll();
 			System.out.println(req+" "+queue.size());
 			try {
-				super.executeAsync(req, req.getCallBack());
+				req.getCallBack().handleResult(req, super.execute(req));
 			} catch (XmlRpcException e) {
 				req.getCallBack().handleError(req, e);
 				// TODO Auto-generated catch block

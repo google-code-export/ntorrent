@@ -56,7 +56,7 @@ public class FileList {
 		for(int y = 0; y < list.length; y++)
 			for(int x = 0; x < 3; x++)
 				if(x == 0)
-					table.setValueAt(new Priority((Long)list[y].get(x)), y, x);
+					table.setValueAt(new Priority((Long)list[y].get(x),false), y, x);
 				else if(x == 2)
 					table.setValueAt(new Byte((Long)list[y].get(x)), y, x);
 				else
