@@ -33,10 +33,14 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
+import org.apache.xmlrpc.XmlRpcRequest;
+
+import ntorrent.io.xmlrpc.RpcCallback;
+import ntorrent.io.xmlrpc.RpcQueue;
 import ntorrent.model.units.Byte;
 
 
-public class StatusBarComponent {
+public class StatusBarComponent extends RpcCallback {
 	//Statusbar component
 	JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEADING));
 	JPanel container = new JPanel();
@@ -48,6 +52,7 @@ public class StatusBarComponent {
 	
 	JLabel rateGroup = new JLabel();
 	JLabel portGroup = new JLabel();
+	JLabel commandStatus = new JLabel();
 	
 	private void update(){
 		rateGroup.setText("Up: "+uploadRate.toString()+" / Down: "+downloadRate.toString());
@@ -71,6 +76,8 @@ public class StatusBarComponent {
 		container.add(rateGroup);
 		addSeperator();
 		container.add(portGroup);
+		addSeperator();
+		container.add(commandStatus);
 	}
 	
 	private void addSeperator(){
@@ -111,8 +118,15 @@ public class StatusBarComponent {
 	}
 	
 	public void repaint(){
+		commandStatus.setText("Commands in queue: "+RpcQueue.size());
 		update();
 		statusBar.repaint();
 		statusBar.revalidate();
+	}
+
+	@Override
+	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
+		
+		
 	}
 }

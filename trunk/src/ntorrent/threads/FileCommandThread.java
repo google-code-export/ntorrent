@@ -49,12 +49,8 @@ public class FileCommandThread extends Controller implements Runnable {
 	}
 
 	private void setPriority(int pri){
-		try {
-			for(int index : indexes){
-				rpc.setFilePriority(hash, index, pri);
-			}
-		} catch (XmlRpcException e) {
-			Controller.writeToLog(e);
+		for(int index : indexes){
+			rpc.setFilePriority(hash, index, pri);
 		}
 	}
 }

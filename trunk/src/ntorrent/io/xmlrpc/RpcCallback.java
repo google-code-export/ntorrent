@@ -22,8 +22,9 @@ package ntorrent.io.xmlrpc;
 import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcRequest;
+import org.apache.xmlrpc.client.AsyncCallback;
 
-public abstract class RpcCallback implements org.apache.xmlrpc.client.AsyncCallback {
+public abstract class RpcCallback implements AsyncCallback {
 	public void handleError(XmlRpcRequest pRequest, Throwable pError){
 		String parameters = "";
 		for(int x = 0; x < pRequest.getParameterCount(); x++)

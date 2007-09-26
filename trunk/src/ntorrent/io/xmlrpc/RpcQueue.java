@@ -25,18 +25,22 @@ import java.util.Queue;
 import ntorrent.io.xmlrpc.model.RpcRequest;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.XmlRpcRequest;
+import org.apache.xmlrpc.client.AsyncCallback;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 public class RpcQueue extends XmlRpcClient implements Runnable {
 	
-	private Queue<RpcRequest> queue = new LinkedList<RpcRequest>();
+	private static Queue<RpcRequest> queue = new LinkedList<RpcRequest>();
 	private Thread thisThread;
 	private XmlRpcClientConfigImpl config;
 	
 	
 	public RpcQueue(XmlRpcClientConfigImpl c) {
 		thisThread = new Thread(this);
+		thisThread.setPriority(Thread.MAX_PRIORITY);
+		thisThread.setDaemon(true);
 		thisThread.start();
 		config = c;
 	}
@@ -51,21 +55,59 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 		}
 	}
 	
-	public void executeAsync(String pMethodName, Object[] pParams, RpcCallback pCallback) {
-		queue.add(new RpcRequest(pMethodName, pParams,config, pCallback));
-		if(!thisThread.isInterrupted())
-			thisThread.interrupt();
+	public static int size(){
+		return queue.size();
 	}
 	
+	private RpcRequest makeRequest(String pMethodName, Object[] pParams, RpcCallback pCallback) {
+		if(pParams == null)
+			pParams = new Object[0];
+		if(pCallback == null)
+			pCallback = new RpcCallback(){
+
+				@Override
+				public void handleResult(XmlRpcRequest pRequest, Object pResult) {
+					// TODO Auto-generated method stub
+					
+				}};
+		return new RpcRequest(pMethodName, pParams,config, pCallback);
+	}
+	
+	public void addToExecutionQueue(String pMethodName, Object[] pParams, RpcCallback pCallback) {		
+		addToExecutionQueue(makeRequest(pMethodName, pParams, pCallback));
+	}
+	
+	public void addToExecutionQueue(RpcRequest req) {
+		if(!queue.contains(req)){
+				queue.add(req);
+			if(!thisThread.isInterrupted())
+				System.out.println("interrupt");
+				thisThread.interrupt();
+		}else{
+			System.out.println("already in queue: "+req);
+		}
+	}
+
+		
 	private void executeQueue(){
 		while(!queue.isEmpty()){
-			RpcRequest req = queue.poll();
-			System.out.println(req+" "+queue.size());
+			final RpcRequest req = queue.poll();
 			try {
-				req.getCallBack().handleResult(req, super.execute(req));
+				final Object result = super.execute(req);
+				System.out.println(req+" "+queue.size()+" "+thisThread.getId());
+				Thread handle = new Thread(){
+					public void run() {
+						// TODO Auto-generated method stub
+						req.getCallBack().handleResult(req,result);
+					}
+					
+				};
+				handle.setPriority(Thread.MAX_PRIORITY);
+				handle.setDaemon(true);
+				handle.start();
+				
 			} catch (XmlRpcException e) {
 				req.getCallBack().handleError(req, e);
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

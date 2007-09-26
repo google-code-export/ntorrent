@@ -143,14 +143,7 @@ public class Controller {
 		return false;
 	}
 
-	public static Vector<Object>[] getFileList(String hash) {
-		try {
-			return rpc.getFileList(hash);
-		} catch (XmlRpcException e) {
-			writeToLog(e);
-		}
-		return null;
-	}
+
 
 	public static void setStartupFiles(String[] args) {
 		filesToLoad = args;

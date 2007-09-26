@@ -27,7 +27,9 @@ import ntorrent.io.xmlrpc.type.CustomTypeFactory;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.apache.xmlrpc.client.XmlRpcLiteHttpTransport;
 import org.apache.xmlrpc.client.XmlRpcLiteHttpTransportFactory;
+import org.apache.xmlrpc.client.XmlRpcTransportFactory;
 
 public class RpcConnection {
 	XmlRpcClientConfigImpl config;
@@ -36,8 +38,9 @@ public class RpcConnection {
 	public RpcConnection(String url) throws MalformedURLException{
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(url));
+		config.setEnabledForExtensions(true);
+		config.setEnabledForExceptions(true);
 		client = new RpcQueue(config);
-		client.setTransportFactory(new XmlRpcLiteHttpTransportFactory(client));
 		client.setTypeFactory(new CustomTypeFactory(null));
 	}
 	

@@ -46,7 +46,6 @@ public class CustomTypeFactory extends TypeFactoryImpl {
 	
 	@Override
 	public TypeSerializer getSerializer(XmlRpcStreamConfig pConfig, Object pObject) throws SAXException {
-		// TODO Auto-generated method stub
 		return super.getSerializer(pConfig, pObject);
 	}
 

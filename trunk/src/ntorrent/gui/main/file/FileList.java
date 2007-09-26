@@ -6,11 +6,15 @@ import java.util.Vector;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.apache.xmlrpc.XmlRpcRequest;
+
+import ntorrent.io.xmlrpc.Rpc;
+import ntorrent.io.xmlrpc.RpcCallback;
 import ntorrent.model.FileTableModel;
 import ntorrent.model.units.Byte;
 import ntorrent.model.units.Priority;
 
-public class FileList {
+public class FileList extends RpcCallback {
 	//Simple filelist.
 	JTable filetable = new JTable(new FileTableModel());
 	JScrollPane fileList;
@@ -47,19 +51,20 @@ public class FileList {
 		filetable.setVisible(false);
 	}
 
-	public void setInfo(String hash,Vector<Object>[] list) {
+	@Override
+	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 		filetable.clearSelection();
 		filetable.setVisible(true);
-		listener.setHash(hash);
+		listener.setHash((String)pRequest.getParameter(0));
 		FileTableModel table = ((FileTableModel)filetable.getModel());
 		table.clear();
-		for(int y = 0; y < list.length; y++)
-			for(int x = 0; x < 3; x++)
-				if(x == 0)
-					table.setValueAt(new Priority((Long)list[y].get(x),false), y, x);
-				else if(x == 2)
-					table.setValueAt(new Byte((Long)list[y].get(x)), y, x);
-				else
-					table.setValueAt(list[y].get(x), y, x);
+		Object[] array = (Object[])pResult;
+			for(int y = 0; y < array.length ; y++){
+				Object[] val = (Object[])array[y];
+				table.setValueAt(new Priority((Long)val[0],false), y, 0);
+				table.setValueAt(new Byte((Long)val[2]), y, 2);
+				table.setValueAt(val[1], y, 1);
+			}
+		
 	}
 }
