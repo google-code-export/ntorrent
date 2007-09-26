@@ -28,7 +28,6 @@ import java.util.Vector;
 import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.AsyncCallback;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
 public class Rpc{
@@ -76,12 +75,12 @@ public class Rpc{
 
 	}
 	
-	public void getTorrentVariables(String view, AsyncCallback c) throws XmlRpcException{
+	public void getTorrentVariables(String view, RpcCallback c) throws XmlRpcException{
 		variable[0] = view;
 		client.executeAsync("d.multicall",variable,c);
 	}
 	
-	public void getTorrentSet(String view, AsyncCallback c) throws XmlRpcException{
+	public void getTorrentSet(String view, RpcCallback c) throws XmlRpcException{
 		Object[] params = new Object[constant.length+variable.length];
 		params[0] = view;
 		int offset;
