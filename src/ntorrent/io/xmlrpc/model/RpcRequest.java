@@ -74,6 +74,26 @@ public class RpcRequest implements XmlRpcRequest {
 	public String toString() {
 		return method;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof RpcRequest))
+			return false;
+		RpcRequest req = (RpcRequest)obj;
+		if(!req.getMethodName().equals(method))
+			return false;
+		
+		int x = req.getParameterCount();
+		if(x != getParameterCount())
+			return false;
+		
+		while(x > 0){
+			x--;
+			if(!req.getParameter(x).equals(getParameter(x)))
+				return false;
+		}
+		return true;
+	}
 
 
 }

@@ -25,6 +25,7 @@ import org.apache.xmlrpc.XmlRpcException;
 
 import ntorrent.Controller;
 import ntorrent.gui.status.StatusBarComponent;
+import ntorrent.io.xmlrpc.RpcQueue;
 import ntorrent.settings.LocalSettings;
 
 public class StatusThread extends Controller implements Runnable {
@@ -33,20 +34,20 @@ public class StatusThread extends Controller implements Runnable {
 		boolean firstRun = true;		
 		while(true){
 			
-			try {
+			//try {
 				if(firstRun){
-					bar.setPort(rpc.getPortRange());
-					bar.setMaxUploadRate((int)rpc.getUploadRate()/1024);
-					bar.setMaxDownloadRate((int)rpc.getDownloadRate()/1024);
+					//bar.setPort(rpc.getPortRange());
+					//bar.setMaxUploadRate((int)rpc.getUploadRate()/1024);
+					//bar.setMaxDownloadRate((int)rpc.getDownloadRate()/1024);
 					firstRun = false;
 				}
 				//Seeders
 				//Leechers and so on.
 				bar.repaint();
-			} catch (XmlRpcException e) {
-				Controller.getGui().showError(e.getLocalizedMessage());
-				Controller.writeToLog(e);
-			}	
+			//} catch (XmlRpcException e) {
+				//Controller.getGui().showError(e.getLocalizedMessage());
+				//Controller.writeToLog(e);
+			//}	
 			
 			try {
 				//doesn't need to update so often. rate is updated when interrupted.

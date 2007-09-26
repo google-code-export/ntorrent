@@ -23,15 +23,17 @@ package ntorrent.io.xmlrpc;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientRequestImpl;
 
 public class Rpc{
-	RpcQueue client;
+	private static RpcQueue client;
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
@@ -77,7 +79,7 @@ public class Rpc{
 	
 	public void getTorrentVariables(String view, RpcCallback c) throws XmlRpcException{
 		variable[0] = view;
-		client.executeAsync("d.multicall",variable,c);
+		client.addToExecutionQueue("d.multicall",variable,c);
 	}
 	
 	public void getTorrentSet(String view, RpcCallback c) throws XmlRpcException{
@@ -89,7 +91,7 @@ public class Rpc{
 		for(int x = 1; x < variable.length; x++)
 			params[offset+x] = variable[x];
 		
-		client.executeAsync("d.multicall",params,c);
+		client.addToExecutionQueue("d.multicall",params,c);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -107,7 +109,7 @@ public class Rpc{
 	
 	public void fileCommand(String hash,String command){
 		Object[] params = {hash};
-		client.executeAsync(command,params, null);
+		client.addToExecutionQueue(command,params, null);
 
 	}	
 	
@@ -117,30 +119,27 @@ public class Rpc{
 		FileInputStream reader = new FileInputStream(torrent);
 		reader.read(source, 0, source.length);
 		Object[] params = {source};
-		client.executeAsync("load_raw_verbose", params,null);
+		client.addToExecutionQueue("load_raw_verbose", params,null);
 	}
 	
 	public void loadTorrent(String url) throws XmlRpcException{
 		Controller.writeToLog("Loading torrent from url: "+url);
 		if(url != null){
-		Object[] params = {url};
-		client.executeAsync("load_verbose",params, null);
+			Object[] params = {url};
+			client.addToExecutionQueue("load_verbose",params, null);
 		}
 	}
 	//@TODO deprecated
-	public String getPortRange() throws XmlRpcException{
-		Object[] params = {};
-		return ((String)client.execute("get_port_range",params));
+	public void getPortRange(RpcCallback c) throws XmlRpcException{
+		client.addToExecutionQueue("get_port_range",null,c);
 	}
 	
-	public long getDownloadRate() throws XmlRpcException{
-		Object[] params = {};
-		return ((Long)client.execute("get_download_rate", params));
+	public void getDownloadRate(RpcCallback c) throws XmlRpcException{
+		client.addToExecutionQueue("get_download_rate",null,c);
 	}
 	
-	public long getUploadRate() throws XmlRpcException{
-		Object[] params = {};
-		return ((Long)client.execute("get_upload_rate", params));		
+	public void getUploadRate(RpcCallback c) throws XmlRpcException{
+		client.addToExecutionQueue("get_upload_rate",null,c);		
 	}
 	//
 	
@@ -152,21 +151,19 @@ public class Rpc{
 		return systemLibraryVersion;
 	}
 	
-	public Vector<Object>[] getFileList(String hash) throws XmlRpcException{
-		Object[] result;
+	public static void getFileList(String hash, RpcCallback c){
 		Object[] params = {hash,"i/0",
 				"f.get_priority=",
 				"f.get_path=",
 				"f.get_size_bytes="
 				};
-		result = (Object[])client.execute("f.multicall",params);
-		return multicallToVector(result);
+		client.addToExecutionQueue("f.multicall",params,c);
 		
 	}
 	
-	public void setFilePriority(String hash,int index,int pri) throws XmlRpcException{
+	public void setFilePriority(String hash,int index,int pri){
 		Object[] params = {hash,index,pri};
-		client.executeAsync("f.set_priority",params,null);
+		client.addToExecutionQueue("f.set_priority",params,null);
 	}
 
 }

@@ -28,6 +28,7 @@ import javax.swing.JTable;
 import ntorrent.Controller;
 import ntorrent.gui.core.AbstractJTablePopupMenu;
 import ntorrent.gui.main.file.FileTabComponent;
+import ntorrent.io.xmlrpc.Rpc;
 import ntorrent.model.TorrentFile;
 import ntorrent.settings.Constants.Commands;
 import ntorrent.threads.TorrentCommandThread;
@@ -65,7 +66,7 @@ public class TorrentTableListener extends AbstractJTablePopupMenu{
 			TorrentFile tf = ((TorrentFile)source.getValueAt(source.getSelectedRow(), 0));
 			FileTabComponent panel = Controller.getGui().getFileTab();
 			panel.getInfoPanel().setInfo(tf);
-			panel.getFileList().setInfo(tf.getHash(),Controller.getFileList(tf.getHash()));
+			Rpc.getFileList(tf.getHash(),panel.getFileList());
 		}else
 			hideFileTab();
 		
