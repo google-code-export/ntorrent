@@ -35,7 +35,6 @@ import ntorrent.model.TorrentPool;
 import ntorrent.settings.Constants;
 import ntorrent.settings.ProfileSettings;
 import ntorrent.threads.ContentThread;
-import ntorrent.threads.StatusThread;
 
 import org.apache.xmlrpc.XmlRpcException;
 
@@ -85,9 +84,7 @@ public class Controller {
 		writeToLog("Starting threads.");
 		//4.Start threads.
 		mainContentThread = new Thread(new ContentThread());
-		statusThread = new Thread(new StatusThread());
 		mainContentThread.start();
-		statusThread.start();
 	}
 	
 	public static void changeMainPane(String name){

@@ -20,37 +20,23 @@
 
 package ntorrent.model.units;
 
-import java.text.DecimalFormat;
 
-public class Byte implements Comparable<Byte>{
-	long bytes;
-	public Byte(long b){
-		bytes = b;
-	}
+public class Byte extends DataUnit{
 	
-	public long getValue(){ return bytes;}
-	
-	public String toString(){
-		int x = 0;
-		double bytes = this.bytes;
-		while(bytes >= 1024){
-			bytes /= 1024;
-			x++;
-		}
-		if(x < 4){
-			String[] out = {"B","KB","MB","GB"};
-
-			 DecimalFormat output = new DecimalFormat("#0.0 "+out[x]);
-			 return output.format(bytes);
-		}
-		return "...";		
+	public Byte(long b) {
+		super(b);
 	}
 
-	public int compareTo(Byte o) {
-		return (int) (this.bytes-o.bytes);
+	@Override
+	protected String[] getUnitDesc() {
+		String[] s = {"B","KB","MB","GB"};
+		return s;
 	}
 
-	public void setValue(long l) {
-		bytes = l;
-	}
+	@Override
+	protected int getUnitDivider() {
+		return 	1024;
+	};
+
+
 }

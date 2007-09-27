@@ -86,12 +86,12 @@ public class StatusBarComponent extends RpcCallback {
 		container.add(Box.createHorizontalStrut(5));
 	}
 	
-	public void setDownloadRate(long downloadRate) {
-		this.downloadRate = new Byte(downloadRate);
+	public void setDownloadRate(Byte downloadRate) {
+		this.downloadRate = downloadRate;
 	}
 	
-	public void setUploadRate(long uploadRate) {
-		this.uploadRate = new Byte(uploadRate);
+	public void setUploadRate(Byte uploadRate) {
+		this.uploadRate = uploadRate;
 	}
 	
 	public void setMaxDownloadRate(int maxDownloadRate) {
@@ -126,7 +126,7 @@ public class StatusBarComponent extends RpcCallback {
 
 	@Override
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
-		
+		System.out.println(pRequest);
 		
 	}
 }

@@ -3,6 +3,9 @@ package ntorrent.threads;
 import ntorrent.Controller;
 import ntorrent.settings.Constants.Commands;
 
+/**
+ * @deprecated
+ */
 public class TorrentCommandThread implements Runnable {
 
 	String command;
