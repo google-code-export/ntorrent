@@ -190,12 +190,15 @@ public class Rpc{
 	 * @param index
 	 */
 	public void setFilePriority(String hash, int pri, int[] index){
-		Object[][] params = new Object[index.length][3];
+		Object[][] fparams = new Object[index.length][3];
+		Object[][] dparams = new Object[index.length][1];
+		
 		for(int x = 0; x < index.length; x++){
-			params[x][0] = hash; 
-			params[x][1] = index[x]; 
-			params[x][2] = pri;
+			fparams[x][0] = dparams[x][0] = hash; 
+			fparams[x][1] = index[x]; 
+			fparams[x][2] = pri;
 		}
-		multiCall("f.set_priority",params,null);
+		multiCall("f.set_priority",fparams,null);
+		multiCall("d.update_priorities",dparams,null);
 	}
 }
