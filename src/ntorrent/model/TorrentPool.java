@@ -72,33 +72,44 @@ public class TorrentPool extends RpcCallback{
 		return rateUp;
 	}
 
-	public void checkHash(int i){
-		rpc.fileCommand(get(i).getHash(),"d.check_hash");
+	private String[] getHash(int[] i){
+		int x = 0;
+		String[] hashlist = new String[i.length];
+		for(int index : i){
+			hashlist[x++] = get(index).getHash();
+		}
+		return hashlist;
 	}
-	public void close(int i){
-		rpc.fileCommand(get(i).getHash(), "d.close");
+	
+	public void checkHash(int[] i){
+		rpc.fileCommand(getHash(i),"d.check_hash");
 	}
-	public void erase(int i){
-		rpc.fileCommand(get(i).getHash(), "d.erase");
+	public void close(int[] i){
+		rpc.fileCommand(getHash(i), "d.close");
 	}
-	public void open(int i){
-		rpc.fileCommand(get(i).getHash(), "d.open");
+	public void erase(int[] i){
+		rpc.fileCommand(getHash(i), "d.erase");
 	}
-	public void start(int i){
-		rpc.fileCommand(get(i).getHash(), "d.start");
+	public void open(int[] i){
+		rpc.fileCommand(getHash(i), "d.open");
 	}
-	public void stop(int i){
-		rpc.fileCommand(get(i).getHash(), "d.stop");
+	public void start(int[] i){
+		rpc.fileCommand(getHash(i), "d.start");
+	}
+	public void stop(int[] i){
+		rpc.fileCommand(getHash(i), "d.stop");
 	}
 	
 	public void stopAll(){
-		for(TorrentFile tf : torrents)
-			rpc.fileCommand(tf.getHash(), "d.stop");
+		String[] s = new String[torrents.size()];
+		torrents.getHashSet().toArray(s);
+		rpc.fileCommand(s, "d.stop");
 	}
 	
 	public void startAll(){
-		for(TorrentFile tf : torrents)
-			rpc.fileCommand(tf.getHash(), "d.start");		
+		String[] s = new String[torrents.size()];
+		torrents.getHashSet().toArray(s);
+		rpc.fileCommand(s, "d.start");
 	}
 
 	private void removeOutdated() {

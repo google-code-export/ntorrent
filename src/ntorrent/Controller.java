@@ -24,7 +24,6 @@ package ntorrent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Vector;
 
 import ntorrent.gui.MainGui;
 import ntorrent.gui.dialogue.PromptEnv;

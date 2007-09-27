@@ -23,14 +23,15 @@ package ntorrent.io.xmlrpc;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
+import java.util.Map;
 
 import ntorrent.Controller;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientRequestImpl;
 
 public class Rpc{
 	private static RpcQueue client;
@@ -93,25 +94,27 @@ public class Rpc{
 		
 		client.addToExecutionQueue("d.multicall",params,c);
 	}
-	
-	@SuppressWarnings("unchecked")
-	private Vector<Object>[] multicallToVector(Object[] result){
-		Vector<Object>[] out = new Vector[result.length];
-		for(int x = 0; x < result.length; x++){
-			out[x] = new Vector<Object>();
-			for(Object obj : (Object[])result[x]){
-				out[x].add(obj);
-			}	
-		}
-		return out;
+
+	public void fileCommand(String[] hash, String command){
+		Object[][] params = new Object[hash.length][1];
+		for(int x = 0; x < hash.length; x++)
+			params[x][0] = hash[x];
+
+		multiCall(command,params,null);
+		//client.addToExecutionQueue(command,params, null);
 	}
 	
-	
+	/**
+	 * @deprecated
+	 * @param torrent
+	 * @throws IOException
+	 * @throws XmlRpcException
+	 */
 	public void fileCommand(String hash,String command){
-		Object[] params = {hash};
-		client.addToExecutionQueue(command,params, null);
+		//Object[] params = {hash};
+		//client.addToExecutionQueue(command,params, null);
 
-	}	
+	}
 	
 	public void loadTorrent(File torrent) throws IOException, XmlRpcException{
 		Controller.writeToLog("Loading torrent from file: "+torrent );
@@ -151,6 +154,25 @@ public class Rpc{
 		return systemLibraryVersion;
 	}
 	
+	private void multiCall(String command, Object[][] params, RpcCallback c){
+		String[] cmds = new String[params.length];
+		for(int x = 0; x < cmds.length; x++)
+			cmds[x] = command;
+		multiCall(cmds, params, c);
+	}
+	
+	private void multiCall(String[] commands, Object[][] params, RpcCallback c){
+		List<Map> list = new ArrayList<Map>();
+		for(int x = 0; x < commands.length; x++){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("methodName", commands[x]);
+			map.put("params",params[x]);
+			list.add(map);
+		}
+		Object[] structainer = {list};
+		client.addToExecutionQueue("system.multicall",structainer,c);
+	}
+	
 	public static void getFileList(String hash, RpcCallback c){
 		Object[] params = {hash,"i/0",
 				"f.get_priority=",
@@ -160,10 +182,20 @@ public class Rpc{
 		client.addToExecutionQueue("f.multicall",params,c);
 		
 	}
-	
-	public void setFilePriority(String hash,int index,int pri){
-		Object[] params = {hash,index,pri};
-		client.addToExecutionQueue("f.set_priority",params,null);
-	}
 
+	/**
+	 * hash,index,pri
+	 * @param hash
+	 * @param pri
+	 * @param index
+	 */
+	public void setFilePriority(String hash, int pri, int[] index){
+		Object[][] params = new Object[index.length][3];
+		for(int x = 0; x < index.length; x++){
+			params[x][0] = hash; 
+			params[x][1] = index[x]; 
+			params[x][2] = pri;
+		}
+		multiCall("f.set_priority",params,null);
+	}
 }

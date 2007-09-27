@@ -118,7 +118,7 @@ public class StatusBarComponent extends RpcCallback {
 	}
 	
 	public void repaint(){
-		commandStatus.setText("Commands in queue: "+RpcQueue.size());
+		commandStatus.setText("Ping: "+RpcQueue.lag()+" sec");
 		update();
 		statusBar.repaint();
 		statusBar.revalidate();

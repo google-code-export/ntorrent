@@ -27,9 +27,6 @@ import ntorrent.io.xmlrpc.type.CustomTypeFactory;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.apache.xmlrpc.client.XmlRpcLiteHttpTransport;
-import org.apache.xmlrpc.client.XmlRpcLiteHttpTransportFactory;
-import org.apache.xmlrpc.client.XmlRpcTransportFactory;
 
 public class RpcConnection {
 	XmlRpcClientConfigImpl config;
@@ -41,6 +38,7 @@ public class RpcConnection {
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
 		client = new RpcQueue(config);
+		//client.setTransportFactory(new XmlRpcTransportFactory(client));
 		client.setTypeFactory(new CustomTypeFactory(null));
 	}
 	
@@ -55,7 +53,7 @@ public class RpcConnection {
 	public RpcQueue connect() throws XmlRpcException{
        client.setConfig(config);
        //makes sure that server and client speak the same dialect.
-       Object[] params = {"i8"};
+       Object[] params = {"apache"};
        client.execute("xmlrpc_dialect", params);
        return client;
 	}
