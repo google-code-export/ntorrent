@@ -1,10 +1,9 @@
 package ntorrent.gui.core;
 
 import java.awt.event.ActionEvent;
-import java.util.Vector;
 
 public class AbstractJTablePopupMenu extends AbstractPopupMenu {
-	protected Vector<Integer> selectedRows = new Vector<Integer>();
+	protected int[] selectedRows;
 	
 	public AbstractJTablePopupMenu(String[] menuItems) {
 		super(menuItems);

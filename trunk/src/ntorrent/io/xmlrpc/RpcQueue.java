@@ -26,15 +26,15 @@ import ntorrent.io.xmlrpc.model.RpcRequest;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
-import org.apache.xmlrpc.client.AsyncCallback;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 public class RpcQueue extends XmlRpcClient implements Runnable {
 	
-	private static Queue<RpcRequest> queue = new LinkedList<RpcRequest>();
+	private Queue<RpcRequest> queue = new LinkedList<RpcRequest>();
 	private Thread thisThread;
 	private XmlRpcClientConfigImpl config;
+	private static long time = 0;
 	
 	
 	public RpcQueue(XmlRpcClientConfigImpl c) {
@@ -55,8 +55,8 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 		}
 	}
 	
-	public static int size(){
-		return queue.size();
+	public static long lag(){
+		return 	(System.currentTimeMillis()-time)/1000;
 	}
 	
 	private RpcRequest makeRequest(String pMethodName, Object[] pParams, RpcCallback pCallback) {
@@ -81,7 +81,6 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 		if(!queue.contains(req)){
 				queue.add(req);
 			if(!thisThread.isInterrupted())
-				System.out.println("interrupt");
 				thisThread.interrupt();
 		}else{
 			System.out.println("already in queue: "+req);
@@ -92,24 +91,23 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 	private void executeQueue(){
 		while(!queue.isEmpty()){
 			final RpcRequest req = queue.poll();
-			try {
-				final Object result = super.execute(req);
-				System.out.println(req+" "+queue.size()+" "+thisThread.getId());
-				Thread handle = new Thread(){
-					public void run() {
-						// TODO Auto-generated method stub
-						req.getCallBack().handleResult(req,result);
-					}
-					
-				};
-				handle.setPriority(Thread.MAX_PRIORITY);
-				handle.setDaemon(true);
-				handle.start();
-				
-			} catch (XmlRpcException e) {
-				req.getCallBack().handleError(req, e);
-				e.printStackTrace();
-			}
+			
+			if(req != null)
+				try {
+					final Object result = super.execute(req);
+					System.out.println(req);
+					Thread handle = new Thread(){
+						public void run() {
+							// TODO Auto-generated method stub
+							req.getCallBack().handleResult(req,result);
+						}
+						
+					};
+					handle.start();
+					time = System.currentTimeMillis();
+				} catch (XmlRpcException e) {
+					req.getCallBack().handleError(req, e);
+				}
 		}
 	}
 	

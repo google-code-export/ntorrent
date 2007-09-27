@@ -19,19 +19,15 @@
  */
 package ntorrent.threads;
 
-import java.util.Vector;
-
 import ntorrent.Controller;
-
-import org.apache.xmlrpc.XmlRpcException;
 
 public class FileCommandThread extends Controller implements Runnable {
 	
 	private String command;
-	private Vector<Integer> indexes;
+	private int[] indexes;
 	private String hash;
 
-	public FileCommandThread(String c,String h,Vector<Integer> i) {
+	public FileCommandThread(String c,String h,int[] i) {
 		command = c;
 		indexes = i;
 		hash = h;
@@ -49,8 +45,6 @@ public class FileCommandThread extends Controller implements Runnable {
 	}
 
 	private void setPriority(int pri){
-		for(int index : indexes){
-			rpc.setFilePriority(hash, index, pri);
-		}
+		rpc.setFilePriority(hash,pri,indexes);
 	}
 }

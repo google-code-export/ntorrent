@@ -72,7 +72,11 @@ public class RpcRequest implements XmlRpcRequest {
 	
 	@Override
 	public String toString() {
-		return method;
+		String out = method+"( ";
+		for(int x = 0; x<getParameterCount(); x++)
+			out += getParameter(x)+" ";
+		out += ")";
+		return out;
 	}
 	
 	@Override

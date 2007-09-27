@@ -187,7 +187,6 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		return getPeersConnected()+getPeersNotConnected();
 	}
 	
-	
 	public Long getTrackerNum() {
 		return trackerNum;
 	}

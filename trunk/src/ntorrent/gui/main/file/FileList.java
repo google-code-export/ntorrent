@@ -1,18 +1,16 @@
 package ntorrent.gui.main.file;
 
 import java.awt.Color;
-import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.apache.xmlrpc.XmlRpcRequest;
-
-import ntorrent.io.xmlrpc.Rpc;
 import ntorrent.io.xmlrpc.RpcCallback;
 import ntorrent.model.FileTableModel;
 import ntorrent.model.units.Byte;
 import ntorrent.model.units.Priority;
+
+import org.apache.xmlrpc.XmlRpcRequest;
 
 public class FileList extends RpcCallback {
 	//Simple filelist.

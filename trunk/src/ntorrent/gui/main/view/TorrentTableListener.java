@@ -76,9 +76,7 @@ public class TorrentTableListener extends AbstractJTablePopupMenu{
     	JTable source = (JTable)e.getComponent();
     	if(source.getSelectedRowCount() > 0)
 	        if (e.isPopupTrigger()) {
-	        	selectedRows.clear();
-	            for(int i : source.getSelectedRows())
-	            	selectedRows.add(i);
+	        	selectedRows = source.getSelectedRows();
 	            popup.show(source,  e.getX(), e.getY());
 	        }
     }

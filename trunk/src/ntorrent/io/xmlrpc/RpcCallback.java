@@ -26,11 +26,9 @@ import org.apache.xmlrpc.client.AsyncCallback;
 
 public abstract class RpcCallback implements AsyncCallback {
 	public void handleError(XmlRpcRequest pRequest, Throwable pError){
-		String parameters = "";
-		for(int x = 0; x < pRequest.getParameterCount(); x++)
-			parameters += pRequest.getParameter(x)+" ";
-		Controller.writeToLog(pRequest.getMethodName()+"("+ parameters+")");
+		Controller.writeToLog("Command error occurred, command was: "+pRequest);
 		Controller.writeToLog(pError);
+		pError.printStackTrace();
 	}
 	
 	public abstract void handleResult(XmlRpcRequest pRequest, Object pResult);

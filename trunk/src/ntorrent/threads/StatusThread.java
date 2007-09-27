@@ -21,11 +21,8 @@
 
 package ntorrent.threads;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import ntorrent.Controller;
 import ntorrent.gui.status.StatusBarComponent;
-import ntorrent.io.xmlrpc.RpcQueue;
 import ntorrent.settings.LocalSettings;
 
 public class StatusThread extends Controller implements Runnable {

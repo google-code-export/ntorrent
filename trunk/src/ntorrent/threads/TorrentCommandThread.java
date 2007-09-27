@@ -1,16 +1,14 @@
 package ntorrent.threads;
 
-import java.util.Vector;
-
 import ntorrent.Controller;
 import ntorrent.settings.Constants.Commands;
 
 public class TorrentCommandThread implements Runnable {
 
 	String command;
-	Vector<Integer> rows;
+	int[] rows;
 	
-	public TorrentCommandThread(String c,Vector<Integer> r) {
+	public TorrentCommandThread(String c,int[] r) {
 		command = c;
 		rows = r;
 	}
@@ -19,33 +17,27 @@ public class TorrentCommandThread implements Runnable {
 		switch(Commands.getFromString(command)){
 			case START:
 				Controller.writeToLog("Starting torrent(s)");
-				for(int i : rows)
-					Controller.getTorrents().start(i);
+				Controller.getTorrents().start(rows);
 				break;
 			case STOP:
 				Controller.writeToLog("Stopping torrent(s)");
-				for(int i : rows)
-					Controller.getTorrents().stop(i);
+				Controller.getTorrents().stop(rows);
 				break;
 			case OPEN:
 				Controller.writeToLog("Setting torrent(s) open");
-				for(int i : rows)
-					Controller.getTorrents().open(i);
+				Controller.getTorrents().open(rows);
 				break;
 			case CHECK_HASH:
 				Controller.writeToLog("Hash checking torrent(s)");
-				for(int i : rows)
-					Controller.getTorrents().checkHash(i);
+				Controller.getTorrents().checkHash(rows);
 				break;
 			case CLOSE:
 				Controller.writeToLog("Setting torrent(s) closed");
-				for(int i : rows)
-					Controller.getTorrents().close(i);
+				Controller.getTorrents().close(rows);
 				break;
 			case REMOVE:
 				Controller.writeToLog("Removing torrent(s)");
-				for(int i : rows)
-					Controller.getTorrents().erase(i);
+				Controller.getTorrents().erase(rows);
 				break;
 		}
 	}

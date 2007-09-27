@@ -26,7 +26,6 @@ import org.apache.xmlrpc.common.XmlRpcController;
 import org.apache.xmlrpc.common.XmlRpcStreamConfig;
 import org.apache.xmlrpc.parser.I8Parser;
 import org.apache.xmlrpc.parser.TypeParser;
-import org.apache.xmlrpc.serializer.I8Serializer;
 import org.apache.xmlrpc.serializer.TypeSerializer;
 import org.xml.sax.SAXException;
 
@@ -39,7 +38,7 @@ public class CustomTypeFactory extends TypeFactoryImpl {
 
 	@Override
 	public TypeParser getParser(XmlRpcStreamConfig pConfig, NamespaceContextImpl pContext, String pURI, String pLocalName) {
-		if(I8Serializer.I8_TAG.equalsIgnoreCase(pLocalName))
+		if("ex.i8".equalsIgnoreCase(pLocalName))
 			return new I8Parser();
 		return super.getParser(pConfig, pContext, pURI, pLocalName);
 	}
