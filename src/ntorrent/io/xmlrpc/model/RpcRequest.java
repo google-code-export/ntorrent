@@ -19,7 +19,7 @@
  */
 package ntorrent.io.xmlrpc.model;
 
-import ntorrent.io.xmlrpc.RpcCallback;
+import ntorrent.io.xmlrpc.XmlRpcCallback;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.XmlRpcRequestConfig;
@@ -28,19 +28,19 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 public class RpcRequest implements XmlRpcRequest {
 	private String method;
 	private Object[] params;
-	private RpcCallback callBack;
+	private XmlRpcCallback callBack;
 	private XmlRpcClientConfigImpl config;
 	
 	public RpcRequest(String m, Object[] p,XmlRpcClientConfigImpl c) {
 		this(m, p,c,null);
 	}
 	
-	public RpcRequest(String m, Object[] p, XmlRpcClientConfigImpl c ,RpcCallback a){
+	public RpcRequest(String m, Object[] p, XmlRpcClientConfigImpl c ,XmlRpcCallback a){
 		method = m;
 		params = p;
 		config = c;
 		if(a == null){
-			callBack = new RpcCallback(){
+			callBack = new XmlRpcCallback(){
 
 				@Override
 				public void handleResult(XmlRpcRequest pRequest, Object pResult) {}
@@ -50,7 +50,7 @@ public class RpcRequest implements XmlRpcRequest {
 			callBack = a;
 	}
 	
-	public RpcCallback getCallBack() {
+	public XmlRpcCallback getCallBack() {
 		return callBack;
 	}
 	

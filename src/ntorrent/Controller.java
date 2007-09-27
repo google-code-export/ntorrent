@@ -28,9 +28,10 @@ import java.net.MalformedURLException;
 import ntorrent.gui.MainGui;
 import ntorrent.gui.dialogue.PromptEnv;
 import ntorrent.gui.tray.ProcessTrayIcon;
-import ntorrent.io.xmlrpc.Rpc;
-import ntorrent.io.xmlrpc.RpcConnection;
-import ntorrent.io.xmlrpc.RpcQueue;
+import ntorrent.io.Rpc;
+import ntorrent.io.xmlrpc.XmlRpc;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.io.xmlrpc.XmlRpcQueue;
 import ntorrent.model.TorrentPool;
 import ntorrent.settings.Constants;
 import ntorrent.settings.ProfileSettings;
@@ -46,19 +47,19 @@ public class Controller {
 	protected static TorrentPool torrents;
 	protected static MainGui gui = new MainGui();
 	protected static Rpc rpc;
-	private static RpcConnection conn;
+	private static XmlRpcConnection conn;
 	private static ProfileSettings profile = new ProfileSettings();
 	private static ProcessTrayIcon trayIcon;
 	private static String[] filesToLoad = {};
 	
 	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
 		writeToLog("Connecting.");
-		conn = new RpcConnection(host);
+		conn = new XmlRpcConnection(host);
 		conn.setUsername(username);
 		conn.setPassword(password);
 		//2.Connect to server
-		RpcQueue client = conn.connect();
-		rpc = new Rpc(client);
+		XmlRpcQueue client = conn.connect();
+		rpc = new XmlRpc(client);
 		torrents = new TorrentPool(rpc,gui.getTorrentTableModel());
 		gui.getTorrentTableModel().fillData(torrents);
 		gui.getTorrentTableModel().fireTableDataChanged();
@@ -121,13 +122,10 @@ public class Controller {
 	}
 	
 	public static boolean loadTorrent(String url){
-		if(rpc != null)
-			try {
-				rpc.loadTorrent(url);
-				return true;
-			} catch (XmlRpcException e) {
-				writeToLog(e);
-			}
+		if(rpc != null) {
+			rpc.loadTorrent(url);
+			return true;
+		}
 		return false;
 	}
 	
@@ -156,6 +154,13 @@ public class Controller {
 	
 	public static Thread getMainContentThread() {
 		return mainContentThread;
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public static Rpc getRpc() {
+		return rpc;
 	}
 	
 }

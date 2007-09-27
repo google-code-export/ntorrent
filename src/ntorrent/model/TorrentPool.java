@@ -21,14 +21,15 @@
 package ntorrent.model;
 
 import ntorrent.Controller;
-import ntorrent.io.xmlrpc.Rpc;
-import ntorrent.io.xmlrpc.RpcCallback;
+import ntorrent.io.Rpc;
+import ntorrent.io.xmlrpc.XmlRpc;
+import ntorrent.io.xmlrpc.XmlRpcCallback;
 import ntorrent.model.units.Byte;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
 
-public class TorrentPool extends RpcCallback{
+public class TorrentPool extends XmlRpcCallback{
 	TorrentSet torrents = new TorrentSet();
 	private TorrentSet viewset = new TorrentSet();
 	String view = "main";
@@ -131,7 +132,7 @@ public class TorrentPool extends RpcCallback{
 		Object[] obj = (Object[])pResult;
 		int viewSize = viewset.size();
 		boolean fullUpdate = true;
-		if(pRequest.getParameterCount() == Rpc.variable.length)
+		if(pRequest.getParameterCount() == XmlRpc.variable.length)
 			fullUpdate = false;
 		
 		/**@TODO not happy with this solution**/

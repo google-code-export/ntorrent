@@ -28,16 +28,16 @@ import ntorrent.io.xmlrpc.type.CustomTypeFactory;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-public class RpcConnection {
+public class XmlRpcConnection {
 	XmlRpcClientConfigImpl config;
-	RpcQueue client;
+	XmlRpcQueue client;
 	
-	public RpcConnection(String url) throws MalformedURLException{
+	public XmlRpcConnection(String url) throws MalformedURLException{
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(url));
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
-		client = new RpcQueue(config);
+		client = new XmlRpcQueue(config);
 		//client.setTransportFactory(new XmlRpcTransportFactory(client));
 		client.setTypeFactory(new CustomTypeFactory(null));
 	}
@@ -50,7 +50,7 @@ public class RpcConnection {
 		config.setBasicPassword(p);
 	}
 	
-	public RpcQueue connect() throws XmlRpcException{
+	public XmlRpcQueue connect() throws XmlRpcException{
        client.setConfig(config);
        //makes sure that server and client speak the same dialect.
        Object[] params = {"apache"};
