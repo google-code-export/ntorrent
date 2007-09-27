@@ -23,6 +23,7 @@ package ntorrent.model;
 import ntorrent.Controller;
 import ntorrent.io.xmlrpc.Rpc;
 import ntorrent.io.xmlrpc.RpcCallback;
+import ntorrent.model.units.Byte;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
@@ -33,14 +34,14 @@ public class TorrentPool extends RpcCallback{
 	String view = "main";
 	Rpc rpc;
 	TorrentTableModel table;
-	long rateUp,rateDown;
+	Byte rateUp = new Byte(0);
+	Byte rateDown = new Byte(0);
 
 	TorrentPool(){}
 
 	public TorrentPool(Rpc r, TorrentTableModel t) throws XmlRpcException{
 		rpc = r;
 		table = t;
-		rateUp = rateDown = 0;
 	}	
 	
 	
@@ -64,11 +65,11 @@ public class TorrentPool extends RpcCallback{
 			viewset = new TorrentSet();
 	}
 	
-	public long getRateDown() {
+	public Byte getRateDown() {
 		return rateDown;
 	}
 	
-	public long getRateUp() {
+	public Byte getRateUp() {
 		return rateUp;
 	}
 
@@ -125,7 +126,8 @@ public class TorrentPool extends RpcCallback{
 	@Override
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 
-		rateUp = rateDown = 0;
+		rateUp.setValue(0);
+		rateDown.setValue(0);
 		Object[] obj = (Object[])pResult;
 		int viewSize = viewset.size();
 		boolean fullUpdate = true;
@@ -149,8 +151,9 @@ public class TorrentPool extends RpcCallback{
 			viewset.add(tf);
 			tf.update(raw);
 			
-			rateUp += tf.getRateUp().getValue();
-			rateDown += tf.getRateDown().getValue();
+			
+			rateUp.appendValue(tf.getRateUp());
+			rateDown.appendValue(tf.getRateDown());
 			
 		}
 		if(viewSize == 0)

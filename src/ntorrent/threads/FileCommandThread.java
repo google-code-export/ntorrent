@@ -21,6 +21,9 @@ package ntorrent.threads;
 
 import ntorrent.Controller;
 
+/**
+ * @deprecated
+ */
 public class FileCommandThread extends Controller implements Runnable {
 	
 	private String command;

@@ -21,17 +21,24 @@
 package ntorrent.threads;
 
 import ntorrent.Controller;
+import ntorrent.gui.status.StatusBarComponent;
 import ntorrent.settings.LocalSettings;
 
 public class ContentThread extends Controller implements Runnable {
+	StatusBarComponent bar = getGui().getStatusBar();
 	
 	public void run(){
 		try {
 			rpc.getTorrentSet(torrents.getView(), torrents);
+			rpc.getPortRange(bar);
+			rpc.getUploadRate(bar);
+			rpc.getDownloadRate(bar);
+			bar.setDownloadRate(torrents.getRateDown());
+			bar.setUploadRate(torrents.getRateUp());
 			while(true){
 				try {
 					rpc.getTorrentVariables(torrents.getView(),torrents);
-					statusThread.interrupt();
+					bar.repaint();
 					Thread.sleep(LocalSettings.vintervall);
 				} catch (InterruptedException e) {
 					torrents.getTable().fireTableDataChanged();

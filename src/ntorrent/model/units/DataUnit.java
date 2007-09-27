@@ -17,24 +17,46 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ntorrent.model.units;
 
-public class Bit extends DataUnit{
+import java.text.DecimalFormat;
+
+public abstract class DataUnit implements Comparable<DataUnit> {
+	protected long data;
 	
-	public Bit(long b) {
-		super(b);
+	public DataUnit(long b){
+		data = b;
+	}
+	
+	protected abstract String[] getUnitDesc();
+	protected abstract int getUnitDivider();
+	
+	public long getValue(){ return data;}
+	
+	public String toString(){
+		int x = 0;
+		double bytes = this.data;
+		while(bytes >= getUnitDivider()){
+			bytes /= getUnitDivider();
+			x++;
+		}
+		if(x < getUnitDesc().length){
+
+			 DecimalFormat output = new DecimalFormat("#0.0 "+getUnitDesc()[x]);
+			 return output.format(bytes);
+		}
+		return "...";		
 	}
 
-	@Override
-	protected String[] getUnitDesc() {
-		String[] s = {"b/s","Kb/s","Mb/s","Gb/s"}; 
-		return s;
+	public int compareTo(DataUnit o) {
+		return (int) (getValue()-o.getValue());
 	}
 
-	@Override
-	protected int getUnitDivider() {
-		return 1000;
-	};
+	public void setValue(long l) {
+		data = l;
+	}
 	
+	public void appendValue(DataUnit b){
+		data += b.getValue();
+	}
 }
