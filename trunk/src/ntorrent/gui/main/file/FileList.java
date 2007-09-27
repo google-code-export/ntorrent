@@ -5,14 +5,14 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import ntorrent.io.xmlrpc.RpcCallback;
+import ntorrent.io.xmlrpc.XmlRpcCallback;
 import ntorrent.model.FileTableModel;
 import ntorrent.model.units.Byte;
 import ntorrent.model.units.Priority;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 
-public class FileList extends RpcCallback {
+public class FileList extends XmlRpcCallback {
 	//Simple filelist.
 	JTable filetable = new JTable(new FileTableModel());
 	JScrollPane fileList;

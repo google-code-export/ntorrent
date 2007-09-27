@@ -29,7 +29,7 @@ import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-public class RpcQueue extends XmlRpcClient implements Runnable {
+public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 	
 	private Queue<RpcRequest> queue = new LinkedList<RpcRequest>();
 	private Thread thisThread;
@@ -37,7 +37,7 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 	private static long time = 0;
 	
 	
-	public RpcQueue(XmlRpcClientConfigImpl c) {
+	public XmlRpcQueue(XmlRpcClientConfigImpl c) {
 		thisThread = new Thread(this);
 		thisThread.setPriority(Thread.MAX_PRIORITY);
 		thisThread.setDaemon(true);
@@ -59,11 +59,11 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 		return 	(System.currentTimeMillis()-time)/1000;
 	}
 	
-	private RpcRequest makeRequest(String pMethodName, Object[] pParams, RpcCallback pCallback) {
+	private RpcRequest makeRequest(String pMethodName, Object[] pParams, XmlRpcCallback pCallback) {
 		if(pParams == null)
 			pParams = new Object[0];
 		if(pCallback == null)
-			pCallback = new RpcCallback(){
+			pCallback = new XmlRpcCallback(){
 
 				@Override
 				public void handleResult(XmlRpcRequest pRequest, Object pResult) {
@@ -73,7 +73,7 @@ public class RpcQueue extends XmlRpcClient implements Runnable {
 		return new RpcRequest(pMethodName, pParams,config, pCallback);
 	}
 	
-	public void addToExecutionQueue(String pMethodName, Object[] pParams, RpcCallback pCallback) {		
+	public void addToExecutionQueue(String pMethodName, Object[] pParams, XmlRpcCallback pCallback) {		
 		addToExecutionQueue(makeRequest(pMethodName, pParams, pCallback));
 	}
 	

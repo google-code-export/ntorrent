@@ -29,12 +29,13 @@ import java.util.List;
 import java.util.Map;
 
 import ntorrent.Controller;
+import ntorrent.io.Rpc;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
-public class Rpc{
-	private static RpcQueue client;
+public class XmlRpc implements Rpc{
+	private static XmlRpcQueue client;
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
@@ -64,8 +65,8 @@ public class Rpc{
 	};
 	
 	
-	public Rpc(XmlRpcClient c){
-		client = (RpcQueue)c;
+	public XmlRpc(XmlRpcClient c){
+		client = (XmlRpcQueue)c;
 		Object[] params = {};
 		try {
 			systemClientVersion = (String)c.execute("system.client_version", params);
@@ -78,12 +79,12 @@ public class Rpc{
 
 	}
 	
-	public void getTorrentVariables(String view, RpcCallback c) throws XmlRpcException{
+	public void getTorrentVariables(String view, XmlRpcCallback c){
 		variable[0] = view;
 		client.addToExecutionQueue("d.multicall",variable,c);
 	}
 	
-	public void getTorrentSet(String view, RpcCallback c) throws XmlRpcException{
+	public void getTorrentSet(String view, XmlRpcCallback c){
 		Object[] params = new Object[constant.length+variable.length];
 		params[0] = view;
 		int offset;
@@ -103,20 +104,8 @@ public class Rpc{
 		multiCall(command,params,null);
 		//client.addToExecutionQueue(command,params, null);
 	}
-	
-	/**
-	 * @deprecated
-	 * @param torrent
-	 * @throws IOException
-	 * @throws XmlRpcException
-	 */
-	public void fileCommand(String hash,String command){
-		//Object[] params = {hash};
-		//client.addToExecutionQueue(command,params, null);
-
-	}
-	
-	public void loadTorrent(File torrent) throws IOException, XmlRpcException{
+		
+	public void loadTorrent(File torrent) throws IOException{
 		Controller.writeToLog("Loading torrent from file: "+torrent );
 		byte[] source = new byte[(int)torrent.length()];
 		FileInputStream reader = new FileInputStream(torrent);
@@ -125,7 +114,7 @@ public class Rpc{
 		client.addToExecutionQueue("load_raw_verbose", params,null);
 	}
 	
-	public void loadTorrent(String url) throws XmlRpcException{
+	public void loadTorrent(String url){
 		Controller.writeToLog("Loading torrent from url: "+url);
 		if(url != null){
 			Object[] params = {url};
@@ -133,15 +122,15 @@ public class Rpc{
 		}
 	}
 	//@TODO deprecated
-	public void getPortRange(RpcCallback c) throws XmlRpcException{
+	public void getPortRange(XmlRpcCallback c){
 		client.addToExecutionQueue("get_port_range",null,c);
 	}
 	
-	public void getDownloadRate(RpcCallback c) throws XmlRpcException{
+	public void getDownloadRate(XmlRpcCallback c){
 		client.addToExecutionQueue("get_download_rate",null,c);
 	}
 	
-	public void getUploadRate(RpcCallback c) throws XmlRpcException{
+	public void getUploadRate(XmlRpcCallback c){
 		client.addToExecutionQueue("get_upload_rate",null,c);		
 	}
 	//
@@ -154,14 +143,14 @@ public class Rpc{
 		return systemLibraryVersion;
 	}
 	
-	private void multiCall(String command, Object[][] params, RpcCallback c){
+	private void multiCall(String command, Object[][] params, XmlRpcCallback c){
 		String[] cmds = new String[params.length];
 		for(int x = 0; x < cmds.length; x++)
 			cmds[x] = command;
 		multiCall(cmds, params, c);
 	}
 	
-	private void multiCall(String[] commands, Object[][] params, RpcCallback c){
+	private void multiCall(String[] commands, Object[][] params, XmlRpcCallback c){
 		List<Map> list = new ArrayList<Map>();
 		for(int x = 0; x < commands.length; x++){
 			Map<String,Object> map = new HashMap<String,Object>();
@@ -173,7 +162,7 @@ public class Rpc{
 		client.addToExecutionQueue("system.multicall",structainer,c);
 	}
 	
-	public static void getFileList(String hash, RpcCallback c){
+	public void getFileList(String hash, XmlRpcCallback c){
 		Object[] params = {hash,"i/0",
 				"f.get_priority=",
 				"f.get_path=",

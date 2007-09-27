@@ -24,7 +24,7 @@ import ntorrent.Controller;
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.client.AsyncCallback;
 
-public abstract class RpcCallback implements AsyncCallback {
+public abstract class XmlRpcCallback implements AsyncCallback {
 	public void handleError(XmlRpcRequest pRequest, Throwable pError){
 		Controller.writeToLog("Command error occurred, command was: "+pRequest);
 		Controller.writeToLog(pError);

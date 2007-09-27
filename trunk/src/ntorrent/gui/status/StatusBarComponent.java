@@ -35,12 +35,12 @@ import javax.swing.SwingConstants;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 
-import ntorrent.io.xmlrpc.RpcCallback;
-import ntorrent.io.xmlrpc.RpcQueue;
+import ntorrent.io.xmlrpc.XmlRpcCallback;
+import ntorrent.io.xmlrpc.XmlRpcQueue;
 import ntorrent.model.units.Byte;
 
 
-public class StatusBarComponent extends RpcCallback {
+public class StatusBarComponent extends XmlRpcCallback {
 	//Statusbar component
 	JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEADING));
 	JPanel container = new JPanel();
@@ -118,7 +118,7 @@ public class StatusBarComponent extends RpcCallback {
 	}
 	
 	public void repaint(){
-		commandStatus.setText("Ping: "+RpcQueue.lag()+" sec");
+		commandStatus.setText("Ping: "+XmlRpcQueue.lag()+" sec");
 		update();
 		statusBar.repaint();
 		statusBar.revalidate();
