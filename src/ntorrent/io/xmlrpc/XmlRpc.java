@@ -34,6 +34,9 @@ import ntorrent.io.Rpc;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
+/**
+ * @author  netbrain
+ */
 public class XmlRpc implements Rpc{
 	private static XmlRpcQueue client;
 	String systemClientVersion;
@@ -71,9 +74,9 @@ public class XmlRpc implements Rpc{
 		try {
 			systemClientVersion = (String)c.execute("system.client_version", params);
 			systemLibraryVersion = (String)c.execute("system.library_version", params);
-			Controller.writeToLog("Host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
+			System.out.println("Host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
 		} catch (XmlRpcException e) {
-			Controller.writeToLog(e);
+			e.printStackTrace();
 			Controller.getGui().showError(e.getLocalizedMessage());
 		}
 
@@ -106,7 +109,7 @@ public class XmlRpc implements Rpc{
 	}
 		
 	public void loadTorrent(File torrent) throws IOException{
-		Controller.writeToLog("Loading torrent from file: "+torrent );
+		System.out.println("Loading torrent from file: "+torrent );
 		byte[] source = new byte[(int)torrent.length()];
 		FileInputStream reader = new FileInputStream(torrent);
 		reader.read(source, 0, source.length);
@@ -115,7 +118,7 @@ public class XmlRpc implements Rpc{
 	}
 	
 	public void loadTorrent(String url){
-		Controller.writeToLog("Loading torrent from url: "+url);
+		System.out.println("Loading torrent from url: "+url);
 		if(url != null){
 			Object[] params = {url};
 			client.addToExecutionQueue("load_verbose",params, null);
@@ -135,10 +138,18 @@ public class XmlRpc implements Rpc{
 	}
 	//
 	
+	/**
+	 * @return
+	 * @uml.property  name="systemClientVersion"
+	 */
 	public String getSystemClientVersion() {
 		return systemClientVersion;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="systemLibraryVersion"
+	 */
 	public String getSystemLibraryVersion() {
 		return systemLibraryVersion;
 	}

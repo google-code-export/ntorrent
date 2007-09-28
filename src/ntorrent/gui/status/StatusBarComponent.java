@@ -40,6 +40,9 @@ import ntorrent.io.xmlrpc.XmlRpcQueue;
 import ntorrent.model.units.Byte;
 
 
+/**
+ * @author  netbrain
+ */
 public class StatusBarComponent extends XmlRpcCallback {
 	//Statusbar component
 	JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEADING));
@@ -86,10 +89,18 @@ public class StatusBarComponent extends XmlRpcCallback {
 		container.add(Box.createHorizontalStrut(5));
 	}
 	
+	/**
+	 * @param downloadRate
+	 * @uml.property  name="downloadRate"
+	 */
 	public void setDownloadRate(Byte downloadRate) {
 		this.downloadRate = downloadRate;
 	}
 	
+	/**
+	 * @param uploadRate
+	 * @uml.property  name="uploadRate"
+	 */
 	public void setUploadRate(Byte uploadRate) {
 		this.uploadRate = uploadRate;
 	}
@@ -109,10 +120,18 @@ public class StatusBarComponent extends XmlRpcCallback {
 		return label;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="statusBar"
+	 */
 	public Component getStatusBar() {
 		return statusBar;
 	}
 
+	/**
+	 * @param portRange
+	 * @uml.property  name="port"
+	 */
 	public void setPort(String portRange) {
 		port = portRange;
 	}

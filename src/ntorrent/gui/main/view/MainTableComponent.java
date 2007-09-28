@@ -31,6 +31,9 @@ import ntorrent.model.render.PercentRenderer;
 import ntorrent.model.render.TorrentTitleRenderer;
 import ntorrent.model.units.Percent;
 
+/**
+ * @author  netbrain
+ */
 public class MainTableComponent {
 	JTable table = new JTable(new TorrentTableModel());
 	
@@ -69,6 +72,10 @@ public class MainTableComponent {
 		}
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="table"
+	 */
 	public JTable getTable() {
 		return table;
 	}

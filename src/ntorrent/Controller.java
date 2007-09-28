@@ -40,6 +40,9 @@ import ntorrent.threads.ContentThread;
 import org.apache.xmlrpc.XmlRpcException;
 
 
+/**
+ * @author  Kim Eik
+ */
 public class Controller {
 	protected static Thread mainContentThread;
 	protected static Thread statusThread;
@@ -74,7 +77,7 @@ public class Controller {
 		//3.Draw gui.
 		gui.drawMainWindow();
 		gui.getViewTab().getViewPane().setEnabled(false);
-		trayIcon = new ProcessTrayIcon();
+		trayIcon = new ProcessTrayIcon(gui.getRootWin());
 		PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
 		env.setHost(profile.getHost());
 		env.setUsername(profile.getUsername());
@@ -93,18 +96,34 @@ public class Controller {
 		mainContentThread.interrupt();
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="gui"
+	 */
 	public static MainGui getGui() {
 		return gui;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="torrents"
+	 */
 	public static TorrentPool getTorrents() {
 		return torrents;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="profile"
+	 */
 	public static ProfileSettings getProfile() {
 		return profile;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="trayIcon"
+	 */
 	public static ProcessTrayIcon getTrayIcon() {
 		return trayIcon;
 	}
@@ -152,12 +171,17 @@ public class Controller {
 			}
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="mainContentThread"
+	 */
 	public static Thread getMainContentThread() {
 		return mainContentThread;
 	}
 
 	/**
 	 * @deprecated
+	 * @uml.property  name="rpc"
 	 */
 	public static Rpc getRpc() {
 		return rpc;

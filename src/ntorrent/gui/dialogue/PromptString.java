@@ -24,6 +24,9 @@ import javax.swing.JOptionPane;
 
 import ntorrent.Controller;
 
+/**
+ * @author  netbrain
+ */
 public class PromptString {
 	String input = new String();
 	
@@ -31,6 +34,10 @@ public class PromptString {
 		input = (String)JOptionPane.showInputDialog(Controller.getGui().getRootWin(),null);
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="input"
+	 */
 	public String getInput() {
 		return input;
 	}

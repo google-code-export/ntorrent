@@ -32,7 +32,7 @@ public class Server extends Thread{
 	
 	public Server() throws IOException {
 		servSocket = new ServerSocket(Constants.getCommPort());
-		Controller.writeToLog("Setting up socket server.");
+		System.out.println("Setting up socket server.");
 	}
 
 	public void run() {
@@ -48,7 +48,7 @@ public class Server extends Thread{
 				ThreadedClientHandler clienthandler = new ThreadedClientHandler(client);
 				clienthandler.start();
 			} catch (IOException e) {
-				Controller.writeToLog(e);
+				e.printStackTrace();
 			}
 		} while (true);
 	}

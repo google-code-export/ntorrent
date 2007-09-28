@@ -27,6 +27,9 @@ import ntorrent.model.units.Priority;
 import ntorrent.model.units.Ratio;
 
 
+/**
+ * @author  netbrain
+ */
 public class TorrentFile implements Comparable<TorrentFile>{
 	private String hash;
 	private String filename;
@@ -53,37 +56,113 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		hash = h;
 	}
 	
+	/**
+	 * @param f
+	 * @uml.property  name="filename"
+	 */
 	void setFilename(String f){ filename = f; }
 	void setByteSize(Long b){ byteSize = new Byte(b); }
 	void setBytesUploaded(Long b){ bytesUploaded = new Byte(b);}
 	void setBytesDownloaded(Long b){ bytesDownloaded = new Byte(b); }
 	void setRateDown(Long r){ rateDown = new Bit(r); }
 	void setRateUp(Long r){ rateUp = new Bit(r); }
+	/**
+	 * @param b
+	 * @uml.property  name="started"
+	 */
 	void setStarted(boolean b){ started = b; }
 	void setFiles(long num) { numFiles = (int)num; }
+	/**
+	 * @param s
+	 * @uml.property  name="filePath"
+	 */
 	void setFilePath(String s){ filePath = s; }
+	/**
+	 * @param s
+	 * @uml.property  name="tiedToFile"
+	 */
 	void setTiedToFile(String s){ tiedToFile = s; }
+	/**
+	 * @param s
+	 * @uml.property  name="message"
+	 */
 	void setMessage(String s){message = s;}
 	void setPriority(long pri){priority = new Priority(pri);}
 	private void touch(){ lastUpdate = System.currentTimeMillis();}
 	
+	/**
+	 * @return
+	 * @uml.property  name="hash"
+	 */
 	public String getHash(){return hash;}
+	/**
+	 * @return
+	 * @uml.property  name="filename"
+	 */
 	public String getFilename(){ return filename; }
+	/**
+	 * @return
+	 * @uml.property  name="byteSize"
+	 */
 	public Byte getByteSize(){ return byteSize; }
+	/**
+	 * @return
+	 * @uml.property  name="bytesUploaded"
+	 */
 	public Byte getBytesUploaded(){ return bytesUploaded;}
+	/**
+	 * @return
+	 * @uml.property  name="bytesDownloaded"
+	 */
 	public Byte getBytesDownloaded(){ return bytesDownloaded;}
+	/**
+	 * @return
+	 * @uml.property  name="rateDown"
+	 */
 	public Bit getRateDown(){ return rateDown; }
+	/**
+	 * @return
+	 * @uml.property  name="rateUp"
+	 */
 	public Bit getRateUp(){ return rateUp; }
+	/**
+	 * @return
+	 * @uml.property  name="numFiles"
+	 */
 	public int getNumFiles() { return numFiles; }
+	/**
+	 * @return
+	 * @uml.property  name="filePath"
+	 */
 	public String getFilePath() {return filePath;}
+	/**
+	 * @return
+	 * @uml.property  name="tiedToFile"
+	 */
 	public String getTiedToFile() {return tiedToFile;}
+	/**
+	 * @return
+	 * @uml.property  name="message"
+	 */
 	public String getMessage() {return message;}
+	/**
+	 * @return
+	 * @uml.property  name="priority"
+	 */
 	public Priority getPriority() {return priority;}
+	/**
+	 * @return
+	 * @uml.property  name="started"
+	 */
 	public boolean isStarted(){ return started; }
 	public boolean isOutOfDate(){ 
 		return System.currentTimeMillis()-lastUpdate > 3000;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="percentFinished"
+	 */
 	Percent getPercentFinished(){
 		long down = getBytesDownloaded().getValue();
 		long total = getByteSize().getValue();
@@ -152,16 +231,28 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		trackerNum = long1;
 	}
 
+	/**
+	 * @param long1
+	 * @uml.property  name="peersComplete"
+	 */
 	private void setPeersComplete(Long long1) {
 		// TODO Auto-generated method stub
 		peersComplete = long1;
 	}
 
+	/**
+	 * @param long1
+	 * @uml.property  name="peersNotConnected"
+	 */
 	private void setPeersNotConnected(Long long1) {
 		// TODO Auto-generated method stub
 		peersNotConnected = long1;
 	}
 
+	/**
+	 * @param long1
+	 * @uml.property  name="peersConnected"
+	 */
 	private void setPeersConnected(Long long1) {
 		// TODO Auto-generated method stub
 		peersConnected = long1;
@@ -175,10 +266,18 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		return getPeersConnected()-getSeeders();
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="peersConnected"
+	 */
 	public Long getPeersConnected() {
 		return peersConnected;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="peersNotConnected"
+	 */
 	public Long getPeersNotConnected() {
 		return peersNotConnected;
 	}
@@ -187,6 +286,10 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		return getPeersConnected()+getPeersNotConnected();
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="trackerNum"
+	 */
 	public Long getTrackerNum() {
 		return trackerNum;
 	}

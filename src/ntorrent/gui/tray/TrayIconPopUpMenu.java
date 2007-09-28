@@ -19,39 +19,47 @@
  */
 package ntorrent.gui.tray;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
+import java.awt.Window;
+import java.awt.event.MouseEvent;
 
-import ntorrent.settings.Constants;
+import ntorrent.gui.core.AbstractPopupMenu;
 import ntorrent.settings.Constants.Commands;
 
-public class TrayIconPopUpMenu {
-	JPopupMenu popup = new JPopupMenu();
-	TrayIconPopUpMenu() {
-		String[] menu = {
-				Commands.ADD_TORRENT.toString(),
-				Commands.ADD_URL.toString(),
-				null,
-				Commands.START_ALL.toString(),
-				Commands.STOP_ALL.toString(),
-				null,
-				Commands.QUIT.toString()
-				
-		};
-		
-		for(String mi : menu){
-			if(mi == null)
-				popup.addSeparator();
-			else{
-				JMenuItem menuItem = new JMenuItem(mi);
-				menuItem.addActionListener(Constants.trayListener);
-				popup.add(menuItem);
-			}
-		}
-		
-	}
+/**
+ * @author Kim Eik
+ */
+public class TrayIconPopUpMenu extends AbstractPopupMenu {
+	final static String[] menuItems = {
+			Commands.ADD_TORRENT.toString(),
+			Commands.ADD_URL.toString(),
+			null,
+			Commands.START_ALL.toString(),
+			Commands.STOP_ALL.toString(),
+			null,
+			Commands.QUIT.toString()
+			};
+	Window rootWin;
 	
-	public JPopupMenu getPopup() {
-		return popup;
+	public TrayIconPopUpMenu(Window root) {
+		super(menuItems);
+		rootWin = root;
 	}
+
+	@Override
+	protected void maybeShowPopup(MouseEvent e) {
+		switch (e.getButton()){
+		case MouseEvent.BUTTON1:
+			if(!rootWin.isFocused()){
+				rootWin.requestFocus();
+				rootWin.toFront();
+			}
+			break;
+		case MouseEvent.BUTTON3:
+			popup.setLocation(e.getX(), e.getY());
+			popup.setInvoker(rootWin);
+			popup.setVisible(true);
+			break;
+		}
+	}
+
 }

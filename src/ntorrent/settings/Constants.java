@@ -25,8 +25,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import ntorrent.gui.tray.TrayListener;
-
+/**
+ * 
+ * @author Kim Eik
+ *
+ */
 public final class Constants {
 	static Properties systemProperties = new Properties();
 	
@@ -34,10 +37,14 @@ public final class Constants {
 	private static final String VERSION = "0.2.alpha";
 	public static final File profile = new File("profile.dat");
 	public static final File settings = new File("settings.dat");
-	public static final TrayListener trayListener = new TrayListener();
 	private static final int commPort = 4050;
 	
 	
+	/**
+	 * 
+	 * @author Kim Eik
+	 *
+	 */
 	public static enum Commands {
 		ADD_TORRENT,
 		ADD_URL,
@@ -111,6 +118,10 @@ public final class Constants {
 	     "redistribute it under certain conditions.\n\n";
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="commPort"
+	 */
 	public static int getCommPort() {
 		return commPort;
 	}

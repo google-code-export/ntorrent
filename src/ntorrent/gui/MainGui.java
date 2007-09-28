@@ -40,6 +40,9 @@ import ntorrent.gui.status.StatusBarComponent;
 import ntorrent.model.TorrentTableModel;
 import ntorrent.settings.Constants;
 
+/**
+ * @author  netbrain
+ */
 public class MainGui {
 	private MainGlassPane listener = new MainGlassPane();
 	private JFrame rootWin = new JFrame(Constants.getReleaseName());
@@ -91,30 +94,58 @@ public class MainGui {
 	}
 	 
 	//Not in use atm.
+	/**
+	 * @return
+	 * @uml.property  name="fileTab"
+	 */
 	public FileTabComponent getFileTab() {
 		return fileTab;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="listener"
+	 */
 	public MainGlassPane getListener() {
 		return listener;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="menuBar"
+	 */
 	public MenuBarComponent getMenuBar() {
 		return menuBar;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="rootWin"
+	 */
 	public JFrame getRootWin() {
 		return rootWin;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="statusBar"
+	 */
 	public StatusBarComponent getStatusBar() {
 		return statusBar;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="table"
+	 */
 	public MainTableComponent getTable() {
 		return table;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="viewTab"
+	 */
 	public ViewTabComponent getViewTab() {
 		return viewTab;
 	}

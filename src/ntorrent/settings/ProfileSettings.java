@@ -23,6 +23,9 @@ import java.io.IOException;
 
 
 
+/**
+ * @author  netbrain
+ */
 public class ProfileSettings extends Settings{
 	private static final long serialVersionUID = 1L;
 	public String host;
@@ -50,18 +53,34 @@ public class ProfileSettings extends Settings{
 			
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="host"
+	 */
 	public String getHost() {
 		return host;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="username"
+	 */
 	public String getUsername() {
 		return username;
 	}
 	
+	/**
+	 * @param host
+	 * @uml.property  name="host"
+	 */
 	public void setHost(String host) {
 		this.host = host;
 	}
 	
+	/**
+	 * @param username
+	 * @uml.property  name="username"
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
