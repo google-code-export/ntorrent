@@ -145,7 +145,8 @@ public class StatusBarComponent extends XmlRpcCallback {
 
 	@Override
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
-		System.out.println(pRequest);
-		
+		String methodname = pRequest.getMethodName();
+		if(methodname == "get_port_range")
+			setPort((String)pResult);
 	}
 }

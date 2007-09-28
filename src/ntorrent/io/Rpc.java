@@ -60,8 +60,6 @@ public interface Rpc {
 		
 		//@TODO deprecated
 		public void getPortRange(XmlRpcCallback c);
-		public void getDownloadRate(XmlRpcCallback c);
-		public void getUploadRate(XmlRpcCallback c);
 		
 		public String getSystemClientVersion();
 		public String getSystemLibraryVersion();

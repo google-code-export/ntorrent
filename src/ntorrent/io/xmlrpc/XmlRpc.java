@@ -35,7 +35,9 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
 /**
- * @author  netbrain
+ * 
+ * @author Kim Eik
+ *
  */
 public class XmlRpc implements Rpc{
 	private static XmlRpcQueue client;
@@ -124,19 +126,10 @@ public class XmlRpc implements Rpc{
 			client.addToExecutionQueue("load_verbose",params, null);
 		}
 	}
-	//@TODO deprecated
+
 	public void getPortRange(XmlRpcCallback c){
 		client.addToExecutionQueue("get_port_range",null,c);
 	}
-	
-	public void getDownloadRate(XmlRpcCallback c){
-		client.addToExecutionQueue("get_download_rate",null,c);
-	}
-	
-	public void getUploadRate(XmlRpcCallback c){
-		client.addToExecutionQueue("get_upload_rate",null,c);		
-	}
-	//
 	
 	/**
 	 * @return
