@@ -28,7 +28,9 @@ import javax.swing.event.ChangeListener;
 import ntorrent.gui.status.InfoPanel;
 
 /**
- * @author  netbrain
+ * 
+ * @author Kim Eik
+ *
  */
 public class FileTabComponent {
 	JTabbedPane filePane = new JTabbedPane();
@@ -60,8 +62,8 @@ public class FileTabComponent {
 		return filePane;
 	}
 	
-	public void writeToLog(String msg){
-		log.append(msg);
+	public JTextArea getLog() {
+		return log;
 	}
 	
 	/**
