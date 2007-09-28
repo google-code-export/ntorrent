@@ -34,8 +34,6 @@ public class ContentThread extends Controller implements Runnable {
 		try {
 			rpc.getTorrentSet(torrents.getView(), torrents);
 			rpc.getPortRange(bar);
-			rpc.getUploadRate(bar);
-			rpc.getDownloadRate(bar);
 			bar.setDownloadRate(torrents.getRateDown());
 			bar.setUploadRate(torrents.getRateUp());
 			while(true){
