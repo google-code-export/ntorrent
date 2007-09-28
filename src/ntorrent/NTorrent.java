@@ -43,8 +43,9 @@ public class NTorrent{
 			
 			//start process
 			System.out.println(Constants.getLicense());
-			Controller.drawMainGui();
-			Controller.setStartupFiles(args);
+			Controller c = new Controller();
+			c.drawMainGui();
+			c.setStartupFiles(args);
 		} catch(BindException e) {
 			//Server already started.
 			//connect to existing process
@@ -54,7 +55,7 @@ public class NTorrent{
 				x.printStackTrace();
 			}	
 		} catch (Exception e) {
-			Controller.writeToLog(e);
+			e.printStackTrace();
 		}
 	}
 }

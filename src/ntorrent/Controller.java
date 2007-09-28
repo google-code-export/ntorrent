@@ -71,7 +71,7 @@ public class Controller {
 		loadStartupFiles();
 	}
 	
-	public static void drawMainGui(){
+	public void drawMainGui(){
 		writeToLog(Constants.getReleaseName());
 		writeToLog("Drawing gui");
 		//3.Draw gui.
@@ -158,7 +158,7 @@ public class Controller {
 
 
 
-	public static void setStartupFiles(String[] args) {
+	public void setStartupFiles(String[] args) {
 		filesToLoad = args;
 	}
 	

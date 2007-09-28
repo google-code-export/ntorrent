@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 
 import ntorrent.gui.main.MainGlassPane;
 import ntorrent.gui.main.file.FileTabComponent;
@@ -41,7 +42,9 @@ import ntorrent.model.TorrentTableModel;
 import ntorrent.settings.Constants;
 
 /**
- * @author  netbrain
+ * 
+ * @author Kim Eik
+ *
  */
 public class MainGui {
 	private MainGlassPane listener = new MainGlassPane();
@@ -51,9 +54,9 @@ public class MainGui {
 	private FileTabComponent fileTab = new FileTabComponent(listener);
 	private MainTableComponent table = new MainTableComponent(); 
 	private ViewTabComponent viewTab;
+	private JTextArea errorArea = fileTab.getLog();
 	
 	public MainGui(){
-		//mainContent = getTableView();
 		viewTab = new ViewTabComponent(listener,table.getTable());
 		Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
 		rootWin.setIconImage(icon);
@@ -151,7 +154,7 @@ public class MainGui {
 	}
 	
 	public void writeToLog(String msg){
-		fileTab.writeToLog(msg+"\n");
+		errorArea.append(msg+"\n");
 	}
 	
 
