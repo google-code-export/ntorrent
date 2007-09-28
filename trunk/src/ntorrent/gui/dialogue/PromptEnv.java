@@ -35,6 +35,11 @@ import javax.swing.JTextField;
 
 import ntorrent.Controller;
 
+/**
+ * 
+ * @author Kim Eik
+ *
+ */
 public class PromptEnv implements ActionListener {
 	private JFrame window = new JFrame();
 	private JTextField host = new JTextField();
@@ -79,18 +84,34 @@ public class PromptEnv implements ActionListener {
 		window = null;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="window"
+	 */
 	public JFrame getWindow() {
 		return window;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="host"
+	 */
 	public String getHost() {
 		return host.getText();
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="username"
+	 */
 	public String getUsername() {
 		return username.getText();
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="password"
+	 */
 	@SuppressWarnings("deprecation")
 	public String getPassword() {
 		return password.getText();

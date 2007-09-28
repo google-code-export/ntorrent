@@ -19,9 +19,8 @@
  */
 package ntorrent.gui.core;
 
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -29,7 +28,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 
-public abstract class AbstractPopupMenu extends MouseAdapter implements ActionListener{
+public abstract class AbstractPopupMenu extends SuperActionListener implements MouseListener{
 	protected JPopupMenu popup;
 
 	public AbstractPopupMenu(String[] menuItems) {
@@ -54,7 +53,20 @@ public abstract class AbstractPopupMenu extends MouseAdapter implements ActionLi
         maybeShowPopup(e);
     }
 	
-	protected void maybeShowPopup(MouseEvent e) {
-		System.out.println(e);
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	protected abstract void maybeShowPopup(MouseEvent e);
 }

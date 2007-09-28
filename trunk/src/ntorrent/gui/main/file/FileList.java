@@ -12,6 +12,9 @@ import ntorrent.model.units.Priority;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 
+/**
+ * @author  netbrain
+ */
 public class FileList extends XmlRpcCallback {
 	//Simple filelist.
 	JTable filetable = new JTable(new FileTableModel());
@@ -41,6 +44,10 @@ public class FileList extends XmlRpcCallback {
 		fileList  = new JScrollPane(filetable);
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="fileList"
+	 */
 	public JScrollPane getFileList() {
 		return fileList;
 	}

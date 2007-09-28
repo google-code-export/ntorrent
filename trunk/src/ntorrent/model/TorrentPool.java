@@ -29,6 +29,9 @@ import ntorrent.model.units.Byte;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
 
+/**
+ * @author  netbrain
+ */
 public class TorrentPool extends XmlRpcCallback{
 	TorrentSet torrents = new TorrentSet();
 	private TorrentSet viewset = new TorrentSet();
@@ -46,10 +49,18 @@ public class TorrentPool extends XmlRpcCallback{
 	}	
 	
 	
+	/**
+	 * @return
+	 * @uml.property  name="view"
+	 */
 	public String getView() {
 		return view;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="table"
+	 */
 	public TorrentTableModel getTable() {
 		return table;
 	}
@@ -58,6 +69,10 @@ public class TorrentPool extends XmlRpcCallback{
 	public int size(){ return viewset.size(); }
 	public TorrentFile get(int index){ return viewset.get(index);	}
 
+	/**
+	 * @param v
+	 * @uml.property  name="view"
+	 */
 	public void setView(String v){
 		view = v;
 		if(v.equalsIgnoreCase("main"))
@@ -66,10 +81,18 @@ public class TorrentPool extends XmlRpcCallback{
 			viewset = new TorrentSet();
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="rateDown"
+	 */
 	public Byte getRateDown() {
 		return rateDown;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="rateUp"
+	 */
 	public Byte getRateUp() {
 		return rateUp;
 	}

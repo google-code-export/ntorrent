@@ -4,41 +4,36 @@ import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.Window;
 
-import javax.swing.JPopupMenu;
-
-import ntorrent.Controller;
 import ntorrent.settings.Constants;
 
+/**
+ * 
+ * @author Kim Eik
+ *
+ */
 public class ProcessTrayIcon {
 	TrayIcon trayIcon;
-	JPopupMenu popup;
-	public ProcessTrayIcon() {
+	TrayIconPopUpMenu popup;
+	public ProcessTrayIcon(Window root) {
 		if (SystemTray.isSupported()) {
-			popup = new TrayIconPopUpMenu().getPopup();
+			popup = new TrayIconPopUpMenu(root);
 		    SystemTray tray = SystemTray.getSystemTray();
 		    Image image = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
 		    trayIcon = new TrayIcon(image,Constants.getReleaseName(),null);
-		    trayIcon.addActionListener(Constants.trayListener);
-		    trayIcon.addMouseListener(Constants.trayListener);
 		    trayIcon.setImageAutoSize(true);
+		    trayIcon.addMouseListener(popup);
+		    trayIcon.addActionListener(popup);
 
 		    try {
 		        tray.add(trayIcon);
 		    } catch (AWTException e) {
-		    	Controller.writeToLog(e);
+		    	e.printStackTrace();
 		    }
 
 		} else {
 		    //  System Tray is not supported
 		}
-	}
-	
-	public TrayIcon getTrayIcon() {
-		return trayIcon;
-	}
-	
-	public JPopupMenu getPopup() {
-		return popup;
 	}
 }

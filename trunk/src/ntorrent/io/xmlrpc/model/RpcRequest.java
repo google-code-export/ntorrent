@@ -25,6 +25,9 @@ import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.XmlRpcRequestConfig;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
+/**
+ * @author  netbrain
+ */
 public class RpcRequest implements XmlRpcRequest {
 	private String method;
 	private Object[] params;
@@ -50,10 +53,18 @@ public class RpcRequest implements XmlRpcRequest {
 			callBack = a;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="callBack"
+	 */
 	public XmlRpcCallback getCallBack() {
 		return callBack;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="config"
+	 */
 	public XmlRpcRequestConfig getConfig() {
 		return config;
 	}

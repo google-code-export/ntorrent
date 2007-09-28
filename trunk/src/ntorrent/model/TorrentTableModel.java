@@ -20,12 +20,13 @@
 
 package ntorrent.model;
 import javax.swing.table.AbstractTableModel;
-
-import ntorrent.Controller;
-
+/**
+ * 
+ * @author Kim Eik
+ *
+ */
 public class TorrentTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
-	//Vector<String> columns = new Vector<String>();
 	String[] columns = {
 			"Name",
 			"Size",
@@ -43,17 +44,14 @@ public class TorrentTableModel extends AbstractTableModel{
 	
 	public void fillData(TorrentPool torrents){
 		data = torrents;
-		Controller.writeToLog("Created JTable");
+		System.out.println("Created JTable");
 	}
 	
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		//return columns.size();
 		return columns.length;
 	}
 	
     public String getColumnName(int col) {
-        //return columns.get(col);
         return columns[col];
     }
 

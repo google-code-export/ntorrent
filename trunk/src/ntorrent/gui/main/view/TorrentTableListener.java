@@ -28,7 +28,6 @@ import javax.swing.JTable;
 import ntorrent.Controller;
 import ntorrent.gui.core.AbstractJTablePopupMenu;
 import ntorrent.gui.main.file.FileTabComponent;
-import ntorrent.io.xmlrpc.XmlRpc;
 import ntorrent.model.TorrentFile;
 import ntorrent.settings.Constants.Commands;
 import ntorrent.threads.TorrentCommandThread;

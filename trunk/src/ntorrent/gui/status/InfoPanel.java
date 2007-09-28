@@ -8,6 +8,9 @@ import javax.swing.JScrollPane;
 
 import ntorrent.model.TorrentFile;
 
+/**
+ * @author  netbrain
+ */
 public class InfoPanel {
 	JPanel container = new JPanel(new GridLayout(0,1,10,5));
 	JScrollPane infoPanel = new JScrollPane(container);
@@ -51,6 +54,10 @@ public class InfoPanel {
 		container.setVisible(false);
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="infoPanel"
+	 */
 	public JScrollPane getInfoPanel() {
 		return infoPanel;
 	}

@@ -26,6 +26,9 @@ import javax.swing.JFileChooser;
 
 import ntorrent.Controller;
 
+/**
+ * @author  netbrain
+ */
 public class PromptFile {
 	final JFileChooser fc = new JFileChooser();
     File file;
@@ -37,6 +40,10 @@ public class PromptFile {
 		
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="file"
+	 */
 	public File getFile() {
 		return file;
 	}

@@ -28,6 +28,9 @@ import ntorrent.io.xmlrpc.type.CustomTypeFactory;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
+/**
+ * @author  netbrain
+ */
 public class XmlRpcConnection {
 	XmlRpcClientConfigImpl config;
 	XmlRpcQueue client;

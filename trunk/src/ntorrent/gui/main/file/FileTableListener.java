@@ -27,6 +27,11 @@ import javax.swing.JTable;
 import ntorrent.gui.core.AbstractJTablePopupMenu;
 import ntorrent.threads.FileCommandThread;
 
+/**
+ * 
+ * @author Kim Eik
+ *
+ */
 public class FileTableListener extends AbstractJTablePopupMenu {
 	final static String[] menuItems = {"High","Low","Off"};
 	private String hash;
@@ -35,6 +40,10 @@ public class FileTableListener extends AbstractJTablePopupMenu {
 		super(menuItems);
 	}
 	
+	/**
+	 * @param hash
+	 * @uml.property  name="hash"
+	 */
 	public void setHash(String hash) {
 		this.hash = hash;
 	}

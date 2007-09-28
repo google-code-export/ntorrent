@@ -24,6 +24,9 @@ import ntorrent.Controller;
 import ntorrent.gui.status.StatusBarComponent;
 import ntorrent.settings.LocalSettings;
 
+/**
+ * @author  netbrain
+ */
 public class ContentThread extends Controller implements Runnable {
 	StatusBarComponent bar = getGui().getStatusBar();
 	

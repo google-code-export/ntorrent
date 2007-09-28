@@ -24,6 +24,9 @@ import java.awt.Menu;
 import java.awt.MenuBar;
 import ntorrent.settings.Constants.Commands;
 
+/**
+ * @author  netbrain
+ */
 public class MenuBarComponent{
 	MenuBar menubar = new MenuBar();
 	
@@ -47,6 +50,10 @@ public class MenuBarComponent{
 		help.addActionListener(new HelpMenuListener());
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="menubar"
+	 */
 	public MenuBar getMenubar() {
 		return menubar;
 	}

@@ -27,6 +27,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author  netbrain
+ */
 public class ViewTabComponent {
 	JTabbedPane viewPane = new JTabbedPane();
 	public ViewTabComponent(ChangeListener listener, Component content) {
@@ -48,6 +51,10 @@ public class ViewTabComponent {
 		viewPane.addChangeListener(listener);
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="viewPane"
+	 */
 	public JTabbedPane getViewPane() {
 		return viewPane;
 	}
