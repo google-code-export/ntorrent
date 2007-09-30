@@ -123,6 +123,14 @@ public class XmlRpc implements Rpc{
 		client.addToExecutionQueue("get_port_range",null,c);
 	}
 	
+	public void getDownloadRate(XmlRpcCallback c) {
+		client.addToExecutionQueue("get_download_rate",null,c);
+	}
+	
+	public void getUploadRate(XmlRpcCallback c) {
+		client.addToExecutionQueue("get_upload_rate",null,c);	
+	}
+	
 	/**
 	 * @return
 	 */
@@ -183,5 +191,22 @@ public class XmlRpc implements Rpc{
 		}
 		multiCall("f.set_priority",fparams,null);
 		multiCall("d.update_priorities",dparams,null);
+	}
+
+	public void getTrackerList(String hash) {
+/*
+ * t.get_group= t.get_id= t.get_min_interval= t.get_normal_interval= t.get_scrape_complete= t.get_scrape_downloaded= t.get_scrape_incomplete= t.get_scrape_time_last= t.get_type= t.get_url= t.is_enabled= t.is_open=
+ */
+		
+	}
+
+	public void setDownloadRate(Integer i, XmlRpcCallback c) {
+		Object[] params = {i};
+		client.addToExecutionQueue("set_download_rate",params,c);
+	}
+
+	public void setUploadRate(Integer i, XmlRpcCallback c) {
+		Object[] params = {i};
+		client.addToExecutionQueue("set_upload_rate",params,c);
 	}
 }

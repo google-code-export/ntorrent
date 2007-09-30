@@ -47,7 +47,6 @@ public class ContentThread extends Thread {
 	public void run(){
 		try {
 			rpc.getTorrentSet(torrents.getView(), torrents);
-			rpc.getPortRange(bar);
 			bar.setDownloadRate(torrents.getRateDown());
 			bar.setUploadRate(torrents.getRateUp());
 			while(true){
