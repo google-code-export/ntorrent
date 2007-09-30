@@ -48,7 +48,6 @@ public class FileList extends XmlRpcCallback {
 	
 	/**
 	 * @return
-	 * @uml.property  name="fileList"
 	 */
 	public JScrollPane getFileList() {
 		return fileList;

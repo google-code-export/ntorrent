@@ -91,7 +91,6 @@ public class StatusBarComponent extends XmlRpcCallback {
 	
 	/**
 	 * @param  downloadRate
-	 * @uml.property  name="downloadRate"
 	 */
 	public void setDownloadRate(Byte downloadRate) {
 		this.downloadRate = downloadRate;
@@ -99,7 +98,6 @@ public class StatusBarComponent extends XmlRpcCallback {
 	
 	/**
 	 * @param  uploadRate
-	 * @uml.property  name="uploadRate"
 	 */
 	public void setUploadRate(Byte uploadRate) {
 		this.uploadRate = uploadRate;
@@ -122,7 +120,6 @@ public class StatusBarComponent extends XmlRpcCallback {
 	
 	/**
 	 * @return
-	 * @uml.property  name="statusBar"
 	 */
 	public Component getStatusBar() {
 		return statusBar;
@@ -130,7 +127,6 @@ public class StatusBarComponent extends XmlRpcCallback {
 
 	/**
 	 * @param  portRange
-	 * @uml.property  name="port"
 	 */
 	public void setPort(String portRange) {
 		port = portRange;

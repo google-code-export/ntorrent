@@ -74,7 +74,6 @@ public class IOController {
 	
 	/**
 	 * @return
-	 * @uml.property  name="profile"
 	 */
 	public ProfileSettings getProfile() {
 		return profile;
@@ -82,7 +81,6 @@ public class IOController {
 
 	/**
 	 * @return
-	 * @uml.property  name="rpc"
 	 */
 	public Rpc getRpc() {
 		return rpc;

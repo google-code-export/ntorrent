@@ -125,7 +125,6 @@ public class XmlRpc implements Rpc{
 	
 	/**
 	 * @return
-	 * @uml.property  name="systemClientVersion"
 	 */
 	public String getSystemClientVersion() {
 		return systemClientVersion;
@@ -133,7 +132,6 @@ public class XmlRpc implements Rpc{
 	
 	/**
 	 * @return
-	 * @uml.property  name="systemLibraryVersion"
 	 */
 	public String getSystemLibraryVersion() {
 		return systemLibraryVersion;

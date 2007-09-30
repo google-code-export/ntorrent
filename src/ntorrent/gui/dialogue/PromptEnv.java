@@ -23,7 +23,6 @@ package ntorrent.gui.dialogue;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,12 +33,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import ntorrent.Controller;
+import ntorrent.gui.Window;
 
 /**
  * @author  Kim Eik
  */
 public class PromptEnv implements ActionListener {
-	private JFrame window = new JFrame();
+	private Window window = new Window();
 	private JTextField host = new JTextField();
 	private JTextField username = new JTextField();
 	private JPasswordField password = new JPasswordField();
@@ -47,6 +47,7 @@ public class PromptEnv implements ActionListener {
 
 	public PromptEnv(Window parent, Controller controller) {
 		C = controller;
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(parent);
 		window.setAlwaysOnTop(true);
 		Dimension textsize = new Dimension(220,20);
@@ -93,7 +94,6 @@ public class PromptEnv implements ActionListener {
 	
 	/**
 	 * @return
-	 * @uml.property  name="window"
 	 */
 	public JFrame getWindow() {
 		return window;
@@ -101,7 +101,6 @@ public class PromptEnv implements ActionListener {
 	
 	/**
 	 * @return
-	 * @uml.property  name="host"
 	 */
 	public String getHost() {
 		return host.getText();
@@ -109,7 +108,6 @@ public class PromptEnv implements ActionListener {
 	
 	/**
 	 * @return
-	 * @uml.property  name="username"
 	 */
 	public String getUsername() {
 		return username.getText();
@@ -117,7 +115,6 @@ public class PromptEnv implements ActionListener {
 	
 	/**
 	 * @return
-	 * @uml.property  name="password"
 	 */
 	@SuppressWarnings("deprecation")
 	public String getPassword() {

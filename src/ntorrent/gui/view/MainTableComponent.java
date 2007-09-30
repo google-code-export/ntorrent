@@ -125,7 +125,6 @@ public class MainTableComponent extends JTablePopupMenuListener {
 	
 	/**
 	 * @return
-	 * @uml.property  name="table"
 	 */
 	public JTable getTable() {
 		return table;

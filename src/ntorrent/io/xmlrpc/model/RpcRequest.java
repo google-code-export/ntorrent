@@ -55,7 +55,6 @@ public class RpcRequest implements XmlRpcRequest {
 	
 	/**
 	 * @return
-	 * @uml.property  name="callBack"
 	 */
 	public XmlRpcCallback getCallBack() {
 		return callBack;
@@ -63,7 +62,6 @@ public class RpcRequest implements XmlRpcRequest {
 	
 	/**
 	 * @return
-	 * @uml.property  name="config"
 	 */
 	public XmlRpcRequestConfig getConfig() {
 		return config;

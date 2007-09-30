@@ -20,11 +20,12 @@
 
 package ntorrent.gui.window;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import ntorrent.gui.Window;
+
 public class SettingsGui {
-	JFrame window = new JFrame();
+	Window window = new Window();
 	public SettingsGui() {
 		window.setAlwaysOnTop(true);
 		window.add(new JLabel("Coming soon"));

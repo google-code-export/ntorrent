@@ -23,8 +23,6 @@ package ntorrent.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -39,13 +37,12 @@ import ntorrent.gui.status.StatusBarComponent;
 import ntorrent.gui.tray.ProcessTrayIcon;
 import ntorrent.gui.view.MainTableComponent;
 import ntorrent.model.TorrentTableModel;
-import ntorrent.settings.Constants;
 
 /**
  * @author  Kim Eik
  */
 public class GUIController{
-	private JFrame rootWin = new JFrame(Constants.getReleaseName());
+	private Window rootWin = new Window();
 	private StatusBarComponent statusBar = new StatusBarComponent();
 	private MenuBarComponent menuBar;
 	private FileTabComponent fileTab; 
@@ -64,8 +61,6 @@ public class GUIController{
 			e.printStackTrace();
 		}
 		viewTab = new ViewTabComponent(parent,table.getTable());
-		Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
-		rootWin.setIconImage(icon);
 		new PromptEnv(rootWin,parent);
 	}
 	
@@ -112,7 +107,6 @@ public class GUIController{
 	//Not in use atm.
 	/**
 	 * @return
-	 * @uml.property  name="fileTab"
 	 */
 	public FileTabComponent getFileTab() {
 		return fileTab;
@@ -121,7 +115,6 @@ public class GUIController{
 	
 	/**
 	 * @return
-	 * @uml.property  name="menuBar"
 	 */
 	public MenuBarComponent getMenuBar() {
 		return menuBar;
@@ -129,15 +122,13 @@ public class GUIController{
 	
 	/**
 	 * @return
-	 * @uml.property  name="rootWin"
 	 */
-	public JFrame getRootWin() {
+	public Window getRootWin() {
 		return rootWin;
 	}
 	
 	/**
 	 * @return
-	 * @uml.property  name="statusBar"
 	 */
 	public StatusBarComponent getStatusBar() {
 		return statusBar;
@@ -145,7 +136,6 @@ public class GUIController{
 	
 	/**
 	 * @return
-	 * @uml.property  name="table"
 	 */
 	public MainTableComponent getTable() {
 		return table;
@@ -153,7 +143,6 @@ public class GUIController{
 	
 	/**
 	 * @return
-	 * @uml.property  name="viewTab"
 	 */
 	public ViewTabComponent getViewTab() {
 		return viewTab;

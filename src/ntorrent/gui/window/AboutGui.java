@@ -20,13 +20,13 @@
 
 package ntorrent.gui.window;
 
-import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import ntorrent.gui.Window;
 import ntorrent.settings.Constants;
 
 public class AboutGui {
-	JFrame window = new JFrame();
+	Window window = new Window();
 	JTextArea about = new JTextArea();
 
 	public AboutGui(){

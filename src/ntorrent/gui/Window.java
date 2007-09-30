@@ -17,35 +17,29 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.threads;
+package ntorrent.gui;
 
-import ntorrent.Controller;
+import java.awt.Image;
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
+
+import ntorrent.settings.Constants;
 
 /**
- * @author  Kim Eik
+ * @author Kim Eik
+ *
  */
-public class ThreadController{
-	private Thread mainContentThread;
-	Controller parent;
-	public ThreadController(Controller c) {
-		parent = c;
-		mainContentThread = new ContentThread(
-				c.getGC(), 
-				c.getIO().getRpc(), 
-				c.getGC().getStatusBar(),
-				c.getMC().getTorrentPool());
+public class Window extends JFrame {
+	private static final long serialVersionUID = 1L;
+	Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
+	public Window(){
+		this(Constants.getReleaseName());
 	}
 	
-	public void startThreads(){
-		System.out.println("Starting threads.");
-		mainContentThread.start();
-	}
-	
-	/**
-	 * @return
-	 */
-	public Thread getMainContentThread() {
-		return mainContentThread;
+	public Window(String title){
+		super(title);
+		this.setIconImage(icon);
 	}
 	
 }

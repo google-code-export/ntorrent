@@ -56,7 +56,6 @@ public class InfoPanel {
 	
 	/**
 	 * @return
-	 * @uml.property  name="infoPanel"
 	 */
 	public JScrollPane getInfoPanel() {
 		return infoPanel;
