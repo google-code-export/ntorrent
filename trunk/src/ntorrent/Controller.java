@@ -80,7 +80,6 @@ public class Controller{
 
 	/**
 	 * @return
-	 * @uml.property  name="gC"
 	 */
 	public GUIController getGC() {
 		return GC;
@@ -88,7 +87,6 @@ public class Controller{
 	
 	/**
 	 * @return
-	 * @uml.property  name="iO"
 	 */
 	public IOController getIO() {
 		return IO;
@@ -96,7 +94,6 @@ public class Controller{
 	
 	/**
 	 * @return
-	 * @uml.property  name="mC"
 	 */
 	public ModelController getMC() {
 		return MC;
@@ -104,7 +101,6 @@ public class Controller{
 	
 	/**
 	 * @return
-	 * @uml.property  name="tC"
 	 */
 	public ThreadController getTC() {
 		return TC;

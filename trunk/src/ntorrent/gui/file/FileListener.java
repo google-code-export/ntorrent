@@ -42,7 +42,6 @@ public class FileListener extends JTablePopupMenuListener {
 	
 	/**
 	 * @param hash
-	 * @uml.property  name="hash"
 	 */
 	public void setHash(String hash) {
 		this.hash = hash;

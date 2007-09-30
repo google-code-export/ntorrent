@@ -53,7 +53,6 @@ public class TorrentPool extends XmlRpcCallback{
 	
 	/**
 	 * @return
-	 * @uml.property  name="view"
 	 */
 	public String getView() {
 		return view;
@@ -61,7 +60,6 @@ public class TorrentPool extends XmlRpcCallback{
 	
 	/**
 	 * @return
-	 * @uml.property  name="table"
 	 */
 	public TorrentTableModel getTable() {
 		return table;
@@ -73,7 +71,6 @@ public class TorrentPool extends XmlRpcCallback{
 
 	/**
 	 * @param  v
-	 * @uml.property  name="view"
 	 */
 	public void setView(String v){
 		view = v;
@@ -88,7 +85,6 @@ public class TorrentPool extends XmlRpcCallback{
 	
 	/**
 	 * @return
-	 * @uml.property  name="rateDown"
 	 */
 	public Byte getRateDown() {
 		return rateDown;
@@ -96,7 +92,6 @@ public class TorrentPool extends XmlRpcCallback{
 	
 	/**
 	 * @return
-	 * @uml.property  name="rateUp"
 	 */
 	public Byte getRateUp() {
 		return rateUp;

@@ -55,7 +55,6 @@ public class ProfileSettings extends Settings{
 	
 	/**
 	 * @return
-	 * @uml.property  name="host"
 	 */
 	public String getHost() {
 		return host;
@@ -63,7 +62,6 @@ public class ProfileSettings extends Settings{
 	
 	/**
 	 * @return
-	 * @uml.property  name="username"
 	 */
 	public String getUsername() {
 		return username;
@@ -71,7 +69,6 @@ public class ProfileSettings extends Settings{
 	
 	/**
 	 * @param  host
-	 * @uml.property  name="host"
 	 */
 	public void setHost(String host) {
 		this.host = host;
@@ -79,7 +76,6 @@ public class ProfileSettings extends Settings{
 	
 	/**
 	 * @param  username
-	 * @uml.property  name="username"
 	 */
 	public void setUsername(String username) {
 		this.username = username;

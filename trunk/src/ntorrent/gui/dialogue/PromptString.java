@@ -36,7 +36,6 @@ public class PromptString {
 	
 	/**
 	 * @return
-	 * @uml.property  name="input"
 	 */
 	public String getInput() {
 		return input;

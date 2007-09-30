@@ -116,7 +116,6 @@ public final class Constants {
 	
 	/**
 	 * @return
-	 * @uml.property  name="commPort"
 	 */
 	public static int getCommPort() {
 		return commPort;

@@ -41,7 +41,6 @@ public class PromptFile {
 	
 	/**
 	 * @return
-	 * @uml.property  name="file"
 	 */
 	public File getFile() {
 		return file;

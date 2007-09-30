@@ -56,7 +56,6 @@ public class ViewTabComponent extends GuiEventListener {
 	
 	/**
 	 * @return
-	 * @uml.property  name="viewPane"
 	 */
 	public JTabbedPane getViewPane() {
 		return viewPane;

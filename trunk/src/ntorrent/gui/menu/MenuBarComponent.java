@@ -56,7 +56,6 @@ public class MenuBarComponent extends GuiEventListener{
 	
 	/**
 	 * @return
-	 * @uml.property  name="menubar"
 	 */
 	public MenuBar getMenubar() {
 		return menubar;
