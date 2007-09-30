@@ -21,6 +21,7 @@
 package ntorrent.gui.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JTable;
@@ -41,16 +42,25 @@ import ntorrent.settings.Constants.Commands;
  */
 public class MainTableComponent extends JTablePopupMenuListener {
 	JTable table = new JTable(new TorrentTableModel());
-	
-	final static String[] menuItems = {
+	final static Object[] prioritysub = {
+		"Set priority",
+		"High",
+		"Normal",
+		"Low",
+		"Off"
+		};
+	final static Object[] menuItems = {
 		Commands.START.toString(),
 		Commands.STOP.toString(),
+		Commands.REMOVE.toString(),
+		null,
+		prioritysub,
 		null,
 		Commands.OPEN.toString(),
 		Commands.CHECK_HASH.toString(),
-		Commands.CLOSE.toString(),
-		null,
-		Commands.REMOVE.toString()};
+		Commands.CLOSE.toString()
+	};
+
 	
 	public MainTableComponent(Controller c){
 		super(c, menuItems);
@@ -143,5 +153,20 @@ public class MainTableComponent extends JTablePopupMenuListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		String cmd = e.getActionCommand();
+		if(cmd.equals("High")){
+			
+		}else if(cmd.equals("Normal")){
+			
+		}else if(cmd.equals("Low")){
+			
+		}else if(cmd.equals("Off")){
+			
+		}
 	}
 }
