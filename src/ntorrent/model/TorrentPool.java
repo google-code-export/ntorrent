@@ -125,6 +125,10 @@ public class TorrentPool extends XmlRpcCallback{
 		rpc.fileCommand(getHash(i), "d.stop");
 	}
 	
+	public void setPriority(int[] i, int pri){
+		rpc.setTorrentPriority(getHash(i), pri);
+	}
+	
 	public void stopAll(){
 		String[] s = new String[torrents.size()];
 		torrents.getHashSet().toArray(s);
