@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.core;
+package ntorrent.gui.listener;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -27,11 +27,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import ntorrent.Controller;
 
-public abstract class AbstractPopupMenu extends SuperActionListener implements MouseListener{
+
+public abstract class JPopupMenuListener extends GuiEventListener implements MouseListener{
 	protected JPopupMenu popup;
-
-	public AbstractPopupMenu(String[] menuItems) {
+	
+	public JPopupMenuListener(Controller c,String[] menuItems) {
+		super(c);
 	    popup = new JPopupMenu();
 	    for(String mitem : menuItems){
 	    	if(mitem == null){
@@ -44,28 +47,14 @@ public abstract class AbstractPopupMenu extends SuperActionListener implements M
 	    }
 	}
 	
-    public void mousePressed(MouseEvent e) {
-        maybeShowPopup(e);
-    }
-
-
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
+		
+	}
 	public void mouseReleased(MouseEvent e) {
-        maybeShowPopup(e);
-    }
-	
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
 	}
 	
 	protected abstract void maybeShowPopup(MouseEvent e);

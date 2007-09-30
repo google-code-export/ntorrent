@@ -19,8 +19,8 @@
  */
 package ntorrent.io.xmlrpc;
 
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import ntorrent.io.xmlrpc.model.RpcRequest;
 
@@ -31,7 +31,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 	
-	private Queue<RpcRequest> queue = new LinkedList<RpcRequest>();
+	private Queue<RpcRequest> queue = new ArrayBlockingQueue<RpcRequest>(32);
 	private Thread thisThread;
 	private XmlRpcClientConfigImpl config;
 	private static long time = 0;

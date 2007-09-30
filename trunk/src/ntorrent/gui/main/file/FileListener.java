@@ -24,20 +24,20 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JTable;
 
-import ntorrent.gui.core.AbstractJTablePopupMenu;
-import ntorrent.threads.FileCommandThread;
+import ntorrent.Controller;
+import ntorrent.gui.listener.JTablePopupMenuListener;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
-public class FileTableListener extends AbstractJTablePopupMenu {
+public class FileListener extends JTablePopupMenuListener {
 	final static String[] menuItems = {"High","Low","Off"};
 	private String hash;
+	private Controller C;
 	
-	public FileTableListener() {
-		super(menuItems);
+	public FileListener(Controller c) {
+		super(c,menuItems);
+		C = c;
 	}
 	
 	/**
@@ -59,10 +59,29 @@ public class FileTableListener extends AbstractJTablePopupMenu {
     }	
 
 	public void actionPerformed(ActionEvent e) {
-		Runnable fileCommand = new FileCommandThread(e.getActionCommand(),hash,selectedRows);
-		Thread actionThread = new Thread(fileCommand);
-		actionThread.start();
+		System.out.println("Setting priority on "+selectedRows.length+" files = "+hash);
+		String command = e.getActionCommand();
+		if(command.equals("High")){
+			C.getIO().getRpc().setFilePriority(hash, 2, selectedRows);
+		}else if(command.equals("Low")){
+			C.getIO().getRpc().setFilePriority(hash, 1, selectedRows);			
+		}else if(command.equals("Off")){
+			C.getIO().getRpc().setFilePriority(hash, 0, selectedRows);		
+		}
 	}
 
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

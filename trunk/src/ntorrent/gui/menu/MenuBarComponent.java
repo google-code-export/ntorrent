@@ -22,19 +22,23 @@ package ntorrent.gui.menu;
 
 import java.awt.Menu;
 import java.awt.MenuBar;
+
+import ntorrent.Controller;
+import ntorrent.gui.listener.GuiEventListener;
 import ntorrent.settings.Constants.Commands;
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
-public class MenuBarComponent{
+public class MenuBarComponent extends GuiEventListener{
 	MenuBar menubar = new MenuBar();
 	
-	public MenuBarComponent(){
+	public MenuBarComponent(Controller c){
+		super(c);
 		Menu file = new Menu("File");
 		Menu help = new Menu("Help");
-		file.add(Commands.CONNECT.toString());
-		file.addSeparator();
+		//file.add(Commands.CONNECT.toString());
+		//file.addSeparator();
 		file.add(Commands.ADD_TORRENT.toString());
 		file.add(Commands.ADD_URL.toString());
 		file.addSeparator();
@@ -46,8 +50,8 @@ public class MenuBarComponent{
 		menubar.add(help);
 		help.add(Commands.SETTINGS.toString());
 		help.add(Commands.ABOUT.toString());
-		file.addActionListener(new FileMenuListener());
-		help.addActionListener(new HelpMenuListener());
+		file.addActionListener(this);
+		help.addActionListener(this);
 	}
 	
 	/**

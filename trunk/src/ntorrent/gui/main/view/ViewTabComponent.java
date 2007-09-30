@@ -25,14 +25,17 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeListener;
+
+import ntorrent.Controller;
+import ntorrent.gui.listener.GuiEventListener;
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
-public class ViewTabComponent {
+public class ViewTabComponent extends GuiEventListener {
 	JTabbedPane viewPane = new JTabbedPane();
-	public ViewTabComponent(ChangeListener listener, Component content) {
+	public ViewTabComponent(Controller c, Component content) {
+		super(c);
 		viewPane.setName("views");
 		viewPane.addTab("main", new JScrollPane(content));
 		viewPane.addTab("started", null);
@@ -48,7 +51,7 @@ public class ViewTabComponent {
 		viewPane.setMnemonicAt(4, KeyEvent.VK_5);
 		viewPane.setMnemonicAt(5, KeyEvent.VK_6);
 		viewPane.setMnemonicAt(6, KeyEvent.VK_7);
-		viewPane.addChangeListener(listener);
+		viewPane.addChangeListener(this);
 	}
 	
 	/**

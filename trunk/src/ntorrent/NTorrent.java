@@ -22,7 +22,6 @@ package ntorrent;
 
 import java.io.IOException;
 import java.net.BindException;
-import java.net.MalformedURLException;
 
 import javax.swing.UIManager;
 
@@ -31,22 +30,21 @@ import ntorrent.io.socket.Server;
 import ntorrent.settings.Constants;
 
 public class NTorrent{
+	
 	/**
 	 * @param args
-	 * @throws MalformedURLException 
 	 */
-	public static void main(String[] args) throws MalformedURLException {
+	public static void main(String[] args){
 		//start socket server
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Server().start();
-			
+			Server s = new Server();
 			//start process
 			System.out.println(Constants.getLicense());
-			Controller c = new Controller();
-			c.drawMainGui();
-			c.setStartupFiles(args);
+			s.setController(new Controller(args));
+			s.start();
 		} catch(BindException e) {
+			System.out.println("Server already started");
 			//Server already started.
 			//connect to existing process
 			try {

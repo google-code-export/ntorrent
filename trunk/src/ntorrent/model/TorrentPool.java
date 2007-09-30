@@ -30,7 +30,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class TorrentPool extends XmlRpcCallback{
 	TorrentSet torrents = new TorrentSet();
@@ -40,12 +40,14 @@ public class TorrentPool extends XmlRpcCallback{
 	TorrentTableModel table;
 	Byte rateUp = new Byte(0);
 	Byte rateDown = new Byte(0);
-
+	Controller C;
+	
 	TorrentPool(){}
 
-	public TorrentPool(Rpc r, TorrentTableModel t) throws XmlRpcException{
-		rpc = r;
-		table = t;
+	public TorrentPool(Controller c) throws XmlRpcException{
+		rpc = c.getIO().getRpc();
+		table = c.getGC().getTorrentTableModel();
+		C = c;
 	}	
 	
 	
@@ -70,7 +72,7 @@ public class TorrentPool extends XmlRpcCallback{
 	public TorrentFile get(int index){ return viewset.get(index);	}
 
 	/**
-	 * @param v
+	 * @param  v
 	 * @uml.property  name="view"
 	 */
 	public void setView(String v){
@@ -79,6 +81,9 @@ public class TorrentPool extends XmlRpcCallback{
 			viewset = torrents;
 		else
 			viewset = new TorrentSet();
+		
+		//interrupt thread
+		C.getTC().getMainContentThread().interrupt();
 	}
 	
 	/**
@@ -149,7 +154,6 @@ public class TorrentPool extends XmlRpcCallback{
 
 	@Override
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
-
 		rateUp.setValue(0);
 		rateDown.setValue(0);
 		Object[] obj = (Object[])pResult;
@@ -158,7 +162,6 @@ public class TorrentPool extends XmlRpcCallback{
 		if(pRequest.getParameterCount() == XmlRpc.variable.length)
 			fullUpdate = false;
 		
-		/**@TODO not happy with this solution**/
 		for(int x = 0; x < obj.length; x++){
 			Object[] raw = (Object[])obj[x];
 			TorrentFile tf = torrents.get((String)raw[0]);
@@ -168,7 +171,7 @@ public class TorrentPool extends XmlRpcCallback{
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
 			}else if(tf == null && !fullUpdate){
-				Controller.getMainContentThread().interrupt();
+				C.getTC().getMainContentThread().interrupt();
 				break;
 			}
 	

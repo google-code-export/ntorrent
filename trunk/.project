@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>nTorrent</name>
-	<comment>an rtorrent GUI@key 32303037303533312D31303030206E546F7272656E742F6E6574627261696E </comment>
+	<comment>an rtorrent GUI@key 32303037303533312D31303030206E546F7272656E742F4B696D2045696B </comment>
 	<projects>
 	</projects>
 	<buildSpec>

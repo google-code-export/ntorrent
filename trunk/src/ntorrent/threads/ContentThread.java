@@ -20,15 +20,29 @@
 
 package ntorrent.threads;
 
-import ntorrent.Controller;
+import ntorrent.gui.GUIController;
 import ntorrent.gui.status.StatusBarComponent;
+import ntorrent.io.Rpc;
+import ntorrent.model.TorrentPool;
 import ntorrent.settings.LocalSettings;
 
 /**
- * @author  netbrain
+ * @author  Kim Eik
  */
-public class ContentThread extends Controller implements Runnable {
-	StatusBarComponent bar = getGui().getStatusBar();
+public class ContentThread extends Thread {
+
+	StatusBarComponent bar;
+	Rpc rpc;
+	TorrentPool torrents;
+	GUIController GC;
+	
+	public ContentThread(GUIController gc, Rpc r, StatusBarComponent b, TorrentPool tp) {
+		rpc = r;
+		bar = b;
+		torrents = tp;
+		GC = gc;
+	}
+
 	
 	public void run(){
 		try {
@@ -38,17 +52,17 @@ public class ContentThread extends Controller implements Runnable {
 			bar.setUploadRate(torrents.getRateUp());
 			while(true){
 				try {
+					Thread.sleep(LocalSettings.vintervall);
 					rpc.getTorrentVariables(torrents.getView(),torrents);
 					bar.repaint();
-					Thread.sleep(LocalSettings.vintervall);
 				} catch (InterruptedException e) {
 					torrents.getTable().fireTableDataChanged();
 					rpc.getTorrentSet(torrents.getView(), torrents);
 				}
 			}
 		} catch (Exception e) {
-			Controller.getGui().showError(e.getLocalizedMessage());
-			Controller.writeToLog(e);
+			GC.showError(e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 	}
 	

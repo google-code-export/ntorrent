@@ -41,7 +41,7 @@ import ntorrent.model.units.Byte;
 
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class StatusBarComponent extends XmlRpcCallback {
 	//Statusbar component
@@ -90,7 +90,7 @@ public class StatusBarComponent extends XmlRpcCallback {
 	}
 	
 	/**
-	 * @param downloadRate
+	 * @param  downloadRate
 	 * @uml.property  name="downloadRate"
 	 */
 	public void setDownloadRate(Byte downloadRate) {
@@ -98,7 +98,7 @@ public class StatusBarComponent extends XmlRpcCallback {
 	}
 	
 	/**
-	 * @param uploadRate
+	 * @param  uploadRate
 	 * @uml.property  name="uploadRate"
 	 */
 	public void setUploadRate(Byte uploadRate) {
@@ -129,7 +129,7 @@ public class StatusBarComponent extends XmlRpcCallback {
 	}
 
 	/**
-	 * @param portRange
+	 * @param  portRange
 	 * @uml.property  name="port"
 	 */
 	public void setPort(String portRange) {

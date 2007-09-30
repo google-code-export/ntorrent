@@ -28,7 +28,7 @@ import ntorrent.model.units.Ratio;
 
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class TorrentFile implements Comparable<TorrentFile>{
 	private String hash;
@@ -52,12 +52,11 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	private Long peersConnected;
 	
 	TorrentFile(String h){
-		//Controller.writeToLog("New torrent: "+h);
 		hash = h;
 	}
 	
 	/**
-	 * @param f
+	 * @param  f
 	 * @uml.property  name="filename"
 	 */
 	void setFilename(String f){ filename = f; }
@@ -67,23 +66,23 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	void setRateDown(Long r){ rateDown = new Bit(r); }
 	void setRateUp(Long r){ rateUp = new Bit(r); }
 	/**
-	 * @param b
+	 * @param  b
 	 * @uml.property  name="started"
 	 */
 	void setStarted(boolean b){ started = b; }
 	void setFiles(long num) { numFiles = (int)num; }
 	/**
-	 * @param s
+	 * @param  s
 	 * @uml.property  name="filePath"
 	 */
 	void setFilePath(String s){ filePath = s; }
 	/**
-	 * @param s
+	 * @param  s
 	 * @uml.property  name="tiedToFile"
 	 */
 	void setTiedToFile(String s){ tiedToFile = s; }
 	/**
-	 * @param s
+	 * @param  s
 	 * @uml.property  name="message"
 	 */
 	void setMessage(String s){message = s;}
@@ -232,7 +231,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	}
 
 	/**
-	 * @param long1
+	 * @param  long1
 	 * @uml.property  name="peersComplete"
 	 */
 	private void setPeersComplete(Long long1) {
@@ -241,7 +240,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	}
 
 	/**
-	 * @param long1
+	 * @param  long1
 	 * @uml.property  name="peersNotConnected"
 	 */
 	private void setPeersNotConnected(Long long1) {
@@ -250,7 +249,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	}
 
 	/**
-	 * @param long1
+	 * @param  long1
 	 * @uml.property  name="peersConnected"
 	 */
 	private void setPeersConnected(Long long1) {
