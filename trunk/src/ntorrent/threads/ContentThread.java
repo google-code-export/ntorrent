@@ -21,7 +21,7 @@
 package ntorrent.threads;
 
 import ntorrent.gui.GUIController;
-import ntorrent.gui.status.StatusBarComponent;
+import ntorrent.gui.StatusBarComponent;
 import ntorrent.io.Rpc;
 import ntorrent.model.TorrentPool;
 import ntorrent.settings.LocalSettings;
