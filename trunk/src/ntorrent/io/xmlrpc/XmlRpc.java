@@ -209,4 +209,16 @@ public class XmlRpc implements Rpc{
 		Object[] params = {i};
 		client.addToExecutionQueue("set_upload_rate",params,c);
 	}
+
+	public void setTorrentPriority(String[] hash, int pri) {
+		Object[][] tparams = new Object[hash.length][2];
+		Object[][] dparams = new Object[hash.length][1];
+		
+		for(int x = 0; x < hash.length; x++){
+			tparams[x][0] = dparams[x][0] = hash[x]; 
+			tparams[x][1] = pri; 
+		}
+		multiCall("d.set_priority",tparams,null);
+
+	}
 }

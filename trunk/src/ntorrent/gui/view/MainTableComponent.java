@@ -160,13 +160,13 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		super.actionPerformed(e);
 		String cmd = e.getActionCommand();
 		if(cmd.equals("High")){
-			
+			C.getMC().getTorrentPool().setPriority(selectedRows, 3);
 		}else if(cmd.equals("Normal")){
-			
+			C.getMC().getTorrentPool().setPriority(selectedRows, 2);
 		}else if(cmd.equals("Low")){
-			
+			C.getMC().getTorrentPool().setPriority(selectedRows, 1);
 		}else if(cmd.equals("Off")){
-			
+			C.getMC().getTorrentPool().setPriority(selectedRows, 0);
 		}
 	}
 }
