@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.status;
+package ntorrent.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
