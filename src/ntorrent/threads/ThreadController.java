@@ -17,11 +17,36 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.threads;
 
-package ntorrent.gui.menu;
+import ntorrent.Controller;
 
-import ntorrent.gui.core.SuperActionListener;
-
-public class FileMenuListener extends SuperActionListener {
+/**
+ * @author  Kim Eik
+ */
+public class ThreadController{
+	private Thread mainContentThread;
+	Controller parent;
+	public ThreadController(Controller c) {
+		parent = c;
+		mainContentThread = new ContentThread(
+				c.getGC(), 
+				c.getIO().getRpc(), 
+				c.getGC().getStatusBar(),
+				c.getMC().getTorrentPool());
+	}
+	
+	public void startThreads(){
+		System.out.println("Starting threads.");
+		mainContentThread.start();
+	}
+	
+	/**
+	 * @return
+	 * @uml.property  name="mainContentThread"
+	 */
+	public Thread getMainContentThread() {
+		return mainContentThread;
+	}
 	
 }

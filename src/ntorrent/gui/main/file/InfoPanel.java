@@ -1,4 +1,4 @@
-package ntorrent.gui.status;
+package ntorrent.gui.main.file;
 
 import java.awt.GridLayout;
 
@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import ntorrent.model.TorrentFile;
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class InfoPanel {
 	JPanel container = new JPanel(new GridLayout(0,1,10,5));

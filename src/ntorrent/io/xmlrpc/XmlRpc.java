@@ -28,16 +28,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ntorrent.Controller;
 import ntorrent.io.Rpc;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
 public class XmlRpc implements Rpc{
 	private static XmlRpcQueue client;
@@ -70,17 +67,12 @@ public class XmlRpc implements Rpc{
 	};
 	
 	
-	public XmlRpc(XmlRpcClient c){
+	public XmlRpc(XmlRpcClient c) throws XmlRpcException{
 		client = (XmlRpcQueue)c;
 		Object[] params = {};
-		try {
-			systemClientVersion = (String)c.execute("system.client_version", params);
-			systemLibraryVersion = (String)c.execute("system.library_version", params);
-			System.out.println("Host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
-		} catch (XmlRpcException e) {
-			e.printStackTrace();
-			Controller.getGui().showError(e.getLocalizedMessage());
-		}
+		systemClientVersion = (String)c.execute("system.client_version", params);
+		systemLibraryVersion = (String)c.execute("system.library_version", params);
+		System.out.println("Connected to host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
 
 	}
 	

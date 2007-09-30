@@ -20,21 +20,20 @@
 
 package ntorrent.gui.dialogue;
 
+import java.awt.Window;
 import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import ntorrent.Controller;
-
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class PromptFile {
 	final JFileChooser fc = new JFileChooser();
     File file;
     
-	public PromptFile(){
-		int returnVal = fc.showOpenDialog(Controller.getGui().getRootWin());
+	public PromptFile(Window root){
+		int returnVal = fc.showOpenDialog(root);
 		if (returnVal == JFileChooser.APPROVE_OPTION)
             file = fc.getSelectedFile();
 		

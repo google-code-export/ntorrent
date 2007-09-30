@@ -25,22 +25,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import ntorrent.Controller;
 
+/**
+ * @author  Kim Eik
+ */
 class ThreadedClientHandler extends Thread {
 
 	private static Socket client;
 
 	private BufferedReader in;
+	
+	Controller C;
 
-	public ThreadedClientHandler(Socket socket) {
+	public ThreadedClientHandler(Socket socket, Controller c) {
 		client = socket;
 		try {
 			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 		} catch (IOException e) {
-			Controller.writeToLog(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -49,25 +52,25 @@ class ThreadedClientHandler extends Thread {
 			do {
 				try {
 					String line = in.readLine();
-					Controller.writeToLog("Client socket reported: "+line);
-					if(!Controller.loadTorrent(new File(line)))
-						Controller.writeToLog("loadTorrent returned false.");
-				} catch (XmlRpcException e) {
-					Controller.writeToLog(e);
-				} catch(NullPointerException e){
-					Controller.writeToLog(e);
+					if(line != null){
+						System.out.println("Client socket reported: "+line);
+						if(!C.getIO().loadTorrent(new File(line)))
+							System.out.println("loadTorrent returned false.");
+					}
+				}catch(Exception x){
+					C.getGC().showError(x);
 				}
 			} while (in.ready());
 		} catch (IOException e) {
-			Controller.writeToLog(e);
+			e.printStackTrace();
 		} finally {
 			try {
 				if (client != null) {
-					Controller.writeToLog("Closing client socket.");
+					System.out.println("Closing client socket.");
 					client.close();
 				}
 			} catch (IOException e) {
-				Controller.writeToLog(e);
+				e.printStackTrace();
 			}
 		}
 	}

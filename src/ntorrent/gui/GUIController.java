@@ -25,41 +25,50 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 
-import ntorrent.gui.main.MainGlassPane;
+import ntorrent.Controller;
+import ntorrent.gui.dialogue.PromptEnv;
 import ntorrent.gui.main.file.FileTabComponent;
 import ntorrent.gui.main.view.MainTableComponent;
 import ntorrent.gui.main.view.ViewTabComponent;
 import ntorrent.gui.menu.MenuBarComponent;
 import ntorrent.gui.status.StatusBarComponent;
+import ntorrent.gui.tray.ProcessTrayIcon;
 import ntorrent.model.TorrentTableModel;
 import ntorrent.settings.Constants;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
-public class MainGui {
-	private MainGlassPane listener = new MainGlassPane();
+public class GUIController{
 	private JFrame rootWin = new JFrame(Constants.getReleaseName());
 	private StatusBarComponent statusBar = new StatusBarComponent();
-	private MenuBarComponent menuBar = new MenuBarComponent();
-	private FileTabComponent fileTab = new FileTabComponent(listener);
-	private MainTableComponent table = new MainTableComponent(); 
+	private MenuBarComponent menuBar;
+	private FileTabComponent fileTab; 
+	private MainTableComponent table;
 	private ViewTabComponent viewTab;
-	private JTextArea errorArea = fileTab.getLog();
+	private Controller parent;
 	
-	public MainGui(){
-		viewTab = new ViewTabComponent(listener,table.getTable());
+	public GUIController(Controller parent){
+		this.parent = parent;
+		menuBar = new MenuBarComponent(parent);
+		table = new MainTableComponent(parent); 
+		try {
+			fileTab = new FileTabComponent(parent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		viewTab = new ViewTabComponent(parent,table.getTable());
 		Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
 		rootWin.setIconImage(icon);
+		new PromptEnv(rootWin,parent);
 	}
 	
 	public void drawMainWindow(){
@@ -72,7 +81,9 @@ public class MainGui {
 		rootWin.pack();
 		rootWin.setLocationRelativeTo(null);
 		rootWin.setVisible(true);
+		new ProcessTrayIcon(parent,rootWin);
 	}
+	
 	
 	private JPanel getContentPane(){
 		JPanel content = new JPanel(new BorderLayout());
@@ -92,6 +103,10 @@ public class MainGui {
 				JOptionPane.ERROR_MESSAGE);
 	}
 	
+	public void showError(Throwable e){
+		showError(e.getLocalizedMessage());
+	}
+	
 	public TorrentTableModel getTorrentTableModel(){
 		return (TorrentTableModel)table.getTable().getModel();
 	}
@@ -105,13 +120,6 @@ public class MainGui {
 		return fileTab;
 	}
 	
-	/**
-	 * @return
-	 * @uml.property  name="listener"
-	 */
-	public MainGlassPane getListener() {
-		return listener;
-	}
 	
 	/**
 	 * @return
@@ -152,10 +160,6 @@ public class MainGui {
 	public ViewTabComponent getViewTab() {
 		return viewTab;
 	}
-	
-	public void writeToLog(String msg){
-		errorArea.append(msg+"\n");
-	}
-	
+
 
 }

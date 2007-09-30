@@ -6,19 +6,18 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.Window;
 
+import ntorrent.Controller;
 import ntorrent.settings.Constants;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
 public class ProcessTrayIcon {
 	TrayIcon trayIcon;
 	TrayIconPopUpMenu popup;
-	public ProcessTrayIcon(Window root) {
+	public ProcessTrayIcon(Controller c,Window root) {
 		if (SystemTray.isSupported()) {
-			popup = new TrayIconPopUpMenu(root);
+			popup = new TrayIconPopUpMenu(c,root);
 		    SystemTray tray = SystemTray.getSystemTray();
 		    Image image = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
 		    trayIcon = new TrayIcon(image,Constants.getReleaseName(),null);

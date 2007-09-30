@@ -26,7 +26,7 @@ import org.apache.xmlrpc.XmlRpcRequestConfig;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class RpcRequest implements XmlRpcRequest {
 	private String method;

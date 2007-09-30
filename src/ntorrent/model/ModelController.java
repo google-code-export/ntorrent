@@ -17,11 +17,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.model;
 
-package ntorrent.gui.menu;
+import ntorrent.Controller;
 
-import ntorrent.gui.core.SuperActionListener;
+import org.apache.xmlrpc.XmlRpcException;
 
-public class HelpMenuListener extends SuperActionListener {
+/**
+ * @author  Kim Eik
+ */
+public class ModelController {
+
+	TorrentPool torrents;
+	Controller parent;
+	
+	
+	public ModelController(Controller c) throws XmlRpcException {
+		parent = c;
+		torrents = new TorrentPool(parent);
+	}
+
+	public TorrentPool getTorrentPool() {
+		return torrents;
+	}
 
 }

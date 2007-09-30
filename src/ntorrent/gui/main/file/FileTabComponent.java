@@ -20,37 +20,36 @@
 
 package ntorrent.gui.main.file;
 
+import java.io.IOException;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.event.ChangeListener;
 
-import ntorrent.gui.status.InfoPanel;
+import ntorrent.Controller;
+import ntorrent.gui.listener.GuiEventListener;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
-public class FileTabComponent {
+public class FileTabComponent extends GuiEventListener  {
 	JTabbedPane filePane = new JTabbedPane();
-	JTextArea log = new JTextArea();
 	InfoPanel infoPanel = new InfoPanel();
-	FileList fileList = new FileList();
+	FileList fileList;
 
 	
-	public FileTabComponent(ChangeListener listener){
-		log.setEditable(false);
+	public FileTabComponent(Controller c) throws IOException{
+		super(c);
+		fileList = new FileList(c);
 		filePane.setName("file");
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
 		filePane.addTab("info", infoPanel.getInfoPanel());
 		filePane.addTab("file list", fileList.getFileList());
-		filePane.addTab("log",new JScrollPane(log));
+		filePane.addTab("log",new JScrollPane(null));
 		filePane.setSelectedIndex(2);
 		//filePane.addTab("tracker list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
-		filePane.addChangeListener(listener);
+		filePane.addChangeListener(this);
 		filePane.setVisible(true);
 	}
 	
@@ -60,10 +59,6 @@ public class FileTabComponent {
 	 */
 	public JTabbedPane getFilePane() {
 		return filePane;
-	}
-	
-	public JTextArea getLog() {
-		return log;
 	}
 	
 	/**

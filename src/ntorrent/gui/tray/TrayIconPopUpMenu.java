@@ -22,13 +22,14 @@ package ntorrent.gui.tray;
 import java.awt.Window;
 import java.awt.event.MouseEvent;
 
-import ntorrent.gui.core.AbstractPopupMenu;
+import ntorrent.Controller;
+import ntorrent.gui.listener.JPopupMenuListener;
 import ntorrent.settings.Constants.Commands;
 
 /**
  * @author Kim Eik
  */
-public class TrayIconPopUpMenu extends AbstractPopupMenu {
+public class TrayIconPopUpMenu extends JPopupMenuListener {
 	final static String[] menuItems = {
 			Commands.ADD_TORRENT.toString(),
 			Commands.ADD_URL.toString(),
@@ -40,8 +41,8 @@ public class TrayIconPopUpMenu extends AbstractPopupMenu {
 			};
 	Window rootWin;
 	
-	public TrayIconPopUpMenu(Window root) {
-		super(menuItems);
+	public TrayIconPopUpMenu(Controller c, Window root) {
+		super(c,menuItems);
 		rootWin = root;
 	}
 
@@ -60,6 +61,21 @@ public class TrayIconPopUpMenu extends AbstractPopupMenu {
 			popup.setVisible(true);
 			break;
 		}
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

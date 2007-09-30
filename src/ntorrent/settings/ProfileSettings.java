@@ -24,7 +24,7 @@ import java.io.IOException;
 
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class ProfileSettings extends Settings{
 	private static final long serialVersionUID = 1L;
@@ -70,7 +70,7 @@ public class ProfileSettings extends Settings{
 	}
 	
 	/**
-	 * @param host
+	 * @param  host
 	 * @uml.property  name="host"
 	 */
 	public void setHost(String host) {
@@ -78,7 +78,7 @@ public class ProfileSettings extends Settings{
 	}
 	
 	/**
-	 * @param username
+	 * @param  username
 	 * @uml.property  name="username"
 	 */
 	public void setUsername(String username) {
@@ -86,16 +86,10 @@ public class ProfileSettings extends Settings{
 	}
 	
 	public void saveSettings(){
+		System.out.println("Saving profile.");
 		try {
 			serialize(Constants.profile,this);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e ){
 			e.printStackTrace();
 		}
 	}

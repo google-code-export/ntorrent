@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import ntorrent.Controller;
 import ntorrent.io.xmlrpc.XmlRpcCallback;
 import ntorrent.model.FileTableModel;
 import ntorrent.model.units.Byte;
@@ -13,15 +14,16 @@ import ntorrent.model.units.Priority;
 import org.apache.xmlrpc.XmlRpcRequest;
 
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class FileList extends XmlRpcCallback {
 	//Simple filelist.
 	JTable filetable = new JTable(new FileTableModel());
 	JScrollPane fileList;
-	FileTableListener listener = new FileTableListener();
+	FileListener listener;
 	
-	FileList(){
+	FileList(Controller c){
+		listener =  new FileListener(c);
 		filetable.setOpaque(false);
 		//not stable here either
 		//filetable.setAutoCreateRowSorter(true);

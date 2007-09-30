@@ -20,18 +20,18 @@
 
 package ntorrent.gui.dialogue;
 
+import java.awt.Window;
+
 import javax.swing.JOptionPane;
 
-import ntorrent.Controller;
-
 /**
- * @author  netbrain
+ * @author   netbrain
  */
 public class PromptString {
 	String input = new String();
 	
-	public PromptString(){
-		input = (String)JOptionPane.showInputDialog(Controller.getGui().getRootWin(),null);
+	public PromptString(Window root){
+		input = (String)JOptionPane.showInputDialog(root,null);
 	}
 	
 	/**

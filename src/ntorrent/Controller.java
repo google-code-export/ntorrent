@@ -21,170 +21,88 @@
 
 package ntorrent;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
-import ntorrent.gui.MainGui;
-import ntorrent.gui.dialogue.PromptEnv;
-import ntorrent.gui.tray.ProcessTrayIcon;
-import ntorrent.io.Rpc;
-import ntorrent.io.xmlrpc.XmlRpc;
-import ntorrent.io.xmlrpc.XmlRpcConnection;
-import ntorrent.io.xmlrpc.XmlRpcQueue;
-import ntorrent.model.TorrentPool;
+import ntorrent.gui.GUIController;
+import ntorrent.io.IOController;
+import ntorrent.model.ModelController;
 import ntorrent.settings.Constants;
-import ntorrent.settings.ProfileSettings;
-import ntorrent.threads.ContentThread;
-
-import org.apache.xmlrpc.XmlRpcException;
+import ntorrent.threads.ThreadController;
 
 
 /**
- * @author  Kim Eik
+ * @author   Kim Eik
  */
-public class Controller {
-	protected static Thread mainContentThread;
-	protected static Thread statusThread;
-	protected static Thread torrentThread;
-	protected static TorrentPool torrents;
-	protected static MainGui gui = new MainGui();
-	protected static Rpc rpc;
-	private static XmlRpcConnection conn;
-	private static ProfileSettings profile = new ProfileSettings();
-	private static ProcessTrayIcon trayIcon;
-	private static String[] filesToLoad = {};
+public class Controller{
 	
-	public static void load(String host, String username, String password) throws MalformedURLException, XmlRpcException{
-		writeToLog("Connecting.");
-		conn = new XmlRpcConnection(host);
-		conn.setUsername(username);
-		conn.setPassword(password);
-		//2.Connect to server
-		XmlRpcQueue client = conn.connect();
-		rpc = new XmlRpc(client);
-		torrents = new TorrentPool(rpc,gui.getTorrentTableModel());
-		gui.getTorrentTableModel().fillData(torrents);
-		gui.getTorrentTableModel().fireTableDataChanged();
-		gui.getViewTab().getViewPane().setEnabled(true);
-		startThreads();
-		loadStartupFiles();
-	}
+	private String[] filesToLoad;
+	private IOController IO;
+	private GUIController GC;
+	private ThreadController TC;
+	private ModelController MC;
 	
-	public void drawMainGui(){
-		writeToLog(Constants.getReleaseName());
-		writeToLog("Drawing gui");
-		//3.Draw gui.
-		gui.drawMainWindow();
-		gui.getViewTab().getViewPane().setEnabled(false);
-		trayIcon = new ProcessTrayIcon(gui.getRootWin());
-		PromptEnv env = new PromptEnv(Controller.getGui().getRootWin());
-		env.setHost(profile.getHost());
-		env.setUsername(profile.getUsername());
-		env.drawWindow();
-	}
-	
-	private static void startThreads(){
-		writeToLog("Starting threads.");
-		//4.Start threads.
-		mainContentThread = new Thread(new ContentThread());
-		mainContentThread.start();
-	}
-	
-	public static void changeMainPane(String name){
-		torrents.setView(name);
-		mainContentThread.interrupt();
-	}
-	
-	/**
-	 * @return
-	 * @uml.property  name="gui"
-	 */
-	public static MainGui getGui() {
-		return gui;
-	}
-	
-	/**
-	 * @return
-	 * @uml.property  name="torrents"
-	 */
-	public static TorrentPool getTorrents() {
-		return torrents;
-	}
-	
-	/**
-	 * @return
-	 * @uml.property  name="profile"
-	 */
-	public static ProfileSettings getProfile() {
-		return profile;
-	}
-	
-	/**
-	 * @return
-	 * @uml.property  name="trayIcon"
-	 */
-	public static ProcessTrayIcon getTrayIcon() {
-		return trayIcon;
-	}
-	
-	public static void writeToLog(String msg){
-		System.out.println(msg);
-		gui.writeToLog(msg);
-	}
-	
-	public static void writeToLog(Throwable x){
-		x.printStackTrace();
-		writeToLog(x.getMessage());
-		for(StackTraceElement s : x.getStackTrace())
-			writeToLog("Line: "+s.getLineNumber()+"\t"+s.getFileName());
-	}
-	
-	public static boolean loadTorrent(String url){
-		if(rpc != null) {
-			rpc.loadTorrent(url);
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean loadTorrent(File file) throws IOException, XmlRpcException{
-		if(rpc != null){
-			rpc.loadTorrent(file);
-			return true;
-		}
-		return false;
-	}
-
-
-
-	public void setStartupFiles(String[] args) {
+	public Controller(String[] args) throws IOException{
+		this();
 		filesToLoad = args;
 	}
 	
-	private static void loadStartupFiles(){
-			try {
-				for(String file: filesToLoad)
-					loadTorrent(new File(file));
-			} catch (Exception x){
-				writeToLog(x);
-			}
+	public Controller() throws IOException {
+		//new ErrorLog();
+		System.out.println(Constants.getReleaseName());
+		System.out.println("Drawing gui");
+		IO = new IOController();
+		GC = new GUIController(this);
+	}
+	
+	public void connect(String host, String username, String password){
+		try {
+			GC.drawMainWindow();
+			System.out.println("Connecting");
+			IO.connect(host, username, password);
+			IO.loadStartupFiles(filesToLoad);
+			IO.getProfile().setHost(host);
+			IO.getProfile().setUsername(username);
+			MC = new ModelController(this);
+			TC = new ThreadController(this);
+			GC.getTorrentTableModel().fillData(MC.getTorrentPool());
+			TC.startThreads();
+		} catch (Exception e) {
+			GC.showError(e);
+		}
+	}
+
+	
+
+	/**
+	 * @return
+	 * @uml.property  name="gC"
+	 */
+	public GUIController getGC() {
+		return GC;
 	}
 	
 	/**
 	 * @return
-	 * @uml.property  name="mainContentThread"
+	 * @uml.property  name="iO"
 	 */
-	public static Thread getMainContentThread() {
-		return mainContentThread;
+	public IOController getIO() {
+		return IO;
 	}
-
+	
 	/**
-	 * @deprecated
-	 * @uml.property  name="rpc"
+	 * @return
+	 * @uml.property  name="mC"
 	 */
-	public static Rpc getRpc() {
-		return rpc;
+	public ModelController getMC() {
+		return MC;
+	}
+	
+	/**
+	 * @return
+	 * @uml.property  name="tC"
+	 */
+	public ThreadController getTC() {
+		return TC;
 	}
 	
 }

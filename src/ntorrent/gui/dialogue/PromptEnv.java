@@ -36,17 +36,17 @@ import javax.swing.JTextField;
 import ntorrent.Controller;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
 public class PromptEnv implements ActionListener {
 	private JFrame window = new JFrame();
 	private JTextField host = new JTextField();
 	private JTextField username = new JTextField();
 	private JPasswordField password = new JPasswordField();
+	Controller C;
 
-	public PromptEnv(Window parent) {
+	public PromptEnv(Window parent, Controller controller) {
+		C = controller;
 		window.setLocationRelativeTo(parent);
 		window.setAlwaysOnTop(true);
 		Dimension textsize = new Dimension(220,20);
@@ -69,19 +69,26 @@ public class PromptEnv implements ActionListener {
 		JButton ok = new JButton("OK!");
 		ok.addActionListener(this);
 		c.add(ok);
+		readProfile();
+		drawWindow();
 	}
 	
-	public void drawWindow(){
+	private void drawWindow(){
 		window.pack();
 		window.validate();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 	}
 	
-	public void closeWindow(){
+	private void closeWindow(){
 		window.setVisible(false);
 		window.dispose();
 		window = null;
+	}
+	
+	private void readProfile(){
+		setUsername(C.getIO().getProfile().getUsername());
+		setHost(C.getIO().getProfile().getHost());
 	}
 	
 	/**
@@ -117,6 +124,13 @@ public class PromptEnv implements ActionListener {
 		return password.getText();
 	}
 	
+
+
+	public void actionPerformed(ActionEvent e) {
+		closeWindow();
+		C.connect(getHost(), getUsername(), getPassword());
+	}
+	
 	public void setHost(String host) {
 		this.host.setText(host);
 	}
@@ -125,16 +139,4 @@ public class PromptEnv implements ActionListener {
 		this.username.setText(username);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		closeWindow();
-		try {
-			Controller.load(getHost(), getUsername(), getPassword());
-			Controller.getProfile().setHost(getHost());
-			Controller.getProfile().setUsername(getUsername());
-			Controller.getProfile().saveSettings();
-		} catch (Exception x) {
-			Controller.getGui().showError(x.getLocalizedMessage());
-			Controller.writeToLog(x);
-		}
-	}
 }

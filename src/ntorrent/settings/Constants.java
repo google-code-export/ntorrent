@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * 
- * @author Kim Eik
- *
+ * @author  Kim Eik
  */
 public final class Constants {
 	static Properties systemProperties = new Properties();
@@ -41,9 +39,7 @@ public final class Constants {
 	
 	
 	/**
-	 * 
-	 * @author Kim Eik
-	 *
+	 * @author  Kim Eik
 	 */
 	public static enum Commands {
 		ADD_TORRENT,
