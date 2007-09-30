@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import ntorrent.Controller;
+import ntorrent.NTorrent;
 
 /**
  * @author  Kim Eik
@@ -35,10 +35,8 @@ class ThreadedClientHandler extends Thread {
 	private static Socket client;
 
 	private BufferedReader in;
-	
-	Controller C;
 
-	public ThreadedClientHandler(Socket socket, Controller c) {
+	public ThreadedClientHandler(Socket socket) {
 		client = socket;
 		try {
 			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -53,12 +51,11 @@ class ThreadedClientHandler extends Thread {
 				try {
 					String line = in.readLine();
 					if(line != null){
-						System.out.println("Client socket reported: "+line);
-						if(!C.getIO().loadTorrent(new File(line)))
+						if(!NTorrent.loadTorrent(new File(line)))
 							System.out.println("loadTorrent returned false.");
 					}
 				}catch(Exception x){
-					C.getGC().showError(x);
+					x.printStackTrace();
 				}
 			} while (in.ready());
 		} catch (IOException e) {

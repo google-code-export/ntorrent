@@ -1,4 +1,4 @@
-package ntorrent.gui.main.file;
+package ntorrent.gui.file;
 
 import java.awt.GridLayout;
 

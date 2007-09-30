@@ -27,11 +27,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ntorrent.Controller;
-import ntorrent.gui.AboutGui;
-import ntorrent.gui.SettingsGui;
 import ntorrent.gui.dialogue.PromptEnv;
 import ntorrent.gui.dialogue.PromptFile;
 import ntorrent.gui.dialogue.PromptString;
+import ntorrent.gui.window.AboutGui;
+import ntorrent.gui.window.SettingsGui;
 import ntorrent.settings.Constants.Commands;
 
 

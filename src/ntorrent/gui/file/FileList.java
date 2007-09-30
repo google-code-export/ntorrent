@@ -1,4 +1,4 @@
-package ntorrent.gui.main.file;
+package ntorrent.gui.file;
 
 import java.awt.Color;
 
@@ -22,7 +22,7 @@ public class FileList extends XmlRpcCallback {
 	JScrollPane fileList;
 	FileListener listener;
 	
-	FileList(Controller c){
+	public FileList(Controller c){
 		listener =  new FileListener(c);
 		filetable.setOpaque(false);
 		//not stable here either

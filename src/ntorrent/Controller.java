@@ -60,10 +60,15 @@ public class Controller{
 			System.out.println("Connecting");
 			IO.connect(host, username, password);
 			IO.loadStartupFiles(filesToLoad);
+			
+			//Save profile
 			IO.getProfile().setHost(host);
 			IO.getProfile().setUsername(username);
+			IO.getProfile().saveSettings();
+			
 			MC = new ModelController(this);
 			TC = new ThreadController(this);
+			
 			GC.getTorrentTableModel().fillData(MC.getTorrentPool());
 			TC.startThreads();
 		} catch (Exception e) {
