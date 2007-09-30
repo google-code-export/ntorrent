@@ -37,7 +37,7 @@ import org.apache.xmlrpc.XmlRpcRequest;
 
 import ntorrent.io.xmlrpc.XmlRpcCallback;
 import ntorrent.io.xmlrpc.XmlRpcQueue;
-import ntorrent.model.units.Byte;
+import ntorrent.model.units.Bit;
 
 
 /**
@@ -49,8 +49,8 @@ public class StatusBarComponent extends XmlRpcCallback {
 	JPanel container = new JPanel();
 	JSpinner maxDownloadRate = new JSpinner(new SpinnerNumberModel(0,0,null,5));
 	JSpinner maxUploadRate = new JSpinner(new SpinnerNumberModel(0,0,null,2));
-	Byte downloadRate = new Byte(0);
-	Byte uploadRate = new Byte(0);
+	Bit downloadRate = new Bit(0);
+	Bit uploadRate = new Bit(0);
 	String port = new String();
 	
 	JLabel rateGroup = new JLabel();
@@ -92,14 +92,14 @@ public class StatusBarComponent extends XmlRpcCallback {
 	/**
 	 * @param  downloadRate
 	 */
-	public void setDownloadRate(Byte downloadRate) {
+	public void setDownloadRate(Bit downloadRate) {
 		this.downloadRate = downloadRate;
 	}
 	
 	/**
 	 * @param  uploadRate
 	 */
-	public void setUploadRate(Byte uploadRate) {
+	public void setUploadRate(Bit uploadRate) {
 		this.uploadRate = uploadRate;
 	}
 	

@@ -22,7 +22,6 @@ package ntorrent.gui;
 
 import java.io.IOException;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import ntorrent.Controller;
@@ -46,9 +45,9 @@ public class FileTabComponent extends GuiEventListener  {
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
 		filePane.addTab("info", infoPanel.getInfoPanel());
 		filePane.addTab("file list", fileList.getFileList());
-		filePane.addTab("log",new JScrollPane(null));
-		filePane.setSelectedIndex(2);
-		//filePane.addTab("tracker list", new JLabel("not supported by rtorrent"));
+		//filePane.addTab("log",new JScrollPane(null));
+		//filePane.setSelectedIndex(2);
+		filePane.addTab("tracker list", null);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
 		filePane.addChangeListener(this);
