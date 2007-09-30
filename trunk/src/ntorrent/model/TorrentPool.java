@@ -24,7 +24,7 @@ import ntorrent.Controller;
 import ntorrent.io.Rpc;
 import ntorrent.io.xmlrpc.XmlRpc;
 import ntorrent.io.xmlrpc.XmlRpcCallback;
-import ntorrent.model.units.Byte;
+import ntorrent.model.units.Bit;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
@@ -38,8 +38,8 @@ public class TorrentPool extends XmlRpcCallback{
 	String view = "main";
 	Rpc rpc;
 	TorrentTableModel table;
-	Byte rateUp = new Byte(0);
-	Byte rateDown = new Byte(0);
+	Bit rateUp = new Bit(0);
+	Bit rateDown = new Bit(0);
 	Controller C;
 	
 	TorrentPool(){}
@@ -86,14 +86,14 @@ public class TorrentPool extends XmlRpcCallback{
 	/**
 	 * @return
 	 */
-	public Byte getRateDown() {
+	public Bit getRateDown() {
 		return rateDown;
 	}
 	
 	/**
 	 * @return
 	 */
-	public Byte getRateUp() {
+	public Bit getRateUp() {
 		return rateUp;
 	}
 
