@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.main.file;
+package ntorrent.gui;
 
 import java.io.IOException;
 
@@ -26,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import ntorrent.Controller;
+import ntorrent.gui.file.FileList;
+import ntorrent.gui.file.InfoPanel;
 import ntorrent.gui.listener.GuiEventListener;
 
 /**

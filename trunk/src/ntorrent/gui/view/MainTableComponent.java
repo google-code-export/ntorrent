@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui.main.view;
+package ntorrent.gui.view;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -27,8 +27,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 import ntorrent.Controller;
+import ntorrent.gui.FileTabComponent;
 import ntorrent.gui.listener.JTablePopupMenuListener;
-import ntorrent.gui.main.file.FileTabComponent;
 import ntorrent.model.TorrentFile;
 import ntorrent.model.TorrentTableModel;
 import ntorrent.model.render.PercentRenderer;

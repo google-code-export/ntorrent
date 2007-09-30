@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.gui;
+package ntorrent.gui.window;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;

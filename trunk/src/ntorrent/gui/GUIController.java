@@ -34,12 +34,10 @@ import javax.swing.JSplitPane;
 
 import ntorrent.Controller;
 import ntorrent.gui.dialogue.PromptEnv;
-import ntorrent.gui.main.file.FileTabComponent;
-import ntorrent.gui.main.view.MainTableComponent;
-import ntorrent.gui.main.view.ViewTabComponent;
 import ntorrent.gui.menu.MenuBarComponent;
 import ntorrent.gui.status.StatusBarComponent;
 import ntorrent.gui.tray.ProcessTrayIcon;
+import ntorrent.gui.view.MainTableComponent;
 import ntorrent.model.TorrentTableModel;
 import ntorrent.settings.Constants;
 

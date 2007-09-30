@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import ntorrent.Controller;
 import ntorrent.settings.Constants;
 
 /**
@@ -32,15 +31,10 @@ import ntorrent.settings.Constants;
  */
 public class Server extends Thread{
 	private static ServerSocket servSocket;
-	Controller C;
 	
 	public Server() throws IOException {
 		servSocket = new ServerSocket(Constants.getCommPort());
 		System.out.println("Setting up socket server.");
-	}
-	
-	public void setController(Controller c){
-		C = c;
 	}
 
 	public void run() {
@@ -53,7 +47,7 @@ public class Server extends Thread{
 			Socket client;
 			try {
 				client = servSocket.accept();
-				ThreadedClientHandler clienthandler = new ThreadedClientHandler(client,C);
+				ThreadedClientHandler clienthandler = new ThreadedClientHandler(client);
 				clienthandler.start();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -20,6 +20,7 @@
 
 package ntorrent;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.BindException;
 
@@ -30,6 +31,7 @@ import ntorrent.io.socket.Server;
 import ntorrent.settings.Constants;
 
 public class NTorrent{
+	static Controller C;
 	
 	/**
 	 * @param args
@@ -38,11 +40,10 @@ public class NTorrent{
 		//start socket server
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Server s = new Server();
+			new Server().start();
 			//start process
 			System.out.println(Constants.getLicense());
-			s.setController(new Controller(args));
-			s.start();
+			C = new Controller(args);
 		} catch(BindException e) {
 			System.out.println("Server already started");
 			//Server already started.
@@ -55,5 +56,14 @@ public class NTorrent{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static boolean loadTorrent(File file) {
+		try {
+			return C.getIO().loadTorrent(file);
+		} catch (Exception x){
+			x.printStackTrace();
+		}
+		return false;
 	}
 }
