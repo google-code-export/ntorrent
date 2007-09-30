@@ -41,7 +41,7 @@ import ntorrent.model.TorrentTableModel;
  */
 public class GUIController{
 	private Window rootWin = new Window();
-	private StatusBarComponent statusBar = new StatusBarComponent();
+	private StatusBarComponent statusBar;
 	private MenuBarComponent menuBar;
 	private FileTabComponent fileTab; 
 	private MainTableComponent table;
@@ -59,6 +59,7 @@ public class GUIController{
 			e.printStackTrace();
 		}
 		viewTab = new ViewTabComponent(parent,table.getTable());
+		statusBar = new StatusBarComponent(parent);
 		new PromptEnv(rootWin,parent);
 	}
 	

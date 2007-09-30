@@ -32,26 +32,31 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import org.apache.xmlrpc.XmlRpcRequest;
-
+import ntorrent.Controller;
 import ntorrent.io.xmlrpc.XmlRpcCallback;
 import ntorrent.io.xmlrpc.XmlRpcQueue;
 import ntorrent.model.units.Bit;
+import ntorrent.threads.ThrottleThread;
+
+import org.apache.xmlrpc.XmlRpcRequest;
 
 
 /**
  * @author   netbrain
  */
-public class StatusBarComponent extends XmlRpcCallback {
+public class StatusBarComponent extends XmlRpcCallback implements ChangeListener {
 	//Statusbar component
 	JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEADING));
 	JPanel container = new JPanel();
-	JSpinner maxDownloadRate = new JSpinner(new SpinnerNumberModel(0,0,null,5));
-	JSpinner maxUploadRate = new JSpinner(new SpinnerNumberModel(0,0,null,2));
+	JSpinner maxDownloadRate = new JSpinner(new SpinnerNumberModel(0,0,null,10));
+	JSpinner maxUploadRate = new JSpinner(new SpinnerNumberModel(0,0,null,10));
 	Bit downloadRate = new Bit(0);
 	Bit uploadRate = new Bit(0);
 	String port = new String();
+	Controller C;
 	
 	JLabel rateGroup = new JLabel();
 	JLabel portGroup = new JLabel();
@@ -62,16 +67,14 @@ public class StatusBarComponent extends XmlRpcCallback {
 		portGroup.setText("Port: "+port);
 	}
 	
-	public StatusBarComponent(){
+	public StatusBarComponent(Controller c){
+		C = c;
 		statusBar.add(container);
 		container.setLayout(new BoxLayout(container,BoxLayout.LINE_AXIS));
-		//statusBar.setLayout(new FlowLayout(FlowLayout.LEADING));
-		Dimension tsize = new Dimension(60,20);
+		Dimension tsize = new Dimension(80,20);
 		update();
 		maxDownloadRate.setPreferredSize(tsize);
 		maxUploadRate.setPreferredSize(tsize);
-		maxDownloadRate.setEnabled(false);
-		maxUploadRate.setEnabled(false);
 		container.add(new JLabel("Throttle:"));
 		container.add(maxUploadRate);
 		container.add(maxDownloadRate);
@@ -81,6 +84,8 @@ public class StatusBarComponent extends XmlRpcCallback {
 		container.add(portGroup);
 		addSeperator();
 		container.add(commandStatus);
+		maxDownloadRate.addChangeListener(this);
+		maxUploadRate.addChangeListener(this);
 	}
 	
 	private void addSeperator(){
@@ -103,12 +108,13 @@ public class StatusBarComponent extends XmlRpcCallback {
 		this.uploadRate = uploadRate;
 	}
 	
-	public void setMaxDownloadRate(int maxDownloadRate) {
-		this.maxDownloadRate.setValue(maxDownloadRate);
+	public void setMaxDownloadRate(long maxDownloadRate) {
+		this.maxDownloadRate.setValue((int)maxDownloadRate/1024);
 	}
 	
-	public void setMaxUploadRate(int maxUploadRate) {
-		this.maxUploadRate.setValue(maxUploadRate);
+	public void setMaxUploadRate(long maxUploadRate) {
+		this.maxUploadRate.setValue((int)maxUploadRate/1024);
+		
 	}
 	
 	public JLabel addStatusItem(String title, String value){
@@ -144,5 +150,19 @@ public class StatusBarComponent extends XmlRpcCallback {
 		String methodname = pRequest.getMethodName();
 		if(methodname == "get_port_range")
 			setPort((String)pResult);
+		else if(methodname == "get_download_rate")
+			setMaxDownloadRate((Long)pResult);
+		else if(methodname == "get_upload_rate")
+			setMaxUploadRate((Long)pResult);
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		ThrottleThread thread = C.getTC().getThrottleThread();
+		JSpinner src = (JSpinner)e.getSource();
+		if(src.equals(maxDownloadRate)){
+			thread.setDownloadRate((Integer)src.getValue()*1024);
+		}else if(src.equals(maxUploadRate)){
+			thread.setUploadRate((Integer)src.getValue()*1024);
+		}
 	}
 }

@@ -27,6 +27,7 @@ import ntorrent.Controller;
 public class ThreadController{
 	private Thread mainContentThread;
 	Controller parent;
+	private ThrottleThread throttleThread;
 	public ThreadController(Controller c) {
 		parent = c;
 		mainContentThread = new ContentThread(
@@ -34,11 +35,17 @@ public class ThreadController{
 				c.getIO().getRpc(), 
 				c.getGC().getStatusBar(),
 				c.getMC().getTorrentPool());
+		throttleThread = new ThrottleThread(c.getIO().getRpc(),c.getGC().getStatusBar());
 	}
 	
-	public void startThreads(){
-		System.out.println("Starting threads.");
+	public void startMainContentThread(){
+		System.out.println("Starting content thread.");
 		mainContentThread.start();
+	}
+	
+	public void startThrottleThread(){
+		System.out.println("Starting throttle thread.");
+		throttleThread.start();
 	}
 	
 	/**
@@ -46,6 +53,10 @@ public class ThreadController{
 	 */
 	public Thread getMainContentThread() {
 		return mainContentThread;
+	}
+	
+	public ThrottleThread getThrottleThread() {
+		return throttleThread;
 	}
 	
 }

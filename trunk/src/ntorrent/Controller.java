@@ -70,7 +70,8 @@ public class Controller{
 			TC = new ThreadController(this);
 			
 			GC.getTorrentTableModel().fillData(MC.getTorrentPool());
-			TC.startThreads();
+			TC.startMainContentThread();
+			TC.startThrottleThread();
 		} catch (Exception e) {
 			GC.showError(e);
 		}
