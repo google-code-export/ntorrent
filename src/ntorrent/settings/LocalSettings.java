@@ -25,7 +25,10 @@ public class LocalSettings extends Settings {
 	@Description("Update intervall / view")
 	public static int vintervall = 3000;
 	
-	@Description("Update intervall / status")
+	@Description("Refresh intervall / throttle")
 	public static int sintervall = 60000;
+	
+	@Description("Debug mode")
+	public static boolean debug = false;
 	
 }

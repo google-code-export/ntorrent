@@ -23,6 +23,7 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import ntorrent.io.xmlrpc.model.RpcRequest;
+import ntorrent.settings.LocalSettings;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
@@ -83,7 +84,8 @@ public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 			if(!thisThread.isInterrupted())
 				thisThread.interrupt();
 		}else{
-			System.out.println("already in queue: "+req);
+			if(LocalSettings.debug)
+				System.out.println("already in queue: "+req);
 		}
 	}
 
@@ -95,7 +97,8 @@ public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 			if(req != null)
 				try {
 					final Object result = super.execute(req);
-					System.out.println(req);
+					if(LocalSettings.debug)
+						System.out.println(req);
 					Thread handle = new Thread(){
 						public void run() {
 							// TODO Auto-generated method stub
