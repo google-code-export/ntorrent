@@ -76,5 +76,20 @@ public abstract class JPopupMenuListener extends GuiEventListener implements Mou
 			maybeShowPopup(e);
 	}
 	
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}	
+	
 	protected abstract void maybeShowPopup(MouseEvent e);
 }

@@ -17,18 +17,48 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.settings;
+package ntorrent.model;
 
+import javax.swing.table.AbstractTableModel;
 
-public class LocalSettings extends Settings {
+/**
+ * @author Kim Eik
+ *
+ */
+public class TrackerJTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	@Description("Update intervall / view")
-	public static int vintervall = 3000;
+	String[] columns = {
+			"Url",
+			};
 	
-	@Description("Refresh intervall / throttle")
-	public static int sintervall = 60000;
+	TrackerInfo[] data = new TrackerInfo[0];
 	
-	@Description("Debug mode")
-	public static boolean debug = true;
+	public void setData(TrackerInfo[] data) {
+		this.data = data;
+	}
 	
+	public int getColumnCount() {
+		return columns.length;
+	}
+	
+    public String getColumnName(int col) {
+        return columns[col];
+    }
+
+	public int getRowCount() {
+		return data.length;
+	}
+	
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		switch(columnIndex){
+			case 0:
+			default:
+				return data[rowIndex];
+		}
+	}
+	
+	@Override
+	public Class<?> getColumnClass(int c) {
+        return getValueAt(0, c).getClass();
+    }
 }

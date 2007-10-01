@@ -40,6 +40,7 @@ public interface Rpc {
 		public void getFileList(String hash, XmlRpcCallback c);
 		public void setTorrentPriority(String[] hash, int pri);
 		public void setFilePriority(String hash, int pri, int[] index);
-		public void getTrackerList(String hash);
+		public void getTrackerList(String hash,XmlRpcCallback c);
+		public void setTrackerEnabled(String hash, int[] id, boolean b, XmlRpcCallback c);
 		
 	}

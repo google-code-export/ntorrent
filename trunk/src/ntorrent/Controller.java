@@ -51,7 +51,6 @@ public class Controller{
 	
 	public Controller() throws IOException {
 		System.setOut(new PrintStream(log));
-		System.setErr(new PrintStream(log));
 		System.out.println(Constants.getReleaseName());
 		System.out.println("Drawing gui");
 		IO = new IOController();
@@ -78,7 +77,10 @@ public class Controller{
 			TC.startThrottleThread();
 		} catch (Exception e) {
 			GC.showError(e);
+			e.printStackTrace();
+			System.exit(e.hashCode());
 		}
+		System.setErr(new PrintStream(log));
 	}
 
 	

@@ -184,7 +184,7 @@ public class XmlRpc implements Rpc{
 		Object[][] fparams = new Object[index.length][3];
 		Object[][] dparams = new Object[index.length][1];
 		
-		for(int x = 0; x < index.length; x++){
+		for(int x = 0; x < fparams.length; x++){
 			fparams[x][0] = dparams[x][0] = hash; 
 			fparams[x][1] = index[x]; 
 			fparams[x][2] = pri;
@@ -193,11 +193,22 @@ public class XmlRpc implements Rpc{
 		multiCall("d.update_priorities",dparams,null);
 	}
 
-	public void getTrackerList(String hash) {
-/*
- * t.get_group= t.get_id= t.get_min_interval= t.get_normal_interval= t.get_scrape_complete= t.get_scrape_downloaded= t.get_scrape_incomplete= t.get_scrape_time_last= t.get_type= t.get_url= t.is_enabled= t.is_open=
- */
-		
+	public void getTrackerList(String hash, XmlRpcCallback c) {
+		Object[] params = {hash,"dummyarg",
+				"t.get_url=",
+				"t.get_id=",
+				"t.get_group=",
+				"t.get_min_interval=",
+				"t.get_normal_interval=",
+				"t.get_scrape_complete=",
+				"t.get_scrape_downloaded=",
+				"t.get_scrape_incomplete=",
+				"t.get_scrape_time_last=",
+				"t.get_type=",
+				"t.is_enabled=",
+				"t.is_open="
+				};
+		client.addToExecutionQueue("t.multicall",params,c);		
 	}
 
 	public void setDownloadRate(Integer i, XmlRpcCallback c) {
@@ -214,11 +225,23 @@ public class XmlRpc implements Rpc{
 		Object[][] tparams = new Object[hash.length][2];
 		Object[][] dparams = new Object[hash.length][1];
 		
-		for(int x = 0; x < hash.length; x++){
+		for(int x = 0; x < tparams.length; x++){
 			tparams[x][0] = dparams[x][0] = hash[x]; 
 			tparams[x][1] = pri; 
 		}
 		multiCall("d.set_priority",tparams,null);
 
 	}
+
+	public void setTrackerEnabled(String hash, int[] id, boolean b, XmlRpcCallback c) {
+		Object[][] tparams = new Object[id.length][3];
+		
+		for(int x = 0; x < tparams.length; x++){
+			tparams[x][0] = hash; 
+			tparams[x][1] = id[x];
+			tparams[x][2] = (b ? 1 : 0);
+		}
+		multiCall("t.set_enabled",tparams,null);
+	}
+
 }

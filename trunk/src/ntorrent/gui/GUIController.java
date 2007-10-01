@@ -34,7 +34,7 @@ import ntorrent.Controller;
 import ntorrent.gui.dialogue.PromptEnv;
 import ntorrent.gui.tray.ProcessTrayIcon;
 import ntorrent.gui.view.MainTableComponent;
-import ntorrent.model.TorrentTableModel;
+import ntorrent.model.TorrentJTableModel;
 
 /**
  * @author  Kim Eik
@@ -99,8 +99,8 @@ public class GUIController{
 		showError(e.getLocalizedMessage());
 	}
 	
-	public TorrentTableModel getTorrentTableModel(){
-		return (TorrentTableModel)table.getTable().getModel();
+	public TorrentJTableModel getTorrentTableModel(){
+		return (TorrentJTableModel)table.getTable().getModel();
 	}
 	 
 	//Not in use atm.

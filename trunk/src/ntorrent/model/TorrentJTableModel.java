@@ -19,22 +19,30 @@
  */
 
 package ntorrent.model;
-import java.util.Vector;
-
 import javax.swing.table.AbstractTableModel;
-
-public class FileTableModel extends AbstractTableModel{
+/**
+ * @author  Kim Eik
+ */
+public class TorrentJTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	String[] columns = {
-			"Priority",
-			"Filename",
-			"Size"
+			"Name",
+			"Size",
+			"Downloaded",
+			"Uploaded",
+			"Seeders",
+			"Leechers",
+			"DLR",
+			"ULR",
+			"%",
+			"Ratio",
+			"Priority"
 			};
+	TorrentPool data = new TorrentPool();
 	
-	Vector[] data = new Vector[columns.length];
-	
-	public FileTableModel() {
-		clear();
+	public void fillData(TorrentPool torrents){
+		data = torrents;
+		System.out.println("Created JTable");
 	}
 	
 	public int getColumnCount() {
@@ -46,26 +54,28 @@ public class FileTableModel extends AbstractTableModel{
     }
 
 	public int getRowCount() {
-		return data[0].size();
+		return data.size();
 	}
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return data[columnIndex].get(rowIndex);
-	}
-	
-	public void clear(){
-		for(int x = 0; x < data.length; x++)
-			data[x] = new Vector();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		if(data[columnIndex].size() > rowIndex)
-			data[columnIndex].set(rowIndex,aValue);
-		else
-			data[columnIndex].add(rowIndex, aValue);
-		fireTableRowsInserted(rowIndex,rowIndex);
+		if(data.size() > rowIndex){
+			TorrentInfo row = data.get(rowIndex);
+			switch(columnIndex){
+				case 0: return row;
+				case 1: return row.getByteSize();
+				case 2: return row.getBytesDownloaded();
+				case 3: return row.getBytesUploaded();
+				case 4:	return ""+row.getSeeders()+" ("+row.getPeersTotal()+")";
+				case 5: return ""+row.getLeechers();
+				case 6: return row.getRateDown();
+				case 7: return row.getRateUp();
+				case 8: return row.getPercentFinished();
+				case 9: return row.getRatio();
+				case 10: return row.getPriority();
+				default: return "";
+			}
+		}
+		return "";
 	}
 	
 	@Override

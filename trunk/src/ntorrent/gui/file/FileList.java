@@ -7,7 +7,7 @@ import javax.swing.JTable;
 
 import ntorrent.Controller;
 import ntorrent.io.xmlrpc.XmlRpcCallback;
-import ntorrent.model.FileTableModel;
+import ntorrent.model.FileJTableModel;
 import ntorrent.model.units.Byte;
 import ntorrent.model.units.Priority;
 
@@ -18,7 +18,7 @@ import org.apache.xmlrpc.XmlRpcRequest;
  */
 public class FileList extends XmlRpcCallback {
 	//Simple filelist.
-	JTable filetable = new JTable(new FileTableModel());
+	JTable filetable = new JTable(new FileJTableModel());
 	JScrollPane fileList;
 	FileListener listener;
 	
@@ -62,7 +62,7 @@ public class FileList extends XmlRpcCallback {
 		filetable.clearSelection();
 		filetable.setVisible(true);
 		listener.setHash((String)pRequest.getParameter(0));
-		FileTableModel table = ((FileTableModel)filetable.getModel());
+		FileJTableModel table = ((FileJTableModel)filetable.getModel());
 		table.clear();
 		Object[] array = (Object[])pResult;
 			for(int y = 0; y < array.length ; y++){
