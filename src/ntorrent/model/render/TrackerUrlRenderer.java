@@ -17,10 +17,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ntorrent.model.render;
 
-import java.awt.Color;
+
 import java.awt.Component;
 
 import javax.swing.ImageIcon;
@@ -28,30 +27,31 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import ntorrent.model.TorrentInfo;
+import ntorrent.model.TrackerInfo;
 
-public class TorrentTitleRenderer implements TableCellRenderer {
-
-	public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected, boolean hasFocus, int row, int column) {
-		if(!(value instanceof TorrentInfo))
+/**
+ * @author Kim Eik
+ *
+ */
+public class TrackerUrlRenderer implements TableCellRenderer {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		if(!(value instanceof TrackerInfo))
 			return null;
-		TorrentInfo tf = (TorrentInfo)value;
+		TrackerInfo t = (TrackerInfo)value;
 		ImageIcon icon;
-		if(tf.isStarted())
+		if(t.isEnabled())
 			icon = new ImageIcon("icons/started.png");
 		else
 			icon = new ImageIcon("icons/stopped.png");
 		
-		JLabel component = new JLabel(tf.toString(),icon,JLabel.LEADING);
-		
-		if(tf.getMessage().length() > 0)
-			component.setForeground(Color.RED);
-		
+		JLabel component = new JLabel(t.toString(),icon,JLabel.LEADING);
+				
 		if(isSelected){
 			component.setOpaque(true);
 			component.setBackground(table.getSelectionBackground());
 			component.setForeground(table.getSelectionForeground());
 		}
+		
 		return component;
 	}
 

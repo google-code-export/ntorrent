@@ -30,7 +30,7 @@ import ntorrent.model.units.Ratio;
 /**
  * @author   netbrain
  */
-public class TorrentFile implements Comparable<TorrentFile>{
+public class TorrentInfo implements Comparable<TorrentInfo>{
 	private String hash;
 	private String filename;
 	private Byte byteSize = new Byte(1);
@@ -51,7 +51,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	private Long peersNotConnected;
 	private Long peersConnected;
 	
-	TorrentFile(String h){
+	TorrentInfo(String h){
 		hash = h;
 	}
 	
@@ -162,9 +162,9 @@ public class TorrentFile implements Comparable<TorrentFile>{
 	public boolean equals(Object obj) {
 		if(obj instanceof String)
 			return ((String)obj).equals(getHash());
-		if(!(obj instanceof TorrentFile))
+		if(!(obj instanceof TorrentInfo))
 			return false;
-		return ((TorrentFile)obj).hashCode() == hashCode();
+		return ((TorrentInfo)obj).hashCode() == hashCode();
 	}
 	
 	@Override
@@ -176,7 +176,7 @@ public class TorrentFile implements Comparable<TorrentFile>{
 		return getFilename();
 	}
 
-	public int compareTo(TorrentFile o) {
+	public int compareTo(TorrentInfo o) {
 		return getFilename().compareToIgnoreCase(o.getFilename());
 	}
 	

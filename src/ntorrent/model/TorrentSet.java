@@ -25,11 +25,11 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 
-public class TorrentSet extends Vector<TorrentFile>{
+public class TorrentSet extends Vector<TorrentInfo>{
 	private static final long serialVersionUID = 1L;
-	HashMap<String,TorrentFile> map = new HashMap<String,TorrentFile>();
+	HashMap<String,TorrentInfo> map = new HashMap<String,TorrentInfo>();
 	
-	public boolean add(TorrentFile e) {
+	public boolean add(TorrentInfo e) {
 		if(!contains(e)){
 			map.put(e.getHash(),e);
 			return super.add(e);
@@ -37,8 +37,8 @@ public class TorrentSet extends Vector<TorrentFile>{
 		return false;
 	}
 
-	public boolean addAll(Collection<? extends TorrentFile> c) {
-		for(TorrentFile e : c)
+	public boolean addAll(Collection<? extends TorrentInfo> c) {
+		for(TorrentInfo e : c)
 			if(!add(e))
 				return false;
 		return true;
@@ -48,7 +48,7 @@ public class TorrentSet extends Vector<TorrentFile>{
 		return map.containsKey(hash);
 	}
 
-	public TorrentFile get(String hash) {
+	public TorrentInfo get(String hash) {
 		return map.get(hash);
 	}
 	

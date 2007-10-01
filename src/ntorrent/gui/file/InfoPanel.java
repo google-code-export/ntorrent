@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import ntorrent.model.TorrentFile;
+import ntorrent.model.TorrentInfo;
 
 /**
  * @author   netbrain
@@ -21,7 +21,7 @@ public class InfoPanel {
 		container.setVisible(false);
 	}
 	
-	public void setInfo(TorrentFile tf){
+	public void setInfo(TorrentInfo tf){
 		container.removeAll();
 		String[] titles = {
 				"Name", 			

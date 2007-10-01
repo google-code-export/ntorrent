@@ -19,30 +19,22 @@
  */
 
 package ntorrent.model;
+import java.util.Vector;
+
 import javax.swing.table.AbstractTableModel;
-/**
- * @author  Kim Eik
- */
-public class TorrentTableModel extends AbstractTableModel{
+
+public class FileJTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	String[] columns = {
-			"Name",
-			"Size",
-			"Downloaded",
-			"Uploaded",
-			"Seeders",
-			"Leechers",
-			"DLR",
-			"ULR",
-			"%",
-			"Ratio",
-			"Priority"
+			"Priority",
+			"Filename",
+			"Size"
 			};
-	TorrentPool data = new TorrentPool();
 	
-	public void fillData(TorrentPool torrents){
-		data = torrents;
-		System.out.println("Created JTable");
+	Vector[] data = new Vector[columns.length];
+	
+	public FileJTableModel() {
+		clear();
 	}
 	
 	public int getColumnCount() {
@@ -54,28 +46,26 @@ public class TorrentTableModel extends AbstractTableModel{
     }
 
 	public int getRowCount() {
-		return data.size();
+		return data[0].size();
 	}
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		if(data.size() > rowIndex){
-			TorrentFile row = data.get(rowIndex);
-			switch(columnIndex){
-				case 0: return row;
-				case 1: return row.getByteSize();
-				case 2: return row.getBytesDownloaded();
-				case 3: return row.getBytesUploaded();
-				case 4:	return ""+row.getSeeders()+" ("+row.getPeersTotal()+")";
-				case 5: return ""+row.getLeechers();
-				case 6: return row.getRateDown();
-				case 7: return row.getRateUp();
-				case 8: return row.getPercentFinished();
-				case 9: return row.getRatio();
-				case 10: return row.getPriority();
-				default: return "";
-			}
-		}
-		return "";
+		return data[columnIndex].get(rowIndex);
+	}
+	
+	public void clear(){
+		for(int x = 0; x < data.length; x++)
+			data[x] = new Vector();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		if(data[columnIndex].size() > rowIndex)
+			data[columnIndex].set(rowIndex,aValue);
+		else
+			data[columnIndex].add(rowIndex, aValue);
+		fireTableRowsInserted(rowIndex,rowIndex);
 	}
 	
 	@Override

@@ -37,7 +37,7 @@ public class TorrentPool extends XmlRpcCallback{
 	private TorrentSet viewset = new TorrentSet();
 	String view = "main";
 	Rpc rpc;
-	TorrentTableModel table;
+	TorrentJTableModel table;
 	Bit rateUp = new Bit(0);
 	Bit rateDown = new Bit(0);
 	Controller C;
@@ -61,13 +61,13 @@ public class TorrentPool extends XmlRpcCallback{
 	/**
 	 * @return
 	 */
-	public TorrentTableModel getTable() {
+	public TorrentJTableModel getTable() {
 		return table;
 	}
 	
 	//From viewset
 	public int size(){ return viewset.size(); }
-	public TorrentFile get(int index){ return viewset.get(index);	}
+	public TorrentInfo get(int index){ return viewset.get(index);	}
 
 	/**
 	 * @param  v
@@ -143,7 +143,7 @@ public class TorrentPool extends XmlRpcCallback{
 
 	private void removeOutdated() {
 		for(int x = 0; x < viewset.size(); x++){
-			TorrentFile tf = viewset.get(x);
+			TorrentInfo tf = viewset.get(x);
 			if(tf.isOutOfDate()){
 				viewset.remove(x);
 				table.fireTableRowsDeleted(x, x);
@@ -163,9 +163,9 @@ public class TorrentPool extends XmlRpcCallback{
 		
 		for(int x = 0; x < obj.length; x++){
 			Object[] raw = (Object[])obj[x];
-			TorrentFile tf = torrents.get((String)raw[0]);
+			TorrentInfo tf = torrents.get((String)raw[0]);
 			if(tf == null && fullUpdate){
-				tf = new TorrentFile((String)raw[0]);
+				tf = new TorrentInfo((String)raw[0]);
 				tf.initialize(raw);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);

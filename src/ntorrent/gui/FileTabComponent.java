@@ -28,6 +28,7 @@ import javax.swing.JTabbedPane;
 import ntorrent.Controller;
 import ntorrent.gui.file.FileList;
 import ntorrent.gui.file.InfoPanel;
+import ntorrent.gui.file.TrackerList;
 import ntorrent.gui.listener.GuiEventListener;
 
 /**
@@ -36,17 +37,19 @@ import ntorrent.gui.listener.GuiEventListener;
 public class FileTabComponent extends GuiEventListener  {
 	JTabbedPane filePane = new JTabbedPane();
 	InfoPanel infoPanel = new InfoPanel();
+	TrackerList trackerList;
 	FileList fileList;
 
 	
 	public FileTabComponent(Controller c) throws IOException{
 		super(c);
 		fileList = new FileList(c);
+		trackerList = new TrackerList(c);
 		filePane.setName("file");
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
 		filePane.addTab("info", infoPanel.getInfoPanel());
 		filePane.addTab("file list", fileList.getFileList());
-		filePane.addTab("tracker list", null);
+		filePane.addTab("tracker list", trackerList.getTrackerlist());
 		filePane.addTab("log",new JScrollPane(Controller.log.getTextArea()));
 		filePane.setSelectedIndex(3);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
@@ -74,5 +77,10 @@ public class FileTabComponent extends GuiEventListener  {
 	 */
 	public FileList getFileList() {
 		return fileList;
+	}
+	
+	public TrackerList getTrackerList(String hash) {
+		trackerList.setHash(hash);
+		return trackerList;
 	}
 }

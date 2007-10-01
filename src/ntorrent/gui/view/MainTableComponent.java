@@ -30,8 +30,8 @@ import javax.swing.table.TableColumn;
 import ntorrent.Controller;
 import ntorrent.gui.FileTabComponent;
 import ntorrent.gui.listener.JTablePopupMenuListener;
-import ntorrent.model.TorrentFile;
-import ntorrent.model.TorrentTableModel;
+import ntorrent.model.TorrentInfo;
+import ntorrent.model.TorrentJTableModel;
 import ntorrent.model.render.PercentRenderer;
 import ntorrent.model.render.TorrentTitleRenderer;
 import ntorrent.model.units.Percent;
@@ -41,7 +41,7 @@ import ntorrent.settings.Constants.Commands;
  * @author   netbrain
  */
 public class MainTableComponent extends JTablePopupMenuListener {
-	JTable table = new JTable(new TorrentTableModel());
+	JTable table = new JTable(new TorrentJTableModel());
 	final static Object[] prioritysub = {
 		"Set priority",
 		"High",
@@ -78,7 +78,7 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		//table.setSelectionForeground(Color.black);
 		table.setFillsViewportHeight(true);
 		//table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		table.setDefaultRenderer(TorrentFile.class, new TorrentTitleRenderer());
+		table.setDefaultRenderer(TorrentInfo.class, new TorrentTitleRenderer());
 		table.setDefaultRenderer(Percent.class, new PercentRenderer());
 		table.addMouseListener(this);
 		
@@ -110,10 +110,11 @@ public class MainTableComponent extends JTablePopupMenuListener {
 	private void maybeShowFileTab(MouseEvent e) {
 		JTable source = (JTable)e.getSource();
 		if(source.getSelectedRowCount() == 1){
-			TorrentFile tf = ((TorrentFile)source.getValueAt(source.getSelectedRow(), 0));
+			TorrentInfo tf = ((TorrentInfo)source.getValueAt(source.getSelectedRow(), 0));
 			FileTabComponent panel = C.getGC().getFileTab();
 			panel.getInfoPanel().setInfo(tf);
 			C.getIO().getRpc().getFileList(tf.getHash(),panel.getFileList());
+			C.getIO().getRpc().getTrackerList(tf.getHash(), panel.getTrackerList(tf.getHash()));
 		}else
 			hideFileTab();
 		
