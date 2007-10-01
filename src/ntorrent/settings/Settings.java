@@ -48,13 +48,13 @@ public abstract class Settings implements Serializable {
 		ObjectOutputStream objectstream = new ObjectOutputStream(stream);
 		for(Field f : this.getClass().getDeclaredFields()){
 			if(!Modifier.isFinal(f.getModifiers()) && Modifier.isPublic(f.getModifiers())){
-				String type = f.getType().getSimpleName();
-
-				if(type.equals("String"))
+				Class type = f.getType();
+				
+				if(type.equals(String.class))
 					objectstream.writeUTF((String)f.get(obj));
-				else if(type.equals("boolean"))
+				else if(type.equals(Boolean.class))
 					objectstream.writeBoolean(f.getBoolean(obj));
-				else if(type.equals("File"))
+				else if(type.equals(File.class))
 					objectstream.writeObject(f.get(obj));
 
 			}
@@ -68,13 +68,13 @@ public abstract class Settings implements Serializable {
 			ObjectInputStream objectstream = new ObjectInputStream(stream);
 			for(Field f : this.getClass().getDeclaredFields())
 				if(!Modifier.isFinal(f.getModifiers()) && Modifier.isPublic(f.getModifiers())){
-					String type = f.getType().getSimpleName();
+					Class type = f.getType();
 
-					if(type.equals("String"))
+					if(type.equals(String.class))
 						f.set(obj, objectstream.readUTF());
-					else if(type.equals("boolean"))
+					else if(type.equals(Boolean.class))
 						f.setBoolean(obj, objectstream.readBoolean());
-					else if(type.equals("File"))
+					else if(type.equals(File.class))
 						f.set(obj,(File)objectstream.readObject());
 
 				}
