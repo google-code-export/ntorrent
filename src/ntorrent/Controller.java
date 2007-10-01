@@ -22,8 +22,10 @@
 package ntorrent;
 
 import java.io.IOException;
+import java.io.PrintStream;
 
 import ntorrent.gui.GUIController;
+import ntorrent.io.ErrorStream;
 import ntorrent.io.IOController;
 import ntorrent.model.ModelController;
 import ntorrent.settings.Constants;
@@ -40,6 +42,7 @@ public class Controller{
 	private GUIController GC;
 	private ThreadController TC;
 	private ModelController MC;
+	public static ErrorStream log = new ErrorStream();
 	
 	public Controller(String[] args) throws IOException{
 		this();
@@ -47,7 +50,7 @@ public class Controller{
 	}
 	
 	public Controller() throws IOException {
-		//new ErrorLog();
+		System.setOut(new PrintStream(log));
 		System.out.println(Constants.getReleaseName());
 		System.out.println("Drawing gui");
 		IO = new IOController();
