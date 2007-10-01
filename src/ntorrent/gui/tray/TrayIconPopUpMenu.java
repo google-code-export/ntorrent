@@ -50,7 +50,6 @@ public class TrayIconPopUpMenu extends JPopupMenuListener{
 	protected void maybeShowPopup(MouseEvent e) {
 		switch (e.getButton()){
 		case MouseEvent.BUTTON1:
-			System.out.println("b1");
 			if(!rootWin.isFocused()){
 				rootWin.requestFocus();
 				rootWin.toFront();
