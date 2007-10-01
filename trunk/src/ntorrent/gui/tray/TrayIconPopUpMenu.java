@@ -29,7 +29,7 @@ import ntorrent.settings.Constants.Commands;
 /**
  * @author Kim Eik
  */
-public class TrayIconPopUpMenu extends JPopupMenuListener {
+public class TrayIconPopUpMenu extends JPopupMenuListener{
 	final static String[] menuItems = {
 			Commands.ADD_TORRENT.toString(),
 			Commands.ADD_URL.toString(),
@@ -50,6 +50,7 @@ public class TrayIconPopUpMenu extends JPopupMenuListener {
 	protected void maybeShowPopup(MouseEvent e) {
 		switch (e.getButton()){
 		case MouseEvent.BUTTON1:
+			System.out.println("b1");
 			if(!rootWin.isFocused()){
 				rootWin.requestFocus();
 				rootWin.toFront();
@@ -62,10 +63,9 @@ public class TrayIconPopUpMenu extends JPopupMenuListener {
 			break;
 		}
 	}
-
+	
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		maybeShowPopup(e);
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -77,5 +77,6 @@ public class TrayIconPopUpMenu extends JPopupMenuListener {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
