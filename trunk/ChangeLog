@@ -1,5 +1,395 @@
+2007-10-02  kei060
+
+	* [r100] Controller.java, gui/window/AboutGui.java:
+	  
+	  Preparing for 0.3 release
+	* [r99] Controller.java, NTorrent.java,
+	  gui/dialogue/PromptEnv.java, gui/window/SettingsGui.java,
+	  io/IOController.java, io/xmlrpc/XmlRpcQueue.java,
+	  settings/LocalSettings.java, settings/ProfileSettings.java,
+	  settings/Settings.java, threads/ContentThread.java,
+	  threads/ThrottleThread.java:
+	  
+	  added the settings window.
+
+2007-10-01  kei060
+
+	* [r98] settings/Settings.java:
+	  
+	  
+	* [r97] Controller.java, gui/FileTabComponent.java,
+	  gui/GUIController.java, gui/file/FileList.java,
+	  gui/file/InfoPanel.java, gui/file/TrackerList.java,
+	  gui/file/TrackerListener.java,
+	  gui/listener/JPopupMenuListener.java,
+	  gui/view/MainTableComponent.java, io/Rpc.java,
+	  io/xmlrpc/XmlRpc.java, model/FileJTableModel.java,
+	  model/FileTableModel.java, model/TorrentFile.java,
+	  model/TorrentInfo.java, model/TorrentJTableModel.java,
+	  model/TorrentPool.java, model/TorrentSet.java,
+	  model/TorrentTableModel.java, model/TrackerInfo.java,
+	  model/TrackerJTableModel.java,
+	  model/render/TorrentTitleRenderer.java,
+	  model/render/TrackerUrlRenderer.java,
+	  settings/LocalSettings.java:
+	  
+	  Added a tracker list and functionality assosciated. bug 24
+	* [r96] io/xmlrpc/XmlRpcQueue.java, settings/LocalSettings.java,
+	  threads/ThrottleThread.java:
+	  
+	  added debug setting.
+	* [r95] Controller.java:
+	  
+	  
+	* [r94] Controller.java, gui/FileTabComponent.java,
+	  io/ErrorLog.java, io/ErrorStream.java:
+	  
+	  added another errorlog solution.
+	* [r93] gui/tray/TrayIconPopUpMenu.java:
+	  
+	  
+	* [r92] gui/tray/TrayIconPopUpMenu.java:
+	  
+	  minor tray icon bug
+
+2007-09-30  kei060
+
+	* [r91] gui/view/MainTableComponent.java, io/Rpc.java,
+	  io/xmlrpc/XmlRpc.java, model/TorrentPool.java:
+	  
+	  added torrent priority setting functionality.
+	* [r90] gui/listener/JPopupMenuListener.java,
+	  gui/listener/JTablePopupMenuListener.java,
+	  gui/view/MainTableComponent.java:
+	  
+	  added skeleton for set priority on torrents.
+	* [r89] Controller.java, gui/GUIController.java,
+	  gui/StatusBarComponent.java, io/Rpc.java, io/xmlrpc/XmlRpc.java,
+	  threads/ContentThread.java, threads/ThreadController.java,
+	  threads/ThrottleThread.java:
+	  
+	  added throttle functionality (bug #21) and created new bug #23.
+	* [r88] gui/FileTabComponent.java, gui/StatusBarComponent.java,
+	  model/TorrentPool.java:
+	  
+	  changed statusbar rate info to Bit instead of Byte.
+	* [r87] gui/GUIController.java, gui/MenuBarComponent.java,
+	  gui/StatusBarComponent.java, gui/menu, gui/status,
+	  threads/ContentThread.java:
+	  
+	  
+	* [r85] Controller.java, NTorrent.java, gui/FileTabComponent.java,
+	  gui/GUIController.java, gui/ViewTabComponent.java,
+	  gui/Window.java, gui/dialogue/PromptEnv.java,
+	  gui/dialogue/PromptFile.java, gui/dialogue/PromptString.java,
+	  gui/file/FileList.java, gui/file/FileListener.java,
+	  gui/file/InfoPanel.java, gui/menu/MenuBarComponent.java,
+	  gui/status/StatusBarComponent.java,
+	  gui/view/MainTableComponent.java, gui/window/AboutGui.java,
+	  gui/window/SettingsGui.java, io/IOController.java,
+	  io/socket/ThreadedClientHandler.java, io/xmlrpc/XmlRpc.java,
+	  io/xmlrpc/model/RpcRequest.java, model/TorrentFile.java,
+	  model/TorrentPool.java, settings/Constants.java,
+	  settings/ProfileSettings.java, threads/ThreadController.java:
+	  
+	  Added a window wrapper for a more uniform gui look.
+	* [r84] gui/main:
+	  
+	  
+	* [r83] Controller.java, NTorrent.java, gui/AboutGui.java,
+	  gui/FileTabComponent.java, gui/GUIController.java,
+	  gui/SettingsGui.java, gui/ViewTabComponent.java, gui/file,
+	  gui/file/FileList.java, gui/file/FileListener.java,
+	  gui/file/FileTabComponent.java, gui/file/FileTableListener.java,
+	  gui/file/InfoPanel.java, gui/listener/GuiEventListener.java,
+	  gui/main/file, gui/main/view, gui/view,
+	  gui/view/MainTableComponent.java,
+	  gui/view/TorrentTableListener.java,
+	  gui/view/ViewTabComponent.java, gui/window,
+	  gui/window/AboutGui.java, gui/window/SettingsGui.java,
+	  io/socket/Server.java, io/socket/ThreadedClientHandler.java:
+	  
+	  
+	* [r81] settings/Constants.java:
+	  
+	  
+	* [r80] Controller.java, NTorrent.java, gui/GUIController.java,
+	  gui/MainGui.java, gui/core, gui/dialogue/PromptEnv.java,
+	  gui/dialogue/PromptFile.java, gui/dialogue/PromptString.java,
+	  gui/listener, gui/listener/AbstractJTablePopupMenu.java,
+	  gui/listener/AbstractPopupMenu.java,
+	  gui/listener/GuiEventListener.java,
+	  gui/listener/JPopupMenuListener.java,
+	  gui/listener/JTablePopupMenuListener.java,
+	  gui/listener/SuperActionListener.java,
+	  gui/main/MainGlassPane.java, gui/main/file/FileList.java,
+	  gui/main/file/FileListener.java,
+	  gui/main/file/FileTabComponent.java,
+	  gui/main/file/FileTableListener.java,
+	  gui/main/file/InfoPanel.java,
+	  gui/main/view/MainTableComponent.java,
+	  gui/main/view/TorrentTableListener.java,
+	  gui/main/view/ViewTabComponent.java,
+	  gui/menu/FileMenuListener.java, gui/menu/HelpMenuListener.java,
+	  gui/menu/MenuBarComponent.java, gui/status/InfoPanel.java,
+	  gui/status/StatusBarComponent.java,
+	  gui/tray/ProcessTrayIcon.java, gui/tray/TrayIconPopUpMenu.java,
+	  io/ErrorLog.java, io/IOController.java, io/socket/Server.java,
+	  io/socket/ThreadedClientHandler.java, io/xmlrpc/XmlRpc.java,
+	  io/xmlrpc/XmlRpcConnection.java, io/xmlrpc/XmlRpcQueue.java,
+	  io/xmlrpc/model/RpcRequest.java, model/ModelController.java,
+	  model/TorrentFile.java, model/TorrentPool.java,
+	  model/TorrentTableModel.java, settings/Constants.java,
+	  settings/ProfileSettings.java, threads/ContentThread.java,
+	  threads/FileCommandThread.java, threads/ThreadController.java,
+	  threads/TorrentCommandThread.java:
+	  
+	  did a major code cleanup.
+
+2007-09-28  kei060
+
+	* [r79] Controller.java, NTorrent.java, gui/MainGui.java,
+	  gui/main/file/FileTabComponent.java:
+	  
+	  
+	* [r78] gui/status/StatusBarComponent.java, io/Rpc.java,
+	  io/xmlrpc/XmlRpc.java, threads/ContentThread.java:
+	  
+	  removed deprecated methods from rpc and xmlrpc. also minor bug
+	  fix with port_range
+	* [r77] Controller.java, gui/MainGui.java,
+	  gui/core/AbstractJTablePopupMenu.java,
+	  gui/core/AbstractPopupMenu.java, gui/dialogue/PromptEnv.java,
+	  gui/dialogue/PromptFile.java, gui/dialogue/PromptString.java,
+	  gui/main/file/FileList.java, gui/main/file/FileTabComponent.java,
+	  gui/main/file/FileTableListener.java,
+	  gui/main/view/MainTableComponent.java,
+	  gui/main/view/TorrentTableListener.java,
+	  gui/main/view/ViewTabComponent.java,
+	  gui/menu/MenuBarComponent.java, gui/status/InfoPanel.java,
+	  gui/status/StatusBarComponent.java,
+	  gui/tray/ProcessTrayIcon.java, gui/tray/TrayIconPopUpMenu.java,
+	  gui/tray/TrayListener.java, io/socket/Server.java,
+	  io/xmlrpc/XmlRpc.java, io/xmlrpc/XmlRpcCallback.java,
+	  io/xmlrpc/XmlRpcConnection.java, io/xmlrpc/model/RpcRequest.java,
+	  model/TorrentFile.java, model/TorrentPool.java,
+	  model/TorrentTableModel.java, settings/Constants.java,
+	  settings/ProfileSettings.java, threads/ContentThread.java:
+	  
+	  changed the internal structure of TrayIcon, much better coded
+	  now. + some minor changes.
+
+2007-09-27  kei060
+
+	* [r76] Controller.java, gui/main/file/FileList.java,
+	  gui/main/view/TorrentTableListener.java,
+	  gui/status/StatusBarComponent.java, io/Rpc.java,
+	  io/xmlrpc/Rpc.java, io/xmlrpc/RpcCallback.java,
+	  io/xmlrpc/RpcConnection.java, io/xmlrpc/RpcQueue.java,
+	  io/xmlrpc/XmlRpc.java, io/xmlrpc/XmlRpcCallback.java,
+	  io/xmlrpc/XmlRpcConnection.java, io/xmlrpc/XmlRpcQueue.java,
+	  io/xmlrpc/model/RpcRequest.java, model/TorrentPool.java:
+	  
+	  changed the internal structure.
+	* [r75] Controller.java, gui/status/StatusBarComponent.java,
+	  model/TorrentPool.java, model/units/Bit.java,
+	  model/units/Byte.java, model/units/DataUnit.java,
+	  threads/ContentThread.java, threads/FileCommandThread.java,
+	  threads/StatusThread.java, threads/TorrentCommandThread.java:
+	  
+	  minor changes
+	* [r74] io/xmlrpc/Rpc.java:
+	  
+	  added the d.update_priorities command. needed to make rtorrent
+	  actually care about the updated priorities.
+	* [r73] Controller.java, gui/core/AbstractJTablePopupMenu.java,
+	  gui/main/file/FileList.java,
+	  gui/main/file/FileTableListener.java,
+	  gui/main/view/TorrentTableListener.java,
+	  gui/status/StatusBarComponent.java, io/xmlrpc/Rpc.java,
+	  io/xmlrpc/RpcCallback.java, io/xmlrpc/RpcConnection.java,
+	  io/xmlrpc/RpcQueue.java, io/xmlrpc/model/RpcRequest.java,
+	  io/xmlrpc/type/CustomTypeFactory.java, model/TorrentFile.java,
+	  model/TorrentPool.java, threads/FileCommandThread.java,
+	  threads/StatusThread.java, threads/TorrentCommandThread.java:
+	  
+	  Implemented the system.multicall function on torrent file
+	  commands. however rpcqueue is still slow, and if there is little
+	  spare bandwith for nTorrent. then actions in ntorrent will take
+	  time..
+
+2007-09-26  kei060
+
+	* [r72] Controller.java, gui/main/file/FileList.java,
+	  gui/main/view/TorrentTableListener.java,
+	  gui/status/StatusBarComponent.java, io/xmlrpc/Rpc.java,
+	  io/xmlrpc/RpcCallback.java, io/xmlrpc/RpcConnection.java,
+	  io/xmlrpc/RpcQueue.java, io/xmlrpc/model/RpcRequest.java,
+	  io/xmlrpc/type/CustomTypeFactory.java,
+	  threads/FileCommandThread.java, threads/StatusThread.java:
+	  
+	  done implementing xmlrpc fifo queue, unfortunately it had made a
+	  huge load of commands slow as were only using one connection to
+	  the server at any given time. will have to make a multicall
+	  function to speed things up w/o crashing rtorrent.
+	* [r71] io/xmlrpc/Rpc.java:
+	  
+	  
+
+2007-09-25  kei060
+
+	* [r70] threads/ContentThread.java:
+	  
+	  
+	* [r69] threads/ContentThread.java:
+	  
+	  
+	* [r68] io/xmlrpc/Rpc.java:
+	  
+	  minor changes
+	* [r67] Controller.java, gui/core/SuperActionListener.java,
+	  gui/main/file/FileList.java,
+	  gui/main/view/MainTableComponent.java, io/xmlrpc/Rpc.java,
+	  io/xmlrpc/RpcQueue.java, io/xmlrpc/model/RpcRequest.java,
+	  model/TorrentFile.java, model/TorrentPool.java,
+	  model/TorrentTableModel.java,
+	  model/render/TorrentTitleRenderer.java,
+	  model/units/Priority.java, threads/ContentThread.java:
+	  
+	  Fixed bug #9 and #13, and added efficiency to the torrent
+	  updating process. Also, torrents that have a message from the
+	  tracker is hilighted in the torrent view with a red foreground
+	  color.
+
+2007-09-24  kei060
+
+	* [r66] gui/main/file/FileList.java:
+	  
+	  
+	* [r65] Controller.java, gui/main/MainGlassPane.java,
+	  gui/main/file/FileList.java,
+	  gui/main/file/FileTableListener.java,
+	  gui/main/view/MainTableComponent.java,
+	  gui/main/view/TorrentTableListener.java, io/xmlrpc/Rpc.java,
+	  io/xmlrpc/RpcCallback.java, io/xmlrpc/RpcConnection.java,
+	  io/xmlrpc/RpcQueue.java, io/xmlrpc/model,
+	  io/xmlrpc/model/RpcRequest.java, model/TorrentFile.java,
+	  model/TorrentPool.java, model/TorrentTableModel.java,
+	  model/units/Priority.java, threads/ContentThread.java:
+	  
+	  halfway through implementing a xmlrpc fifo queue. cleaned up some
+	  of the source code. and added seeder, leecher information and
+	  priority information to the main table view.
+
+2007-09-14  kei060
+
+	* [r64] io/xmlrpc/Rpc.java:
+	  
+	  minor changes responding to bug #19
+	* [r63] gui/main/view/MainTableComponent.java:
+	  
+	  fixed bug #16
+	* [r62] model/render/TorrentTitleRenderer.java:
+	  
+	  fixed Bug #16
+
+2007-09-13  kei060
+
+	* [r61] gui/main/file/FileList.java,
+	  gui/main/file/FileTabComponent.java,
+	  gui/main/file/FileTableListener.java,
+	  gui/main/view/MainTableComponent.java,
+	  gui/main/view/TorrentTableListener.java,
+	  gui/main/view/ViewTabComponent.java, gui/menu,
+	  gui/menu/FileMenuListener.java, gui/menu/HelpMenuListener.java,
+	  gui/menu/MenuBarComponent.java, gui/status,
+	  gui/status/InfoPanel.java, gui/status/StatusBarComponent.java,
+	  gui/tray, gui/tray/ProcessTrayIcon.java, gui/tray/TrayIcon.java,
+	  gui/tray/TrayIconPopUpMenu.java, gui/tray/TrayListener.java:
+	  
+	  restructuring source.
+	* [r60] gui/main/view:
+	  
+	  
+	* [r59] gui/main/file:
+	  
+	  
+	* [r58] Controller.java, NTorrent.java, controller,
+	  gui/MainGui.java, gui/core,
+	  gui/core/AbstractJTablePopupMenu.java,
+	  gui/core/AbstractPopupMenu.java,
+	  gui/core/SuperActionListener.java, gui/dialogue,
+	  gui/dialogue/PromptEnv.java, gui/dialogue/PromptFile.java,
+	  gui/dialogue/PromptString.java, gui/dialogues, gui/elements,
+	  gui/listener, gui/main, gui/main/MainGlassPane.java,
+	  io/Client.java, io/Rpc.java, io/RpcConnection.java,
+	  io/Server.java, io/ThreadedClientHandler.java, io/socket,
+	  io/socket/Client.java, io/socket/Server.java,
+	  io/socket/ThreadedClientHandler.java, io/type, io/xmlrpc,
+	  io/xmlrpc/Rpc.java, io/xmlrpc/RpcConnection.java, io/xmlrpc/type,
+	  io/xmlrpc/type/CustomTypeFactory.java, model/TorrentPool.java,
+	  model/TorrentTableModel.java, settings/Constants.java, threads,
+	  threads/ContentThread.java, threads/FileCommandThread.java,
+	  threads/StatusThread.java, threads/TorrentCommandThread.java:
+	  
+	  restructuring source.
+	* [r57] gui/elements/FileList.java:
+	  
+	  
+	* [r56] gui/elements/FileList.java:
+	  
+	  changed to Byte representation of bytes instead of integer/long
+	  in FileList.java
+	* [r55] controller/threads/FileCommandThread.java,
+	  controller/threads/TorrentCommandThread.java,
+	  gui/elements/AbstractJTablePopupMenu.java,
+	  gui/elements/AbstractPopupMenu.java, gui/elements/FileList.java,
+	  gui/listener/FileTableListener.java,
+	  gui/listener/TorrentTableListener.java, io/Rpc.java,
+	  settings/Constants.java:
+	  
+	  added set priority functionality of individual files within a
+	  torrent.
+
+2007-09-10  kei060
+
+	* [r54] settings/Constants.java:
+	  
+	  
+	* [r53] NTorrent.java, settings/Constants.java:
+	  
+	  minor edit to (maybe) prevent bug 17.
+
+2007-09-09  kei060
+
+	* [r52] controller/threads/StatusThread.java,
+	  settings/LocalSettings.java:
+	  
+	  minor enhancment to statusbar.
+
+2007-09-08  kei060
+
+	* [r51] io/Rpc.java:
+	  
+	  set a todo for bug #15
+
+2007-09-07  kei060
+
+	* [r50] NTorrent.java:
+	  
+	  Changed the way nTorrent detected if there already was an
+	  ntorrent process. instead of trying to connect to an
+	  existing/nonexistant socket. it just allocates the server socket
+	  on port 4050, if its already taken, then we know that there
+	  already is an ntorrent process. assuming that no other process
+	  has port 4050.
+
 2007-09-06  kei060
 
+	* [r49] io/Client.java, io/Server.java,
+	  io/ThreadedClientHandler.java:
+	  
+	  forgot license comment block.
 	* [r45] settings/Constants.java:
 	  
 	  generating version 0.2
