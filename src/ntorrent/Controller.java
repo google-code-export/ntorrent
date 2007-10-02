@@ -59,10 +59,10 @@ public class Controller{
 	
 	public boolean connect(String host, String username, String password){
 		try {
-			GC.drawMainWindow();
 			System.out.println("Connecting");
 			IO.connect(host, username, password);
 			IO.loadStartupFiles(filesToLoad);
+			GC.drawMainWindow();
 			
 			MC = new ModelController(this);
 			TC = new ThreadController(this);
