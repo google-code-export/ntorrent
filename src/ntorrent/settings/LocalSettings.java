@@ -19,16 +19,43 @@
  */
 package ntorrent.settings;
 
-
 public class LocalSettings extends Settings {
 	private static final long serialVersionUID = 1L;
-	@Description("Update intervall / view")
-	public static int vintervall = 3000;
+	@Description("Update intervall in ms / view")
+	public int vintervall = 3000;
 	
-	@Description("Refresh intervall / throttle")
-	public static int sintervall = 60000;
+	@Description("Refresh intervall in ms / throttle")
+	public int sintervall = 60000;
 	
-	@Description("Debug mode")
-	public static boolean debug = true;
+	@Description("Debug mode / log")
+	public boolean debug = false;
+	
+	@SuppressWarnings("static-access")
+	@Override
+	protected void restoreData(Object obj) {
+		LocalSettings data = (LocalSettings)obj;
+		vintervall = data.vintervall;
+		sintervall = data.sintervall;
+		debug = data.debug;
+	}
+
+	public void deserialize() {
+		try {
+			deserialize(Constants.settings, this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void serialize() {
+		try {
+			serialize(Constants.settings, this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }

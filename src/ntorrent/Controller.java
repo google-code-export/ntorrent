@@ -57,17 +57,12 @@ public class Controller{
 		GC = new GUIController(this);
 	}
 	
-	public void connect(String host, String username, String password){
+	public boolean connect(String host, String username, String password){
 		try {
 			GC.drawMainWindow();
 			System.out.println("Connecting");
 			IO.connect(host, username, password);
 			IO.loadStartupFiles(filesToLoad);
-			
-			//Save profile
-			IO.getProfile().setHost(host);
-			IO.getProfile().setUsername(username);
-			IO.getProfile().saveSettings();
 			
 			MC = new ModelController(this);
 			TC = new ThreadController(this);
@@ -78,9 +73,10 @@ public class Controller{
 		} catch (Exception e) {
 			GC.showError(e);
 			e.printStackTrace();
-			System.exit(e.hashCode());
+			return false;
 		}
-		System.setErr(new PrintStream(log));
+		//System.setErr(new PrintStream(log));
+		return true;
 	}
 
 	

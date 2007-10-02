@@ -26,7 +26,6 @@ import java.net.MalformedURLException;
 import ntorrent.io.xmlrpc.XmlRpc;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.io.xmlrpc.XmlRpcQueue;
-import ntorrent.settings.ProfileSettings;
 
 import org.apache.xmlrpc.XmlRpcException;
 
@@ -36,7 +35,6 @@ import org.apache.xmlrpc.XmlRpcException;
 public class IOController {
 
 	private Rpc rpc;
-	private ProfileSettings profile = new ProfileSettings();
 	
 	public void connect(String host, String username, String password) throws MalformedURLException, XmlRpcException {
 		XmlRpcConnection conn = new XmlRpcConnection(host);
@@ -72,13 +70,6 @@ public class IOController {
 			}
 	}	
 	
-	/**
-	 * @return
-	 */
-	public ProfileSettings getProfile() {
-		return profile;
-	}
-
 	/**
 	 * @return
 	 */

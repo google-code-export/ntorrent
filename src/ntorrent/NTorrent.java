@@ -10,20 +10,25 @@ import javax.swing.UIManager;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
 import ntorrent.settings.Constants;
+import ntorrent.settings.LocalSettings;
 
 public class NTorrent{
 	static Controller C;
+	public static LocalSettings settings = new LocalSettings();
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args){
+		//load settings
+		settings.deserialize();
 		//start socket server
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			new Server().start();
-			//start process
+			//print license
 			System.out.println(Constants.getLicense());
+			//start process
 			C = new Controller(args);
 		} catch(BindException e) {
 			System.out.println("Server already started");
