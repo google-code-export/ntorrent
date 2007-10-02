@@ -19,9 +19,9 @@
  */
 package ntorrent.threads;
 
+import ntorrent.NTorrent;
 import ntorrent.io.Rpc;
 import ntorrent.io.xmlrpc.XmlRpcCallback;
-import ntorrent.settings.LocalSettings;
 
 /**
  * @author Kim Eik
@@ -56,7 +56,7 @@ public class ThrottleThread extends Thread{
 				if(drate != null || urate != null)
 					setServerRate();
 				getServerRate();
-				sleep(LocalSettings.sintervall-5000);
+				sleep(NTorrent.settings.sintervall-5000);
 			} catch (InterruptedException e) {
 				
 			}

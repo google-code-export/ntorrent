@@ -30,8 +30,6 @@ import java.io.Serializable;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 public abstract class Settings implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -42,45 +40,37 @@ public abstract class Settings implements Serializable {
 		String value();
 	}
 	
-	protected void serialize(File settingsFile, Object obj) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public static boolean serialize(File settingsFile, Object obj) throws IOException, IllegalArgumentException, IllegalAccessException{
 		settingsFile.createNewFile();
 		FileOutputStream stream = new FileOutputStream(settingsFile);
 		ObjectOutputStream objectstream = new ObjectOutputStream(stream);
-		for(Field f : this.getClass().getDeclaredFields()){
-			if(!Modifier.isFinal(f.getModifiers()) && Modifier.isPublic(f.getModifiers())){
-				Class type = f.getType();
-				
-				if(type.equals(String.class))
-					objectstream.writeUTF((String)f.get(obj));
-				else if(type.equals(Boolean.class))
-					objectstream.writeBoolean(f.getBoolean(obj));
-				else if(type.equals(File.class))
-					objectstream.writeObject(f.get(obj));
-
-			}
-		}
-		objectstream.close();  
+		
+		objectstream.writeObject(obj);
+		
+		objectstream.close();
+		return true;
 	}
 
-	protected boolean deserialize(File settingsFile, Object obj) throws IOException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
+	@SuppressWarnings("unchecked")
+	public static boolean deserialize(File settingsFile, Object obj) throws IOException, IllegalArgumentException, IllegalAccessException, ClassNotFoundException{
 		if(settingsFile.exists()){
 			FileInputStream stream = new FileInputStream(settingsFile);
-			ObjectInputStream objectstream = new ObjectInputStream(stream);
-			for(Field f : this.getClass().getDeclaredFields())
-				if(!Modifier.isFinal(f.getModifiers()) && Modifier.isPublic(f.getModifiers())){
-					Class type = f.getType();
-
-					if(type.equals(String.class))
-						f.set(obj, objectstream.readUTF());
-					else if(type.equals(Boolean.class))
-						f.setBoolean(obj, objectstream.readBoolean());
-					else if(type.equals(File.class))
-						f.set(obj,(File)objectstream.readObject());
-
-				}
+			ObjectInputStream objectstream = new ObjectInputStream(stream);			
+			Object data = objectstream.readObject();
+			
+			
+			
+			if(data instanceof Settings)
+				((Settings)obj).restoreData(data);
+			else
+				return false;
+			
 			objectstream.close();
 		}
 		return settingsFile.exists();
 	}
+	
+	protected abstract void restoreData(Object obj);
+	
 }
 

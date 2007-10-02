@@ -34,16 +34,22 @@ import javax.swing.JTextField;
 
 import ntorrent.Controller;
 import ntorrent.gui.Window;
+import ntorrent.settings.Constants;
+import ntorrent.settings.Settings;
 
 /**
  * @author  Kim Eik
  */
-public class PromptEnv implements ActionListener {
-	private Window window = new Window();
-	private JTextField host = new JTextField();
+public class PromptEnv extends Settings implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private transient Window window = new Window();
+	private JTextField host = new JTextField("http://");
 	private JTextField username = new JTextField();
-	private JPasswordField password = new JPasswordField();
-	Controller C;
+	private transient JPasswordField password = new JPasswordField();
+	private transient Controller C;
 
 	public PromptEnv(Window parent, Controller controller) {
 		C = controller;
@@ -70,7 +76,7 @@ public class PromptEnv implements ActionListener {
 		JButton ok = new JButton("OK!");
 		ok.addActionListener(this);
 		c.add(ok);
-		readProfile();
+		deserialize();
 		drawWindow();
 	}
 	
@@ -86,12 +92,7 @@ public class PromptEnv implements ActionListener {
 		window.dispose();
 		window = null;
 	}
-	
-	private void readProfile(){
-		setUsername(C.getIO().getProfile().getUsername());
-		setHost(C.getIO().getProfile().getHost());
-	}
-	
+		
 	/**
 	 * @return
 	 */
@@ -124,16 +125,44 @@ public class PromptEnv implements ActionListener {
 
 
 	public void actionPerformed(ActionEvent e) {
-		closeWindow();
-		C.connect(getHost(), getUsername(), getPassword());
+		if(C.connect(getHost(), getUsername(), getPassword())){
+			closeWindow();
+			serialize();
+		}
+	}
+
+	@Override
+	protected void restoreData(Object obj) {
+		PromptEnv data = (PromptEnv)obj;
+		setHost(data.getHost());
+		setUsername(data.getUsername());
+		
 	}
 	
-	public void setHost(String host) {
+	private void setHost(String host) {
 		this.host.setText(host);
 	}
 	
-	public void setUsername(String username) {
+	private void setUsername(String username) {
 		this.username.setText(username);
+	}
+
+	public void deserialize() {
+		try {
+			deserialize(Constants.profile,this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void serialize() {
+		try {
+			serialize(Constants.profile, this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

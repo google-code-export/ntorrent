@@ -20,11 +20,11 @@
 
 package ntorrent.threads;
 
+import ntorrent.NTorrent;
 import ntorrent.gui.GUIController;
 import ntorrent.gui.StatusBarComponent;
 import ntorrent.io.Rpc;
 import ntorrent.model.TorrentPool;
-import ntorrent.settings.LocalSettings;
 
 /**
  * @author  Kim Eik
@@ -51,7 +51,7 @@ public class ContentThread extends Thread {
 			bar.setUploadRate(torrents.getRateUp());
 			while(true){
 				try {
-					Thread.sleep(LocalSettings.vintervall);
+					Thread.sleep(NTorrent.settings.vintervall);
 					rpc.getTorrentVariables(torrents.getView(),torrents);
 					bar.repaint();
 				} catch (InterruptedException e) {
