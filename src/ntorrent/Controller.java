@@ -75,7 +75,7 @@ public class Controller{
 			e.printStackTrace();
 			return false;
 		}
-		//System.setErr(new PrintStream(log));
+		System.setErr(new PrintStream(log));
 		return true;
 	}
 

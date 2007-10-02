@@ -32,7 +32,9 @@ public class AboutGui {
 	public AboutGui(){
 		about.setText(
 				Constants.getLicense() +
-				"http://ntorrent-java.sf.net"
+				"if you find any bugs or have any feature requests\n" +
+				"then please report them to bugzilla.\n\n" +
+				"homepage: http://ntorrent-java.sf.net"
 				);
 		about.setEditable(false);
 		about.setFocusable(false);
