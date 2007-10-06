@@ -7,6 +7,7 @@ import java.net.BindException;
 
 import javax.swing.UIManager;
 
+import org.heldig.ntorrent.gui.tray.ProcessTrayIcon;
 import org.heldig.ntorrent.io.socket.Client;
 import org.heldig.ntorrent.io.socket.Server;
 import org.heldig.ntorrent.settings.Constants;
@@ -32,6 +33,7 @@ public class NTorrent{
 			System.out.println(Constants.getLicense());
 			//start process
 			C = new Controller(args);
+			new ProcessTrayIcon(C,C.getGC().getRootWin());
 		} catch(BindException e) {
 			System.out.println("Server already started");
 			//Server already started.

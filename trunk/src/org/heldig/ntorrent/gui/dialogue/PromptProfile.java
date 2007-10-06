@@ -33,12 +33,12 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.heldig.ntorrent.Controller;
@@ -86,6 +86,8 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 			"Delete profile"
 	};
 	
+	private transient ClientProfile selected;
+	
 	public PromptProfile(Window parent, Controller controller) {
 		C = controller;
 		try {
@@ -94,16 +96,18 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 			e.printStackTrace();
 		}
 		window.setLayout(new BorderLayout(10,20));
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setAlwaysOnTop(true);
 		
 		JComboBox box = new JComboBox(ClientProfile.Protocol.values());
 		box.addItemListener(this);
+		box.setSelectedIndex(0);
 		comps[0] = box;
 		
 		profiles = new JList(vprofiles);
+		profiles.setFixedCellWidth(300);
+		profiles.setFixedCellHeight(40);
 		profiles.addMouseListener(this);
-		window.add(profiles,BorderLayout.EAST);
+		window.add(new JScrollPane(profiles),BorderLayout.EAST);
 
 		JPanel input = new JPanel(new GridLayout(0,1));
 		for(int x = 0; x < labels.length; x++){
@@ -166,7 +170,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 			profiles.setListData(vprofiles);
 		}else if(cmd.equals(buttons[2])){
 			if(JOptionPane.showConfirmDialog(window, "Are you sure?","Removing profile",JOptionPane.YES_NO_OPTION) == 0){
-				vprofiles.remove(profile);
+				vprofiles.remove(selected);
 				profiles.setListData(vprofiles);
 			}
 		}
@@ -187,29 +191,33 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	
 
 	public void itemStateChanged(ItemEvent e) {
+		System.out.println(e);
 		if(e.getStateChange() == ItemEvent.SELECTED)
-			if(e.getItem().equals(ClientProfile.Protocol.LOCAL)){
+			switch((ClientProfile.Protocol)e.getItem()){
+			case LOCAL:
 				((JTextField)comps[1]).setText("127.0.0.1");
 				((JTextField)comps[1]).setEditable(false);
-			}
-		
+				break;
+			case HTTP:
+				((JTextField)comps[2]).setText("80");
+				((JTextField)comps[1]).setEditable(true);
+				break;
+			case SSH:
+				((JTextField)comps[2]).setText("22");
+				((JTextField)comps[1]).setEditable(true);
+				break;
+			}	
 	}
 
 
 
 	public void mouseClicked(MouseEvent e) {
-		ClientProfile profile = ((ClientProfile)((JList)e.getSource()).getSelectedValue());
-		((JComboBox)comps[0]).setSelectedItem(profile.getProt());
-		((JTextField)comps[1]).setText(profile.getHost());
-		((JTextField)comps[2]).setText(""+profile.getPort());
-		((JTextField)comps[3]).setText(profile.getMount());
-		((JTextField)comps[4]).setText(profile.getUsername());
-		((JPasswordField)comps[5]).setText(profile.getPassword());
-		((JCheckBox)comps[6]).setSelected(profile.hasPassword());
 		
 	}
 
-
+	public void mouseReleased(MouseEvent e) {
+		mousePressed(e);
+	}
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -226,14 +234,17 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 
 
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		ClientProfile profile = ((ClientProfile)((JList)e.getSource()).getSelectedValue());
+		if(profile != null){
+			selected = profile;
+			((JComboBox)comps[0]).setSelectedItem(profile.getProt());
+			((JTextField)comps[1]).setText(profile.getHost());
+			((JTextField)comps[2]).setText(""+profile.getPort());
+			((JTextField)comps[3]).setText(profile.getMount());
+			((JTextField)comps[4]).setText(profile.getUsername());
+			((JPasswordField)comps[5]).setText(profile.getPassword());
+			((JCheckBox)comps[6]).setSelected(profile.hasPassword());
+		}
 		
 	}
 

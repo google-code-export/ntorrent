@@ -52,6 +52,7 @@ public class Controller{
 	
 	public Controller() throws IOException {
 		System.setOut(new PrintStream(log));
+		System.setErr(new PrintStream(log));
 		System.out.println(Constants.getReleaseName());
 		System.out.println("Drawing gui");
 		IO = new IOController();
@@ -76,7 +77,6 @@ public class Controller{
 			e.printStackTrace();
 			return false;
 		}
-		System.setErr(new PrintStream(log));
 		return true;
 	}
 

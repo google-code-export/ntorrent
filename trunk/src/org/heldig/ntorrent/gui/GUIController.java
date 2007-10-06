@@ -32,7 +32,6 @@ import javax.swing.JSplitPane;
 
 import org.heldig.ntorrent.Controller;
 import org.heldig.ntorrent.gui.dialogue.PromptProfile;
-import org.heldig.ntorrent.gui.tray.ProcessTrayIcon;
 import org.heldig.ntorrent.gui.view.MainTableComponent;
 import org.heldig.ntorrent.model.TorrentJTableModel;
 
@@ -47,10 +46,8 @@ public class GUIController{
 	private FileTabComponent fileTab; 
 	private MainTableComponent table;
 	private ViewTabComponent viewTab;
-	private Controller parent;
 	
 	public GUIController(Controller parent){
-		this.parent = parent;
 		menuBar = new MenuBarComponent(parent);
 		table = new MainTableComponent(parent); 
 		try {
@@ -61,6 +58,7 @@ public class GUIController{
 		}
 		viewTab = new ViewTabComponent(parent,table.getTable());
 		statusBar = new StatusBarComponent(parent);
+		drawMainWindow();
 		new PromptProfile(rootWin,parent);
 	}
 	
@@ -74,7 +72,6 @@ public class GUIController{
 		rootWin.pack();
 		rootWin.setLocationRelativeTo(null);
 		rootWin.setVisible(true);
-		new ProcessTrayIcon(parent,rootWin);
 	}
 	
 	
