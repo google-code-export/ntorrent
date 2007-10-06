@@ -100,14 +100,7 @@ public class ClientProfile implements Serializable {
 		if(!(obj instanceof ClientProfile))
 			return false;
 		ClientProfile profile = (ClientProfile)obj;
-		if(getHost().equals(profile.getHost()) ||
-				getMount().equals(profile.getMount()) ||
-				getPassword().equals(profile.getPassword()) ||
-				getPort() != profile.getPort() ||
-				getProt().equals(profile.getProt()) ||
-				getUsername().equals(profile.getUsername()))
-			return true;
-		return false;
+		return profile == this;
 		
 	}
 	
