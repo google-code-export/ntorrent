@@ -17,13 +17,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.heldig.ntorrent.io.xmlrpc.model;
+package org.heldig.ntorrent.io.xmlrpc;
 
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.XmlRpcRequestConfig;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
 
 /**
  * @author   netbrain

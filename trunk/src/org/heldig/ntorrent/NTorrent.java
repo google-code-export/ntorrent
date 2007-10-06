@@ -7,10 +7,10 @@ import java.net.BindException;
 
 import javax.swing.UIManager;
 
+import org.heldig.ntorrent.io.socket.Client;
+import org.heldig.ntorrent.io.socket.Server;
 import org.heldig.ntorrent.settings.Constants;
 import org.heldig.ntorrent.settings.LocalSettings;
-import org.heldig.ntorrent.socket.Client;
-import org.heldig.ntorrent.socket.Server;
 
 
 

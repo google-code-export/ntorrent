@@ -25,9 +25,9 @@ import java.net.MalformedURLException;
 
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.heldig.ntorrent.xmlrpc.XmlRpc;
-import org.heldig.ntorrent.xmlrpc.XmlRpcConnection;
-import org.heldig.ntorrent.xmlrpc.XmlRpcQueue;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpc;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcConnection;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
 
 /**
  * @author  Kim Eik

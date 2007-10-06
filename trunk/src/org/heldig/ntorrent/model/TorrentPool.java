@@ -25,9 +25,9 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.Controller;
 import org.heldig.ntorrent.io.Rpc;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpc;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.model.units.Bit;
-import org.heldig.ntorrent.xmlrpc.XmlRpc;
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
 
 /**
  * @author   netbrain

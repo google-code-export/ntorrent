@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.heldig.ntorrent.xmlrpc;
+package org.heldig.ntorrent.io.xmlrpc;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,7 +26,6 @@ import java.net.URL;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.heldig.ntorrent.xmlrpc.type.CustomTypeFactory;
 
 /**
  * @author   netbrain

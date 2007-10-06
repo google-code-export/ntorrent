@@ -8,10 +8,10 @@ import javax.swing.JTable;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.model.FileJTableModel;
 import org.heldig.ntorrent.model.units.Byte;
 import org.heldig.ntorrent.model.units.Priority;
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
 
 /**
  * @author   netbrain

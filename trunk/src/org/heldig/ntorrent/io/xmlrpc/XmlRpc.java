@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.heldig.ntorrent.xmlrpc;
+package org.heldig.ntorrent.io.xmlrpc;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -27,9 +27,9 @@ import javax.swing.JTable;
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.Controller;
 import org.heldig.ntorrent.gui.render.TrackerUrlRenderer;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.model.TrackerInfo;
 import org.heldig.ntorrent.model.TrackerJTableModel;
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
 
 
 /**
