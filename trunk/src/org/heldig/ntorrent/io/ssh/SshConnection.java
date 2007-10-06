@@ -85,7 +85,7 @@ public class SshConnection implements RpcConnection {
 		    		  
 		    		  ForwardingClient forwarding = ssh.getForwardingClient();
 		    		  
-		    		  forwarding.addLocalForwarding("test","0.0.0.0",6000,"127.0.0.1",5000);
+		    		  forwarding.addLocalForwarding("test","0.0.0.0",6000,hostname,5000);
 		    		  forwarding.startLocalForwarding("test");
 		    		  Socket socket = new Socket("localhost",6000);
 		    		  //should now be connected to the remote scgi socket.
