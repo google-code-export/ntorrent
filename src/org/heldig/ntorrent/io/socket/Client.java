@@ -18,41 +18,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.heldig.ntorrent.socket;
+package org.heldig.ntorrent.io.socket;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 
 import org.heldig.ntorrent.settings.Constants;
 
 
-/**
- * @author  Kim Eik
- */
-public class Server extends Thread{
-	private static ServerSocket servSocket;
-	
-	public Server() throws IOException {
-		servSocket = new ServerSocket(Constants.getCommPort());
-		System.out.println("Setting up socket server.");
-	}
-
-	public void run() {
-		/**
-		 * For each incoming connection, thread the connection into
-		 * ThreadedClientHandler.
-		 */
-		do {
-
-			Socket client;
-			try {
-				client = servSocket.accept();
-				ThreadedClientHandler clienthandler = new ThreadedClientHandler(client);
-				clienthandler.start();
-			} catch (IOException e) {
-				e.printStackTrace();
+public class Client {
+	public Client(String[] args) throws IOException {
+		Socket link = new Socket(InetAddress.getLocalHost(), Constants.getCommPort());
+		PrintWriter out = new PrintWriter(link.getOutputStream(), true);
+		for(String s : args){
+			File f = new File(s);
+			if(f.exists() && f.isFile())
+				out.println(s);
+		}
+		try {
+			if (link != null) {
+				link.close();
 			}
-		} while (true);
+		} catch (IOException ioEx) {
+			ioEx.printStackTrace();
+		}
 	}
 }

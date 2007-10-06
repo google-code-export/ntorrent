@@ -22,7 +22,7 @@ package org.heldig.ntorrent.io;
 import java.io.File;
 import java.io.IOException;
 
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 
 
 public interface Rpc {		

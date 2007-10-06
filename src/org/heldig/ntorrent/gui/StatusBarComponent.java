@@ -38,10 +38,10 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
 import org.heldig.ntorrent.model.units.Bit;
 import org.heldig.ntorrent.threads.ThrottleThread;
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
-import org.heldig.ntorrent.xmlrpc.XmlRpcQueue;
 
 
 /**

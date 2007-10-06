@@ -21,7 +21,7 @@ package org.heldig.ntorrent.threads;
 
 import org.heldig.ntorrent.NTorrent;
 import org.heldig.ntorrent.io.Rpc;
-import org.heldig.ntorrent.xmlrpc.XmlRpcCallback;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 
 
 /**

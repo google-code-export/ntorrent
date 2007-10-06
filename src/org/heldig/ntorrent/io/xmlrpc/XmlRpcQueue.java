@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.heldig.ntorrent.xmlrpc;
+package org.heldig.ntorrent.io.xmlrpc;
 
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -28,7 +28,6 @@ import org.apache.xmlrpc.XmlRpcRequest;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.heldig.ntorrent.NTorrent;
-import org.heldig.ntorrent.io.xmlrpc.model.RpcRequest;
 
 public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 	
