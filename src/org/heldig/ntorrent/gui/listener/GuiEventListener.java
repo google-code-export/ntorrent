@@ -27,8 +27,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.heldig.ntorrent.Controller;
-import org.heldig.ntorrent.gui.dialogue.PromptEnv;
 import org.heldig.ntorrent.gui.dialogue.PromptFile;
+import org.heldig.ntorrent.gui.dialogue.PromptProfile;
 import org.heldig.ntorrent.gui.dialogue.PromptString;
 import org.heldig.ntorrent.gui.window.AboutGui;
 import org.heldig.ntorrent.gui.window.SettingsGui;
@@ -74,7 +74,7 @@ public class GuiEventListener implements ChangeListener, ActionListener{
 				C.getIO().loadTorrent(stringPrompt.getInput());
 			break;
 		case CONNECT:
-			new PromptEnv(C.getGC().getRootWin(),C);
+			new PromptProfile(C.getGC().getRootWin(),C);
 			break;
 		case QUIT:
 			System.exit(0);	
