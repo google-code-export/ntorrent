@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import org.heldig.ntorrent.Controller;
-import org.heldig.ntorrent.gui.dialogue.PromptEnv;
+import org.heldig.ntorrent.gui.dialogue.PromptProfile;
 import org.heldig.ntorrent.gui.tray.ProcessTrayIcon;
 import org.heldig.ntorrent.gui.view.MainTableComponent;
 import org.heldig.ntorrent.model.TorrentJTableModel;
@@ -61,7 +61,7 @@ public class GUIController{
 		}
 		viewTab = new ViewTabComponent(parent,table.getTable());
 		statusBar = new StatusBarComponent(parent);
-		new PromptEnv(rootWin,parent);
+		new PromptProfile(rootWin,parent);
 	}
 	
 	public void drawMainWindow(){

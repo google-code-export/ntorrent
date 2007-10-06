@@ -43,4 +43,16 @@ public class Window extends JFrame {
 		this.setIconImage(icon);
 	}
 	
+	public void drawWindow(){
+		this.pack();
+		this.validate();
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+	}
+	
+	public void closeWindow(){
+		this.setVisible(false);
+		this.dispose();
+	}
+	
 }
