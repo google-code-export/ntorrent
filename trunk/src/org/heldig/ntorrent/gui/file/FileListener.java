@@ -62,11 +62,11 @@ public class FileListener extends JTablePopupMenuListener {
 		System.out.println("Setting priority on "+selectedRows.length+" files = "+hash);
 		String command = e.getActionCommand();
 		if(command.equals("High")){
-			C.getIO().getRpc().setFilePriority(hash, 2, selectedRows);
+			C.IO.getRpc().setFilePriority(hash, 2, selectedRows);
 		}else if(command.equals("Low")){
-			C.getIO().getRpc().setFilePriority(hash, 1, selectedRows);			
+			C.IO.getRpc().setFilePriority(hash, 1, selectedRows);			
 		}else if(command.equals("Off")){
-			C.getIO().getRpc().setFilePriority(hash, 0, selectedRows);		
+			C.IO.getRpc().setFilePriority(hash, 0, selectedRows);		
 		}
 	}
 

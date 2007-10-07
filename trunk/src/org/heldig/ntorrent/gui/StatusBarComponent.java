@@ -157,7 +157,7 @@ public class StatusBarComponent extends XmlRpcCallback implements ChangeListener
 	}
 
 	public void stateChanged(ChangeEvent e) {
-		ThrottleThread thread = C.getTC().getThrottleThread();
+		ThrottleThread thread = C.TC.getThrottleThread();
 		JSpinner src = (JSpinner)e.getSource();
 		if(src.equals(maxDownloadRate)){
 			thread.setDownloadRate((Integer)src.getValue()*1024);

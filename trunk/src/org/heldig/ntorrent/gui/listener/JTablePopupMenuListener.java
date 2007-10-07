@@ -19,27 +19,27 @@ public abstract class JTablePopupMenuListener extends JPopupMenuListener {
 			switch(cmd){
 			case START:
 				System.out.println("Starting torrent(s)");
-				C.getMC().getTorrentPool().start(selectedRows);
+				C.MC.getTorrentPool().start(selectedRows);
 				break;
 			case STOP:
 				System.out.println("Stopping torrent(s)");
-				C.getMC().getTorrentPool().stop(selectedRows);
+				C.MC.getTorrentPool().stop(selectedRows);
 				break;
 			case OPEN:
 				System.out.println("Setting torrent(s) open");
-				C.getMC().getTorrentPool().open(selectedRows);
+				C.MC.getTorrentPool().open(selectedRows);
 				break;
 			case CHECK_HASH:
 				System.out.println("Hash checking torrent(s)");
-				C.getMC().getTorrentPool().checkHash(selectedRows);
+				C.MC.getTorrentPool().checkHash(selectedRows);
 				break;
 			case CLOSE:
 				System.out.println("Setting torrent(s) closed");
-				C.getMC().getTorrentPool().close(selectedRows);
+				C.MC.getTorrentPool().close(selectedRows);
 				break;
-			case REMOVE:
+			case REMOVE_TORRENT:
 				System.out.println("Removing torrent(s)");
-				C.getMC().getTorrentPool().erase(selectedRows);
+				C.MC.getTorrentPool().erase(selectedRows);
 				break;
 			}
 		}

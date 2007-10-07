@@ -23,11 +23,13 @@ package org.heldig.ntorrent.gui.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.NTorrent;
 import org.heldig.ntorrent.gui.FileTabComponent;
 import org.heldig.ntorrent.gui.listener.JTablePopupMenuListener;
 import org.heldig.ntorrent.gui.render.PercentRenderer;
@@ -43,23 +45,46 @@ import org.heldig.ntorrent.settings.Constants.Commands;
  */
 public class MainTableComponent extends JTablePopupMenuListener {
 	JTable table = new JTable(new TorrentJTableModel());
-	final static Object[] prioritysub = {
+	final static Object[] subpriority = {
 		"Set priority",
 		"High",
 		"Normal",
 		"Low",
 		"Off"
 		};
-	final static Object[] menuItems = {
+	
+	final static Object[] sublocal = {
+		"Local",
+		"Open file",
+		"(Open directory)",
+		"(Remove data)",
+	};
+	
+	final static Object[] subssh = {
+		"Ssh",
+		"(Copy to local)",
+		"(Remove data)"
+	};
+	
+	final static Object[] subtorrent = {
+		"Remote",
 		Commands.START.toString(),
 		Commands.STOP.toString(),
-		Commands.REMOVE.toString(),
+		Commands.REMOVE_TORRENT.toString(),
 		null,
-		prioritysub,
+		subpriority,
 		null,
 		Commands.OPEN.toString(),
 		Commands.CHECK_HASH.toString(),
 		Commands.CLOSE.toString()
+	};
+	
+	final static Object[] menuItems = {
+		subtorrent,
+		null,
+		sublocal,
+		subssh
+		
 	};
 
 	
@@ -112,10 +137,10 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		JTable source = (JTable)e.getSource();
 		if(source.getSelectedRowCount() == 1){
 			TorrentInfo tf = ((TorrentInfo)source.getValueAt(source.getSelectedRow(), 0));
-			FileTabComponent panel = C.getGC().getFileTab();
+			FileTabComponent panel = C.GC.getFileTab();
 			panel.getInfoPanel().setInfo(tf);
-			C.getIO().getRpc().getFileList(tf.getHash(),panel.getFileList());
-			C.getIO().getRpc().getTrackerList(tf.getHash(), panel.getTrackerList(tf.getHash()));
+			C.IO.getRpc().getFileList(tf.getHash(),panel.getFileList());
+			C.IO.getRpc().getTrackerList(tf.getHash(), panel.getTrackerList(tf.getHash()));
 		}else
 			hideFileTab();
 		
@@ -130,7 +155,7 @@ public class MainTableComponent extends JTablePopupMenuListener {
     }
     
 	private void hideFileTab() {
-    	FileTabComponent panel = C.getGC().getFileTab();
+    	FileTabComponent panel = C.GC.getFileTab();
     	panel.getFileList().hideInfo();
     	panel.getInfoPanel().hideInfo();
 	}
@@ -162,13 +187,20 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		super.actionPerformed(e);
 		String cmd = e.getActionCommand();
 		if(cmd.equals("High")){
-			C.getMC().getTorrentPool().setPriority(selectedRows, 3);
+			C.MC.getTorrentPool().setPriority(selectedRows, 3);
 		}else if(cmd.equals("Normal")){
-			C.getMC().getTorrentPool().setPriority(selectedRows, 2);
+			C.MC.getTorrentPool().setPriority(selectedRows, 2);
 		}else if(cmd.equals("Low")){
-			C.getMC().getTorrentPool().setPriority(selectedRows, 1);
+			C.MC.getTorrentPool().setPriority(selectedRows, 1);
 		}else if(cmd.equals("Off")){
-			C.getMC().getTorrentPool().setPriority(selectedRows, 0);
+			C.MC.getTorrentPool().setPriority(selectedRows, 0);
+		}else if(cmd.equals("Open file")){
+			try {
+				NTorrent.settings.runProgram(C.MC.getTorrentPool().get(selectedRows[0]).getFilePath());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 }

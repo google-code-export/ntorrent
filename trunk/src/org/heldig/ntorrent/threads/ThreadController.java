@@ -31,11 +31,11 @@ public class ThreadController{
 	public ThreadController(Controller c) {
 		parent = c;
 		mainContentThread = new ContentThread(
-				c.getGC(), 
-				c.getIO().getRpc(), 
-				c.getGC().getStatusBar(),
-				c.getMC().getTorrentPool());
-		throttleThread = new ThrottleThread(c.getIO().getRpc(),c.getGC().getStatusBar());
+				c.GC, 
+				c.IO.getRpc(), 
+				c.GC.getStatusBar(),
+				c.MC.getTorrentPool());
+		throttleThread = new ThrottleThread(c.IO.getRpc(),c.GC.getStatusBar());
 	}
 	
 	public void startMainContentThread(){

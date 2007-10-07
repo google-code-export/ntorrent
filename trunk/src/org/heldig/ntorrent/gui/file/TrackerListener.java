@@ -57,9 +57,9 @@ public class TrackerListener extends JTablePopupMenuListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if(cmd.equals("Enable")){
-			C.getIO().getRpc().setTrackerEnabled(parent.getHash(), selectedRows, true, null);
+			C.IO.getRpc().setTrackerEnabled(parent.getHash(), selectedRows, true, null);
 		}else if(cmd.equals("Disable")){
-			C.getIO().getRpc().setTrackerEnabled(parent.getHash(), selectedRows, false, null);
+			C.IO.getRpc().setTrackerEnabled(parent.getHash(), selectedRows, false, null);
 		}
 	}
 }

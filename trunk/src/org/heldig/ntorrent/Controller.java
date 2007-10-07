@@ -27,6 +27,7 @@ import java.io.PrintStream;
 import org.heldig.ntorrent.gui.GUIController;
 import org.heldig.ntorrent.io.ErrorStream;
 import org.heldig.ntorrent.io.IOController;
+import org.heldig.ntorrent.model.ClientProfile;
 import org.heldig.ntorrent.model.ModelController;
 import org.heldig.ntorrent.settings.Constants;
 import org.heldig.ntorrent.threads.ThreadController;
@@ -39,11 +40,12 @@ import org.heldig.ntorrent.threads.ThreadController;
 public class Controller{
 	
 	private String[] filesToLoad;
-	private IOController IO;
-	private GUIController GC;
-	private ThreadController TC;
-	private ModelController MC;
+	public IOController IO;
+	public GUIController GC;
+	public ThreadController TC;
+	public ModelController MC;
 	public static ErrorStream log = new ErrorStream();
+	public ClientProfile profile;
 	
 	public Controller(String[] args) throws IOException{
 		this();
@@ -59,10 +61,10 @@ public class Controller{
 		GC = new GUIController(this);
 	}
 	
-	public boolean connect(String host, String username, String password){
+	public boolean connect(ClientProfile p){
 		try {
 			System.out.println("Connecting");
-			IO.connect(host, username, password);
+			IO.connect(p.toString(), p.getUsername(), p.getPassword());
 			IO.loadStartupFiles(filesToLoad);
 			GC.drawMainWindow();
 			
@@ -80,34 +82,4 @@ public class Controller{
 		return true;
 	}
 
-	
-
-	/**
-	 * @return
-	 */
-	public GUIController getGC() {
-		return GC;
-	}
-	
-	/**
-	 * @return
-	 */
-	public IOController getIO() {
-		return IO;
-	}
-	
-	/**
-	 * @return
-	 */
-	public ModelController getMC() {
-		return MC;
-	}
-	
-	/**
-	 * @return
-	 */
-	public ThreadController getTC() {
-		return TC;
-	}
-	
 }

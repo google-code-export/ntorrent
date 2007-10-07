@@ -185,7 +185,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 
 
 	private void connect(ClientProfile profile) {
-		if(C.connect(profile.getProt()+profile.getHost()+profile.getMount(), profile.getUsername(), profile.getPassword()))
+		if(C.connect(profile))
 			window.closeWindow();
 	}
 	
