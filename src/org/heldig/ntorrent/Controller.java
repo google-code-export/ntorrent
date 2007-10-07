@@ -22,14 +22,11 @@
 package org.heldig.ntorrent;
 
 import java.io.IOException;
-import java.io.PrintStream;
 
 import org.heldig.ntorrent.gui.GUIController;
-import org.heldig.ntorrent.io.ErrorStream;
 import org.heldig.ntorrent.io.IOController;
 import org.heldig.ntorrent.model.ClientProfile;
 import org.heldig.ntorrent.model.ModelController;
-import org.heldig.ntorrent.settings.Constants;
 import org.heldig.ntorrent.threads.ThreadController;
 
 
@@ -44,7 +41,6 @@ public class Controller{
 	public GUIController GC;
 	public ThreadController TC;
 	public ModelController MC;
-	public static ErrorStream log = new ErrorStream();
 	public ClientProfile profile;
 	
 	public Controller(String[] args) throws IOException{
@@ -53,10 +49,6 @@ public class Controller{
 	}
 	
 	public Controller() throws IOException {
-		System.setOut(new PrintStream(log));
-		System.setErr(new PrintStream(log));
-		System.out.println(Constants.getReleaseName());
-		System.out.println("Drawing gui");
 		IO = new IOController();
 		GC = new GUIController(this);
 	}

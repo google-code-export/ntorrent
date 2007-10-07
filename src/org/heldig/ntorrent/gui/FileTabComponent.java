@@ -30,6 +30,7 @@ import org.heldig.ntorrent.gui.file.FileList;
 import org.heldig.ntorrent.gui.file.InfoPanel;
 import org.heldig.ntorrent.gui.file.TrackerList;
 import org.heldig.ntorrent.gui.listener.GuiEventListener;
+import org.heldig.ntorrent.io.IOController;
 
 
 /**
@@ -51,7 +52,7 @@ public class FileTabComponent extends GuiEventListener  {
 		filePane.addTab("info", infoPanel.getInfoPanel());
 		filePane.addTab("file list", fileList.getFileList());
 		filePane.addTab("tracker list", trackerList.getTrackerlist());
-		filePane.addTab("log",new JScrollPane(Controller.log.getTextArea()));
+		filePane.addTab("log",new JScrollPane(IOController.log.getTextArea()));
 		filePane.setSelectedIndex(3);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));

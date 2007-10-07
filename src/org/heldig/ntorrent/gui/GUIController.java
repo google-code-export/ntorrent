@@ -63,6 +63,7 @@ public class GUIController{
 	}
 	
 	public void drawMainWindow(){
+		System.out.println("Drawing gui");
 		rootWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		rootWin.setLayout(new BorderLayout());
 		rootWin.setPreferredSize(new Dimension(1024,768));
