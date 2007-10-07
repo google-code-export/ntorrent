@@ -26,11 +26,12 @@ import java.net.URL;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.heldig.ntorrent.io.RpcConnection;
 
 /**
  * @author   netbrain
  */
-public class XmlRpcConnection {
+public class XmlRpcConnection implements RpcConnection {
 	XmlRpcClientConfigImpl config;
 	XmlRpcQueue client;
 	
