@@ -24,7 +24,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.heldig.ntorrent.io.RpcConnection;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
 
 import com.sshtools.j2ssh.SshClient;
 import com.sshtools.j2ssh.authentication.AuthenticationProtocolState;
@@ -95,4 +97,20 @@ public class SshConnection implements RpcConnection {
 		      e.printStackTrace();
 		    }
 		  }
+
+	  
+	public XmlRpcQueue connect() throws XmlRpcException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setPassword(String p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setUsername(String u) {
+		// TODO Auto-generated method stub
+		
+	}
 }
