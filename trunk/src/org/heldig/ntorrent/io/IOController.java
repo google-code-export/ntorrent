@@ -21,6 +21,7 @@ package org.heldig.ntorrent.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.UnknownHostException;
 
 import org.apache.xmlrpc.XmlRpcException;
@@ -29,6 +30,7 @@ import org.heldig.ntorrent.io.xmlrpc.http.XmlRpcConnection;
 import org.heldig.ntorrent.io.xmlrpc.local.LocalConnection;
 import org.heldig.ntorrent.io.xmlrpc.ssh.SshConnection;
 import org.heldig.ntorrent.model.ClientProfile;
+import org.heldig.ntorrent.settings.Constants;
 
 import com.sshtools.j2ssh.transport.InvalidHostFileException;
 
@@ -37,7 +39,14 @@ import com.sshtools.j2ssh.transport.InvalidHostFileException;
  */
 public class IOController {
 
+	public static ErrorStream log = new ErrorStream();
 	private Rpc rpc;
+	
+	public IOController() {
+		System.setOut(new PrintStream(log));
+		System.setErr(new PrintStream(log));
+		System.out.println(Constants.getReleaseName());
+	}
 	
 	public void connect(ClientProfile p) throws XmlRpcException, InvalidHostFileException, UnknownHostException, IOException {
 		RpcConnection conn = null;
