@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
@@ -34,10 +35,13 @@ import org.heldig.ntorrent.gui.FileTabComponent;
 import org.heldig.ntorrent.gui.listener.JTablePopupMenuListener;
 import org.heldig.ntorrent.gui.render.PercentRenderer;
 import org.heldig.ntorrent.gui.render.TorrentTitleRenderer;
+import org.heldig.ntorrent.io.xmlrpc.ssh.SshConnection;
 import org.heldig.ntorrent.model.TorrentInfo;
 import org.heldig.ntorrent.model.TorrentJTableModel;
 import org.heldig.ntorrent.model.units.Percent;
 import org.heldig.ntorrent.settings.Constants.Commands;
+
+import com.sshtools.j2ssh.SshClient;
 
 
 /**
@@ -56,13 +60,12 @@ public class MainTableComponent extends JTablePopupMenuListener {
 	final static Object[] sublocal = {
 		"Local",
 		"Open file",
-		"(Open directory)",
 		"(Remove data)",
 	};
 	
 	final static Object[] subssh = {
 		"Ssh",
-		"(Copy to local)",
+		"Copy to local",
 		"(Remove data)"
 	};
 	
@@ -189,13 +192,29 @@ public class MainTableComponent extends JTablePopupMenuListener {
 			C.MC.getTorrentPool().setPriority(selectedRows, 1);
 		}else if(cmd.equals("Off")){
 			C.MC.getTorrentPool().setPriority(selectedRows, 0);
-		}else if(cmd.equals("Open file")){
+		}else if(cmd.equals(sublocal[1])){
 			try {
-				NTorrent.settings.runProgram(C.MC.getTorrentPool().get(selectedRows[0]).getFilePath());
+				if(selectedRows.length == 1)
+					NTorrent.settings.runProgram(C.MC.getTorrentPool().get(selectedRows[0]).getFilePath());
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		} else if(cmd.equals(subssh[1])){
+			if(C.IO.getRpcLink() instanceof SshConnection){
+				SshClient ssh = ((SshConnection)C.IO.getRpcLink()).getSsh();
+				JFileChooser pf = new JFileChooser();
+				pf.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				pf.setDialogTitle("Save in directory");
+				switch(pf.showSaveDialog(C.GC.getRootWin())){
+				case JFileChooser.APPROVE_OPTION:
+					if(selectedRows.length == 1){
+						C.TC.startFileTransfer(ssh,C.MC.getTorrentPool().get(selectedRows[0]),pf.getSelectedFile());
+					}
+				}
+				
+			} else
+				System.out.println("Only available on a ssh connection");
 		}
 	}
 }

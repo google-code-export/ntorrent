@@ -19,7 +19,13 @@
  */
 package org.heldig.ntorrent.threads;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.model.TorrentInfo;
+
+import com.sshtools.j2ssh.SshClient;
 
 /**
  * @author  Kim Eik
@@ -28,6 +34,7 @@ public class ThreadController{
 	private Thread mainContentThread;
 	Controller parent;
 	private ThrottleThread throttleThread;
+	private SshFileTransferThread fileTransferThread;
 	public ThreadController(Controller c) {
 		parent = c;
 		mainContentThread = new ContentThread(
@@ -57,6 +64,15 @@ public class ThreadController{
 	
 	public ThrottleThread getThrottleThread() {
 		return throttleThread;
+	}
+
+	public void startFileTransfer(SshClient ssh, TorrentInfo torrent, File selectedFile) {
+		try {
+			fileTransferThread = new SshFileTransferThread(ssh,torrent,selectedFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

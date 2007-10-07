@@ -37,7 +37,7 @@ import org.heldig.ntorrent.io.Rpc;
  * @author  Kim Eik
  */
 public class XmlRpc implements Rpc{
-	private static XmlRpcQueue client;
+	private XmlRpcQueue client;
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
@@ -73,7 +73,6 @@ public class XmlRpc implements Rpc{
 		systemClientVersion = (String)c.execute("system.client_version", params);
 		systemLibraryVersion = (String)c.execute("system.library_version", params);
 		System.out.println("Connected to host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
-
 	}
 	
 	public void getTorrentVariables(String view, XmlRpcCallback c){

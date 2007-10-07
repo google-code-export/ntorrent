@@ -54,6 +54,7 @@ public class Controller{
 	}
 	
 	public boolean connect(ClientProfile p){
+		profile = p;
 		try {
 			System.out.println("Connecting");
 			IO.connect(p);
