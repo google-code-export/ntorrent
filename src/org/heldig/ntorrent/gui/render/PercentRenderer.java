@@ -20,6 +20,7 @@
 
 package org.heldig.ntorrent.gui.render;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JProgressBar;
@@ -40,7 +41,7 @@ public class PercentRenderer extends JProgressBar implements TableCellRenderer {
 		jp.setValue(percent.getValue());
 		jp.setString(percent.toString());
 		jp.setStringPainted(true);
-		jp.setToolTipText(percent.toString());
+		jp.setForeground(Color.white);
 		return jp;
 	}
 
