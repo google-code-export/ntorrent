@@ -33,11 +33,14 @@ public class LocalSettings extends Settings {
 	@Description("Refresh intervall in ms / throttle")
 	public int sintervall = 60000;
 	
+	@Description("Default command for opening local data")
+	public String filecommand = "gnome-open";
+	
+	@Description("Default command for erasing local data")
+	public String deletecommand = "rm";
+	
 	@Description("Debug mode / log")
 	public boolean debug = false;
-	
-	@Description("Default command for opening torrent files")
-	public String filecommand = "gnome-open";
 	
 	@SuppressWarnings("static-access")
 	@Override

@@ -22,12 +22,12 @@ package org.heldig.ntorrent.gui.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.heldig.ntorrent.Controller;
-import org.heldig.ntorrent.gui.dialogue.PromptFile;
 import org.heldig.ntorrent.gui.dialogue.PromptProfile;
 import org.heldig.ntorrent.gui.dialogue.PromptString;
 import org.heldig.ntorrent.gui.window.AboutGui;
@@ -59,10 +59,11 @@ public class GuiEventListener implements ChangeListener, ActionListener{
 			about.drawWindow();
 			break;
 		case ADD_TORRENT:
-			PromptFile filePrompt = new PromptFile(C.GC.getRootWin());
-			if(filePrompt.getFile() != null){
+			JFileChooser filePrompt = new JFileChooser();
+			filePrompt.showOpenDialog(C.GC.getRootWin());
+			if(filePrompt.getSelectedFile() != null){
 				try {
-					C.IO.loadTorrent(filePrompt.getFile());
+					C.IO.loadTorrent(filePrompt.getSelectedFile());
 				} catch (Exception x) {
 					C.GC.showError(x);
 				}

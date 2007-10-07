@@ -98,4 +98,8 @@ public class SshConnection implements RpcConnection {
 	public void setUsername(String u) {
 		pwd.setUsername(u);
 	}
+	
+	public SshClient getSsh() {
+		return ssh;
+	}
 }

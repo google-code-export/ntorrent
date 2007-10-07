@@ -79,14 +79,8 @@ public class SettingsGui implements ActionListener {
 
 	private void readSettings() {
 		Field[] fields = LocalSettings.class.getFields();
-		for(Field field : fields){
-			for(Annotation a : field.getAnnotations()){
-				if(a instanceof Description){
-					contentpanel.add(new JLabel(((Description)a).value()));
-				}
-			}
-			
-			Class type = field.getType();
+		for(Field field : fields){	
+			Class type = field.getType();			
 			try {
 				Component c = null;
 				if(type.equals(String.class)){
@@ -97,6 +91,16 @@ public class SettingsGui implements ActionListener {
 				} else if(type.equals(int.class)) {
 					c = new JSpinner(new SpinnerNumberModel(field.getInt(NTorrent.settings),null,null,100));
 				}
+				
+				for(Annotation a : field.getAnnotations()){
+					if(a instanceof Description){
+						if(c instanceof JCheckBox)
+							((JCheckBox)c).setText(((Description)a).value());
+						else
+							contentpanel.add(new JLabel(((Description)a).value()));
+					}
+				}
+				
 				if(c != null){
 					contentpanel.add(c);
 					link.put(c, field);

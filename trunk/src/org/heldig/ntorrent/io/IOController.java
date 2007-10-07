@@ -41,6 +41,7 @@ public class IOController {
 
 	public static ErrorStream log = new ErrorStream();
 	private Rpc rpc;
+	private RpcConnection rpcLink;
 	
 	public IOController() {
 		System.setOut(new PrintStream(log));
@@ -49,22 +50,21 @@ public class IOController {
 	}
 	
 	public void connect(ClientProfile p) throws XmlRpcException, InvalidHostFileException, UnknownHostException, IOException {
-		RpcConnection conn = null;
 		switch(p.getProt()){
 			case HTTP:
-				conn = new XmlRpcConnection(p);
+				rpcLink = new XmlRpcConnection(p);
 				break;
 			case SSH:
-				conn = new SshConnection(p);
+				rpcLink = new SshConnection(p);
 				break;
 			case LOCAL:
-				conn = new LocalConnection(p);
+				rpcLink = new LocalConnection(p);
 				break;
 		}
-		conn.setUsername(p.getUsername());
-		conn.setPassword(p.getPassword());
+		rpcLink.setUsername(p.getUsername());
+		rpcLink.setPassword(p.getPassword());
 		//2.Connect to server
-		rpc = new XmlRpc(conn.connect());
+		rpc = new XmlRpc(rpcLink.connect());
 	}
 	
 	public boolean loadTorrent(File file) throws IOException, XmlRpcException{
@@ -97,6 +97,10 @@ public class IOController {
 	 */
 	public Rpc getRpc() {
 		return rpc;
+	}
+	
+	public RpcConnection getRpcLink() {
+		return rpcLink;
 	}
 
 }
