@@ -66,8 +66,7 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		"(Remove data)"
 	};
 	
-	final static Object[] subtorrent = {
-		"Remote",
+	final static Object[] menuItems = {
 		Commands.START.toString(),
 		Commands.STOP.toString(),
 		Commands.REMOVE_TORRENT.toString(),
@@ -76,11 +75,7 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		null,
 		Commands.OPEN.toString(),
 		Commands.CHECK_HASH.toString(),
-		Commands.CLOSE.toString()
-	};
-	
-	final static Object[] menuItems = {
-		subtorrent,
+		Commands.CLOSE.toString(),
 		null,
 		sublocal,
 		subssh
