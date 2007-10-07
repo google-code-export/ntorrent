@@ -143,7 +143,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	}
 	
 	@SuppressWarnings("deprecation")
-	private ClientProfile toClientProfile(){
+	private ClientProfile toClientProfile(boolean filter){
 		try{
 			ClientProfile.Protocol prot = (ClientProfile.Protocol)((JComboBox)comps[0]).getSelectedItem();
 			String host = ((JTextField)comps[1]).getText();
@@ -157,7 +157,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 			profile.setSocketPort(sockport.isEnabled() ? Integer.parseInt(sockport.getText()) : 0);
 			profile.setMount(mount.isEnabled() ? mount.getText() : "");
 			profile.setUsername(username.isEnabled() ? username.getText() : "");
-			if(((JCheckBox)comps[7]).isSelected())
+			if(!filter || ((JCheckBox)comps[7]).isSelected())
 				profile.setPassword(password.isEnabled() ? password.getText() : "");
 			return profile;
 		}catch(Exception x){
@@ -173,11 +173,10 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		ClientProfile profile = toClientProfile();
 		if(cmd.equals(buttons[0])){
-			connect(profile);
+			connect(toClientProfile(false));
 		}else if(cmd.equals(buttons[1])){
-			vprofiles.add(profile);
+			vprofiles.add(toClientProfile(true));
 			profiles.setListData(vprofiles);
 		}else if(cmd.equals(buttons[2])){
 			if(JOptionPane.showConfirmDialog(window, "Are you sure?","Removing profile",JOptionPane.YES_NO_OPTION) == 0){
