@@ -64,7 +64,7 @@ public class Controller{
 	public boolean connect(ClientProfile p){
 		try {
 			System.out.println("Connecting");
-			IO.connect(p.toString(), p.getUsername(), p.getPassword());
+			IO.connect(p);
 			IO.loadStartupFiles(filesToLoad);
 			GC.drawMainWindow();
 			

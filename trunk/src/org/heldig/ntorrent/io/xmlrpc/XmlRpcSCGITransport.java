@@ -59,8 +59,7 @@ public class XmlRpcSCGITransport extends XmlRpcStreamTransport {
 		config = (XmlRpcHttpClientConfig) request.getConfig();
 		URL url = config.getServerURL();
 		hostname = url.getHost();
-        int p = url.getPort();
-		port = p < 1 ? 80 : p;
+		port = url.getPort();
 		return super.sendRequest(request);
 	}
 

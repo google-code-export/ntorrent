@@ -21,13 +21,16 @@ package org.heldig.ntorrent.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-
+import java.net.UnknownHostException;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpc;
-import org.heldig.ntorrent.io.xmlrpc.XmlRpcConnection;
-import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
+import org.heldig.ntorrent.io.xmlrpc.http.XmlRpcConnection;
+import org.heldig.ntorrent.io.xmlrpc.local.LocalConnection;
+import org.heldig.ntorrent.io.xmlrpc.ssh.SshConnection;
+import org.heldig.ntorrent.model.ClientProfile;
+
+import com.sshtools.j2ssh.transport.InvalidHostFileException;
 
 /**
  * @author  Kim Eik
@@ -36,13 +39,23 @@ public class IOController {
 
 	private Rpc rpc;
 	
-	public void connect(String host, String username, String password) throws MalformedURLException, XmlRpcException {
-		XmlRpcConnection conn = new XmlRpcConnection(host);
-		conn.setUsername(username);
-		conn.setPassword(password);
+	public void connect(ClientProfile p) throws XmlRpcException, InvalidHostFileException, UnknownHostException, IOException {
+		RpcConnection conn = null;
+		switch(p.getProt()){
+			case HTTP:
+				conn = new XmlRpcConnection(p);
+				break;
+			case SSH:
+				conn = new SshConnection(p);
+				break;
+			case LOCAL:
+				conn = new LocalConnection(p);
+				break;
+		}
+		conn.setUsername(p.getUsername());
+		conn.setPassword(p.getPassword());
 		//2.Connect to server
-		XmlRpcQueue client = conn.connect();
-		rpc = new XmlRpc(client);
+		rpc = new XmlRpc(conn.connect());
 	}
 	
 	public boolean loadTorrent(File file) throws IOException, XmlRpcException{
