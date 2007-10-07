@@ -97,12 +97,16 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		for(Component c : comps)
+			c.setEnabled(false);
+		
 		window.setLayout(new BorderLayout(10,20));
 		window.setAlwaysOnTop(true);
 		
 		JComboBox box = new JComboBox(ClientProfile.Protocol.values());
-		box.addItemListener(this);
 		box.setSelectedIndex(-1);
+		box.addItemListener(this);
 		comps[0] = box;
 		
 		profiles = new JList(vprofiles);
