@@ -19,16 +19,25 @@
  */
 package org.heldig.ntorrent.settings;
 
+import java.io.File;
+import java.io.IOException;
+
 public class LocalSettings extends Settings {
 	private static final long serialVersionUID = 1L;
 	@Description("Update intervall in ms / view")
 	public int vintervall = 3000;
 	
+	/**
+	 * @TODO set a minimum value? @Minval?
+	 */
 	@Description("Refresh intervall in ms / throttle")
 	public int sintervall = 60000;
 	
 	@Description("Debug mode / log")
 	public boolean debug = false;
+	
+	@Description("Default command for opening torrent files")
+	public String filecommand = "gnome-open";
 	
 	@SuppressWarnings("static-access")
 	@Override
@@ -56,6 +65,12 @@ public class LocalSettings extends Settings {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void runProgram(String path) throws IOException{
+		String cmd = filecommand+" "+new File(path);
+		System.out.println("Executing "+cmd);
+		Runtime.getRuntime().exec(cmd);
 	}
 	
 }

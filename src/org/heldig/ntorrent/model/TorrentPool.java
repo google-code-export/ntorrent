@@ -45,8 +45,8 @@ public class TorrentPool extends XmlRpcCallback{
 	TorrentPool(){}
 
 	public TorrentPool(Controller c) throws XmlRpcException{
-		rpc = c.getIO().getRpc();
-		table = c.getGC().getTorrentTableModel();
+		rpc = c.IO.getRpc();
+		table = c.GC.getTorrentTableModel();
 		C = c;
 	}	
 	
@@ -80,7 +80,7 @@ public class TorrentPool extends XmlRpcCallback{
 			viewset = new TorrentSet();
 		
 		//interrupt thread
-		C.getTC().getMainContentThread().interrupt();
+		C.TC.getMainContentThread().interrupt();
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class TorrentPool extends XmlRpcCallback{
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
 			}else if(tf == null && !fullUpdate){
-				C.getTC().getMainContentThread().interrupt();
+				C.TC.getMainContentThread().interrupt();
 				break;
 			}
 	

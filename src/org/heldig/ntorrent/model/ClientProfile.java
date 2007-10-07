@@ -32,7 +32,7 @@ public class ClientProfile implements Serializable {
 		HTTP,SSH,LOCAL;
 		@Override
 		public String toString() {
-			return this.name().toLowerCase()+"://";
+			return this.name().toLowerCase();
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class ClientProfile implements Serializable {
 	
 	@Override
 	public String toString() {
-		return prot+host+":"+port+mount;
+		return prot+"://"+host+":"+port+mount;
 	}
 	
 	@Override

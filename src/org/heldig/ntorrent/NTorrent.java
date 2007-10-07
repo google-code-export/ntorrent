@@ -33,7 +33,7 @@ public class NTorrent{
 			System.out.println(Constants.getLicense());
 			//start process
 			C = new Controller(args);
-			new ProcessTrayIcon(C,C.getGC().getRootWin());
+			new ProcessTrayIcon(C,C.GC.getRootWin());
 		} catch(BindException e) {
 			System.out.println("Server already started");
 			//Server already started.
@@ -50,7 +50,7 @@ public class NTorrent{
 
 	public static boolean loadTorrent(File file) {
 		try {
-			return C.getIO().loadTorrent(file);
+			return C.IO.loadTorrent(file);
 		} catch (Exception x){
 			x.printStackTrace();
 		}

@@ -55,7 +55,7 @@ public final class Constants {
 		OPEN,
 		CHECK_HASH,
 		CLOSE,
-		REMOVE;
+		REMOVE_TORRENT;
 		
 		@Override
 		public String toString() {

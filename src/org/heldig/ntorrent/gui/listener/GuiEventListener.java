@@ -49,7 +49,7 @@ public class GuiEventListener implements ChangeListener, ActionListener{
 	public void stateChanged(ChangeEvent e) {
 		JTabbedPane pane = (JTabbedPane)e.getSource();
 		if(pane.getName().equals("views"))
-			C.getMC().getTorrentPool().setView(pane.getTitleAt(pane.getSelectedIndex()));
+			C.MC.getTorrentPool().setView(pane.getTitleAt(pane.getSelectedIndex()));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -59,22 +59,22 @@ public class GuiEventListener implements ChangeListener, ActionListener{
 			about.drawWindow();
 			break;
 		case ADD_TORRENT:
-			PromptFile filePrompt = new PromptFile(C.getGC().getRootWin());
+			PromptFile filePrompt = new PromptFile(C.GC.getRootWin());
 			if(filePrompt.getFile() != null){
 				try {
-					C.getIO().loadTorrent(filePrompt.getFile());
+					C.IO.loadTorrent(filePrompt.getFile());
 				} catch (Exception x) {
-					C.getGC().showError(x);
+					C.GC.showError(x);
 				}
 			}	
 			break;
 		case ADD_URL:
-			PromptString stringPrompt = new PromptString(C.getGC().getRootWin());
+			PromptString stringPrompt = new PromptString(C.GC.getRootWin());
 			if(stringPrompt.getInput() != null)
-				C.getIO().loadTorrent(stringPrompt.getInput());
+				C.IO.loadTorrent(stringPrompt.getInput());
 			break;
 		case CONNECT:
-			new PromptProfile(C.getGC().getRootWin(),C);
+			new PromptProfile(C.GC.getRootWin(),C);
 			break;
 		case QUIT:
 			System.exit(0);	
@@ -84,11 +84,11 @@ public class GuiEventListener implements ChangeListener, ActionListener{
 			break;
 		case START_ALL:
 			System.out.println("Starting all torrents.");
-			C.getMC().getTorrentPool().startAll();
+			C.MC.getTorrentPool().startAll();
 			break;
 		case STOP_ALL:
 			System.out.println("Stopping all torrents.");
-			C.getMC().getTorrentPool().stopAll();
+			C.MC.getTorrentPool().stopAll();
 			break;
 		}
 	}
