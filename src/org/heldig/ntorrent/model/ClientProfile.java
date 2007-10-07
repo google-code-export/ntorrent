@@ -41,13 +41,11 @@ public class ClientProfile implements Serializable {
 	private String mount;
 	private String username = "";
 	private String password = "";
-	private int port;
+	private int connectionPort,socketPort;
 	
-	public ClientProfile(Protocol p, String host,int port ,String mount) {
+	public ClientProfile(Protocol p, String host) {
 		prot = p;
 		this.host = host;
-		this.port = port;
-		this.mount = mount;
 	}
 	
 	public boolean isLocalHost(){
@@ -64,10 +62,6 @@ public class ClientProfile implements Serializable {
 	
 	public String getMount() {
 		return mount;
-	}
-	
-	public int getPort() {
-		return port;
 	}
 	
 	public void setUsername(String username) {
@@ -91,17 +85,37 @@ public class ClientProfile implements Serializable {
 	}
 	
 	@Override
-	public String toString() {
-		return prot+"://"+host+":"+port+mount;
-	}
-	
-	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof ClientProfile))
 			return false;
 		ClientProfile profile = (ClientProfile)obj;
 		return profile == this;
 		
+	}
+
+	public int getConnectionPort() {
+		return connectionPort;
+	}
+	
+	public int getSocketPort() {
+		return socketPort;
+	}
+	
+	public void setMount(String mount) {
+		this.mount = mount;
+	}
+	
+	public void setConnectionPort(int connectionPort) {
+		this.connectionPort = connectionPort;
+	}
+	
+	public void setSocketPort(int socketPort) {
+		this.socketPort = socketPort;
+	}
+	
+	@Override
+	public String toString() {
+		return prot+"://"+username+"@"+host+":"+connectionPort+":"+socketPort+mount;
 	}
 	
 }

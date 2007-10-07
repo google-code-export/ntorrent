@@ -17,47 +17,52 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.heldig.ntorrent.io.xmlrpc;
+package org.heldig.ntorrent.io.xmlrpc.local;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.heldig.ntorrent.io.RpcConnection;
+import org.heldig.ntorrent.io.xmlrpc.CustomTypeFactory;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcSCGITransportFactory;
+import org.heldig.ntorrent.model.ClientProfile;
 
 /**
- * @author   netbrain
+ * @author Kim Eik
+ *
  */
-public class XmlRpcConnection implements RpcConnection {
-	XmlRpcClientConfigImpl config;
-	XmlRpcQueue client;
+public class LocalConnection implements RpcConnection {
 	
-	public XmlRpcConnection(String url) throws MalformedURLException{
+	private XmlRpcClientConfigImpl config;
+	private XmlRpcQueue client;
+
+	public LocalConnection(ClientProfile p) throws MalformedURLException {
 		config = new XmlRpcClientConfigImpl();
-		config.setServerURL(new URL(url));
+		config.setServerURL(new URL("http://"+p.getHost()+":"+p.getSocketPort()));
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
 		client = new XmlRpcQueue(config);
-		//client.setTransportFactory(new XmlRpcTransportFactory(client));
+		client.setTransportFactory(new XmlRpcSCGITransportFactory(client));
 		client.setTypeFactory(new CustomTypeFactory(null));
 	}
 	
-	public void setUsername(String u){
+	public XmlRpcQueue connect() throws XmlRpcException {
+		client.setConfig(config);
+	    Object[] params = {"apache"};
+	    client.execute("xmlrpc_dialect", params);
+		return client;
+	}
+
+	public void setPassword(String p) {
+		config.setBasicPassword(p);
+		
+	}
+
+	public void setUsername(String u) {
 		config.setBasicUserName(u);
 	}
-	
-	public void setPassword(String p){
-		config.setBasicPassword(p);
-	}
-	
-	public XmlRpcQueue connect() throws XmlRpcException{
-       client.setConfig(config);
-       //makes sure that server and client speak the same dialect.
-       Object[] params = {"apache"};
-       client.execute("xmlrpc_dialect", params);
-       return client;
-	}
+
 }

@@ -63,7 +63,8 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	private transient String[] labels = {
 			"Protocol",
 			"Host",
-			"Port",
+			"Connection port",
+			"Socket port",
 			"Mountpoint",
 			"Username",
 			"Password",
@@ -72,6 +73,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	
 	private transient Component[] comps = {
 			new JComboBox(),
+			new JTextField(),
 			new JTextField(),
 			new JTextField(),
 			new JTextField(),
@@ -100,7 +102,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 		
 		JComboBox box = new JComboBox(ClientProfile.Protocol.values());
 		box.addItemListener(this);
-		box.setSelectedIndex(0);
+		box.setSelectedIndex(-1);
 		comps[0] = box;
 		
 		profiles = new JList(vprofiles);
@@ -141,20 +143,25 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 		try{
 			ClientProfile.Protocol prot = (ClientProfile.Protocol)((JComboBox)comps[0]).getSelectedItem();
 			String host = ((JTextField)comps[1]).getText();
-			int port = Integer.parseInt(((JTextField)comps[2]).getText());
-			String mount = ((JTextField)comps[3]).getText();
-			String username = ((JTextField)comps[4]).getText();
-			String password = ((JPasswordField)comps[5]).getText();
-			ClientProfile profile = new ClientProfile(prot,host,port,mount);
-			profile.setUsername(username);
-			if(((JCheckBox)comps[6]).isSelected())
-				profile.setPassword(password);
+			JTextField connport = ((JTextField)comps[2]);
+			JTextField sockport = ((JTextField)comps[3]);
+			JTextField mount = ((JTextField)comps[4]);
+			JTextField username = ((JTextField)comps[5]);
+			JTextField password = ((JPasswordField)comps[6]);
+			ClientProfile profile = new ClientProfile(prot,host);
+			profile.setConnectionPort(connport.isEnabled() ? Integer.parseInt(connport.getText()) : 0);
+			profile.setSocketPort(sockport.isEnabled() ? Integer.parseInt(sockport.getText()) : 0);
+			profile.setMount(mount.isEnabled() ? mount.getText() : "");
+			profile.setUsername(username.isEnabled() ? username.getText() : "");
+			if(((JCheckBox)comps[7]).isSelected())
+				profile.setPassword(password.isEnabled() ? password.getText() : "");
 			return profile;
 		}catch(Exception x){
 			JOptionPane.showMessageDialog(window,
 				    x.getLocalizedMessage(),
 				    "Error",
 				    JOptionPane.ERROR_MESSAGE);
+			x.printStackTrace();
 		}
 		return null;
 	}
@@ -192,21 +199,30 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 
 	public void itemStateChanged(ItemEvent e) {
 		System.out.println(e);
-		if(e.getStateChange() == ItemEvent.SELECTED)
+		if(e.getStateChange() == ItemEvent.SELECTED){
+			for(Component c : comps)
+				c.setEnabled(true);
 			switch((ClientProfile.Protocol)e.getItem()){
 			case LOCAL:
 				((JTextField)comps[1]).setText("127.0.0.1");
-				((JTextField)comps[1]).setEditable(false);
+				((JTextField)comps[2]).setText("");
+				comps[1].setEnabled(false);
+				comps[2].setEnabled(false);
+				comps[4].setEnabled(false);
+				comps[5].setEnabled(false);
+				comps[6].setEnabled(false);
+				comps[7].setEnabled(false);
 				break;
 			case HTTP:
 				((JTextField)comps[2]).setText("80");
-				((JTextField)comps[1]).setEditable(true);
+				comps[3].setEnabled(false);
 				break;
 			case SSH:
 				((JTextField)comps[2]).setText("22");
-				((JTextField)comps[1]).setEditable(true);
+				comps[4].setEnabled(false);
 				break;
 			}	
+		}
 	}
 
 
@@ -239,11 +255,12 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 			selected = profile;
 			((JComboBox)comps[0]).setSelectedItem(profile.getProt());
 			((JTextField)comps[1]).setText(profile.getHost());
-			((JTextField)comps[2]).setText(""+profile.getPort());
-			((JTextField)comps[3]).setText(profile.getMount());
-			((JTextField)comps[4]).setText(profile.getUsername());
-			((JPasswordField)comps[5]).setText(profile.getPassword());
-			((JCheckBox)comps[6]).setSelected(profile.hasPassword());
+			((JTextField)comps[2]).setText(""+profile.getConnectionPort());
+			((JTextField)comps[3]).setText(""+profile.getSocketPort());
+			((JTextField)comps[4]).setText(profile.getMount());
+			((JTextField)comps[5]).setText(profile.getUsername());
+			((JPasswordField)comps[6]).setText(profile.getPassword());
+			((JCheckBox)comps[7]).setSelected(profile.hasPassword());
 		}
 		
 	}
