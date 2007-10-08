@@ -22,6 +22,8 @@ package org.heldig.ntorrent.settings;
 import java.io.File;
 import java.io.IOException;
 
+import org.heldig.ntorrent.model.TorrentInfo;
+
 public class LocalSettings extends Settings {
 	private static final long serialVersionUID = 1L;
 	@Description("Update intervall in ms / view")
@@ -70,10 +72,40 @@ public class LocalSettings extends Settings {
 		}
 	}
 	
-	public void runProgram(String path) throws IOException{
-		String cmd = filecommand+" "+new File(path);
-		System.out.println("Executing "+cmd);
-		Runtime.getRuntime().exec(cmd);
+	public void runProgram(TorrentInfo info) throws IOException{
+		File file = new File(info.getFilePath());
+		File cwd = file.isFile() ? new File(file.getParent()) : file;
+		String arg = file.isFile() ? file.getName() : ".";
+		String cmd = filecommand;
+		System.out.println("Executing "+cmd+" "+arg);
+		Runtime.getRuntime().exec(filecommand+" "+arg,null,cwd);
+	}
+	
+	private static String escapeSpaces(String path){
+		String newPath = "";
+		
+		for(char c : path.toCharArray())
+			switch(c){
+				case '&':
+				case ';':
+				case '(':
+				case ')':
+				case '|':
+				case '<':
+				case '>':
+				case '"':
+				case '\'':
+				case '\\':
+				case '#':
+				case '*':
+				case '?':
+				case '$':
+				case ' ':
+					newPath += '\\';
+				default:
+					newPath += c;
+			}
+		return newPath;
 	}
 	
 }

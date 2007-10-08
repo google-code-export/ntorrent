@@ -195,7 +195,7 @@ public class MainTableComponent extends JTablePopupMenuListener {
 		}else if(cmd.equals(sublocal[1])){
 			try {
 				if(selectedRows.length == 1)
-					NTorrent.settings.runProgram(C.MC.getTorrentPool().get(selectedRows[0]).getFilePath());
+					NTorrent.settings.runProgram(C.MC.getTorrentPool().get(selectedRows[0]));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
