@@ -63,6 +63,7 @@ public class Scgi {
 	 *            an efficient (buffered) input stream.
 	 * @return strings passed via the SCGI request.
 	 */
+	@SuppressWarnings("unchecked")
 	public static HashMap parse(InputStream input) throws IOException {
 		StringBuilder lengthString = new StringBuilder(12);
 		String headers = "";
