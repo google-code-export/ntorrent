@@ -151,6 +151,7 @@ public class XmlRpc implements Rpc{
 		multiCall(cmds, params, c);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void multiCall(String[] commands, Object[][] params, XmlRpcCallback c){
 		List<Map> list = new ArrayList<Map>();
 		for(int x = 0; x < commands.length; x++){

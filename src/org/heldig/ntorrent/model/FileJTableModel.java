@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings("unchecked")
 public class FileJTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	String[] columns = {
@@ -31,7 +32,7 @@ public class FileJTableModel extends AbstractTableModel{
 			"Size"
 			};
 	
-	Vector[] data = new Vector[columns.length];
+	Vector<Object>[] data = new Vector[columns.length];
 	
 	public FileJTableModel() {
 		clear();
@@ -58,7 +59,6 @@ public class FileJTableModel extends AbstractTableModel{
 			data[x] = new Vector();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if(data[columnIndex].size() > rowIndex)
