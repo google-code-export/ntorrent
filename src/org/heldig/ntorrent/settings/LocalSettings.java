@@ -75,37 +75,10 @@ public class LocalSettings extends Settings {
 	public void runProgram(TorrentInfo info) throws IOException{
 		File file = new File(info.getFilePath());
 		File cwd = file.isFile() ? new File(file.getParent()) : file;
-		String arg = file.isFile() ? file.getName() : ".";
-		String cmd = filecommand;
+		String arg = file.getName();
+		String cmd[] = {filecommand,arg};
 		System.out.println("Executing "+cmd+" "+arg);
-		Runtime.getRuntime().exec(filecommand+" "+arg,null,cwd);
+		Runtime.getRuntime().exec(cmd,null,cwd);
 	}
-	
-	private static String escapeSpaces(String path){
-		String newPath = "";
 		
-		for(char c : path.toCharArray())
-			switch(c){
-				case '&':
-				case ';':
-				case '(':
-				case ')':
-				case '|':
-				case '<':
-				case '>':
-				case '"':
-				case '\'':
-				case '\\':
-				case '#':
-				case '*':
-				case '?':
-				case '$':
-				case ' ':
-					newPath += '\\';
-				default:
-					newPath += c;
-			}
-		return newPath;
-	}
-	
 }

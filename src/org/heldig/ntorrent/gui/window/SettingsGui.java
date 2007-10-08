@@ -77,6 +77,7 @@ public class SettingsGui implements ActionListener {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	private void readSettings() {
 		Field[] fields = LocalSettings.class.getFields();
 		for(Field field : fields){	
@@ -111,6 +112,7 @@ public class SettingsGui implements ActionListener {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 		JButton b = (JButton)e.getSource();
 		if(b.equals(save)){
