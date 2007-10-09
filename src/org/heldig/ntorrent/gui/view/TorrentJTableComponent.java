@@ -45,9 +45,9 @@ import com.sshtools.j2ssh.SshClient;
 
 
 /**
- * @author   netbrain
+ * @author   Kim Eik
  */
-public class MainTableComponent extends JTablePopupMenuListener {
+public class TorrentJTableComponent extends JTablePopupMenuListener {
 	JTable table = new JTable(new TorrentJTableModel());
 	final static Object[] subpriority = {
 		"Set priority",
@@ -86,22 +86,14 @@ public class MainTableComponent extends JTablePopupMenuListener {
 	};
 
 	
-	public MainTableComponent(Controller c){
+	public TorrentJTableComponent(Controller c){
 		super(c, menuItems);
-		//Not stable... probably make own sorter.
-		//table.setAutoCreateRowSorter(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(false);
 		table.setRowMargin(5);
-		//table.setCellSelectionEnabled(false);
-		//table.setRowSelectionAllowed(true);
 		table.setRowHeight(25);
 		table.setBackground(Color.white);
-		//table.setSelectionBackground(Color.LIGHT_GRAY);
-		//table.setSelectionBackground(new Color(210,225,225));
-		//table.setSelectionForeground(Color.black);
 		table.setFillsViewportHeight(true);
-		//table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.setDefaultRenderer(TorrentInfo.class, new TorrentTitleRenderer());
 		table.setDefaultRenderer(Percent.class, new PercentRenderer());
 		table.addMouseListener(this);
