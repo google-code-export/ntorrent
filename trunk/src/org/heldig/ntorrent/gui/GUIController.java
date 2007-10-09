@@ -32,7 +32,7 @@ import javax.swing.JSplitPane;
 
 import org.heldig.ntorrent.Controller;
 import org.heldig.ntorrent.gui.dialogue.PromptProfile;
-import org.heldig.ntorrent.gui.view.MainTableComponent;
+import org.heldig.ntorrent.gui.view.TorrentJTableComponent;
 import org.heldig.ntorrent.model.TorrentJTableModel;
 
 
@@ -44,12 +44,12 @@ public class GUIController{
 	private StatusBarComponent statusBar;
 	private MenuBarComponent menuBar;
 	private FileTabComponent fileTab; 
-	private MainTableComponent table;
+	private TorrentJTableComponent table;
 	private ViewTabComponent viewTab;
 	
 	public GUIController(Controller parent){
 		menuBar = new MenuBarComponent(parent);
-		table = new MainTableComponent(parent); 
+		table = new TorrentJTableComponent(parent); 
 		try {
 			fileTab = new FileTabComponent(parent);
 		} catch (IOException e) {
@@ -135,7 +135,7 @@ public class GUIController{
 	/**
 	 * @return
 	 */
-	public MainTableComponent getTable() {
+	public TorrentJTableComponent getTable() {
 		return table;
 	}
 	
