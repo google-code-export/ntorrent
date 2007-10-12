@@ -29,8 +29,8 @@ import java.io.PrintStream;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
 import org.heldig.ntorrent.gui.Window;
-import org.heldig.ntorrent.gui.dialogue.ClientProfile;
-import org.heldig.ntorrent.gui.dialogue.ClientProfile.Protocol;
+import org.heldig.ntorrent.gui.profile.ClientProfile;
+import org.heldig.ntorrent.gui.profile.ClientProfile.Protocol;
 import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.ErrorStream;

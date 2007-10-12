@@ -5,7 +5,7 @@ package org.heldig.ntorrent.event;
 
 import java.io.File;
 
-import org.heldig.ntorrent.gui.dialogue.ClientProfile;
+import org.heldig.ntorrent.gui.profile.ClientProfile;
 import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 

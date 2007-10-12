@@ -1,4 +1,4 @@
-package org.heldig.ntorrent.gui.listener;
+package org.heldig.ntorrent.gui.core;
 
 
 

@@ -26,7 +26,7 @@ import java.util.Vector;
 
 import javax.swing.JMenuBar;
 
-import org.heldig.ntorrent.gui.listener.MenuImplementation;
+import org.heldig.ntorrent.gui.core.MenuImplementation;
 import org.heldig.ntorrent.language.Language;
 
 

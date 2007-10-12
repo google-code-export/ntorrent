@@ -26,7 +26,7 @@ import java.net.UnknownHostException;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.heldig.ntorrent.gui.dialogue.ClientProfile;
+import org.heldig.ntorrent.gui.profile.ClientProfile;
 import org.heldig.ntorrent.io.RpcConnection;
 import org.heldig.ntorrent.io.xmlrpc.CustomTypeFactory;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;

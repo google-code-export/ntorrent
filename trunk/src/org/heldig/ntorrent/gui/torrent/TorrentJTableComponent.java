@@ -30,7 +30,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
-import org.heldig.ntorrent.gui.listener.JTablePopupMenuImplementation;
+import org.heldig.ntorrent.gui.core.JTablePopupMenuImplementation;
 import org.heldig.ntorrent.gui.render.PercentRenderer;
 import org.heldig.ntorrent.gui.render.TorrentTitleRenderer;
 import org.heldig.ntorrent.language.Language;

@@ -27,7 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import org.heldig.ntorrent.gui.file.TrackerInfo;
+import org.heldig.ntorrent.gui.filetab.TrackerInfo;
 
 
 /**
