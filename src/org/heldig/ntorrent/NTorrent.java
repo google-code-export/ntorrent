@@ -54,13 +54,7 @@ public class NTorrent {
 	}
 
 	public static boolean loadTorrent(File file) {
-		try {
-			System.out.println(NTorrent.class);
-			//return C.IO.loadTorrent(file);
-		} catch (Exception x){
-			x.printStackTrace();
-		}
-		return false;
+		return C.loadTorrent(file);
 	}
 	
 	private static void draw(){

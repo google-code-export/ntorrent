@@ -26,7 +26,7 @@ public interface ControllerEventListener{
 	public void setFilePriority(String hash, int pri, int[] selectedRows);
 	void setTrackerEnabled(String hash, int[] id, boolean b, XmlRpcCallback c);
 	void loadTorrent(String url);
-	void loadTorrent(File file);
+	boolean loadTorrent(File file);
 	public Protocol getProtocol();
 	public void setLabel(String[] hash, String showInputDialog);
 }

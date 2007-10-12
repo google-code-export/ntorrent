@@ -211,11 +211,13 @@ public class Controller implements ControllerEventListener, ActionListener{
 	}
 
 	@Override
-	public void loadTorrent(File file) {
+	public boolean loadTorrent(File file) {
 		try {
 			rpc.loadTorrent(file);
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
