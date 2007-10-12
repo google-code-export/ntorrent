@@ -132,9 +132,6 @@ public class TorrentPool implements XmlRpcCallback{
 		rateDown.setValue(0);
 		Object[] obj = (Object[])pResult;
 		int viewSize = viewset.size();
-		/*boolean fullUpdate = true;
-		if(pRequest.getParameterCount() == XmlRpc.variable.length)
-			fullUpdate = false;*/
 		
 		for(int x = 0; x < obj.length; x++){
 			HashMap<String,Object> result = new HashMap<String,Object>();
@@ -147,10 +144,8 @@ public class TorrentPool implements XmlRpcCallback{
 				tf = new TorrentInfo((String)raw[0]);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
-			}/*else if(tf == null && !fullUpdate){
 				mcThread.interrupt();
-				break;
-			}*/
+			}
 	
 			viewset.add(tf);
 			tf.setInfo(result);
@@ -165,5 +160,6 @@ public class TorrentPool implements XmlRpcCallback{
 		else
 			table.fireTableRowsUpdated(0, obj.length);
 		removeOutdated();
-	}	
+		
+	}		
 }
