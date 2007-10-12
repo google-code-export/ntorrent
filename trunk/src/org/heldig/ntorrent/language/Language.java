@@ -94,6 +94,8 @@ public enum Language implements Action {
 		File_List_Menu_high,
 		File_List_Menu_low,
 		File_List_Menu_off,
+		Torrent_Menu_Priority_set_label, 
+		Label_new_label,
 		;
 	
 	final static LanguageReader language = new LanguageReader();

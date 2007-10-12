@@ -43,5 +43,6 @@ public interface Rpc {
 		public void setFilePriority(String hash, int pri, int[] index);
 		public void getTrackerList(String hash,XmlRpcCallback c);
 		public void setTrackerEnabled(String hash, int[] id, boolean b, XmlRpcCallback c);
+		public void setLabel(String[] hash, String label, XmlRpcCallback c);
 		
 	}

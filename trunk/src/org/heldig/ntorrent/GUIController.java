@@ -105,8 +105,10 @@ public class GUIController implements ActionListener{
 	public StatusBarComponent getStatusBarComponent() {
 		return statusBar;
 	}
-
-
+	
+	public LabelListComponent getLabelList() {
+		return labelList;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

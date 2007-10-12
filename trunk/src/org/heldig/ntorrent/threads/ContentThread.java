@@ -23,8 +23,10 @@ package org.heldig.ntorrent.threads;
 import org.heldig.ntorrent.GUIController;
 import org.heldig.ntorrent.NTorrent;
 import org.heldig.ntorrent.gui.StatusBarComponent;
+import org.heldig.ntorrent.gui.label.LabelListModel;
 import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.Rpc;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallbackList;
 
 
 /**
@@ -35,27 +37,32 @@ public class ContentThread extends Thread {
 	StatusBarComponent bar;
 	Rpc rpc;
 	TorrentPool torrents;
+	LabelListModel label;
 	
-	public ContentThread(Rpc r, StatusBarComponent b, TorrentPool tp) {
+	public ContentThread(Rpc r, StatusBarComponent b, LabelListModel l, TorrentPool tp) {
 		rpc = r;
 		bar = b;
 		torrents = tp;
+		label = l;
 	}
 
 	
 	public void run(){
 		try {
-			rpc.getTorrentSet(torrents.getView(), torrents);
+			XmlRpcCallbackList clist = new XmlRpcCallbackList();
+			clist.add(torrents);
+			clist.add(label);
+			rpc.getTorrentSet(torrents.getView(), clist);
 			bar.setDownloadRate(torrents.getRateDown());
 			bar.setUploadRate(torrents.getRateUp());
 			while(true){
 				try {
 					Thread.sleep(NTorrent.settings.vintervall);
-					rpc.getTorrentVariables(torrents.getView(),torrents);
+					rpc.getTorrentVariables(torrents.getView(),clist);
 					bar.repaint();
 				} catch (InterruptedException e) {
 					torrents.table.fireTableDataChanged();
-					rpc.getTorrentSet(torrents.getView(), torrents);
+					rpc.getTorrentSet(torrents.getView(), clist);
 				}
 			}
 		} catch (Exception e) {

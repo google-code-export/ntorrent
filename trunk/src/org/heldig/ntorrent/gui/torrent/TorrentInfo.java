@@ -20,6 +20,8 @@
 
 package org.heldig.ntorrent.gui.torrent;
 
+import java.util.HashMap;
+
 import org.heldig.ntorrent.model.Bit;
 import org.heldig.ntorrent.model.Byte;
 import org.heldig.ntorrent.model.Percent;
@@ -50,6 +52,7 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 	private Long peersComplete;
 	private Long peersNotConnected;
 	private Long peersConnected;
+	private String label;
 	
 	TorrentInfo(String h){
 		hash = h;
@@ -135,6 +138,11 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 	/**
 	 * @return
 	 */
+	
+	public String getLabel() {
+		return label;
+	}
+	
 	public boolean isStarted(){ return started; }
 	public boolean isOutOfDate(){ 
 		return System.currentTimeMillis()-lastUpdate > 3000;
@@ -180,30 +188,45 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 		return getFilename().compareToIgnoreCase(o.getFilename());
 	}
 	
-	/**@TODO not happy with this solution**/
-	public void initialize(Object[] raw){
-		setFilename((String)raw[1]);
-		setByteSize((Long)raw[2]);
-		setFiles((Long)raw[3]);
-		setFilePath((String)raw[4]);
-	}
-	
-	/**@TODO not happy with this solution**/
-	public void update(Object[] raw){
-		int l = raw.length;
+	public void setInfo(HashMap<String,Object> set){
 		touch();
-		setBytesUploaded((Long)raw[l-12]);
-		setBytesDownloaded((Long)raw[l-11]);
-		setRateDown((Long)raw[l-10]);
-		setRateUp((Long)raw[l-9]);
-		setStarted((Long)raw[l-8] == 1);
-		setMessage((String)raw[l-7]);
-		setPriority((Long)raw[l-6]);
-		setTiedToFile((String)raw[l-5]);
-		setPeersConnected((Long)raw[l-4]);
-		setPeersNotConnected((Long)raw[l-3]);
-		setPeersComplete((Long)raw[l-2]);
-		setTrackerSize((Long)raw[l-1]);
+		for(String key : set.keySet()){
+			if("d.get_name=".equals(key)){
+				setFilename((String)set.get(key));
+			}else if("d.get_size_bytes=".equals(key)){
+				setByteSize((Long)set.get(key));
+			}else if("d.get_size_files=".equals(key)){
+				setFiles((Long)set.get(key));
+			}else if("d.get_base_path=".equals(key)){
+				setFilePath((String)set.get(key));
+			}else if("d.get_up_total=".equals(key)){
+				setBytesUploaded((Long)set.get(key));
+			}else if("d.get_completed_bytes=".equals(key)){
+				setBytesDownloaded((Long)set.get(key));
+			}else if("d.get_down_rate=".equals(key)){
+				setRateDown((Long)set.get(key));
+			}else if("d.get_up_rate=".equals(key)){
+				setRateUp((Long)set.get(key));
+			}else if("d.get_state=".equals(key)){
+				setStarted((Long)set.get(key) == 1);
+			}else if("d.get_message=".equals(key)){
+				setMessage((String)set.get(key));
+			}else if("d.get_priority=".equals(key)){
+				setPriority((Long)set.get(key));
+			}else if("d.get_tied_to_file=".equals(key)){
+				setTiedToFile((String)set.get(key));
+			}else if("d.get_peers_connected=".equals(key)){
+				setPeersConnected((Long)set.get(key));
+			}else if("d.get_peers_not_connected=".equals(key)){
+				setPeersNotConnected((Long)set.get(key));
+			}else if("d.get_peers_complete=".equals(key)){
+				setPeersComplete((Long)set.get(key));
+			}else if("d.get_tracker_size=".equals(key)){
+				setTrackerSize((Long)set.get(key));
+			}else if("d.get_custom1=".equals(key)){
+				setLabel((String)set.get(key));
+			}
+		}
 	}
 
 	private void setTrackerSize(Long long1) {
@@ -233,6 +256,10 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 	private void setPeersConnected(Long long1) {
 		// TODO Auto-generated method stub
 		peersConnected = long1;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	public Long getSeeders() {
