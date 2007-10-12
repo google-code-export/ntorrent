@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
 import org.heldig.ntorrent.gui.Window;
@@ -57,7 +56,6 @@ public class Controller implements ControllerEventListener, ActionListener{
 	
 	private String[] filesToLoad;
 	private final ErrorStream log = new ErrorStream();
-	
 	private final GUIController GC = new GUIController(this);
 	private final ThreadController TC = new ThreadController();
 	private TorrentPool torrents = GC.getTableModel().getData();
@@ -110,7 +108,7 @@ public class Controller implements ControllerEventListener, ActionListener{
 		//load the startup files
 		loadStartupFiles(filesToLoad);
 		//start the threads
-		TC.startThreads(rpc, GC.getStatusBarComponent(), torrents);
+		TC.startThreads(rpc, GC.getStatusBarComponent(),GC.getLabelList().getModel(), torrents);
 	}
 	
 	private final void loadStartupFiles(String[] filesToLoad){
@@ -235,5 +233,15 @@ public class Controller implements ControllerEventListener, ActionListener{
 					torrentCommand(torrents.getHashList(), "d.stop");
 					break;
 			}
+	}
+
+	@Override
+	public Protocol getProtocol() {
+		return protocol;
+	}
+
+	@Override
+	public void setLabel(String[] hash, String label) {
+		rpc.setLabel(hash, label, null);
 	}
 }

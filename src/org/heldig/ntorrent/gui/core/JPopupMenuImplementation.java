@@ -29,11 +29,6 @@ import javax.swing.JPopupMenu;
 public abstract class JPopupMenuImplementation extends MenuImplementation implements MouseListener{
 	protected JPopupMenu popup = new JPopupMenu();
 	
-	public JPopupMenuImplementation(Object[] menuItems) {
-	   createMenuItems(popup,menuItems,this);
-
-	}
-	
 	public void mousePressed(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);

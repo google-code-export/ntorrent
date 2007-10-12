@@ -22,8 +22,8 @@ public abstract class MenuImplementation implements ActionListener {
 	
 	public static final void createMenuItems(JComponent target,Object[] menuItems, ActionListener t){
 	    for(Object mitem : menuItems){
-	    	if(mitem instanceof Object[]){
-	    		target.add(createMenu((Object[])mitem,t));
+	    	if(mitem instanceof Language[]){
+	    		target.add(createMenu((Language[])mitem,t));
 	    	}else if(mitem == null){
 	    		target.add(new JSeparator(SwingConstants.HORIZONTAL));
 	    	} else if(mitem instanceof Language) {
@@ -34,8 +34,8 @@ public abstract class MenuImplementation implements ActionListener {
 	    }
 	}
 	
-	public static final JMenu createMenu(Object[] objects, ActionListener t) {
-		JMenu submenu = new JMenu(objects[0].toString());
+	private static final JMenu createMenu(Language[] objects, ActionListener t) {
+		JMenu submenu = new JMenu((Language)objects[0]);
 		Object[] menuitems = new Object[objects.length-1];
 		for(int x = 1; x < objects.length; x++)
 			menuitems[x-1] = objects[x];

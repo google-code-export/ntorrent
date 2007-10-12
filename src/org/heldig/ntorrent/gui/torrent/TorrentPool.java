@@ -21,10 +21,11 @@
 package org.heldig.ntorrent.gui.torrent;
 
 
+import java.util.HashMap;
+
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.xmlrpc.XmlRpcRequest;
-import org.heldig.ntorrent.io.xmlrpc.XmlRpc;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.model.Bit;
 
@@ -35,7 +36,6 @@ public class TorrentPool implements XmlRpcCallback{
 	private TorrentSet torrents = new TorrentSet();
 	private TorrentSet viewset = new TorrentSet();
 	private String view = "main";
-	//private Rpc rpc;
 	public AbstractTableModel table;
 	private Bit rateUp = new Bit(0);
 	private Bit rateDown = new Bit(0);
@@ -55,15 +55,7 @@ public class TorrentPool implements XmlRpcCallback{
 	public String getView() {
 		return view;
 	}
-	
-	/**
-	 * @return
-	 */
-	/*public TorrentJTableModel getTable() {
-		return table;
-	}
-	*/
-	//From viewset
+
 	public int size(){ return viewset.size(); }
 	public TorrentInfo get(int index){ return viewset.get(index);	}
 
@@ -96,6 +88,18 @@ public class TorrentPool implements XmlRpcCallback{
 		return rateUp;
 	}
 
+	
+	public String[] getLabels(){
+		String labels = "";
+		for(String hash : torrents.getHashSet()){
+			String label = torrents.get(hash).getLabel();
+			if(label != "")
+				labels += (labels == "" ? label : ";"+label);
+				
+		}
+		return labels.split(";");
+	}
+	
 	public String[] getHash(int[] i){
 		int x = 0;
 		String[] hashlist = new String[i.length];
@@ -104,41 +108,6 @@ public class TorrentPool implements XmlRpcCallback{
 		}
 		return hashlist;
 	}
-	/*
-	public void checkHash(int[] i){
-		rpc.fileCommand(getHash(i),"d.check_hash");
-	}
-	public void close(int[] i){
-		rpc.fileCommand(getHash(i), "d.close");
-	}
-	public void erase(int[] i){
-		rpc.fileCommand(getHash(i), "d.erase");
-	}
-	public void open(int[] i){
-		rpc.fileCommand(getHash(i), "d.open");
-	}
-	public void start(int[] i){
-		rpc.fileCommand(getHash(i), "d.start");
-	}
-	public void stop(int[] i){
-		rpc.fileCommand(getHash(i), "d.stop");
-	}
-	
-	public void setPriority(int[] i, int pri){
-		rpc.setTorrentPriority(getHash(i), pri);
-	}
-	
-	public void stopAll(){
-		String[] s = new String[torrents.size()];
-		torrents.getHashSet().toArray(s);
-		rpc.fileCommand(s, "d.stop");
-	}
-	
-	public void startAll(){
-		String[] s = new String[torrents.size()];
-		torrents.getHashSet().toArray(s);
-		rpc.fileCommand(s, "d.start");
-	}*/
 	
 	public String[] getHashList(){
 		String[] list = new String[torrents.size()];
@@ -163,26 +132,28 @@ public class TorrentPool implements XmlRpcCallback{
 		rateDown.setValue(0);
 		Object[] obj = (Object[])pResult;
 		int viewSize = viewset.size();
-		boolean fullUpdate = true;
+		/*boolean fullUpdate = true;
 		if(pRequest.getParameterCount() == XmlRpc.variable.length)
-			fullUpdate = false;
+			fullUpdate = false;*/
 		
 		for(int x = 0; x < obj.length; x++){
+			HashMap<String,Object> result = new HashMap<String,Object>();
 			Object[] raw = (Object[])obj[x];
 			TorrentInfo tf = torrents.get((String)raw[0]);
-			if(tf == null && fullUpdate){
+			for(int z = 2; z < pRequest.getParameterCount(); z++)
+				result.put((String)pRequest.getParameter(z), raw[z-1]);
+			
+			if(tf == null/* && fullUpdate*/){
 				tf = new TorrentInfo((String)raw[0]);
-				tf.initialize(raw);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
-			}else if(tf == null && !fullUpdate){
+			}/*else if(tf == null && !fullUpdate){
 				mcThread.interrupt();
-				//C.TC.getMainContentThread().interrupt();
 				break;
-			}
+			}*/
 	
 			viewset.add(tf);
-			tf.update(raw);
+			tf.setInfo(result);
 			
 			
 			rateUp.appendValue(tf.getRateUp());

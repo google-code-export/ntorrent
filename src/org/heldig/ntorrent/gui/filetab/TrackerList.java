@@ -51,7 +51,7 @@ public class TrackerList extends JTablePopupMenuImplementation implements XmlRpc
 	};
 	
 	public TrackerList(ControllerEventListener e) {
-		super(menuItems);
+		createMenuItems(popup,menuItems, this);
 		event = e;
 		trackerlist.setBackground(Color.white);
 		trackerlist.setDefaultRenderer(TrackerInfo.class, new TrackerUrlRenderer());

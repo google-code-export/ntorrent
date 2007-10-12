@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.heldig.ntorrent.gui.StatusBarComponent;
+import org.heldig.ntorrent.gui.label.LabelListModel;
 import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.Rpc;
@@ -36,8 +37,8 @@ public class ThreadController{
 	private Thread mainContentThread;
 	private StatusBarThread throttleThread;
 
-	public void startThreads(Rpc r, StatusBarComponent c, TorrentPool tp){
-		mainContentThread = new ContentThread(r,c,tp);
+	public void startThreads(Rpc r, StatusBarComponent c, LabelListModel l, TorrentPool tp){
+		mainContentThread = new ContentThread(r,c,l,tp);
 		throttleThread = new StatusBarThread(r,c);
 		tp.setMcThread(mainContentThread);
 		System.out.println("Starting threads.");

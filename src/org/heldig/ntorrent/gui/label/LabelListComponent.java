@@ -15,7 +15,7 @@ import javax.swing.event.ListSelectionListener;
  *
  */
 public class LabelListComponent implements ListSelectionListener {
-	final AbstractListModel model = new LabelListModel();
+	final LabelListModel model = new LabelListModel();
 	final JList labelList = new JList(model);
 	
 	public LabelListComponent() {
@@ -26,6 +26,10 @@ public class LabelListComponent implements ListSelectionListener {
 	
 	public JList getLabelList() {
 		return labelList;
+	}
+	
+	public LabelListModel getModel() {
+		return model;
 	}
 
 	@Override

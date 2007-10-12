@@ -44,7 +44,7 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 	final TorrentJTableModel model = new TorrentJTableModel();
 	final JTable table = new JTable(model);
 	private ControllerEventListener event;
-	final static Language[] subpriority = {
+	Language[] subpriority = {
 		Language.Torrent_Menu_Priority_set_priority,
 		Language.Priority_Menu_high,
 		Language.Priority_Menu_normal,
@@ -52,24 +52,33 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 		Language.Priority_Menu_off
 		};
 	
-	final static Language[] sublocal = {
+	Language[] sublocal = {
 		Language.Local_Menu_local,
 		Language.Local_Menu_open_file,
 		Language.Local_Menu_remove_data,
 	};
 	
-	final static Language[] subssh = {
+	Language[] subssh = {
 		Language.Ssh_Menu_ssh,
 		Language.Ssh_Menu_copy,
 		Language.Ssh_Menu_remove_data
 	};
 	
-	static Object[] menuItems = {
+	Language[] sublabel = {
+		Language.Torrent_Menu_Priority_set_label,
+		Language.Label_none,
+		null,
+		null,
+		Language.Label_new_label
+	};
+	
+	Object[] menuItems = {
 		Language.Torrent_Menu_start,
 		Language.Torrent_Menu_stop,
 		Language.Torrent_Menu_remove_torrent,
 		null,
 		subpriority,
+		sublabel,
 		null,
 		Language.Torrent_Menu_check_hash,
 		null,
@@ -80,7 +89,8 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 
 	
 	public TorrentJTableComponent(ControllerEventListener e){
-		super(menuItems);
+		subssh[0].setEnabled(false);
+		sublocal[0].setEnabled(false);
 		event = e;
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(false);
@@ -122,6 +132,16 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 		}		
 	}
 	protected void maybeShowPopup(MouseEvent e) {
+		if(popup.getComponentCount() == 0){
+        	switch(event.getProtocol()){
+    			case SSH:
+    				subssh[0].setEnabled(true);
+    				break;
+    			case LOCAL: 
+    				sublocal[0].setEnabled(true);
+        	}
+			createMenuItems(popup,menuItems, this);
+		}
     	JTable source = (JTable)e.getComponent();
     	if(source.getSelectedRowCount() > 0)
 	        if (e.isPopupTrigger()) {
@@ -209,6 +229,12 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 				break;
 			case Priority_Menu_off:
 				event.setTorrentPriority(hash, 0);
+				break;
+			case Label_new_label:
+				event.setLabel(hash,(String)JOptionPane.showInputDialog(null));
+				break;
+			case Label_none:
+				event.setLabel(hash, "");
 				break;
 				
 		}	

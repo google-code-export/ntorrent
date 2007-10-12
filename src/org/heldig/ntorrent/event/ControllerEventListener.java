@@ -6,6 +6,7 @@ package org.heldig.ntorrent.event;
 import java.io.File;
 
 import org.heldig.ntorrent.gui.profile.ClientProfile;
+import org.heldig.ntorrent.gui.profile.ClientProfile.Protocol;
 import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 
@@ -26,4 +27,6 @@ public interface ControllerEventListener{
 	void setTrackerEnabled(String hash, int[] id, boolean b, XmlRpcCallback c);
 	void loadTorrent(String url);
 	void loadTorrent(File file);
+	public Protocol getProtocol();
+	public void setLabel(String[] hash, String showInputDialog);
 }

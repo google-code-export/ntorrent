@@ -32,7 +32,7 @@ public class FileList extends JTablePopupMenuImplementation implements XmlRpcCal
 	};
 
 	public FileList(ControllerEventListener e){
-		super(menuItems);
+		createMenuItems(popup,menuItems, this);
 		event = e;
 		filetable.setOpaque(false);
 		//not stable here either

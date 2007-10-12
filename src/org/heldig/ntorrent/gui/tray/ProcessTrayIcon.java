@@ -22,7 +22,7 @@ public class ProcessTrayIcon extends JPopupMenuImplementation {
 	Window rootWin;
 	ActionListener action;
 	public ProcessTrayIcon(Window root, ActionListener a) {
-		super(menuItems);
+		createMenuItems(popup,menuItems, this);
 		action = a;
 		rootWin = root;
 		if (SystemTray.isSupported()) {

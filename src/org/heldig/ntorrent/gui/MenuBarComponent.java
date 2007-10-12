@@ -37,8 +37,8 @@ public class MenuBarComponent extends JMenuBar implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private Vector<ActionListener> al = new Vector<ActionListener>();
 
-	final static Object[] file_menu = {
-			Language.Menu_file.toString(),
+	final static Language[] file_menu = {
+			Language.Menu_file,
 			Language.Menu_File_add_torrent,
 			Language.Menu_File_add_url,
 			null,
@@ -48,8 +48,8 @@ public class MenuBarComponent extends JMenuBar implements ActionListener{
 			Language.Menu_File_quit,
 	};
 	
-	final static Object[] help_menu = {
-			Language.Menu_help.toString(),
+	final static Language[] help_menu = {
+			Language.Menu_help,
 			Language.Menu_Help_settings,
 			Language.Menu_Help_about	
 	};
@@ -72,29 +72,4 @@ public class MenuBarComponent extends JMenuBar implements ActionListener{
 		for(ActionListener a : al)
 			a.actionPerformed(e);
 	}
-	
-	/*@Override
-	public void actionPerformed(ActionEvent e) {
-		switch (Language.getFromString(e.getActionCommand())){
-		case Menu_File_add_torrent:
-			event.promptFile();
-			break;
-		case Menu_File_add_url:
-			event.promptUrl();
-			break;
-		case Menu_File_start_all:
-			break;
-		case Menu_File_stop_all:
-			break;
-		case Menu_File_quit:
-			System.exit(0);
-			break;
-		case Menu_Help_settings:
-			event.showSettings();
-			break;
-		case Menu_Help_about:
-			event.showAbout();
-			break;
-		}
-	}*/
 }

@@ -41,7 +41,7 @@ public class XmlRpc implements Rpc{
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
-	Object[] constant = {			
+	public static final Object[] constant = {			
 			"d.get_hash=",	//ID
 			"d.get_name=", //constant
 			"d.get_size_bytes=", //constant
@@ -49,7 +49,7 @@ public class XmlRpc implements Rpc{
 			"d.get_base_path=", //constant}
 	};
 	
-	public static Object[] variable = {
+	public static final Object[] variable = {
 			"", //reserved for view
 			"d.get_hash=",	//ID
 			"d.get_up_total=",	//variable
@@ -63,7 +63,8 @@ public class XmlRpc implements Rpc{
 			"d.get_peers_connected=",
 			"d.get_peers_not_connected=",
 			"d.get_peers_complete=",
-			"d.get_tracker_size="	
+			"d.get_tracker_size=",
+			"d.get_custom1="	//label
 	};
 	
 	
@@ -242,6 +243,16 @@ public class XmlRpc implements Rpc{
 			tparams[x][2] = (b ? 1 : 0);
 		}
 		multiCall("t.set_enabled",tparams,null);
+	}
+
+	@Override
+	public void setLabel(String[] hash, String label, XmlRpcCallback c) {
+		Object[][] dparams = new Object[hash.length][2];
+		for(int x = 0; x < dparams.length; x++){
+			dparams[x][0] = hash[x];
+			dparams[x][1] = label;
+		}
+		multiCall("d.set_custom1", dparams, c);
 	}
 
 }
