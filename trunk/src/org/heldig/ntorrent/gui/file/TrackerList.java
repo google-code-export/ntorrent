@@ -20,32 +20,42 @@
 package org.heldig.ntorrent.gui.file;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.xmlrpc.XmlRpcRequest;
-import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.event.ControllerEventListener;
+import org.heldig.ntorrent.gui.listener.JTablePopupMenuImplementation;
 import org.heldig.ntorrent.gui.render.TrackerUrlRenderer;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
-import org.heldig.ntorrent.model.TrackerInfo;
-import org.heldig.ntorrent.model.TrackerJTableModel;
+import org.heldig.ntorrent.language.Language;
 
 
 /**
  * @author Kim Eik
  *
  */
-public class TrackerList extends XmlRpcCallback {
+public class TrackerList extends JTablePopupMenuImplementation implements XmlRpcCallback {
 	TrackerJTableModel model = new TrackerJTableModel();
 	JTable trackerlist = new JTable(model);
 	JScrollPane pane = new JScrollPane(trackerlist);
 	private String hash;
+	private ControllerEventListener event;
 	
-	public TrackerList(Controller c) {
+	final static Object[] menuItems = {
+		Language.Tracker_List_Menu_disable,
+		Language.Tracker_List_Menu_enable,
+	};
+	
+	public TrackerList(ControllerEventListener e) {
+		super(menuItems);
+		event = e;
 		trackerlist.setBackground(Color.white);
 		trackerlist.setDefaultRenderer(TrackerInfo.class, new TrackerUrlRenderer());
-		trackerlist.addMouseListener(new TrackerListener(c,this));
+		trackerlist.addMouseListener(this);
 	}
 	
 	public JScrollPane getTrackerlist() {
@@ -82,5 +92,27 @@ public class TrackerList extends XmlRpcCallback {
 	public String getHash() {
 		return hash;
 	}
+	
+	@Override
+	protected void maybeShowPopup(MouseEvent e) {
+		selectedRows = ((JTable)e.getSource()).getSelectedRows();
+		popup.show(e.getComponent(), e.getX(), e.getY());
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getActionCommand());
+		switch(Language.getFromString(e.getActionCommand())){
+			case Tracker_List_Menu_disable:
+				event.setTrackerEnabled(hash, selectedRows, false, null);
+				break;
+			case Tracker_List_Menu_enable:
+				event.setTrackerEnabled(hash, selectedRows, true, null);
+				break;
+		}
+		
+		//event.handleEvent(new Event(getHash(),selectedRows,e.getActionCommand()));
+	}		
 	
 }

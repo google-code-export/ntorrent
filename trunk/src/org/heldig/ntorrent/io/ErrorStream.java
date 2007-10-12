@@ -32,7 +32,7 @@ import javax.swing.text.BadLocationException;
  */
 public class ErrorStream extends OutputStream {
     
-	JTextArea textArea = new JTextArea();
+	private final JTextArea textArea = new JTextArea();
 	
 	public ErrorStream() {
         textArea.setEditable(false);

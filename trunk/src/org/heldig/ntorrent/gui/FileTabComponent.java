@@ -20,44 +20,45 @@
 
 package org.heldig.ntorrent.gui;
 
-import java.io.IOException;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.event.ControllerEventListener;
 import org.heldig.ntorrent.gui.file.FileList;
 import org.heldig.ntorrent.gui.file.InfoPanel;
 import org.heldig.ntorrent.gui.file.TrackerList;
-import org.heldig.ntorrent.gui.listener.GuiEventListener;
-import org.heldig.ntorrent.io.IOController;
+import org.heldig.ntorrent.io.ErrorStream;
+import org.heldig.ntorrent.language.Language;
 
 
 /**
  * @author  Kim Eik
  */
-public class FileTabComponent extends GuiEventListener  {
+public class FileTabComponent {
 	JTabbedPane filePane = new JTabbedPane();
 	InfoPanel infoPanel = new InfoPanel();
+	JScrollPane logPane = new JScrollPane();
 	TrackerList trackerList;
 	FileList fileList;
 
 	
-	public FileTabComponent(Controller c) throws IOException{
-		super(c);
-		fileList = new FileList(c);
-		trackerList = new TrackerList(c);
-		filePane.setName("file");
+	public FileTabComponent(ControllerEventListener e){
+		fileList = new FileList(e);
+		trackerList = new TrackerList(e);
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
-		filePane.addTab("info", infoPanel.getInfoPanel());
-		filePane.addTab("file list", fileList.getFileList());
-		filePane.addTab("tracker list", trackerList.getTrackerlist());
-		filePane.addTab("log",new JScrollPane(IOController.log.getTextArea()));
+		filePane.addTab(Language.Filetab_info.toString(), infoPanel.getInfoPanel());
+		filePane.addTab(Language.Filetab_file_list.toString(), fileList.getFileList());
+		filePane.addTab(Language.Filetab_tracker_list.toString(), trackerList.getTrackerlist());
+		filePane.addTab(Language.Filetab_log.toString(),logPane);
 		filePane.setSelectedIndex(3);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
-		filePane.addChangeListener(this);
 		filePane.setVisible(true);
+	}
+	
+	public void setLog(ErrorStream c){
+		System.out.println(c);
+		logPane.add(c.getTextArea());
 	}
 	
 	/**

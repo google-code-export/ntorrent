@@ -20,11 +20,11 @@
 
 package org.heldig.ntorrent.threads;
 
+import org.heldig.ntorrent.GUIController;
 import org.heldig.ntorrent.NTorrent;
-import org.heldig.ntorrent.gui.GUIController;
-import org.heldig.ntorrent.gui.StatusBarComponent;
+import org.heldig.ntorrent.gui.statusbar.StatusBarComponent;
+import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.Rpc;
-import org.heldig.ntorrent.model.TorrentPool;
 
 
 /**
@@ -35,13 +35,11 @@ public class ContentThread extends Thread {
 	StatusBarComponent bar;
 	Rpc rpc;
 	TorrentPool torrents;
-	GUIController GC;
 	
-	public ContentThread(GUIController gc, Rpc r, StatusBarComponent b, TorrentPool tp) {
+	public ContentThread(Rpc r, StatusBarComponent b, TorrentPool tp) {
 		rpc = r;
 		bar = b;
 		torrents = tp;
-		GC = gc;
 	}
 
 	
@@ -56,12 +54,12 @@ public class ContentThread extends Thread {
 					rpc.getTorrentVariables(torrents.getView(),torrents);
 					bar.repaint();
 				} catch (InterruptedException e) {
-					torrents.getTable().fireTableDataChanged();
+					torrents.table.fireTableDataChanged();
 					rpc.getTorrentSet(torrents.getView(), torrents);
 				}
 			}
 		} catch (Exception e) {
-			GC.showError(e.getLocalizedMessage());
+			GUIController.showError(e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 	}

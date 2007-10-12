@@ -20,14 +20,7 @@
 package org.heldig.ntorrent.io.xmlrpc;
 
 import org.apache.xmlrpc.XmlRpcRequest;
-import org.apache.xmlrpc.client.AsyncCallback;
 
-public abstract class XmlRpcCallback implements AsyncCallback {
-	public void handleError(XmlRpcRequest pRequest, Throwable pError){
-		System.err.println("Command error occurred, command was: "+pRequest);
-		pError.printStackTrace();
-	}
-	
+public interface XmlRpcCallback {
 	public abstract void handleResult(XmlRpcRequest pRequest, Object pResult);
-
 }

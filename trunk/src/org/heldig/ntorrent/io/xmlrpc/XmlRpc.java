@@ -92,7 +92,7 @@ public class XmlRpc implements Rpc{
 		client.addToExecutionQueue("d.multicall",params,c);
 	}
 
-	public void fileCommand(String[] hash, String command){
+	public void torrentCommand(String[] hash, String command){
 		Object[][] params = new Object[hash.length][1];
 		for(int x = 0; x < hash.length; x++)
 			params[x][0] = hash[x];

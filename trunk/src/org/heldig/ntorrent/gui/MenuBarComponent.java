@@ -20,45 +20,81 @@
 
 package org.heldig.ntorrent.gui;
 
-import java.awt.Menu;
-import java.awt.MenuBar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
-import org.heldig.ntorrent.Controller;
-import org.heldig.ntorrent.gui.listener.GuiEventListener;
-import org.heldig.ntorrent.settings.Constants.Commands;
+import javax.swing.JMenuBar;
+
+import org.heldig.ntorrent.gui.listener.MenuImplementation;
+import org.heldig.ntorrent.language.Language;
 
 
 /**
- * @author   netbrain
+ * @author	Kim Eik
  */
-public class MenuBarComponent extends GuiEventListener{
-	MenuBar menubar = new MenuBar();
+public class MenuBarComponent extends JMenuBar implements ActionListener{
+	private static final long serialVersionUID = 1L;
+	private Vector<ActionListener> al = new Vector<ActionListener>();
+
+	final static Object[] file_menu = {
+			Language.Menu_file.toString(),
+			Language.Menu_File_add_torrent,
+			Language.Menu_File_add_url,
+			null,
+			Language.Menu_File_start_all,
+			Language.Menu_File_stop_all,
+			null,
+			Language.Menu_File_quit,
+	};
 	
-	public MenuBarComponent(Controller c){
-		super(c);
-		Menu file = new Menu("File");
-		Menu help = new Menu("Help");
-		//file.add(Commands.CONNECT.toString());
-		//file.addSeparator();
-		file.add(Commands.ADD_TORRENT.toString());
-		file.add(Commands.ADD_URL.toString());
-		file.addSeparator();
-		file.add(Commands.START_ALL.toString());
-		file.add(Commands.STOP_ALL.toString());
-		file.addSeparator();
-		file.add(Commands.QUIT.toString());
-		menubar.add(file);
-		menubar.add(help);
-		help.add(Commands.SETTINGS.toString());
-		help.add(Commands.ABOUT.toString());
-		file.addActionListener(this);
-		help.addActionListener(this);
+	final static Object[] help_menu = {
+			Language.Menu_help.toString(),
+			Language.Menu_Help_settings,
+			Language.Menu_Help_about	
+	};
+	
+	final static Object[] menu_items = {
+			file_menu,
+			help_menu,
+	};
+	
+	public MenuBarComponent(){
+		MenuImplementation.createMenuItems(this, menu_items,this);
+	}
+
+	public void addActionListener(ActionListener e){
+		al.add(e);
 	}
 	
-	/**
-	 * @return
-	 */
-	public MenuBar getMenubar() {
-		return menubar;
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(ActionListener a : al)
+			a.actionPerformed(e);
 	}
+	
+	/*@Override
+	public void actionPerformed(ActionEvent e) {
+		switch (Language.getFromString(e.getActionCommand())){
+		case Menu_File_add_torrent:
+			event.promptFile();
+			break;
+		case Menu_File_add_url:
+			event.promptUrl();
+			break;
+		case Menu_File_start_all:
+			break;
+		case Menu_File_stop_all:
+			break;
+		case Menu_File_quit:
+			System.exit(0);
+			break;
+		case Menu_Help_settings:
+			event.showSettings();
+			break;
+		case Menu_Help_about:
+			event.showAbout();
+			break;
+		}
+	}*/
 }

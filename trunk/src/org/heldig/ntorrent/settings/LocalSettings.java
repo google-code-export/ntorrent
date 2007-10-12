@@ -22,7 +22,7 @@ package org.heldig.ntorrent.settings;
 import java.io.File;
 import java.io.IOException;
 
-import org.heldig.ntorrent.model.TorrentInfo;
+import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 
 public class LocalSettings extends Settings {
 	private static final long serialVersionUID = 1L;
@@ -40,6 +40,9 @@ public class LocalSettings extends Settings {
 	
 	@Description("Default command for erasing local data")
 	public String deletecommand = "rm";
+	
+	@Description("Language file")
+	public File language = new File("language/default.lang");
 	
 	@Description("Debug mode / log")
 	public boolean debug = false;
@@ -74,10 +77,10 @@ public class LocalSettings extends Settings {
 	
 	public void runProgram(TorrentInfo info) throws IOException{
 		File file = new File(info.getFilePath());
-		File cwd = file.isFile() ? new File(file.getParent()) : file;
+		File cwd = new File(file.getParent());
 		String arg = file.getName();
 		String cmd[] = {filecommand,arg};
-		System.out.println("Executing "+cmd+" "+arg);
+		System.out.println("Executing "+cmd[0]+" "+arg+" in "+cwd);
 		Runtime.getRuntime().exec(cmd,null,cwd);
 	}
 		

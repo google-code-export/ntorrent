@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+/*
 package org.heldig.ntorrent.gui.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +32,7 @@ import org.heldig.ntorrent.gui.dialogue.PromptProfile;
 import org.heldig.ntorrent.gui.dialogue.PromptString;
 import org.heldig.ntorrent.gui.window.AboutGui;
 import org.heldig.ntorrent.gui.window.SettingsGui;
+import org.heldig.ntorrent.language.Language;
 import org.heldig.ntorrent.settings.Constants.Commands;
 
 
@@ -39,21 +40,23 @@ import org.heldig.ntorrent.settings.Constants.Commands;
 /**
  * @author  Kim Eik
  */
-public class GuiEventListener implements ChangeListener, ActionListener{
-	private static final long serialVersionUID = 1L;
-	protected Controller C;
-	public GuiEventListener(Controller c) {
+//public class GuiEventListener implements ChangeListener, ActionListener{
+	//private static final long serialVersionUID = 1L;
+	//protected Controller C;
+	/*public GuiEventListener(Controller c) {
 		C = c;
-	}
+	}*/
 
-	public void stateChanged(ChangeEvent e) {
-		JTabbedPane pane = (JTabbedPane)e.getSource();
+	//public void stateChanged(ChangeEvent e) {
+		//System.out.println(e.getSource());
+		/*JTabbedPane pane = (JTabbedPane)e.getSource();
 		if(pane.getName().equals("views"))
-			C.MC.getTorrentPool().setView(pane.getTitleAt(pane.getSelectedIndex()));
-	}
+			C.MC.getTorrentPool().setView(pane.getTitleAt(pane.getSelectedIndex()));*/
+/*	}
 
 	public void actionPerformed(ActionEvent e) {
-		switch(Commands.getFromString(e.getActionCommand())){
+		System.out.println(e.getActionCommand());
+		/*switch(Commands.getFromString(e.getActionCommand())){
 		case ABOUT:
 			AboutGui about = new AboutGui();
 			about.drawWindow();
@@ -91,9 +94,7 @@ public class GuiEventListener implements ChangeListener, ActionListener{
 			System.out.println("Stopping all torrents.");
 			C.MC.getTorrentPool().stopAll();
 			break;
-		}
-	}
-	
-	
+		}*/
+/*	}
 
-}
+}*/

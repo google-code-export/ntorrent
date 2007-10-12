@@ -23,29 +23,18 @@ package org.heldig.ntorrent.gui.window;
 import javax.swing.JTextArea;
 
 import org.heldig.ntorrent.gui.Window;
-import org.heldig.ntorrent.settings.Constants;
+import org.heldig.ntorrent.language.Language;
 
 
-public class AboutGui {
-	Window window = new Window();
+public class AboutGui extends Window {
+	private static final long serialVersionUID = 1L;
 	JTextArea about = new JTextArea();
 
 	public AboutGui(){
-		about.setText(
-				Constants.getLicense() +
-				"if you find any bugs or have any feature requests\n" +
-				"then please report them to bugzilla.\n\n" +
-				"homepage: http://ntorrent-java.sf.net"
-				);
+		about.setText(Language.Menu_Help_About_content.toString());
 		about.setEditable(false);
 		about.setFocusable(false);
-		window.add(about);
-	}
-	
-	public void drawWindow(){
-		window.validate();
-		window.pack();
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
+		add(about);
+		drawWindow();
 	}
 }

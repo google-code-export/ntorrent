@@ -41,9 +41,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.heldig.ntorrent.Controller;
+import org.heldig.ntorrent.event.ControllerEventListener;
 import org.heldig.ntorrent.gui.Window;
-import org.heldig.ntorrent.model.ClientProfile;
+import org.heldig.ntorrent.language.Language;
 import org.heldig.ntorrent.settings.Constants;
 import org.heldig.ntorrent.settings.Settings;
 
@@ -56,18 +56,18 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Controller C;
+	private transient ControllerEventListener event;
 	private transient Window window = new Window("Profiles");
 	private Vector<ClientProfile> vprofiles = new Vector<ClientProfile>();
 	private transient JList profiles;
-	private transient String[] labels = {
-			"Protocol",
-			"Host",
-			"Connection port",
-			"Socket port",
-			"Mountpoint",
-			"Username",
-			"Password",
+	private transient Language[] labels = {
+			Language.Profile_protocol,
+			Language.Profile_host,
+			Language.Profile_connection_port,
+			Language.Profile_socket_port,
+			Language.Profile_mountpoint,
+			Language.Profile_username,
+			Language.Profile_password,
 			null
 			};
 	
@@ -79,23 +79,23 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 			new JTextField(),
 			new JTextField(),
 			new JPasswordField(),
-			new JCheckBox("Remember password?")
+			new JCheckBox(Language.Profile_remember_password)
 	};
 	
-	private transient String[] buttons = {
-			"Connect",
-			"Save profile",
-			"Delete profile"
+	private transient Language[] buttons = {
+			Language.Profile_connect,
+			Language.Profile_save_profile,
+			Language.Profile_delete_profile
 	};
 	
 	private transient ClientProfile selected;
 	
-	public PromptProfile(Window parent, Controller controller) {
-		C = controller;
+	public PromptProfile(ControllerEventListener e) {
+		event = e;
 		try {
 			deserialize(Constants.profile,this);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception x) {
+			x.printStackTrace();
 		}
 		
 		for(Component c : comps)
@@ -117,13 +117,14 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 
 		JPanel input = new JPanel(new GridLayout(0,1));
 		for(int x = 0; x < labels.length; x++){
-			input.add(new JLabel(labels[x]),BorderLayout.WEST);
+			if(labels[x] != null)
+				input.add(new JLabel(labels[x].toString()),BorderLayout.WEST);
 			input.add(comps[x],BorderLayout.WEST);
 		}
 		window.add(input);
 		
 		JPanel buttonpanel = new JPanel();
-		for(String s : buttons){
+		for(Language s : buttons){
 			JButton button = new JButton(s);
 			button.addActionListener(this);
 			buttonpanel.add(button);
@@ -142,8 +143,12 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 		
 	}
 	
+	public ClientProfile getClientProfile(){
+		return getClientProfile(false);
+	}
+	
 	@SuppressWarnings("deprecation")
-	private ClientProfile toClientProfile(boolean filter){
+	private ClientProfile getClientProfile(boolean filter){
 		try{
 			ClientProfile.Protocol prot = (ClientProfile.Protocol)((JComboBox)comps[0]).getSelectedItem();
 			String host = ((JTextField)comps[1]).getText();
@@ -169,39 +174,39 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 		}
 		return null;
 	}
-
-	
+		
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
-		if(cmd.equals(buttons[0])){
-			connect(toClientProfile(false));
-		}else if(cmd.equals(buttons[1])){
-			vprofiles.add(toClientProfile(true));
+		switch(Language.getFromString(e.getActionCommand())){
+		case Profile_connect:
+			window.closeWindow();
+			event.connect(getClientProfile());
+			break;
+		case Profile_save_profile:
+			vprofiles.add(getClientProfile(true));
 			profiles.setListData(vprofiles);
-		}else if(cmd.equals(buttons[2])){
-			if(JOptionPane.showConfirmDialog(window, "Are you sure?","Removing profile",JOptionPane.YES_NO_OPTION) == 0){
+			break;
+		case Profile_delete_profile:
+			if(JOptionPane.showConfirmDialog(window, 
+					"Are you sure?",
+					"Removing profile",
+					JOptionPane.YES_NO_OPTION) == 0){
 				vprofiles.remove(selected);
 				profiles.setListData(vprofiles);
 			}
+			break;
+		default:
+			System.out.println(e);
 		}
+		
 		try {
 			serialize(Constants.profile, this);
 		} catch (Exception z) {
 			// TODO Auto-generated catch block
 			z.printStackTrace();
-		}
-		
+		}		
 	}
-
-
-	private void connect(ClientProfile profile) {
-		if(C.connect(profile))
-			window.closeWindow();
-	}
-	
 
 	public void itemStateChanged(ItemEvent e) {
-		System.out.println(e);
 		if(e.getStateChange() == ItemEvent.SELECTED){
 			for(Component c : comps)
 				c.setEnabled(true);
@@ -230,27 +235,13 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 
 
 
-	public void mouseClicked(MouseEvent e) {
-		
-	}
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 
 	public void mouseReleased(MouseEvent e) {
 		mousePressed(e);
 	}
-
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 	public void mousePressed(MouseEvent e) {
 		ClientProfile profile = ((ClientProfile)((JList)e.getSource()).getSelectedValue());

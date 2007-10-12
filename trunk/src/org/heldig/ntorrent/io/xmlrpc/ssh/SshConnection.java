@@ -26,11 +26,11 @@ import java.net.UnknownHostException;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.heldig.ntorrent.gui.dialogue.ClientProfile;
 import org.heldig.ntorrent.io.RpcConnection;
 import org.heldig.ntorrent.io.xmlrpc.CustomTypeFactory;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcSCGITransportFactory;
-import org.heldig.ntorrent.model.ClientProfile;
 
 import com.sshtools.j2ssh.SshClient;
 import com.sshtools.j2ssh.authentication.AuthenticationProtocolState;

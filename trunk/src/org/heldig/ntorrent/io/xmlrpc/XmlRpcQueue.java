@@ -108,7 +108,8 @@ public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 					handle.start();
 					time = System.currentTimeMillis();
 				} catch (XmlRpcException e) {
-					req.getCallBack().handleError(req, e);
+					System.err.println("Command error occurred, command was: "+req);
+					e.printStackTrace();
 				}
 		}
 	}
