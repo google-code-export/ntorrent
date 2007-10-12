@@ -24,9 +24,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
-import org.heldig.ntorrent.gui.file.FileList;
-import org.heldig.ntorrent.gui.file.InfoPanel;
-import org.heldig.ntorrent.gui.file.TrackerList;
+import org.heldig.ntorrent.gui.filetab.FileList;
+import org.heldig.ntorrent.gui.filetab.InfoPanel;
+import org.heldig.ntorrent.gui.filetab.TrackerList;
 import org.heldig.ntorrent.io.ErrorStream;
 import org.heldig.ntorrent.language.Language;
 

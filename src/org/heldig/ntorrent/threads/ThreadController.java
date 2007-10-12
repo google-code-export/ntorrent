@@ -22,7 +22,7 @@ package org.heldig.ntorrent.threads;
 import java.io.File;
 import java.io.IOException;
 
-import org.heldig.ntorrent.gui.statusbar.StatusBarComponent;
+import org.heldig.ntorrent.gui.StatusBarComponent;
 import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.Rpc;

@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.heldig.ntorrent.gui.statusbar;
+package org.heldig.ntorrent.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;

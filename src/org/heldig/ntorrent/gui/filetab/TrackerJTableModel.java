@@ -17,25 +17,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.heldig.ntorrent.gui.file;
-import java.util.Vector;
+package org.heldig.ntorrent.gui.filetab;
 
 import javax.swing.table.AbstractTableModel;
 
-@SuppressWarnings("unchecked")
-public class FileJTableModel extends AbstractTableModel{
+/**
+ * @author Kim Eik
+ *
+ */
+public class TrackerJTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	String[] columns = {
-			"Priority",
-			"Filename",
-			"Size"
+			"Url",
 			};
 	
-	Vector<Object>[] data = new Vector[columns.length];
+	TrackerInfo[] data = new TrackerInfo[0];
 	
-	public FileJTableModel() {
-		clear();
+	public void setData(TrackerInfo[] data) {
+		this.data = data;
 	}
 	
 	public int getColumnCount() {
@@ -47,30 +46,19 @@ public class FileJTableModel extends AbstractTableModel{
     }
 
 	public int getRowCount() {
-		return data[0].size();
+		return data.length;
 	}
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return data[columnIndex].get(rowIndex);
-	}
-	
-	public void clear(){
-		for(int x = 0; x < data.length; x++)
-			data[x] = new Vector();
-	}
-	
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		if(data[columnIndex].size() > rowIndex)
-			data[columnIndex].set(rowIndex,aValue);
-		else
-			data[columnIndex].add(rowIndex, aValue);
-		fireTableRowsInserted(rowIndex,rowIndex);
+		switch(columnIndex){
+			case 0:
+			default:
+				return data[rowIndex];
+		}
 	}
 	
 	@Override
 	public Class<?> getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }
-
 }

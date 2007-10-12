@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.heldig.ntorrent.gui.listener;
+package org.heldig.ntorrent.gui.core;
 
 import java.awt.event.ActionListener;
 

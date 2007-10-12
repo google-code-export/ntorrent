@@ -1,4 +1,4 @@
-package org.heldig.ntorrent.gui.file;
+package org.heldig.ntorrent.gui.filetab;
 
 import java.awt.GridLayout;
 

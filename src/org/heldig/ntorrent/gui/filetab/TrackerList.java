@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.heldig.ntorrent.gui.file;
+package org.heldig.ntorrent.gui.filetab;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -28,7 +28,7 @@ import javax.swing.JTable;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.event.ControllerEventListener;
-import org.heldig.ntorrent.gui.listener.JTablePopupMenuImplementation;
+import org.heldig.ntorrent.gui.core.JTablePopupMenuImplementation;
 import org.heldig.ntorrent.gui.render.TrackerUrlRenderer;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.language.Language;

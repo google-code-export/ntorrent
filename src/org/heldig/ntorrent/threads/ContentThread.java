@@ -22,7 +22,7 @@ package org.heldig.ntorrent.threads;
 
 import org.heldig.ntorrent.GUIController;
 import org.heldig.ntorrent.NTorrent;
-import org.heldig.ntorrent.gui.statusbar.StatusBarComponent;
+import org.heldig.ntorrent.gui.StatusBarComponent;
 import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.Rpc;
 

@@ -33,9 +33,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.heldig.ntorrent.gui.FileTabComponent;
-import org.heldig.ntorrent.gui.dialogue.PromptProfile;
+import org.heldig.ntorrent.gui.StatusBarComponent;
 import org.heldig.ntorrent.gui.label.LabelListComponent;
-import org.heldig.ntorrent.gui.statusbar.StatusBarComponent;
+import org.heldig.ntorrent.gui.profile.PromptProfile;
 import org.heldig.ntorrent.gui.torrent.TorrentJTableComponent;
 import org.heldig.ntorrent.gui.torrent.TorrentJTableModel;
 import org.heldig.ntorrent.gui.viewlist.ViewListComponent;
