@@ -22,11 +22,10 @@ package org.heldig.ntorrent.threads;
 import java.io.File;
 import java.io.IOException;
 
+import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.gui.window.FileTransferGui;
-import org.heldig.ntorrent.model.TorrentInfo;
 
 import com.sshtools.j2ssh.SftpClient;
-import com.sshtools.j2ssh.SshClient;
 
 /**
  * @author Kim Eik
@@ -40,8 +39,8 @@ public class SshFileTransferThread extends Thread{
 	String fileName;
 	boolean isDir;
 	
-	public SshFileTransferThread(SshClient client, TorrentInfo torrent, File localDir) throws IOException {
-		sftp = client.openSftpClient();
+	public SshFileTransferThread(SftpClient sftp, TorrentInfo torrent, File localDir) throws IOException {
+		this.sftp = sftp;
 		this.remoteFile = torrent.getFilePath();
 		this.fileName = torrent.getFilename();
 		this.localDir = localDir;

@@ -28,7 +28,7 @@ import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 public interface Rpc {		
 		public void getTorrentVariables(String view, XmlRpcCallback c);
 		public void getTorrentSet(String view, XmlRpcCallback c);
-		public void fileCommand(String[] hash, String command);
+		public void torrentCommand(String[] hash, String command);
 		public void loadTorrent(File torrent) throws IOException;
 		public void loadTorrent(String url);
 		public void getPortRange(XmlRpcCallback c);

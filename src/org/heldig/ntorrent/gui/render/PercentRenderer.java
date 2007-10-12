@@ -27,7 +27,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import org.heldig.ntorrent.model.units.Percent;
+import org.heldig.ntorrent.model.Percent;
 
 
 public class PercentRenderer extends JProgressBar implements TableCellRenderer {

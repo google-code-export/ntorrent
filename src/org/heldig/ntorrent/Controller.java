@@ -21,58 +21,213 @@
 
 package org.heldig.ntorrent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 
-import org.heldig.ntorrent.gui.GUIController;
-import org.heldig.ntorrent.io.IOController;
-import org.heldig.ntorrent.model.ClientProfile;
-import org.heldig.ntorrent.model.ModelController;
+import org.heldig.ntorrent.event.ControllerEventListener;
+import org.heldig.ntorrent.gui.Window;
+import org.heldig.ntorrent.gui.dialogue.ClientProfile;
+import org.heldig.ntorrent.gui.dialogue.ClientProfile.Protocol;
+import org.heldig.ntorrent.gui.torrent.TorrentInfo;
+import org.heldig.ntorrent.gui.torrent.TorrentPool;
+import org.heldig.ntorrent.io.ErrorStream;
+import org.heldig.ntorrent.io.Rpc;
+import org.heldig.ntorrent.io.RpcConnection;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpc;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
+import org.heldig.ntorrent.io.xmlrpc.http.XmlRpcConnection;
+import org.heldig.ntorrent.io.xmlrpc.local.LocalConnection;
+import org.heldig.ntorrent.io.xmlrpc.ssh.SshConnection;
+import org.heldig.ntorrent.language.Language;
+import org.heldig.ntorrent.settings.Constants;
 import org.heldig.ntorrent.threads.ThreadController;
+
+import com.sshtools.j2ssh.SftpClient;
+import com.sshtools.j2ssh.SshClient;
 
 
 
 /**
  * @author   Kim Eik
  */
-public class Controller{
+public class Controller implements ControllerEventListener, ActionListener{
 	
 	private String[] filesToLoad;
-	public IOController IO;
-	public GUIController GC;
-	public ThreadController TC;
-	public ModelController MC;
-	public ClientProfile profile;
+	private final ErrorStream log = new ErrorStream();
 	
-	public Controller(String[] args) throws IOException{
-		this();
+	private final GUIController GC = new GUIController(this);
+	private final ThreadController TC = new ThreadController();
+	private TorrentPool torrents = GC.getTableModel().getData();
+	private Rpc rpc;
+	private RpcConnection rpcLink;
+	private SshClient ssh;
+	private SftpClient sftp;
+	public Protocol protocol;
+	
+	public Controller(String[] args, Window root){
+		System.setOut(new PrintStream(log));
+		System.setErr(new PrintStream(log));
+		System.out.println(Constants.getReleaseName());
 		filesToLoad = args;
+		root.setContentPane(GC.getContentPane());
+		torrents.setMcThread(TC.getMainContentThread());
+
 	}
 	
-	public Controller() throws IOException {
-		IO = new IOController();
-		GC = new GUIController(this);
-	}
-	
-	public boolean connect(ClientProfile p){
-		profile = p;
-		try {
-			System.out.println("Connecting");
-			IO.connect(p);
-			IO.loadStartupFiles(filesToLoad);
-			GC.drawMainWindow();
-			
-			MC = new ModelController(this);
-			TC = new ThreadController(this);
-			
-			GC.getTorrentTableModel().fillData(MC.getTorrentPool());
-			TC.startMainContentThread();
-			TC.startThrottleThread();
-		} catch (Exception e) {
-			GC.showError(e);
-			e.printStackTrace();
-			return false;
+	public final void connect(ClientProfile p){
+		try{
+			protocol = p.getProt();
+			switch(protocol){
+				case HTTP:
+					rpcLink = new XmlRpcConnection(p);
+					break;
+				case SSH:
+					rpcLink = new SshConnection(p);
+					ssh = ((SshConnection)rpcLink).getSsh();
+					sftp = ssh.openSftpClient();
+					break;
+				case LOCAL:
+					rpcLink = new LocalConnection(p);
+					break;
+			}
+		
+		rpcLink.setUsername(p.getUsername());
+		rpcLink.setPassword(p.getPassword());
+		//2.Connect to server
+		rpc = new XmlRpc(rpcLink.connect());
+		}catch(Exception x){
+			x.printStackTrace();
 		}
-		return true;
+	//load the startup files
+	loadStartupFiles(filesToLoad);
+	//start the threads
+	TC.startThreads(rpc, GC.getStatusBarComponent(), torrents);
+	}
+	
+	private final void loadStartupFiles(String[] filesToLoad){
+			try {
+				for(String file: filesToLoad)
+					if(rpc != null)
+						rpc.loadTorrent(new File(file));
+			} catch (Exception x){
+				x.printStackTrace();
+			}
+	}
+	
+	private final void deleteFile(File file){
+		while(!file.delete())
+			for(File f: file.listFiles()){
+				deleteFile(f);
+			}
+	}
+	
+	public ErrorStream getLog() {
+		return log;
 	}
 
+	@Override
+	public void viewListEvent(String view) {
+		torrents.setView(view);
+	}
+
+	@Override
+	public void localEvent(TorrentInfo[] tf, String actionCommand) {
+		if(protocol.equals(Protocol.LOCAL)){
+			Language l = Language.getFromString(actionCommand);
+			for(TorrentInfo t : tf)
+				switch(l){
+				case Local_Menu_open_file:
+					try {
+						NTorrent.settings.runProgram(t);
+					} catch (IOException z) {
+						z.printStackTrace();
+					}
+					break;
+				case Local_Menu_remove_data:
+					File f = new File(t.getFilePath());
+					deleteFile(f);
+					break;
+				}
+		}
+	}
+
+	@Override
+	public void sshCopyEvent(TorrentInfo t, File path) {
+		if(protocol.equals(Protocol.SSH))
+			TC.startFileTransfer(sftp, t, path);
+	}
+
+	@Override
+	public void sshRemoveEvent(TorrentInfo[] tf) {
+		if(protocol.equals(Protocol.SSH))
+			for(TorrentInfo t : tf){
+				try {
+					sftp.rm(t.getFilePath(),true,true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+	}
+
+	@Override
+	public void torrentSelectionEvent(TorrentInfo t) {
+		GC.fileTab.getInfoPanel().setInfo(t);
+		rpc.getFileList(t.getHash(), GC.fileTab.getFileList());
+		rpc.getTrackerList(t.getHash(), GC.fileTab.getTrackerList(t.getHash()));
+	}
+
+	@Override
+	public void torrentCommand(String[] hash, String command) {
+		rpc.torrentCommand(hash, command);
+	}
+
+	@Override
+	public void setTorrentPriority(String[] hash, int i) {
+		rpc.setTorrentPriority(hash, i);
+	}
+
+	@Override
+	public void setFilePriority(String hash, int pri, int[] index) {
+		rpc.setFilePriority(hash, pri, index);
+	}
+
+	@Override
+	public void setTrackerEnabled(String hash, int[] id, boolean b,
+			XmlRpcCallback c) {
+		rpc.setTrackerEnabled(hash,id, b, c);
+	}
+
+	@Override
+	public void loadTorrent(String url) {
+		rpc.loadTorrent(url);
+	}
+
+	@Override
+	public void loadTorrent(File file) {
+		try {
+			rpc.loadTorrent(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	GUIController getGC() {
+		return GC;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+			switch (Language.getFromString(e.getActionCommand())){
+				case Menu_File_start_all:
+					torrentCommand(torrents.getHashList(), "d.start");
+					break;
+				case Menu_File_stop_all:
+					torrentCommand(torrents.getHashList(), "d.stop");
+					break;
+			}
+	}
 }

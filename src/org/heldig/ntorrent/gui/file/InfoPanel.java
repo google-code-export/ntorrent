@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.heldig.ntorrent.model.TorrentInfo;
+import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 
 
 /**

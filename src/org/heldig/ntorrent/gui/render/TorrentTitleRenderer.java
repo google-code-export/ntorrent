@@ -28,7 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import org.heldig.ntorrent.model.TorrentInfo;
+import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 
 
 public class TorrentTitleRenderer implements TableCellRenderer {

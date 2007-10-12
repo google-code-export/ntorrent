@@ -37,57 +37,6 @@ public final class Constants {
 	public static final File settings = new File("settings.dat");
 	private static final int commPort = 4050;
 	
-	
-	/**
-	 * @author  Kim Eik
-	 */
-	public static enum Commands {
-		ADD_TORRENT,
-		ADD_URL,
-		QUIT,
-		CONNECT,
-		START_ALL,
-		STOP_ALL,
-		SETTINGS,
-		ABOUT,
-		STOP,
-		START,
-		OPEN,
-		CHECK_HASH,
-		CLOSE,
-		REMOVE_TORRENT;
-		
-		@Override
-		public String toString() {
-			String friendly = getFriendlyName(this);
-			return friendly.substring(0,1).toUpperCase()+
-			friendly.substring(1);
-		}
-		
-		public static String getFriendlyName(Enum<Commands> e){
-			String name = e.name();
-			String s = "";
-			String[] splitted = name.split("_");
-			for (String piece : splitted){
-				s += (s == "") ? piece : " "+piece;
-			}
-			return s.toLowerCase();
-		}
-		
-		public static Commands getFromString(String s){
-			String[] splitted = s.split(" ");
-			s = "";
-			for(String piece : splitted)
-				s += (s == "") ? piece : "_"+piece;
-			for (Commands a : Commands.values()){
-				if(a.name().equalsIgnoreCase(s))
-					return a;
-			}
-			return null;
-		}
-	} 
-
-	
 	public static String getReleaseName(){
 		final String BUILD;
 		

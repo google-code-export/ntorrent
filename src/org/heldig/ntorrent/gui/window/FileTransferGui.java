@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import org.heldig.ntorrent.gui.Window;
-import org.heldig.ntorrent.model.units.Byte;
+import org.heldig.ntorrent.model.Byte;
 
 import com.sshtools.j2ssh.FileTransferProgress;
 

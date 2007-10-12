@@ -22,39 +22,28 @@ package org.heldig.ntorrent.threads;
 import java.io.File;
 import java.io.IOException;
 
-import org.heldig.ntorrent.Controller;
-import org.heldig.ntorrent.model.TorrentInfo;
+import org.heldig.ntorrent.gui.statusbar.StatusBarComponent;
+import org.heldig.ntorrent.gui.torrent.TorrentInfo;
+import org.heldig.ntorrent.gui.torrent.TorrentPool;
+import org.heldig.ntorrent.io.Rpc;
 
-import com.sshtools.j2ssh.SshClient;
+import com.sshtools.j2ssh.SftpClient;
 
 /**
  * @author  Kim Eik
  */
 public class ThreadController{
 	private Thread mainContentThread;
-	Controller parent;
-	private ThrottleThread throttleThread;
-	private SshFileTransferThread fileTransferThread;
-	public ThreadController(Controller c) {
-		parent = c;
-		mainContentThread = new ContentThread(
-				c.GC, 
-				c.IO.getRpc(), 
-				c.GC.getStatusBar(),
-				c.MC.getTorrentPool());
-		throttleThread = new ThrottleThread(c.IO.getRpc(),c.GC.getStatusBar());
-	}
-	
-	public void startMainContentThread(){
-		System.out.println("Starting content thread.");
+	private StatusBarThread throttleThread;
+
+	public void startThreads(Rpc r, StatusBarComponent c, TorrentPool tp){
+		mainContentThread = new ContentThread(r,c,tp);
+		throttleThread = new StatusBarThread(r,c);
+		tp.setMcThread(mainContentThread);
+		System.out.println("Starting threads.");
 		mainContentThread.start();
-	}
-	
-	public void startThrottleThread(){
-		System.out.println("Starting throttle thread.");
 		throttleThread.start();
-	}
-	
+	}	
 	/**
 	 * @return
 	 */
@@ -62,13 +51,10 @@ public class ThreadController{
 		return mainContentThread;
 	}
 	
-	public ThrottleThread getThrottleThread() {
-		return throttleThread;
-	}
 
-	public void startFileTransfer(SshClient ssh, TorrentInfo torrent, File selectedFile) {
+	public void startFileTransfer(SftpClient sftp, TorrentInfo torrent, File selectedFile) {
 		try {
-			fileTransferThread = new SshFileTransferThread(ssh,torrent,selectedFile);
+			new SshFileTransferThread(sftp,torrent,selectedFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
