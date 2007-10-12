@@ -68,9 +68,6 @@ public class Controller implements ControllerEventListener, ActionListener{
 	public Protocol protocol;
 	
 	public Controller(String[] args, Window root){
-		System.setOut(new PrintStream(log));
-		System.setErr(new PrintStream(log));
-		System.out.println(Constants.getReleaseName());
 		filesToLoad = args;
 		root.setContentPane(GC.getContentPane());
 		torrents.setMcThread(TC.getMainContentThread());
@@ -86,25 +83,34 @@ public class Controller implements ControllerEventListener, ActionListener{
 					break;
 				case SSH:
 					rpcLink = new SshConnection(p);
-					ssh = ((SshConnection)rpcLink).getSsh();
-					sftp = ssh.openSftpClient();
 					break;
 				case LOCAL:
 					rpcLink = new LocalConnection(p);
 					break;
 			}
 		
-		rpcLink.setUsername(p.getUsername());
-		rpcLink.setPassword(p.getPassword());
-		//2.Connect to server
-		rpc = new XmlRpc(rpcLink.connect());
+			rpcLink.setUsername(p.getUsername());
+			rpcLink.setPassword(p.getPassword());
+			//2.Connect to server
+			rpc = new XmlRpc(rpcLink.connect());
+			if(rpcLink instanceof SshConnection){
+				ssh = ((SshConnection)rpcLink).getSsh();
+				sftp = ssh.openSftpClient();
+			}
 		}catch(Exception x){
+			GC.showError(x);
 			x.printStackTrace();
+			System.exit(x.hashCode());
 		}
-	//load the startup files
-	loadStartupFiles(filesToLoad);
-	//start the threads
-	TC.startThreads(rpc, GC.getStatusBarComponent(), torrents);
+	
+		//connected
+		//System.setOut(new PrintStream(log));
+		//System.setErr(new PrintStream(log));
+		System.out.println(Constants.getReleaseName());
+		//load the startup files
+		loadStartupFiles(filesToLoad);
+		//start the threads
+		TC.startThreads(rpc, GC.getStatusBarComponent(), torrents);
 	}
 	
 	private final void loadStartupFiles(String[] filesToLoad){
