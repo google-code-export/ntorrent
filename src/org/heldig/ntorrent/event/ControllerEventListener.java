@@ -29,4 +29,5 @@ public interface ControllerEventListener{
 	boolean loadTorrent(File file);
 	public Protocol getProtocol();
 	public void setLabel(String[] hash, String showInputDialog);
+	public void labelSelectionEvent(String label);
 }

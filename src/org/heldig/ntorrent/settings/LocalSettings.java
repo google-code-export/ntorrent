@@ -37,10 +37,7 @@ public class LocalSettings extends Settings {
 	
 	@Description("Default command for opening local data")
 	public String filecommand = "gnome-open";
-	
-	@Description("Default command for erasing local data")
-	public String deletecommand = "rm";
-	
+		
 	@Description("Language file")
 	public File language = new File("language/default.lang");
 	

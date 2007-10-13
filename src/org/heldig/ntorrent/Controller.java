@@ -183,6 +183,10 @@ public class Controller implements ControllerEventListener, ActionListener{
 		rpc.getFileList(t.getHash(), GC.fileTab.getFileList());
 		rpc.getTrackerList(t.getHash(), GC.fileTab.getTrackerList(t.getHash()));
 	}
+	
+	public void labelSelectionEvent(String label){
+		torrents.setLabelView(label);
+	}
 
 	@Override
 	public void torrentCommand(String[] hash, String command) {

@@ -17,14 +17,14 @@ import org.heldig.ntorrent.language.Language;
  */
 public class LabelListModel extends AbstractListModel implements XmlRpcCallback {
 	private static final long serialVersionUID = 1L;
-	Vector<Object> data = new Vector<Object>();
+	Vector<String> data = new Vector<String>();
 
 	public LabelListModel() {
 		init();
 	}
 	
 	private void init(){
-		data.add(Language.Label_none);
+		data.add(Language.Label_none.toString());
 
 	}
 	
@@ -39,22 +39,21 @@ public class LabelListModel extends AbstractListModel implements XmlRpcCallback 
 	}
 	
 	public void addLabel(String label){
-		if(!data.contains(label))
+		if(!data.contains(label)){
 			data.add(label);
-		fireIntervalAdded(this, data.size()-1, data.size()-1);
+			fireIntervalAdded(this, data.size()-1, data.size()-1);
+		}
 	}
 
 	@Override
 	public void handleResult(XmlRpcRequest request, Object result) {
-		data.clear();
-		init();
 		for(int x = 0; x < request.getParameterCount(); x++){
 			if(((String)request.getParameter(x)).equals("d.get_custom1="))
 				for(Object obj : (Object[])result){
 					Object[] raw = (Object[]) obj;
 					String label = (String)raw[x-1];
-					//if(label != "")
-						//addLabel(label);
+					if(label.length() > 0)
+						addLabel(label);
 				}
 		}
 	}

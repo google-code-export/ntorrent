@@ -22,6 +22,7 @@ package org.heldig.ntorrent.gui.torrent;
 
 import java.util.HashMap;
 
+import org.heldig.ntorrent.NTorrent;
 import org.heldig.ntorrent.model.Bit;
 import org.heldig.ntorrent.model.Byte;
 import org.heldig.ntorrent.model.Percent;
@@ -145,7 +146,7 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 	
 	public boolean isStarted(){ return started; }
 	public boolean isOutOfDate(){ 
-		return System.currentTimeMillis()-lastUpdate > 3000;
+		return System.currentTimeMillis()-lastUpdate > NTorrent.settings.vintervall;
 	}
 	
 	/**

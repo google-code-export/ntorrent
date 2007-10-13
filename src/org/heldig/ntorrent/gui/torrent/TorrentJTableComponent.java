@@ -22,11 +22,24 @@ package org.heldig.ntorrent.gui.torrent;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.table.TableColumn;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
@@ -40,39 +53,48 @@ import org.heldig.ntorrent.model.Percent;
 /**
  * @author   Kim Eik
  */
-public class TorrentJTableComponent extends JTablePopupMenuImplementation{
+public class TorrentJTableComponent implements ListDataListener, MouseListener, ActionListener{
 	final TorrentJTableModel model = new TorrentJTableModel();
 	final JTable table = new JTable(model);
 	private ControllerEventListener event;
-	Language[] subpriority = {
+	/*Language[] subpriority = {
 		Language.Torrent_Menu_Priority_set_priority,
 		Language.Priority_Menu_high,
 		Language.Priority_Menu_normal,
 		Language.Priority_Menu_low,
 		Language.Priority_Menu_off
-		};
+		};*/
 	
-	Language[] sublocal = {
+	/*Language[] sublocal = {
 		Language.Local_Menu_local,
 		Language.Local_Menu_open_file,
 		Language.Local_Menu_remove_data,
-	};
+	};*/
 	
-	Language[] subssh = {
+	/*Language[] subssh = {
 		Language.Ssh_Menu_ssh,
 		Language.Ssh_Menu_copy,
 		Language.Ssh_Menu_remove_data
-	};
+	};*/
 	
-	Language[] sublabel = {
+	
+	/*Object[] sublabel = {
 		Language.Torrent_Menu_Priority_set_label,
 		Language.Label_none,
 		null,
+		test,
 		null,
 		Language.Label_new_label
-	};
+	};*/
 	
-	Object[] menuItems = {
+	JPopupMenu popup = new JPopupMenu();
+	JMenu subpriority = new JMenu(Language.Torrent_Menu_Priority_set_priority);
+	JMenu sublabel = new JMenu(Language.Torrent_Menu_Priority_set_label);
+	JMenu sublocal = new JMenu(Language.Local_Menu_local);
+	JMenu subssh = new JMenu(Language.Ssh_Menu_ssh);
+	private int[] selectedRows;
+	
+	/*Object[] menuItems = {
 		Language.Torrent_Menu_start,
 		Language.Torrent_Menu_stop,
 		Language.Torrent_Menu_remove_torrent,
@@ -85,13 +107,42 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 		sublocal,
 		subssh
 		
-	};
+	};*/
 
 	
 	public TorrentJTableComponent(ControllerEventListener e){
-		subssh[0].setEnabled(false);
-		sublocal[0].setEnabled(false);
 		event = e;
+		popup.add(Language.Torrent_Menu_start);
+		popup.add(Language.Torrent_Menu_stop);
+		popup.add(Language.Torrent_Menu_remove_torrent);
+		popup.add(new JSeparator());
+		popup.add(subpriority);
+		popup.add(sublabel);
+		popup.add(new JSeparator());
+		popup.add(Language.Torrent_Menu_check_hash);
+		popup.add(new JSeparator());
+		popup.add(sublocal);
+		popup.add(subssh);
+		
+		subpriority.add(Language.Priority_Menu_high);
+		subpriority.add(Language.Priority_Menu_normal);
+		subpriority.add(Language.Priority_Menu_low);
+		subpriority.add(Language.Priority_Menu_off);
+		
+
+		sublabel.add(Language.Label_none);
+		sublabel.add(Language.Label_new_label);
+		sublabel.add(new JSeparator());
+		
+		sublocal.add(Language.Local_Menu_open_file);
+		sublocal.add(Language.Local_Menu_remove_data);
+		
+		subssh.add(Language.Ssh_Menu_copy);
+		subssh.add(Language.Ssh_Menu_remove_data);
+		
+		subssh.setEnabled(false);
+		sublocal.setEnabled(false);
+		
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(false);
 		table.setRowMargin(5);
@@ -117,12 +168,19 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 		}
 	}
 	
-	
+
 
 	public void mouseReleased(MouseEvent e) {
-        super.mouseReleased(e);
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
         maybeShowFileTab(e);
     }
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
+	}
 	
 	private void maybeShowFileTab(MouseEvent e) {
 		JTable source = (JTable)e.getSource();
@@ -132,16 +190,15 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 		}		
 	}
 	protected void maybeShowPopup(MouseEvent e) {
-		if(popup.getComponentCount() == 0){
         	switch(event.getProtocol()){
     			case SSH:
-    				subssh[0].setEnabled(true);
+    				subssh.setEnabled(true);
     				break;
     			case LOCAL: 
-    				sublocal[0].setEnabled(true);
+    				sublocal.setEnabled(true);
+    				break;
+  
         	}
-			createMenuItems(popup,menuItems, this);
-		}
     	JTable source = (JTable)e.getComponent();
     	if(source.getSelectedRowCount() > 0)
 	        if (e.isPopupTrigger()) {
@@ -239,4 +296,31 @@ public class TorrentJTableComponent extends JTablePopupMenuImplementation{
 				
 		}	
 	}
+
+
+
+	@Override
+	public void contentsChanged(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void intervalAdded(ListDataEvent e) {
+		ListModel model = (ListModel)e.getSource();
+		Action event = Language.Label_custom;
+		System.out.println(model.getElementAt(e.getIndex0()));
+	}
+
+
+
+	@Override
+	public void intervalRemoved(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

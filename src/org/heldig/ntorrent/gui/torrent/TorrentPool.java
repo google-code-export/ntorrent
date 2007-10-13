@@ -36,6 +36,7 @@ public class TorrentPool implements XmlRpcCallback{
 	private TorrentSet torrents = new TorrentSet();
 	private TorrentSet viewset = new TorrentSet();
 	private String view = "main";
+	private String label = "none";
 	public AbstractTableModel table;
 	private Bit rateUp = new Bit(0);
 	private Bit rateDown = new Bit(0);
@@ -116,13 +117,16 @@ public class TorrentPool implements XmlRpcCallback{
 		
 	}
 	
+	private void removeFromViewSet(int x){
+		viewset.remove(x);
+		table.fireTableRowsDeleted(x, x);
+	}
+		
 	private void removeOutdated() {
 		for(int x = 0; x < viewset.size(); x++){
 			TorrentInfo tf = viewset.get(x);
-			if(tf.isOutOfDate()){
-				viewset.remove(x);
-				table.fireTableRowsDeleted(x, x);
-			}
+			if(tf.isOutOfDate())
+				removeFromViewSet(x);
 		}
 	}
 
@@ -144,16 +148,17 @@ public class TorrentPool implements XmlRpcCallback{
 				tf = new TorrentInfo((String)raw[0]);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
-				mcThread.interrupt();
+				//mcThread.interrupt();
 			}
-	
-			viewset.add(tf);
-			tf.setInfo(result);
 			
-			
-			rateUp.appendValue(tf.getRateUp());
-			rateDown.appendValue(tf.getRateDown());
-			
+			if(!label.equalsIgnoreCase("none") && !tf.getLabel().equals(label)){
+				viewset.remove(tf);
+			} else {
+				tf.setInfo(result);
+				rateUp.appendValue(tf.getRateUp());
+				rateDown.appendValue(tf.getRateDown());
+				viewset.add(tf);
+			}
 		}
 		if(viewSize == 0)
 			table.fireTableDataChanged();
@@ -161,5 +166,10 @@ public class TorrentPool implements XmlRpcCallback{
 			table.fireTableRowsUpdated(0, obj.length);
 		removeOutdated();
 		
+	}
+
+	public void setLabelView(String label) {
+		this.label = label;
+		mcThread.interrupt();
 	}		
 }
