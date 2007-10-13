@@ -49,7 +49,7 @@ import org.heldig.ntorrent.language.Language;
  */
 public class GUIController implements ActionListener{
 	public final FileTabComponent fileTab;
-	private final LabelListComponent labelList = new LabelListComponent();
+	private final LabelListComponent labelList;
 	private final StatusBarComponent statusBar = new StatusBarComponent();
 	private final TorrentJTableComponent table;
 	private final ViewListComponent viewList;
@@ -58,6 +58,8 @@ public class GUIController implements ActionListener{
 	public GUIController(Controller c){
 		C = c;
 		table = new TorrentJTableComponent(c);
+		labelList = new LabelListComponent(c);
+		labelList.getModel().addListDataListener(table);
 		viewList = new ViewListComponent(c);
 		fileTab = new FileTabComponent(c);
 		fileTab.setLog(c.getLog());
@@ -71,7 +73,7 @@ public class GUIController implements ActionListener{
 		JPanel leftBar = new JPanel(new BorderLayout(0,1));
 		leftBar.setBackground(Color.lightGray);
 		leftBar.add(viewList.getViewList(),BorderLayout.NORTH);
-		leftBar.add(labelList.getLabelList());
+		leftBar.add(labelList);
 		JSplitPane hsplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				new JScrollPane(leftBar),new JScrollPane(table.getTable()));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
