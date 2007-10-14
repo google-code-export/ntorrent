@@ -2,69 +2,42 @@ package org.heldig.ntorrent.gui.filetab;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.event.ControllerEventListener;
-import org.heldig.ntorrent.gui.core.JTablePopupMenuImplementation;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.language.Language;
 import org.heldig.ntorrent.model.Byte;
 import org.heldig.ntorrent.model.Priority;
 
 /**
- * @author   netbrain
+ * @author   Kim Eik
  */
-public class FileList extends JTablePopupMenuImplementation implements XmlRpcCallback {
-	//Simple filelist.
-	JTable filetable = new JTable(new FileJTableModel());
-	JScrollPane fileList;
+public class FileList extends JScrollPane implements XmlRpcCallback,MouseListener,ActionListener {
+	private static final long serialVersionUID = 1L;
+	private static final JTable filetable = new JTable(new FileJTableModel());
+	private static final JPopupMenu popup = new JPopupMenu();
+	private int[] selectedRows;
 	private String hash;
 	private ControllerEventListener event;
 	
-	final static Object[] menuItems = {
-		Language.File_List_Menu_high,
-		Language.File_List_Menu_low,
-		Language.File_List_Menu_off,
-	};
-
 	public FileList(ControllerEventListener e){
-		createMenuItems(popup,menuItems, this);
+		super(filetable);
 		event = e;
+		popup.add(Language.File_List_Menu_high).addActionListener(this);
+		popup.add(Language.File_List_Menu_low).addActionListener(this);
+		popup.add(Language.File_List_Menu_off).addActionListener(this);
 		filetable.setOpaque(false);
-		//not stable here either
-		//filetable.setAutoCreateRowSorter(true);
 		filetable.setBackground(Color.white);
 		filetable.setFillsViewportHeight(true);
 		filetable.addMouseListener(this);
-		
-		/*TableColumn column = null;
-		for (int i = 0; i < filetable.getColumnCount(); i++) {
-			column = filetable.getColumnModel().getColumn(i);
-			switch (i){
-				case 0:
-					column.setPreferredWidth(10);
-				case 2:
-					column.setPreferredWidth(100);
-				
-			}
-		}*/
-		
-		fileList  = new JScrollPane(filetable);
-	}
-	
-	/**
-	 * @return
-	 */
-	public JScrollPane getFileList() {
-		return fileList;
-	}
-
-	public void hideInfo() {
-		filetable.setVisible(false);
 	}
 
 	@Override
@@ -116,7 +89,6 @@ public class FileList extends JTablePopupMenuImplementation implements XmlRpcCal
 				break;
 			}
 		event.setFilePriority(hash,pri,selectedRows);
-		//event.handleEvent(new Event(hash,selectedRows,e.getActionCommand()));
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -132,6 +104,18 @@ public class FileList extends JTablePopupMenuImplementation implements XmlRpcCal
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
 	}	
 	
 }

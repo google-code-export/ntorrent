@@ -21,14 +21,16 @@ package org.heldig.ntorrent.gui.filetab;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.event.ControllerEventListener;
-import org.heldig.ntorrent.gui.core.JTablePopupMenuImplementation;
 import org.heldig.ntorrent.gui.render.TrackerUrlRenderer;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.language.Language;
@@ -38,12 +40,14 @@ import org.heldig.ntorrent.language.Language;
  * @author Kim Eik
  *
  */
-public class TrackerList extends JTablePopupMenuImplementation implements XmlRpcCallback {
-	TrackerJTableModel model = new TrackerJTableModel();
-	JTable trackerlist = new JTable(model);
-	JScrollPane pane = new JScrollPane(trackerlist);
+public class TrackerList extends JScrollPane implements XmlRpcCallback, MouseListener, ActionListener {
+	private static final long serialVersionUID = 1L;
+	private final static TrackerJTableModel model = new TrackerJTableModel();
+	private final static JTable trackerlist = new JTable(model);
+	private final JPopupMenu popup = new JPopupMenu();
 	private String hash;
 	private ControllerEventListener event;
+	private int[] selectedRows;
 	
 	final static Object[] menuItems = {
 		Language.Tracker_List_Menu_disable,
@@ -51,15 +55,13 @@ public class TrackerList extends JTablePopupMenuImplementation implements XmlRpc
 	};
 	
 	public TrackerList(ControllerEventListener e) {
-		createMenuItems(popup,menuItems, this);
+		super(trackerlist);
 		event = e;
+		popup.add(Language.Tracker_List_Menu_disable).addActionListener(this);
+		popup.add(Language.Tracker_List_Menu_enable).addActionListener(this);
 		trackerlist.setBackground(Color.white);
 		trackerlist.setDefaultRenderer(TrackerInfo.class, new TrackerUrlRenderer());
 		trackerlist.addMouseListener(this);
-	}
-	
-	public JScrollPane getTrackerlist() {
-		return pane;
 	}
 
 	@Override
@@ -93,14 +95,13 @@ public class TrackerList extends JTablePopupMenuImplementation implements XmlRpc
 		return hash;
 	}
 	
-	@Override
+	
 	protected void maybeShowPopup(MouseEvent e) {
 		selectedRows = ((JTable)e.getSource()).getSelectedRows();
 		popup.show(e.getComponent(), e.getX(), e.getY());
-		
 	}
 	
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getActionCommand());
 		switch(Language.getFromString(e.getActionCommand())){
@@ -111,8 +112,37 @@ public class TrackerList extends JTablePopupMenuImplementation implements XmlRpc
 				event.setTrackerEnabled(hash, selectedRows, true, null);
 				break;
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		//event.handleEvent(new Event(getHash(),selectedRows,e.getActionCommand()));
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
 	}		
 	
 }

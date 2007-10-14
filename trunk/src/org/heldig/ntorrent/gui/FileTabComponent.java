@@ -47,8 +47,8 @@ public class FileTabComponent extends JTabbedPane {
 		trackerList = new TrackerList(e);
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
 		addTab(Language.Filetab_info.toString(), infoPanel);
-		addTab(Language.Filetab_file_list.toString(), fileList.getFileList());
-		addTab(Language.Filetab_tracker_list.toString(), trackerList.getTrackerlist());
+		addTab(Language.Filetab_file_list.toString(), fileList);
+		addTab(Language.Filetab_tracker_list.toString(), trackerList);
 		addTab(Language.Filetab_log.toString(),logPane);
 		setSelectedIndex(3);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
