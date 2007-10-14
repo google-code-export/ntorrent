@@ -5,11 +5,13 @@ import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import org.heldig.ntorrent.gui.core.JPopupMenuImplementation;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
+
 import org.heldig.ntorrent.language.Language;
 import org.heldig.ntorrent.settings.Constants;
 
@@ -17,13 +19,12 @@ import org.heldig.ntorrent.settings.Constants;
 /**
  * @author  Kim Eik
  */
-public class ProcessTrayIcon extends JPopupMenuImplementation {
-	TrayIcon trayIcon;
-	Window rootWin;
-	ActionListener action;
+public class ProcessTrayIcon extends JPopupMenu implements MouseListener{
+	private static final long serialVersionUID = 1L;
+	private static TrayIcon trayIcon;
+	private static Window rootWin;
+	
 	public ProcessTrayIcon(Window root, ActionListener a) {
-		createMenuItems(popup,menuItems, this);
-		action = a;
 		rootWin = root;
 		if (SystemTray.isSupported()) {
 		    SystemTray tray = SystemTray.getSystemTray();
@@ -31,33 +32,30 @@ public class ProcessTrayIcon extends JPopupMenuImplementation {
 		    trayIcon = new TrayIcon(image,Constants.getReleaseName(),null);
 		    trayIcon.setImageAutoSize(true);
 		    trayIcon.addMouseListener(this);
-		    //trayIcon.addActionListener(this);
+		    trayIcon.addActionListener(a);
 
 		    try {
 		        tray.add(trayIcon);
 		    } catch (AWTException e) {
 		    	e.printStackTrace();
 		    }
+		    
+		    add(Language.Menu_File_add_torrent).addActionListener(a);
+		    add(Language.Menu_File_add_url).addActionListener(a);
+		    add(new JSeparator());
+		    add(Language.Menu_File_start_all).addActionListener(a);
+		    add(Language.Menu_File_stop_all).addActionListener(a);
+		    add(new JSeparator());
+		    add(Language.Menu_Help_settings).addActionListener(a);
+		    add(Language.Menu_Help_about).addActionListener(a);
+		    add(new JSeparator());
+		    add(Language.Menu_File_quit).addActionListener(a);
 
 		} else {
 		    //  System Tray is not supported
 		}
 	}
 	
-	final static Object[] menuItems = {
-		Language.Menu_File_add_torrent,
-		Language.Menu_File_add_url,
-		null,
-		Language.Menu_File_start_all,
-		Language.Menu_File_stop_all,
-		null,
-		Language.Menu_Help_settings,
-		Language.Menu_Help_about,
-		null,
-		Language.Menu_File_quit
-		};
-
-	@Override
 	protected void maybeShowPopup(MouseEvent e) {
 		switch (e.getButton()){
 		case MouseEvent.BUTTON1:
@@ -67,15 +65,15 @@ public class ProcessTrayIcon extends JPopupMenuImplementation {
 			}
 			break;
 		case MouseEvent.BUTTON3:
-			popup.setLocation(e.getX(), e.getY());
-			popup.setInvoker(rootWin);
-			popup.setVisible(true);
+			setLocation(e.getX(), e.getY());
+			setInvoker(rootWin);
+			setVisible(true);
 			break;
 		}
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		maybeShowPopup(e);
+
 	}
 	
 	public void mouseEntered(MouseEvent e) {
@@ -87,9 +85,17 @@ public class ProcessTrayIcon extends JPopupMenuImplementation {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
+	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		action.actionPerformed(e);	
+	public void mouseReleased(MouseEvent e) {
+		if(e.isPopupTrigger())
+			maybeShowPopup(e);
 	}
+	
+	
 }

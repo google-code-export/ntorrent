@@ -117,7 +117,8 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 		    }
 		}
 	}
-
+	
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
@@ -130,6 +131,9 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 			maybeShowPopup(e);
 	}
 
+	/*
+	 * @TODO give this another name
+	 */
 	private void maybeShowFileTab(MouseEvent e) {
 		JTable source = (JTable)e.getSource();
 		if(source.getSelectedRowCount() == 1){
