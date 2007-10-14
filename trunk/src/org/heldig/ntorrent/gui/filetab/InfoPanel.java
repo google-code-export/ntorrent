@@ -12,12 +12,13 @@ import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 /**
  * @author   netbrain
  */
-public class InfoPanel {
-	JPanel container = new JPanel(new GridLayout(0,1,10,5));
-	JScrollPane infoPanel = new JScrollPane(container);
+public class InfoPanel extends JScrollPane {
+	private static final long serialVersionUID = 1L;
+	private final static JPanel container = new JPanel(new GridLayout(0,1,10,5));
 
 	
 	public InfoPanel(){
+		super(container);
 		container.setOpaque(false);
 		container.setVisible(false);
 	}
@@ -53,12 +54,5 @@ public class InfoPanel {
 	
 	public void hideInfo(){
 		container.setVisible(false);
-	}
-	
-	/**
-	 * @return
-	 */
-	public JScrollPane getInfoPanel() {
-		return infoPanel;
 	}
 }

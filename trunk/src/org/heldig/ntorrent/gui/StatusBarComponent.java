@@ -20,7 +20,6 @@
 
 package org.heldig.ntorrent.gui;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -46,8 +45,8 @@ import org.heldig.ntorrent.threads.StatusBarThread;
 /**
  * @author   netbrain
  */
-public class StatusBarComponent extends Thread implements ChangeListener,XmlRpcCallback {
-	JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEADING));
+public class StatusBarComponent extends JPanel implements ChangeListener,XmlRpcCallback {
+	private static final long serialVersionUID = 1L;
 	JPanel container = new JPanel();
 	JSpinner maxDownloadRate = new JSpinner(new SpinnerNumberModel(0,0,null,10));
 	JSpinner maxUploadRate = new JSpinner(new SpinnerNumberModel(0,0,null,10));
@@ -55,19 +54,20 @@ public class StatusBarComponent extends Thread implements ChangeListener,XmlRpcC
 	Bit uploadRate = new Bit(0);
 	String port = new String();
 	
-	JLabel rateGroup = new JLabel();
-	JLabel portGroup = new JLabel();
-	JLabel commandStatus = new JLabel();
+	final static JLabel rateGroup = new JLabel();
+	final static JLabel portGroup = new JLabel();
+	final static JLabel commandStatus = new JLabel();
 	
 	StatusBarThread statusThread;
 	
-	private void update(){
-		rateGroup.setText(Language.Statusbar_up+": "+uploadRate.toString()+" / "+Language.Statusbar_down+": "+downloadRate.toString());
+	final private void update(){
+		rateGroup.setText(Language.Statusbar_up+": "+uploadRate+" / "+Language.Statusbar_down+": "+downloadRate);
 		portGroup.setText(Language.Statusbar_port+": "+port);
 	}
 	
 	public StatusBarComponent(){
-		statusBar.add(container);
+		super(new FlowLayout(FlowLayout.LEADING));
+		add(container);
 		container.setLayout(new BoxLayout(container,BoxLayout.LINE_AXIS));
 		Dimension tsize = new Dimension(80,20);
 		update();
@@ -123,13 +123,6 @@ public class StatusBarComponent extends Thread implements ChangeListener,XmlRpcC
 	}
 	
 	/**
-	 * @return
-	 */
-	public Component getStatusBar() {
-		return statusBar;
-	}
-
-	/**
 	 * @param  portRange
 	 */
 	public void setPort(String portRange) {
@@ -139,8 +132,6 @@ public class StatusBarComponent extends Thread implements ChangeListener,XmlRpcC
 	public void repaint(){
 		commandStatus.setText(Language.Statusbar_ping+": "+XmlRpcQueue.lag()+" sec");
 		update();
-		statusBar.repaint();
-		statusBar.revalidate();
 	}
 
 	@Override
