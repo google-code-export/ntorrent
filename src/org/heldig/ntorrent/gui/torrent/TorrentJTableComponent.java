@@ -29,19 +29,18 @@ import java.awt.event.MouseListener;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.ListModel;
-import javax.swing.MenuElement;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.table.TableColumn;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
+import org.heldig.ntorrent.event.NativeAction;
 import org.heldig.ntorrent.gui.render.PercentRenderer;
 import org.heldig.ntorrent.gui.render.TorrentTitleRenderer;
 import org.heldig.ntorrent.language.Language;
@@ -51,64 +50,18 @@ import org.heldig.ntorrent.model.Percent;
 /**
  * @author   Kim Eik
  */
-public class TorrentJTableComponent implements ListDataListener, MouseListener, ActionListener, PopupMenuListener{
-	final TorrentJTableModel model = new TorrentJTableModel();
-	final JTable table = new JTable(model);
-	private ControllerEventListener event;
-	/*Language[] subpriority = {
-		Language.Torrent_Menu_Priority_set_priority,
-		Language.Priority_Menu_high,
-		Language.Priority_Menu_normal,
-		Language.Priority_Menu_low,
-		Language.Priority_Menu_off
-		};*/
-	
-	/*Language[] sublocal = {
-		Language.Local_Menu_local,
-		Language.Local_Menu_open_file,
-		Language.Local_Menu_remove_data,
-	};*/
-	
-	/*Language[] subssh = {
-		Language.Ssh_Menu_ssh,
-		Language.Ssh_Menu_copy,
-		Language.Ssh_Menu_remove_data
-	};*/
-	
-	
-	/*Object[] sublabel = {
-		Language.Torrent_Menu_Priority_set_label,
-		Language.Label_none,
-		null,
-		test,
-		null,
-		Language.Label_new_label
-	};*/
-	
-	private final JPopupMenu popup = new JPopupMenu();
-	private final JMenu subpriority = new JMenu(Language.Torrent_Menu_Priority_set_priority);
+public class TorrentJTableComponent extends JTable implements ListDataListener, MouseListener, ActionListener{
+	private static final long serialVersionUID = 1L;
+	private final ControllerEventListener event;
+	private static final JPopupMenu popup = new JPopupMenu();
+	private static final JMenu subpriority = new JMenu(Language.Torrent_Menu_Priority_set_priority);
 	private final JMenu sublabel = new JMenu(Language.Torrent_Menu_Priority_set_label);
 	private final JMenu sublocal = new JMenu(Language.Local_Menu_local);
 	private final JMenu subssh = new JMenu(Language.Ssh_Menu_ssh);
-	private int[] selectedRows;
-	
-	/*Object[] menuItems = {
-		Language.Torrent_Menu_start,
-		Language.Torrent_Menu_stop,
-		Language.Torrent_Menu_remove_torrent,
-		null,
-		subpriority,
-		sublabel,
-		null,
-		Language.Torrent_Menu_check_hash,
-		null,
-		sublocal,
-		subssh
-		
-	};*/
-
+	private static int[] selectedRows;
 	
 	public TorrentJTableComponent(ControllerEventListener e){
+		super(new TorrentJTableModel());
 		event = e;
 		popup.add(Language.Torrent_Menu_start).addActionListener(this);
 		popup.add(Language.Torrent_Menu_stop).addActionListener(this);
@@ -121,7 +74,6 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 		popup.add(new JSeparator());
 		popup.add(sublocal);
 		popup.add(subssh);
-		popup.addPopupMenuListener(this);
 		
 		subpriority.add(Language.Priority_Menu_high).addActionListener(this);
 		subpriority.add(Language.Priority_Menu_normal).addActionListener(this);
@@ -141,21 +93,21 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 		subssh.setEnabled(false);
 		sublocal.setEnabled(false);
 		
-		table.setShowHorizontalLines(true);
-		table.setShowVerticalLines(false);
-		table.setRowMargin(5);
-		table.setRowHeight(25);
-		table.setBackground(Color.white);
-		table.setFillsViewportHeight(true);
-		table.setDefaultRenderer(TorrentInfo.class, new TorrentTitleRenderer());
-		table.setDefaultRenderer(Percent.class, new PercentRenderer());
-		table.addMouseListener(this);
+		setShowHorizontalLines(true);
+		setShowVerticalLines(false);
+		setRowMargin(5);
+		setRowHeight(25);
+		setBackground(Color.white);
+		setFillsViewportHeight(true);
+		setDefaultRenderer(TorrentInfo.class, new TorrentTitleRenderer());
+		setDefaultRenderer(Percent.class, new PercentRenderer());
+		addMouseListener(this);
 		
 		TableColumn column = null;
-		for (int i = 0; i < table.getColumnCount(); i++) {
-		    column = table.getColumnModel().getColumn(i);
+		for (int i = 0; i < getColumnCount(); i++) {
+		    column = getColumnModel().getColumn(i);
 		    if (i == 0) {
-		        column.setPreferredWidth(300); //third column is bigger
+		        column.setPreferredWidth(300);
 		    }else if(i == 4 || i == 5){
 		    	column.setPreferredWidth(48);
 		    }else if(i == 9 || i == 10){
@@ -177,7 +129,7 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
 	}
-	
+
 	private void maybeShowFileTab(MouseEvent e) {
 		JTable source = (JTable)e.getSource();
 		if(source.getSelectedRowCount() == 1){
@@ -203,17 +155,7 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 	        }
     }
     
-	
-	/**
-	 * @return
-	 */
-	public JTable getTable() {
-		return table;
-	}
-	
-	public TorrentJTableModel getModel() {
-		return model;
-	}
+		
 
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -232,65 +174,71 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
 		TorrentInfo[] tf = new TorrentInfo[selectedRows.length];
 		String[] hash = new String[selectedRows.length];
 		for(int i = 0; i < selectedRows.length; i++){
-			tf[i] = (TorrentInfo)model.getValueAt(selectedRows[i], 0);
+			tf[i] = (TorrentInfo)getModel().getValueAt(selectedRows[i], 0);
 			hash[i] = tf[i].getHash();
 		}
-		switch(Language.getFromString(e.getActionCommand())){
-			case Local_Menu_remove_data:
-				if(JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog(null, 
-						"Are you sure?", 
-						null, 
-						JOptionPane.YES_NO_OPTION)) break;
-			case Local_Menu_open_file:
-					event.localEvent(tf, e.getActionCommand());
-				break;
-			case Ssh_Menu_copy:
-				if(selectedRows.length == 1){
-					final JFileChooser pf = new JFileChooser();
-					pf.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					if(pf.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
-						event.sshCopyEvent(tf[0], pf.getSelectedFile());
-				}
-				break;
-			case Ssh_Menu_remove_data:
-				event.sshRemoveEvent(tf);
-				break;
-			case Torrent_Menu_start:
-				event.torrentCommand(hash, "d.start");
-				break;
-			case Torrent_Menu_check_hash:
-				event.torrentCommand(hash, "d.check_hash");
-				break;
-			case Torrent_Menu_stop:
-				event.torrentCommand(hash, "d.stop");
-				break;
-			case Torrent_Menu_remove_torrent:
-				event.torrentCommand(hash, "d.erase");
-				break;
-			case Priority_Menu_high:
-				event.setTorrentPriority(hash, 3);
-				break;
-			case Priority_Menu_low:
-				event.setTorrentPriority(hash, 1);
-				break;
-			case Priority_Menu_normal:
-				event.setTorrentPriority(hash, 2);
-				break;
-			case Priority_Menu_off:
-				event.setTorrentPriority(hash, 0);
-				break;
-			case Label_new_label:
-				event.setLabel(hash,(String)JOptionPane.showInputDialog(null));
-				break;
-			case Label_none:
-				event.setLabel(hash, "");
-				break;
-				
-		}	
+		Language l = Language.getFromString(e.getActionCommand());
+		if(l != null)
+			switch(l){
+				case Local_Menu_remove_data:
+					if(JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog(null, 
+							"Are you sure?", 
+							null, 
+							JOptionPane.YES_NO_OPTION)) break;
+				case Local_Menu_open_file:
+						event.localEvent(tf, e.getActionCommand());
+					break;
+				case Ssh_Menu_copy:
+					if(selectedRows.length == 1){
+						final JFileChooser pf = new JFileChooser();
+						pf.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+						if(pf.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+							event.sshCopyEvent(tf[0], pf.getSelectedFile());
+					}
+					break;
+				case Ssh_Menu_remove_data:
+					event.sshRemoveEvent(tf);
+					break;
+				case Torrent_Menu_start:
+					event.torrentCommand(hash, "d.start");
+					break;
+				case Torrent_Menu_check_hash:
+					event.torrentCommand(hash, "d.check_hash");
+					break;
+				case Torrent_Menu_stop:
+					event.torrentCommand(hash, "d.stop");
+					break;
+				case Torrent_Menu_remove_torrent:
+					event.torrentCommand(hash, "d.erase");
+					break;
+				case Priority_Menu_high:
+					event.setTorrentPriority(hash, 3);
+					break;
+				case Priority_Menu_low:
+					event.setTorrentPriority(hash, 1);
+					break;
+				case Priority_Menu_normal:
+					event.setTorrentPriority(hash, 2);
+					break;
+				case Priority_Menu_off:
+					event.setTorrentPriority(hash, 0);
+					break;
+				case Label_new_label:
+					event.setLabel(hash,(String)JOptionPane.showInputDialog(null));
+					break;
+				case Label_none:
+					event.setLabel(hash, "");
+					break;
+				case Label_custom:
+					event.setLabel(hash, ((JMenuItem)e.getSource()).getText());
+					break;
+					
+			}
+		else
+			System.out.println(e.getActionCommand());
 	}
 
 
@@ -306,8 +254,10 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		ListModel model = (ListModel)e.getSource();
-		Action event = Language.Label_custom;
-		System.out.println(model.getElementAt(e.getIndex0()));
+		Action a = new NativeAction();
+		a.putValue(Action.NAME, model.getElementAt(e.getIndex0()));
+		a.putValue(Action.ACTION_COMMAND_KEY, Language.Label_custom.name());
+		sublabel.add(a).addActionListener(this);
 	}
 
 
@@ -317,24 +267,5 @@ public class TorrentJTableComponent implements ListDataListener, MouseListener, 
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void popupMenuCanceled(PopupMenuEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
