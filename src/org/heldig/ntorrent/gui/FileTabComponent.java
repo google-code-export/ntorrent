@@ -34,8 +34,8 @@ import org.heldig.ntorrent.language.Language;
 /**
  * @author  Kim Eik
  */
-public class FileTabComponent {
-	JTabbedPane filePane = new JTabbedPane();
+public class FileTabComponent extends JTabbedPane {
+	private static final long serialVersionUID = 1L;
 	InfoPanel infoPanel = new InfoPanel();
 	JScrollPane logPane = new JScrollPane();
 	TrackerList trackerList;
@@ -46,26 +46,18 @@ public class FileTabComponent {
 		fileList = new FileList(e);
 		trackerList = new TrackerList(e);
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
-		filePane.addTab(Language.Filetab_info.toString(), infoPanel.getInfoPanel());
-		filePane.addTab(Language.Filetab_file_list.toString(), fileList.getFileList());
-		filePane.addTab(Language.Filetab_tracker_list.toString(), trackerList.getTrackerlist());
-		filePane.addTab(Language.Filetab_log.toString(),logPane);
-		filePane.setSelectedIndex(3);
+		addTab(Language.Filetab_info.toString(), infoPanel);
+		addTab(Language.Filetab_file_list.toString(), fileList.getFileList());
+		addTab(Language.Filetab_tracker_list.toString(), trackerList.getTrackerlist());
+		addTab(Language.Filetab_log.toString(),logPane);
+		setSelectedIndex(3);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
-		filePane.setVisible(true);
+		setVisible(true);
 	}
 	
 	public void setLog(ErrorStream c){
-		System.out.println(c);
 		logPane.add(c.getTextArea());
-	}
-	
-	/**
-	 * @return
-	 */
-	public JTabbedPane getFilePane() {
-		return filePane;
 	}
 	
 	/**

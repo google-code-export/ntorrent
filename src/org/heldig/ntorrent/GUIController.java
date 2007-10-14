@@ -72,16 +72,16 @@ public class GUIController implements ActionListener{
 		JPanel content = new JPanel(new BorderLayout());
 		JPanel leftBar = new JPanel(new BorderLayout(0,1));
 		leftBar.setBackground(Color.lightGray);
-		leftBar.add(viewList.getViewList(),BorderLayout.NORTH);
+		leftBar.add(viewList,BorderLayout.NORTH);
 		leftBar.add(labelList);
 		JSplitPane hsplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				new JScrollPane(leftBar),new JScrollPane(table.getTable()));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				hsplitPane, fileTab.getFilePane());
+				hsplitPane, fileTab);
 		splitPane.setDividerLocation(500);
 		content.setBackground(Color.LIGHT_GRAY);
 		content.add(splitPane,BorderLayout.CENTER);
-		content.add(statusBar.getStatusBar(),BorderLayout.SOUTH);
+		content.add(statusBar,BorderLayout.SOUTH);
 		return content;
 	}
 	

@@ -19,25 +19,22 @@ import org.heldig.ntorrent.language.Language;
  * @author Kim Eik
  *
  */
-public class ViewListComponent implements MouseListener, ListSelectionListener {
-	final ListModel model = new ViewListModel();
-	final JList viewList = new JList(model);
+public class ViewListComponent extends JList implements MouseListener, ListSelectionListener {
+	private static final long serialVersionUID = 1L;
+	final static ListModel model = new ViewListModel();
 	final ControllerEventListener event;
 	boolean changed = false;
 	
 	public ViewListComponent(ControllerEventListener e){
+		super(model);
 		event = e;
-		viewList.setSelectedIndex(0);
-		viewList.setLayoutOrientation(JList.VERTICAL);
-		viewList.addMouseListener(this);
-		viewList.addListSelectionListener(this);
-		viewList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectedIndex(0);
+		setLayoutOrientation(JList.VERTICAL);
+		addMouseListener(this);
+		addListSelectionListener(this);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
-	
-	public JList getViewList() {
-		return viewList;
-	}
-	
+
 	public ListModel getModel() {
 		return model;
 	}

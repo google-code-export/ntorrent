@@ -37,26 +37,26 @@ import com.sshtools.j2ssh.FileTransferProgress;
  * @author Kim Eik
  *
  */
-public class FileTransferGui implements FileTransferProgress, ActionListener {
-	Window fileTransfer;
+public class FileTransferGui extends Window implements FileTransferProgress, ActionListener {
+	private static final long serialVersionUID = 1L;
 	JProgressBar bar;
 	JLabel file = new JLabel();
 	boolean cancelled = false;
 	
 	public FileTransferGui(String title) {
-		fileTransfer = new Window(title);
-		fileTransfer.setLayout(new BorderLayout());
-		fileTransfer.add(file,BorderLayout.NORTH);
+		super(title);
+		setLayout(new BorderLayout());
+		add(file,BorderLayout.NORTH);
 		JPanel buttons = new JPanel();
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(this);
 		buttons.add(cancel);
-		fileTransfer.add(cancel,BorderLayout.SOUTH);
+		add(cancel,BorderLayout.SOUTH);
 		
 	}
 
 	public void completed() {
-		fileTransfer.requestFocus();
+		requestFocus();
 	}
 
 	public boolean isCancelled() {
@@ -73,8 +73,8 @@ public class FileTransferGui implements FileTransferProgress, ActionListener {
 		int endpoint = ((Long)arg0).intValue();
 		bar = new JProgressBar(0,endpoint);
 		bar.setStringPainted(true);
-		fileTransfer.add(bar,BorderLayout.CENTER);
-		fileTransfer.drawWindow();
+		add(bar,BorderLayout.CENTER);
+		drawWindow();
 		
 	}
 
@@ -82,7 +82,7 @@ public class FileTransferGui implements FileTransferProgress, ActionListener {
 		String cmd = e.getActionCommand();
 		if(cmd.equals("Cancel")){
 			cancelled = true;
-			fileTransfer.dispose();
+			dispose();
 		}
 		
 	}
