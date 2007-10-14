@@ -75,7 +75,7 @@ public class GUIController implements ActionListener{
 		leftBar.add(viewList,BorderLayout.NORTH);
 		leftBar.add(labelList);
 		JSplitPane hsplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				new JScrollPane(leftBar),new JScrollPane(table.getTable()));
+				new JScrollPane(leftBar),new JScrollPane(table));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				hsplitPane, fileTab);
 		splitPane.setDividerLocation(500);
@@ -101,7 +101,7 @@ public class GUIController implements ActionListener{
 	}
 	
 	public TorrentJTableModel getTableModel() {
-		return table.getModel();
+		return (TorrentJTableModel)table.getModel();
 	}
 
 	public StatusBarComponent getStatusBarComponent() {

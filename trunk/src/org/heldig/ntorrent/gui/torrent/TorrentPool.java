@@ -144,16 +144,13 @@ public class TorrentPool implements XmlRpcCallback{
 			for(int z = 2; z < pRequest.getParameterCount(); z++)
 				result.put((String)pRequest.getParameter(z), raw[z-1]);
 			
-			if(tf == null/* && fullUpdate*/){
+			if(tf == null){
 				tf = new TorrentInfo((String)raw[0]);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
-				//mcThread.interrupt();
 			}
 			
-			if(!label.equalsIgnoreCase("none") && !tf.getLabel().equals(label)){
-				viewset.remove(tf);
-			} else {
+			if(label.equalsIgnoreCase("none") || tf.getLabel().equals(label)){
 				tf.setInfo(result);
 				rateUp.appendValue(tf.getRateUp());
 				rateDown.appendValue(tf.getRateDown());
@@ -170,6 +167,7 @@ public class TorrentPool implements XmlRpcCallback{
 
 	public void setLabelView(String label) {
 		this.label = label;
+		viewset = new TorrentSet();
 		mcThread.interrupt();
 	}		
 }

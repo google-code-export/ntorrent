@@ -28,6 +28,6 @@ public interface ControllerEventListener{
 	void loadTorrent(String url);
 	boolean loadTorrent(File file);
 	public Protocol getProtocol();
-	public void setLabel(String[] hash, String showInputDialog);
+	public void setLabel(String[] hash, String label);
 	public void labelSelectionEvent(String label);
 }
