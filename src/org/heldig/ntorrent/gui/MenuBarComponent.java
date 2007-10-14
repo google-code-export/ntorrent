@@ -24,9 +24,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JSeparator;
 
-import org.heldig.ntorrent.gui.core.MenuImplementation;
 import org.heldig.ntorrent.language.Language;
 
 
@@ -37,30 +38,22 @@ public class MenuBarComponent extends JMenuBar implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private Vector<ActionListener> al = new Vector<ActionListener>();
 
-	final static Language[] file_menu = {
-			Language.Menu_file,
-			Language.Menu_File_add_torrent,
-			Language.Menu_File_add_url,
-			null,
-			Language.Menu_File_start_all,
-			Language.Menu_File_stop_all,
-			null,
-			Language.Menu_File_quit,
-	};
-	
-	final static Language[] help_menu = {
-			Language.Menu_help,
-			Language.Menu_Help_settings,
-			Language.Menu_Help_about	
-	};
-	
-	final static Object[] menu_items = {
-			file_menu,
-			help_menu,
-	};
+	private final static JMenu fileMenu = new JMenu(Language.Menu_file);
+	private final static JMenu helpMenu = new JMenu(Language.Menu_help);
 	
 	public MenuBarComponent(){
-		MenuImplementation.createMenuItems(this, menu_items,this);
+		fileMenu.add(Language.Menu_File_add_torrent).addActionListener(this);
+		fileMenu.add(Language.Menu_File_add_url).addActionListener(this);
+		fileMenu.add(new JSeparator());
+		fileMenu.add(Language.Menu_File_start_all).addActionListener(this);
+		fileMenu.add(Language.Menu_File_stop_all).addActionListener(this);
+		fileMenu.add(new JSeparator());
+		fileMenu.add(Language.Menu_File_quit).addActionListener(this);
+		
+		helpMenu.add(Language.Menu_Help_settings).addActionListener(this);
+		helpMenu.add(Language.Menu_Help_about).addActionListener(this);
+		add(fileMenu);
+		add(helpMenu);
 	}
 
 	public void addActionListener(ActionListener e){
