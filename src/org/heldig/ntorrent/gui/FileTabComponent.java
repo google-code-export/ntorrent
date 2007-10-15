@@ -20,14 +20,12 @@
 
 package org.heldig.ntorrent.gui;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.heldig.ntorrent.event.ControllerEventListener;
 import org.heldig.ntorrent.gui.filetab.FileList;
 import org.heldig.ntorrent.gui.filetab.InfoPanel;
 import org.heldig.ntorrent.gui.filetab.TrackerList;
-import org.heldig.ntorrent.io.ErrorStream;
 import org.heldig.ntorrent.language.Language;
 
 
@@ -36,10 +34,10 @@ import org.heldig.ntorrent.language.Language;
  */
 public class FileTabComponent extends JTabbedPane {
 	private static final long serialVersionUID = 1L;
-	InfoPanel infoPanel = new InfoPanel();
-	JScrollPane logPane = new JScrollPane();
-	TrackerList trackerList;
-	FileList fileList;
+	private final InfoPanel infoPanel = new InfoPanel();
+	//JScrollPane logPane = new JScrollPane();
+	private final TrackerList trackerList;
+	private final FileList fileList;
 
 	
 	public FileTabComponent(ControllerEventListener e){
@@ -49,27 +47,17 @@ public class FileTabComponent extends JTabbedPane {
 		addTab(Language.Filetab_info.toString(), infoPanel);
 		addTab(Language.Filetab_file_list.toString(), fileList);
 		addTab(Language.Filetab_tracker_list.toString(), trackerList);
-		addTab(Language.Filetab_log.toString(),logPane);
-		setSelectedIndex(3);
+		//addTab(Language.Filetab_log.toString(),logPane);
+		//setSelectedIndex(3);
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
 		setVisible(true);
 	}
 	
-	public void setLog(ErrorStream c){
-		logPane.add(c.getTextArea());
-	}
-	
-	/**
-	 * @return
-	 */
 	public InfoPanel getInfoPanel() {
 		return infoPanel;
 	}
 	
-	/**
-	 * @return
-	 */
 	public FileList getFileList() {
 		return fileList;
 	}

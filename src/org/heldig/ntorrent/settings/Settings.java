@@ -58,8 +58,6 @@ public abstract class Settings implements Serializable {
 			ObjectInputStream objectstream = new ObjectInputStream(stream);			
 			Object data = objectstream.readObject();
 			
-			
-			
 			if(data instanceof Settings)
 				((Settings)obj).restoreData(data);
 			else

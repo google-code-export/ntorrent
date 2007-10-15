@@ -62,7 +62,6 @@ public class GUIController implements ActionListener{
 		labelList.getModel().addListDataListener(table);
 		viewList = new ViewListComponent(c);
 		fileTab = new FileTabComponent(c);
-		fileTab.setLog(c.getLog());
 		System.out.println("Drawing gui");
 		promptProfile();
 	}

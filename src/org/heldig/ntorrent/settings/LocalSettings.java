@@ -39,7 +39,7 @@ public class LocalSettings extends Settings {
 	public String filecommand = "gnome-open";
 		
 	@Description("Language file")
-	public File language = new File("language/default.lang");
+	public File language = new File("language/English.lang");
 	
 	@Description("Debug mode / log")
 	public boolean debug = false;
@@ -51,6 +51,7 @@ public class LocalSettings extends Settings {
 		vintervall = data.vintervall;
 		sintervall = data.sintervall;
 		debug = data.debug;
+		language = data.language;
 	}
 
 	public void deserialize() {

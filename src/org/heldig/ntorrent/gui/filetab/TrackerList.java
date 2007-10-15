@@ -103,7 +103,6 @@ public class TrackerList extends JScrollPane implements XmlRpcCallback, MouseLis
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
 		switch(Language.getFromString(e.getActionCommand())){
 			case Tracker_List_Menu_disable:
 				event.setTrackerEnabled(hash, selectedRows, false, null);

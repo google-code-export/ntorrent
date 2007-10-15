@@ -32,7 +32,7 @@ public final class Constants {
 	static Properties systemProperties = new Properties();
 	
 	private static final String NAME = "nTorrent";
-	private static final String VERSION = "0.3.alpha";
+	private static final String VERSION = "0.4.alpha";
 	public static final File profile = new File("profile.dat");
 	public static final File settings = new File("settings.dat");
 	private static final int commPort = 4050;
