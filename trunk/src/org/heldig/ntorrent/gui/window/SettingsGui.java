@@ -22,15 +22,18 @@ package org.heldig.ntorrent.gui.window;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -39,6 +42,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.heldig.ntorrent.NTorrent;
 import org.heldig.ntorrent.gui.Window;
+import org.heldig.ntorrent.language.Language;
 import org.heldig.ntorrent.settings.LocalSettings;
 import org.heldig.ntorrent.settings.Settings.Description;
 
@@ -47,8 +51,8 @@ public class SettingsGui implements ActionListener {
 	Window window = new Window();
 	JPanel buttonpanel = new JPanel();
 	JPanel contentpanel = new JPanel();
-	JButton save = new JButton("Save settings");
-	JButton cancel = new JButton("Cancel");
+	JButton save = new JButton(Language.Button_save_settings);
+	JButton cancel = new JButton(Language.Button_cancel);
 	HashMap<Component,Field> link = new HashMap<Component,Field>();
 	
 	public SettingsGui() {
@@ -91,6 +95,30 @@ public class SettingsGui implements ActionListener {
 					((JCheckBox)c).setSelected(field.getBoolean(NTorrent.settings));
 				} else if(type.equals(int.class)) {
 					c = new JSpinner(new SpinnerNumberModel(field.getInt(NTorrent.settings),null,null,100));
+				}else if(type.equals(File.class)){
+					final File file = ((File)field.get(NTorrent.settings));
+					final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+					final JButton browse = new JButton(Language.Button_browse_file);
+					final JTextField txt = new JTextField(file.getName());
+					browse.addActionListener(new ActionListener(){
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							final JFileChooser chooser = new JFileChooser(file);
+							if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+								File file = chooser.getSelectedFile();
+								panel.setName(file.getAbsolutePath());
+								txt.setText(file.getName());
+							}
+						}
+						
+					});
+					
+					panel.setName(file.getAbsolutePath());
+					txt.setEditable(false);
+					panel.add(txt);
+					panel.add(browse);
+					c = panel;
 				}
 				
 				for(Annotation a : field.getAnnotations()){
@@ -111,35 +139,46 @@ public class SettingsGui implements ActionListener {
 			}
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	public void actionPerformed(ActionEvent e) {
-		JButton b = (JButton)e.getSource();
-		if(b.equals(save)){
-			for(Component c : contentpanel.getComponents()){
-				if(link.containsKey(c)){
-					Field field = link.get(c);
-					Class type = field.getType();
-					try {
-						if(type.equals(String.class)){
-							field.set(NTorrent.settings, ((JTextField)c).getText());
-						} else if(type.equals(boolean.class)){
-							field.setBoolean(NTorrent.settings, ((JCheckBox)c).isSelected());
-						} else if(type.equals(int.class)) {
-								field.setInt(NTorrent.settings,((Integer)((JSpinner)c).getValue()));
-						}
-					} catch (Exception x ){
-						x.printStackTrace();
-					}					
-				}
+	private void saveSettings(){
+		for(Component c : contentpanel.getComponents()){
+			if(link.containsKey(c)){
+				Field field = link.get(c);
+				Class type = field.getType();
+				try {
+					if(type.equals(String.class)){
+						field.set(NTorrent.settings, ((JTextField)c).getText());
+					} else if(type.equals(boolean.class)){
+						field.setBoolean(NTorrent.settings, ((JCheckBox)c).isSelected());
+					} else if(type.equals(int.class)) {
+						field.setInt(NTorrent.settings,((Integer)((JSpinner)c).getValue()));
+					} else if(type.equals(File.class)){
+						field.set(NTorrent.settings, new File(c.getName()));
+					}
+					
+				} catch (Exception x ){
+					x.printStackTrace();
+				}					
 			}
-			try {
-				NTorrent.settings.serialize();
-			} catch (Exception x) {
-				x.printStackTrace();
-			}
-		}else if(b.equals(cancel)){
-			window.dispose();
 		}
+		try {
+			NTorrent.settings.serialize();
+		} catch (Exception x) {
+			x.printStackTrace();
+		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		Language l = Language.getFromString(e.getActionCommand());
+		if(l != null)
+			switch(l){
+				case Button_save_settings:
+					saveSettings();
+					break;
+				case Button_cancel:
+					window.dispose();
+					break;
+			}
 	}
 }
