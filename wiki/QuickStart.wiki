@@ -1,0 +1,62 @@
+#labels Featured,Phase-Deploy
+= Introduction =
+
+A quick howto on compiling and installing rtorrent, libtorrent and xmlrpc-c.
+
+= Downloading =
+
+Open up your favorite internet browser and point it to:
+ * http://libtorrent.rakshasa.no/
+ * http://sourceforge.net/project/showfiles.php?group_id=16847
+
+download the source files, like so.
+{{{
+root@netbox:~# cd /usr/src/
+root@netbox:/usr/src# wget http://libtorrent.rakshasa.no/downloads/libtorrent-0.11.8.tar.gz
+root@netbox:/usr/src# wget http://libtorrent.rakshasa.no/downloads/rtorrent-0.7.8.tar.gz
+root@netbox:/usr/src# wget http://surfnet.dl.sourceforge.net/sourceforge/xmlrpc-c/xmlrpc-c-1.11.00.tgz
+}}}
+
+now unpack the sources.
+
+{{{
+root@netbox:/usr/src# tar xzvf libtorrent*
+root@netbox:/usr/src# tar xzvf rtorrent*
+root@netbox:/usr/src# tar xzvf xmlrpc-c*
+}}}
+
+= Compiling and installing =
+==libtorrent==
+{{{
+root@netbox:/usr/src# cd libtorrent-0.11.8/
+root@netbox:/usr/src/libtorrent-0.11.8# ./configure
+root@netbox:/usr/src/libtorrent-0.11.8# make
+root@netbox:/usr/src/libtorrent-0.11.8# make install
+}}}
+
+Congratulations, you are done with libtorrent. now lets move on with xmlrpc-c.
+
+==xmlrpc-c==
+{{{
+root@netbox:/usr/src/libtorrent-0.11.8# cd ../xmlrpc-c-1.11.00/
+root@netbox:/usr/src/xmlrpc-c-1.11.00# ./configure --disable-cplusplus
+root@netbox:/usr/src/xmlrpc-c-1.11.00# make
+root@netbox:/usr/src/xmlrpc-c-1.11.00# make install
+}}}
+
+This is going great! now lets move on to the final piece of the puzzle.
+
+==rtorrent==
+{{{
+root@netbox:/usr/src/xmlrpc-c-1.11.00# cd ../rtorrent-0.7.8/
+root@netbox:/usr/src/rtorrent-0.7.8# ./configure --with-xmlrpc-c
+root@netbox:/usr/src/rtorrent-0.7.8# make
+root@netbox:/usr/src/rtorrent-0.7.8# make install
+}}}
+
+Looks like we made it!
+
+= Final notes =
+All you need to do now is configure rtorrent to use xmlrpc, so take a look at http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide
+
+This guide expects that your system has all the installed dependencies for compiling theese sources, therefore i have not included such installation steps.
