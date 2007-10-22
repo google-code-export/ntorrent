@@ -148,6 +148,7 @@ public class TorrentPool implements XmlRpcCallback{
 				tf = new TorrentInfo((String)raw[0]);
 				torrents.add(tf);
 				table.fireTableRowsInserted(x, x);
+				mcThread.interrupt(); //forces complete update
 			}
 			
 			if(label.equalsIgnoreCase("none") || tf.getLabel().equals(label)){
