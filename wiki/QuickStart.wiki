@@ -3,6 +3,8 @@
 
 A quick howto on compiling and installing rtorrent, libtorrent and xmlrpc-c.
 
+This guide expects that your system has all the installed dependencies for compiling theese sources, therefore i have not included such installation steps.
+
 = Downloading =
 
 Open up your favorite internet browser and point it to:
@@ -62,6 +64,5 @@ scgi_port =localhost:5000
 Looks like we made it!
 
 = Final notes =
-All you need to do now is configure rtorrent to use xmlrpc, so take a look at http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide
 
-This guide expects that your system has all the installed dependencies for compiling theese sources, therefore i have not included such installation steps.
+For more information on configuring rtorrent with xmlrpc take a look at http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide
