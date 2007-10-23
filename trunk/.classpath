@@ -8,8 +8,10 @@
 	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-common-3.1-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-3.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-common-3.1-sources.jar"/>
-	<classpathentry kind="lib" path="lib/j2ssh/j2ssh-core-0.2.9.jar" sourcepath="lib/j2ssh/src"/>
+	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsch/jsch-0.1.35.jar" sourcepath="lib/jsch/src"/>
 	<classpathentry kind="lib" path="lib/j2ssh/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

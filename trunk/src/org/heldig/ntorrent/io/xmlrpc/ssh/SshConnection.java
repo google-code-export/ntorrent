@@ -82,8 +82,8 @@ public class SshConnection implements RpcConnection {
 		  }
 		  
 		  ForwardingClient forwarding = ssh.getForwardingClient();
-		  System.out.println("adding forwarding 0.0.0.0:"+profile.getSocketPort()+" - "+prop.getHost()+":"+profile.getSocketPort());
-		  forwarding.addLocalForwarding("ntorrent","0.0.0.0",profile.getSocketPort(),prop.getHost(),profile.getSocketPort());
+		  System.out.println("adding forwarding 127.0.0.1:"+profile.getSocketPort()+" - "+prop.getHost()+":"+profile.getSocketPort());
+		  forwarding.addLocalForwarding("ntorrent","127.0.0.1",profile.getSocketPort(),"127.0.0.1",profile.getSocketPort());
 		  forwarding.startLocalForwarding("ntorrent");
 
 	    Object[] params = {"apache"};
