@@ -57,8 +57,7 @@ public class SshConnection implements RpcConnection {
     	prop.setHost(p.getHost());
     	prop.setPort(p.getConnectionPort());
     	ssh.connect(prop, new ConsoleKnownHostsKeyVerification());
-    			
-    	
+ 		
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL("http://127.0.0.1:"+p.getSocketPort()));
 		config.setEnabledForExtensions(true);
@@ -92,7 +91,7 @@ public class SshConnection implements RpcConnection {
 		return client;
 	}
 	
-	public SshClient getSsh() {
+	public final SshClient getSsh() {
 		return ssh;
 	}
 }
