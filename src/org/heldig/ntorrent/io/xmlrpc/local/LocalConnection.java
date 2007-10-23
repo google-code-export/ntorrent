@@ -44,6 +44,8 @@ public class LocalConnection implements RpcConnection {
 		config.setServerURL(new URL("http://"+p.getHost()+":"+p.getSocketPort()));
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
+		config.setBasicUserName(p.getUsername());
+		config.setBasicPassword(p.getPassword());
 		client = new XmlRpcQueue(config);
 		client.setTransportFactory(new XmlRpcSCGITransportFactory(client));
 		client.setTypeFactory(new CustomTypeFactory(null));
@@ -55,14 +57,4 @@ public class LocalConnection implements RpcConnection {
 	    client.execute("xmlrpc_dialect", params);
 		return client;
 	}
-
-	public void setPassword(String p) {
-		config.setBasicPassword(p);
-		
-	}
-
-	public void setUsername(String u) {
-		config.setBasicUserName(u);
-	}
-
 }

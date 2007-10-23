@@ -19,9 +19,6 @@
  */
 package org.heldig.ntorrent.io;
 
-import java.io.IOException;
-
-import org.apache.xmlrpc.XmlRpcException;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
 
 /**
@@ -29,7 +26,5 @@ import org.heldig.ntorrent.io.xmlrpc.XmlRpcQueue;
  *
  */
 public interface RpcConnection {
-	void setUsername(String u);
-	void setPassword(String p);
-	XmlRpcQueue connect() throws XmlRpcException, IOException;
+	XmlRpcQueue connect() throws Exception;
 }

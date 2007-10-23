@@ -45,13 +45,12 @@ import com.sshtools.j2ssh.transport.InvalidHostFileException;
  *
  */
 public class SshConnection implements RpcConnection {
-	
-		XmlRpcClientConfigImpl config;
-		XmlRpcQueue client;
-    	SshClient ssh = new SshClient();
-    	SshConnectionProperties prop = new SshConnectionProperties();
-    	PasswordAuthenticationClient pwd = new PasswordAuthenticationClient();
-    	ClientProfile profile;
+		private final XmlRpcClientConfigImpl config;
+		private final XmlRpcQueue client;
+		private final SshClient ssh = new SshClient();
+		private final SshConnectionProperties prop = new SshConnectionProperties();
+		private final PasswordAuthenticationClient pwd = new PasswordAuthenticationClient();
+		private final ClientProfile profile;
 	  
 	public SshConnection(ClientProfile p) throws InvalidHostFileException, UnknownHostException, IOException {
 		profile = p;
@@ -64,6 +63,8 @@ public class SshConnection implements RpcConnection {
 		config.setServerURL(new URL("http://127.0.0.1:"+p.getSocketPort()));
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
+		pwd.setUsername(p.getUsername());
+		pwd.setPassword(p.getPassword());
 		client = new XmlRpcQueue(config);
 		client.setConfig(config);
 		client.setTransportFactory(new XmlRpcSCGITransportFactory(client));
@@ -89,14 +90,6 @@ public class SshConnection implements RpcConnection {
 	    Object[] params = {"apache"};
 	    client.execute("xmlrpc_dialect", params);
 		return client;
-	}
-
-	public void setPassword(String p) {
-		pwd.setPassword(p);	
-	}
-
-	public void setUsername(String u) {
-		pwd.setUsername(u);
 	}
 	
 	public SshClient getSsh() {

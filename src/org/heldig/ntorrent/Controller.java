@@ -86,8 +86,6 @@ public class Controller implements ControllerEventListener, ActionListener{
 					break;
 			}
 		
-			rpcLink.setUsername(p.getUsername());
-			rpcLink.setPassword(p.getPassword());
 			//2.Connect to server
 			rpc = new XmlRpc(rpcLink.connect());
 			if(rpcLink instanceof SshConnection){
