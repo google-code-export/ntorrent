@@ -57,7 +57,6 @@ public class SshConnection implements RpcConnection {
     	ssh.connect(prop,new IgnoreHostKeyVerification());
  		
 		config = new XmlRpcClientConfigImpl();
-		config.setServerURL(new URL("http://127.0.0.1:"+p.getSocketPort()));
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
 		pwd.setUsername(p.getUsername());
@@ -79,9 +78,14 @@ public class SshConnection implements RpcConnection {
 			  System.out.println("The authentication is complete");
 		  }
 		  
+		  final int offset = 1024;
+		  final int randomPort = offset + (int)(Math.random() * (65535-offset));
+		  
+		  config.setServerURL(new URL("http://127.0.0.1:"+randomPort));
+		  
 		  ForwardingClient forwarding = ssh.getForwardingClient();
-		  System.out.println("adding forwarding 127.0.0.1:"+profile.getSocketPort()+" - "+prop.getHost()+":"+profile.getSocketPort());
-		  forwarding.addLocalForwarding("ntorrent","127.0.0.1",profile.getSocketPort(),"127.0.0.1",profile.getSocketPort());
+		  System.out.println("adding forwarding 127.0.0.1:"+randomPort+" - "+prop.getHost()+":"+profile.getSocketPort());
+		  forwarding.addLocalForwarding("ntorrent","127.0.0.1",randomPort,"127.0.0.1",profile.getSocketPort());
 		  forwarding.startLocalForwarding("ntorrent");
 
 	    Object[] params = {"apache"};
