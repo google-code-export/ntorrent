@@ -22,7 +22,6 @@ package org.heldig.ntorrent.io.xmlrpc.ssh;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -37,8 +36,7 @@ import com.sshtools.j2ssh.authentication.AuthenticationProtocolState;
 import com.sshtools.j2ssh.authentication.PasswordAuthenticationClient;
 import com.sshtools.j2ssh.configuration.SshConnectionProperties;
 import com.sshtools.j2ssh.forwarding.ForwardingClient;
-import com.sshtools.j2ssh.transport.ConsoleKnownHostsKeyVerification;
-import com.sshtools.j2ssh.transport.InvalidHostFileException;
+import com.sshtools.j2ssh.transport.IgnoreHostKeyVerification;
 
 /**
  * @author Kim Eik
@@ -52,11 +50,11 @@ public class SshConnection implements RpcConnection {
 		private final PasswordAuthenticationClient pwd = new PasswordAuthenticationClient();
 		private final ClientProfile profile;
 	  
-	public SshConnection(ClientProfile p) throws InvalidHostFileException, UnknownHostException, IOException {
+	public SshConnection(ClientProfile p) throws IOException {
 		profile = p;
     	prop.setHost(p.getHost());
     	prop.setPort(p.getConnectionPort());
-    	ssh.connect(prop, new ConsoleKnownHostsKeyVerification());
+    	ssh.connect(prop,new IgnoreHostKeyVerification());
  		
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL("http://127.0.0.1:"+p.getSocketPort()));

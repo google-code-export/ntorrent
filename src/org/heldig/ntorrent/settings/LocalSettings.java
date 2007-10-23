@@ -41,6 +41,9 @@ public class LocalSettings extends Settings {
 	@Description("Language file")
 	public File language = new File("language/English.lang");
 	
+	@Description("Show log tab?")
+	public boolean showLog = false;
+	
 	@Description("Debug mode / log")
 	public boolean debug = false;
 	

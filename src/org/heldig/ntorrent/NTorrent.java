@@ -20,7 +20,7 @@ import org.heldig.ntorrent.settings.LocalSettings;
 
 
 public class NTorrent {
-	final static Window rootWin = new Window();
+	public final static Window rootWin = new Window();
 	static Controller C;
 	public static LocalSettings settings = new LocalSettings();
 	

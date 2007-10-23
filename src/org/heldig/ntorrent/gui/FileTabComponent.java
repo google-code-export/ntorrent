@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import org.heldig.ntorrent.NTorrent;
 import org.heldig.ntorrent.event.ControllerEventListener;
 import org.heldig.ntorrent.gui.filetab.FileList;
 import org.heldig.ntorrent.gui.filetab.InfoPanel;
@@ -43,15 +44,18 @@ public class FileTabComponent extends JTabbedPane {
 	private final JTextArea log = new JTextArea();
 	
 	public FileTabComponent(ControllerEventListener e){
-		new ErrorStream(log);
 		fileList = new FileList(e);
 		trackerList = new TrackerList(e);
 		//filePane.addTab("peer list", new JLabel("not supported by rtorrent"));
 		addTab(Language.Filetab_info.toString(), infoPanel);
 		addTab(Language.Filetab_file_list.toString(), fileList);
 		addTab(Language.Filetab_tracker_list.toString(), trackerList);
-		addTab(Language.Filetab_log.toString(),new JScrollPane(log));
-		setSelectedIndex(3);
+		
+		if(NTorrent.settings.showLog){
+			new ErrorStream(log);
+			addTab(Language.Filetab_log.toString(),new JScrollPane(log));
+			setSelectedIndex(3);
+		}
 		//filePane.addTab("chunk list", new JLabel("not supported by rtorrent"));
 		//filePane.addTab("chunks seen", new JLabel("not supported by rtorrent"));
 		setVisible(true);
