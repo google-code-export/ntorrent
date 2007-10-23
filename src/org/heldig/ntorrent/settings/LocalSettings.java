@@ -55,6 +55,7 @@ public class LocalSettings extends Settings {
 		sintervall = data.sintervall;
 		debug = data.debug;
 		language = data.language;
+		showLog = data.showLog;
 	}
 
 	public void deserialize() {
