@@ -21,6 +21,7 @@ package org.heldig.ntorrent.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -32,10 +33,12 @@ import javax.swing.text.BadLocationException;
  */
 public class ErrorStream extends OutputStream {
     
-	private final JTextArea textArea = new JTextArea();
+	private final JTextArea textArea;
 	
-	public ErrorStream() {
-        textArea.setEditable(false);
+	public ErrorStream(JTextArea log) {
+        textArea = log;
+		System.setOut(new PrintStream(this));
+		System.setErr(new PrintStream(this));
 	}
     
 	@Override

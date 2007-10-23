@@ -54,7 +54,6 @@ import com.sshtools.j2ssh.SshClient;
 public class Controller implements ControllerEventListener, ActionListener{
 	
 	private String[] filesToLoad;
-	//private final ErrorStream log = new ErrorStream();
 	private final GUIController GC = new GUIController(this);
 	private final ThreadController TC = new ThreadController();
 	private TorrentPool torrents = GC.getTableModel().getData();
@@ -97,9 +96,6 @@ public class Controller implements ControllerEventListener, ActionListener{
 			x.printStackTrace();
 			System.exit(x.hashCode());
 		}
-		//System.setOut(new PrintStream(log));
-		//System.setErr(new PrintStream(log));
-		//GC.fileTab.setLog(log);
 		System.out.println(Constants.getReleaseName());
 		
 		//load the startup files
