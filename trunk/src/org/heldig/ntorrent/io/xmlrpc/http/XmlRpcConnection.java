@@ -43,17 +43,11 @@ public class XmlRpcConnection implements RpcConnection {
 		config.setServerURL(new URL(p.getProt()+"://"+p.getHost()+":"+p.getConnectionPort()+p.getMount()));
 		config.setEnabledForExtensions(true);
 		config.setEnabledForExceptions(true);
+		config.setBasicUserName(p.getUsername());
+		config.setBasicPassword(p.getPassword());
 		client = new XmlRpcQueue(config);
 		//client.setTransportFactory(new XmlRpcTransportFactory(client));
 		client.setTypeFactory(new CustomTypeFactory(null));
-	}
-	
-	public void setUsername(String u){
-		config.setBasicUserName(u);
-	}
-	
-	public void setPassword(String p){
-		config.setBasicPassword(p);
 	}
 	
 	public XmlRpcQueue connect() throws XmlRpcException{
