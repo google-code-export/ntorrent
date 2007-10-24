@@ -72,7 +72,6 @@ public class LocalSettings extends Settings {
 		try {
 			serialize(Constants.settings, this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
