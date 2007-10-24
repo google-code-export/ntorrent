@@ -25,7 +25,79 @@ import java.io.IOException;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 
 
-public interface Rpc {		
+public interface Rpc {
+		public final Object[] download_constant = {			
+			"d.get_hash=",	//ID
+			"d.get_name=", //constant
+			"d.get_size_bytes=", //constant
+			"d.get_size_files=",//constant
+			"d.get_base_path=", //constant}
+		};
+	
+		public final Object[] download_variable = {
+				"", //reserved for view arg
+				"d.get_hash=",	//ID
+				"d.get_up_total=",	//variable
+				"d.get_completed_bytes=", //variable
+				"d.get_down_rate=", //variable
+				"d.get_up_rate=", //variable
+				"d.get_state=",		//variable
+				"d.get_message=", //relative
+				"d.get_priority=", //relative
+				"d.get_tied_to_file=", //constant?
+				"d.get_peers_connected=",
+				"d.get_peers_not_connected=",
+				"d.get_peers_complete=",
+				"d.get_tracker_size=",
+				"d.get_custom1="	//label
+		};
+		
+		public final Object[] tracker_list = {
+				"", //reserved for hash arg
+				"dummyarg",
+				"t.get_url=",
+				"t.get_id=",
+				"t.get_group=",
+				"t.get_min_interval=",
+				"t.get_normal_interval=",
+				"t.get_scrape_complete=",
+				"t.get_scrape_downloaded=",
+				"t.get_scrape_incomplete=",
+				"t.get_scrape_time_last=",
+				"t.get_type=",
+				"t.is_enabled=",
+				"t.is_open="
+				};
+		
+		public final Object[] file_list = {
+				"", //reserved for hash arg
+ 				"i/0",
+				"f.get_priority=",
+				"f.get_path=",
+				"f.get_size_bytes="
+				};
+		
+		public final static String command_label = "d.set_custom1";
+		public final static String command_tracker_enable = "t.set_enabled";
+		public final static String command_download_set_priority = "d.set_priority";
+		public final static String command_set_download_rate = "set_download_rate";
+		public final static String command_set_upload_rate = "set_upload_rate";
+		public final static String command_tracker = "t.multicall";
+		public final static String command_download_update_priorities = "d.update_priorities";
+		public final static String command_file_set_priority = "f.set_priority";
+		public final static String command_file = "f.multicall";
+		public final static String command_system_multicall = "system.multicall";
+		public final static String command_system_multicall_method = "methodName";
+		public final static String command_system_multicall_params = "params";
+		public final static String command_system_client_version = "system.client_version";
+		public final static String command_system_library_version = "system.library_version";
+		public final static String command_download = "d.multicall";
+		public final static String command_load_raw = "load_raw_verbose";
+		public final static String command_load = "load_verbose";
+		public final static String command_get_port_range = "get_port_range";
+		public final static String command_get_download_rate = "get_download_rate";
+		public final static String command_get_upload_rate = "get_upload_rate";
+	
 		public void getTorrentVariables(String view, XmlRpcCallback c);
 		public void getTorrentSet(String view, XmlRpcCallback c);
 		public void torrentCommand(String[] hash, String command);
