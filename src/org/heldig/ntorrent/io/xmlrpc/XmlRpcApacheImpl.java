@@ -41,56 +41,36 @@ public class XmlRpcApacheImpl implements Rpc{
 	String systemClientVersion;
 	String systemLibraryVersion;
 	
-	public static final Object[] constant = {			
-			"d.get_hash=",	//ID
-			"d.get_name=", //constant
-			"d.get_size_bytes=", //constant
-			"d.get_size_files=",//constant
-			"d.get_base_path=", //constant}
-	};
-	
-	public static final Object[] variable = {
-			"", //reserved for view
-			"d.get_hash=",	//ID
-			"d.get_up_total=",	//variable
-			"d.get_completed_bytes=", //variable
-			"d.get_down_rate=", //variable
-			"d.get_up_rate=", //variable
-			"d.get_state=",		//variable
-			"d.get_message=", //relative
-			"d.get_priority=", //relative
-			"d.get_tied_to_file=", //constant?
-			"d.get_peers_connected=",
-			"d.get_peers_not_connected=",
-			"d.get_peers_complete=",
-			"d.get_tracker_size=",
-			"d.get_custom1="	//label
-	};
-	
-	
 	public XmlRpcApacheImpl(XmlRpcClient c) throws XmlRpcException{
 		client = (XmlRpcQueue)c;
-		Object[] params = {};
-		systemClientVersion = (String)c.execute("system.client_version", params);
-		systemLibraryVersion = (String)c.execute("system.library_version", params);
+		systemClientVersion = (String)c.execute(command_system_client_version, new Object[]{});
+		systemLibraryVersion = (String)c.execute(command_system_library_version, new Object[]{});
 		System.out.println("Connected to host running: rtorrent-"+systemClientVersion+" / libtorrent-"+systemLibraryVersion);
 	}
 	
+	public String getSystemClientVersion() {
+		return systemClientVersion;
+	}
+
+	public String getSystemLibraryVersion() {
+		return systemLibraryVersion;
+	}
+	
 	public void getTorrentVariables(String view, XmlRpcCallback c){
-		variable[0] = view;
-		client.addToExecutionQueue("d.multicall",variable,c);
+		download_variable[0] = view;
+		client.addToExecutionQueue(command_download,download_variable,c);
 	}
 	
 	public void getTorrentSet(String view, XmlRpcCallback c){
-		Object[] params = new Object[constant.length+variable.length];
+		Object[] params = new Object[download_constant.length+download_variable.length];
 		params[0] = view;
 		int offset;
-		for(offset = 0; offset < constant.length; offset++)
-			params[offset+1] = constant[offset];
-		for(int x = 1; x < variable.length; x++)
-			params[offset+x] = variable[x];
+		for(offset = 0; offset < download_constant.length; offset++)
+			params[offset+1] = download_constant[offset];
+		for(int x = 1; x < download_variable.length; x++)
+			params[offset+x] = download_variable[x];
 		
-		client.addToExecutionQueue("d.multicall",params,c);
+		client.addToExecutionQueue(command_download,params,c);
 	}
 
 	public void torrentCommand(String[] hash, String command){
@@ -99,7 +79,6 @@ public class XmlRpcApacheImpl implements Rpc{
 			params[x][0] = hash[x];
 
 		multiCall(command,params,null);
-		//client.addToExecutionQueue(command,params, null);
 	}
 		
 	public void loadTorrent(File torrent) throws IOException{
@@ -108,41 +87,27 @@ public class XmlRpcApacheImpl implements Rpc{
 		FileInputStream reader = new FileInputStream(torrent);
 		reader.read(source, 0, source.length);
 		Object[] params = {source};
-		client.addToExecutionQueue("load_raw_verbose", params,null);
+		client.addToExecutionQueue(command_load_raw, params,null);
 	}
 	
 	public void loadTorrent(String url){
 		System.out.println("Loading torrent from url: "+url);
 		if(url != null){
 			Object[] params = {url};
-			client.addToExecutionQueue("load_verbose",params, null);
+			client.addToExecutionQueue(command_load,params, null);
 		}
 	}
 
 	public void getPortRange(XmlRpcCallback c){
-		client.addToExecutionQueue("get_port_range",null,c);
+		client.addToExecutionQueue(command_get_port_range,null,c);
 	}
 	
 	public void getDownloadRate(XmlRpcCallback c) {
-		client.addToExecutionQueue("get_download_rate",null,c);
+		client.addToExecutionQueue(command_get_download_rate,null,c);
 	}
 	
 	public void getUploadRate(XmlRpcCallback c) {
-		client.addToExecutionQueue("get_upload_rate",null,c);	
-	}
-	
-	/**
-	 * @return
-	 */
-	public String getSystemClientVersion() {
-		return systemClientVersion;
-	}
-	
-	/**
-	 * @return
-	 */
-	public String getSystemLibraryVersion() {
-		return systemLibraryVersion;
+		client.addToExecutionQueue(command_get_upload_rate,null,c);	
 	}
 	
 	private void multiCall(String command, Object[][] params, XmlRpcCallback c){
@@ -157,22 +122,17 @@ public class XmlRpcApacheImpl implements Rpc{
 		List<Map> list = new ArrayList<Map>();
 		for(int x = 0; x < commands.length; x++){
 			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("methodName", commands[x]);
-			map.put("params",params[x]);
+			map.put(command_system_multicall_method, commands[x]);
+			map.put(command_system_multicall_params,params[x]);
 			list.add(map);
 		}
 		Object[] structainer = {list};
-		client.addToExecutionQueue("system.multicall",structainer,c);
+		client.addToExecutionQueue(command_system_multicall,structainer,c);
 	}
 	
 	public void getFileList(String hash, XmlRpcCallback c){
-		Object[] params = {hash,"i/0",
-				"f.get_priority=",
-				"f.get_path=",
-				"f.get_size_bytes="
-				};
-		client.addToExecutionQueue("f.multicall",params,c);
-		
+		file_list[0] = hash;
+		client.addToExecutionQueue(command_file,file_list,c);
 	}
 
 	/**
@@ -190,36 +150,23 @@ public class XmlRpcApacheImpl implements Rpc{
 			fparams[x][1] = index[x]; 
 			fparams[x][2] = pri;
 		}
-		multiCall("f.set_priority",fparams,null);
-		multiCall("d.update_priorities",dparams,null);
+		multiCall(command_file_set_priority,fparams,null);
+		multiCall(command_download_update_priorities,dparams,null);
 	}
 
 	public void getTrackerList(String hash, XmlRpcCallback c) {
-		Object[] params = {hash,"dummyarg",
-				"t.get_url=",
-				"t.get_id=",
-				"t.get_group=",
-				"t.get_min_interval=",
-				"t.get_normal_interval=",
-				"t.get_scrape_complete=",
-				"t.get_scrape_downloaded=",
-				"t.get_scrape_incomplete=",
-				"t.get_scrape_time_last=",
-				"t.get_type=",
-				"t.is_enabled=",
-				"t.is_open="
-				};
-		client.addToExecutionQueue("t.multicall",params,c);		
+		tracker_list[0] = hash;
+		client.addToExecutionQueue(command_tracker,tracker_list,c);		
 	}
 
 	public void setDownloadRate(Integer i, XmlRpcCallback c) {
 		Object[] params = {i};
-		client.addToExecutionQueue("set_download_rate",params,c);
+		client.addToExecutionQueue(command_set_download_rate,params,c);
 	}
 
 	public void setUploadRate(Integer i, XmlRpcCallback c) {
 		Object[] params = {i};
-		client.addToExecutionQueue("set_upload_rate",params,c);
+		client.addToExecutionQueue(command_set_upload_rate,params,c);
 	}
 
 	public void setTorrentPriority(String[] hash, int pri) {
@@ -230,7 +177,7 @@ public class XmlRpcApacheImpl implements Rpc{
 			tparams[x][0] = dparams[x][0] = hash[x]; 
 			tparams[x][1] = pri; 
 		}
-		multiCall("d.set_priority",tparams,null);
+		multiCall(command_download_set_priority,tparams,null);
 
 	}
 
@@ -242,7 +189,7 @@ public class XmlRpcApacheImpl implements Rpc{
 			tparams[x][1] = id[x];
 			tparams[x][2] = (b ? 1 : 0);
 		}
-		multiCall("t.set_enabled",tparams,null);
+		multiCall(command_tracker_enable,tparams,null);
 	}
 
 	@Override
@@ -252,7 +199,7 @@ public class XmlRpcApacheImpl implements Rpc{
 			dparams[x][0] = hash[x];
 			dparams[x][1] = label;
 		}
-		multiCall("d.set_custom1", dparams, c);
+		multiCall(command_label, dparams, c);
 	}
 
 }
