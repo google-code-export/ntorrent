@@ -99,7 +99,8 @@ public enum Language implements Action {
 		Label_custom, 
 		Button_browse_file, 
 		Button_save_settings, 
-		Button_cancel
+		Button_cancel, 
+		Label_all
 		;
 	
 	final static LanguageReader language = new LanguageReader();

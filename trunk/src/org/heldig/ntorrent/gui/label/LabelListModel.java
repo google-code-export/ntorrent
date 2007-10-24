@@ -24,6 +24,7 @@ public class LabelListModel extends AbstractListModel implements XmlRpcCallback 
 	}
 	
 	private void init(){
+		data.add(Language.Label_all.toString());
 		data.add(Language.Label_none.toString());
 
 	}

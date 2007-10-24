@@ -25,6 +25,7 @@ public class LabelListComponent extends JList implements ListSelectionListener {
 		event = c;
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setLayoutOrientation(JList.VERTICAL);
+		setSelectedIndex(0);
 		addListSelectionListener(this);
 	}
 	

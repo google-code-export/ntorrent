@@ -27,6 +27,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.xmlrpc.XmlRpcRequest;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
+import org.heldig.ntorrent.language.Language;
 import org.heldig.ntorrent.model.Bit;
 
 /**
@@ -36,7 +37,7 @@ public class TorrentPool implements XmlRpcCallback{
 	private TorrentSet torrents = new TorrentSet();
 	private TorrentSet viewset = new TorrentSet();
 	private String view = "main";
-	private String label = "none";
+	private String label = null;
 	public AbstractTableModel table;
 	private Bit rateUp = new Bit(0);
 	private Bit rateDown = new Bit(0);
@@ -151,7 +152,7 @@ public class TorrentPool implements XmlRpcCallback{
 				mcThread.interrupt(); //forces complete update
 			}
 			
-			if(label.equalsIgnoreCase("none") || tf.getLabel().equals(label)){
+			if(label == null || tf.getLabel().equals(label)){
 				tf.setInfo(result);
 				rateUp.appendValue(tf.getRateUp());
 				rateDown.appendValue(tf.getRateDown());
@@ -167,6 +168,10 @@ public class TorrentPool implements XmlRpcCallback{
 	}
 
 	public void setLabelView(String label) {
+		if(label.equals(Language.Label_none.toString()))
+			label = "";
+		else if(label.equals(Language.Label_all.toString()))
+			label = null;
 		this.label = label;
 		viewset = new TorrentSet();
 		mcThread.interrupt();

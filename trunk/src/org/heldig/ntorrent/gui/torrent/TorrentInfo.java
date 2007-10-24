@@ -53,7 +53,7 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 	private Long peersComplete;
 	private Long peersNotConnected;
 	private Long peersConnected;
-	private String label;
+	private String label = new String();
 	
 	TorrentInfo(String h){
 		hash = h;
