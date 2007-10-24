@@ -36,7 +36,7 @@ import org.heldig.ntorrent.io.Rpc;
 /**
  * @author  Kim Eik
  */
-public class XmlRpc implements Rpc{
+public class XmlRpcApacheImpl implements Rpc{
 	private XmlRpcQueue client;
 	String systemClientVersion;
 	String systemLibraryVersion;
@@ -68,7 +68,7 @@ public class XmlRpc implements Rpc{
 	};
 	
 	
-	public XmlRpc(XmlRpcClient c) throws XmlRpcException{
+	public XmlRpcApacheImpl(XmlRpcClient c) throws XmlRpcException{
 		client = (XmlRpcQueue)c;
 		Object[] params = {};
 		systemClientVersion = (String)c.execute("system.client_version", params);

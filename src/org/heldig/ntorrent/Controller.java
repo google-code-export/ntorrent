@@ -34,7 +34,7 @@ import org.heldig.ntorrent.gui.torrent.TorrentInfo;
 import org.heldig.ntorrent.gui.torrent.TorrentPool;
 import org.heldig.ntorrent.io.Rpc;
 import org.heldig.ntorrent.io.RpcConnection;
-import org.heldig.ntorrent.io.xmlrpc.XmlRpc;
+import org.heldig.ntorrent.io.xmlrpc.XmlRpcApacheImpl;
 import org.heldig.ntorrent.io.xmlrpc.XmlRpcCallback;
 import org.heldig.ntorrent.io.xmlrpc.http.XmlRpcConnection;
 import org.heldig.ntorrent.io.xmlrpc.local.LocalConnection;
@@ -86,7 +86,7 @@ public class Controller implements ControllerEventListener, ActionListener{
 			}
 		
 			//2.Connect to server
-			rpc = new XmlRpc(rpcLink.connect());
+			rpc = new XmlRpcApacheImpl(rpcLink.connect());
 			if(rpcLink instanceof SshConnection){
 				ssh = ((SshConnection)rpcLink).getSsh();
 				sftp = ssh.openSftpClient();
