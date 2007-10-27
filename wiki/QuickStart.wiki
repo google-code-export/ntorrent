@@ -40,8 +40,6 @@ root@netbox:/usr/src# tar xzvf xmlrpc-c*
 root@netbox:/usr/src# cd libtorrent-0.11.8/
 # if you have the svn version you need to issue "sh autogen.sh" to generate the configure file.
 root@netbox:/usr/src/libtorrent-0.11.8# ./configure 
-# if you get no package 'libtorrent' found, you might need something like this:
-# PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure
 root@netbox:/usr/src/libtorrent-0.11.8# make
 root@netbox:/usr/src/libtorrent-0.11.8# make install
 }}}
@@ -65,6 +63,8 @@ This is going great! now lets move on to the final piece of the puzzle.
 root@netbox:/usr/src/xmlrpc-c-1.11.00# cd ../rtorrent-0.7.8/
 # if you have the svn version you need to issue "sh autogen.sh" to generate the configure file.
 root@netbox:/usr/src/rtorrent-0.7.8# ./configure --with-xmlrpc-c
+# if you get no package 'libtorrent' found, you might need something like this:
+# PKG_CONFIG_PATH="/usr/local/lib/pkgconfig" ./configure --with-xmlrpc-c
 root@netbox:/usr/src/rtorrent-0.7.8# make
 root@netbox:/usr/src/rtorrent-0.7.8# make install
 }}}
