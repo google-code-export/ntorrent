@@ -19,7 +19,7 @@ root@netbox:/usr/src# wget http://libtorrent.rakshasa.no/downloads/libtorrent-0.
 root@netbox:/usr/src# wget http://libtorrent.rakshasa.no/downloads/rtorrent-0.7.8.tar.gz
 }}}
 
-(Alternative, svn version of rtorrent/libtorrent)
+(Alternative, svn version of rtorrent/libtorrent) ,,Preferred, see final notes.,,
 {{{
 root@netbox:/usr/src# svn co svn://rakshasa.no/libtorrent/trunk/rtorrent rtorrent
 root@netbox:/usr/src# svn co svn://rakshasa.no/libtorrent/trunk/libtorrent libtorrent
@@ -77,3 +77,5 @@ Looks like we made it!
 = Final notes =
 
 For more information on configuring rtorrent with xmlrpc take a look at http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide
+
+,,* svn version might be preferred as rtorrent-0.7.8 source distribution has quite a few bugs,,
