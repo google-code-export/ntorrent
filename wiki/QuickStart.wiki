@@ -14,9 +14,15 @@ Open up your favorite internet browser and point it to:
 download the source files, like so.
 {{{
 root@netbox:~# cd /usr/src/
+root@netbox:/usr/src# wget http://surfnet.dl.sourceforge.net/sourceforge/xmlrpc-c/xmlrpc-c-1.11.00.tgz
 root@netbox:/usr/src# wget http://libtorrent.rakshasa.no/downloads/libtorrent-0.11.8.tar.gz
 root@netbox:/usr/src# wget http://libtorrent.rakshasa.no/downloads/rtorrent-0.7.8.tar.gz
-root@netbox:/usr/src# wget http://surfnet.dl.sourceforge.net/sourceforge/xmlrpc-c/xmlrpc-c-1.11.00.tgz
+}}}
+
+(Alternative, svn version of rtorrent/libtorrent)
+{{{
+root@netbox:/usr/src# svn co svn://rakshasa.no/libtorrent/trunk/rtorrent rtorrent
+root@netbox:/usr/src# svn co svn://rakshasa.no/libtorrent/trunk/libtorrent libtorrent
 }}}
 
 now unpack the sources.
@@ -27,14 +33,18 @@ root@netbox:/usr/src# tar xzvf rtorrent*
 root@netbox:/usr/src# tar xzvf xmlrpc-c*
 }}}
 
+
 = Compiling and installing =
 ==libtorrent==
 {{{
 root@netbox:/usr/src# cd libtorrent-0.11.8/
-root@netbox:/usr/src/libtorrent-0.11.8# ./configure
+# if you have the svn version you need to issue "sh autogen.sh" to generate the configure file.
+root@netbox:/usr/src/libtorrent-0.11.8# ./configure 
 root@netbox:/usr/src/libtorrent-0.11.8# make
 root@netbox:/usr/src/libtorrent-0.11.8# make install
 }}}
+
+
 
 Congratulations, you are done with libtorrent. now lets move on with xmlrpc-c.
 
@@ -51,6 +61,7 @@ This is going great! now lets move on to the final piece of the puzzle.
 ==rtorrent==
 {{{
 root@netbox:/usr/src/xmlrpc-c-1.11.00# cd ../rtorrent-0.7.8/
+# if you have the svn version you need to issue "sh autogen.sh" to generate the configure file.
 root@netbox:/usr/src/rtorrent-0.7.8# ./configure --with-xmlrpc-c
 root@netbox:/usr/src/rtorrent-0.7.8# make
 root@netbox:/usr/src/rtorrent-0.7.8# make install
