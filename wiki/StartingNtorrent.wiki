@@ -1,0 +1,35 @@
+#labels Featured,Phase-Deploy
+= Starting nTorrent =
+
+==Prerequisites==
+ * [http://java.sun.com/ java 1.6]
+
+==Introduction==
+nTorrent requires java >= 1.6.
+
+You can assosciate ".torrent" files with nTorrent, by setting nTorrent.jar or nTorrent.sh as the default launcher for torrent files. nTorrent will then upload the torrents to the remote rtorrent process.
+
+==Linux==
+java1.6 will probably exist somewhere in your native packaging system. if not, you can download the source from the link above under prerequisites.
+
+to start nTorrent you can do the following:
+
+{{{
+# java -jar nTorrent.jar [file.torrent]
+}}}
+or
+{{{
+# ./nTorrent.sh [file.torrent]
+}}}
+==Mac==
+There is no official java 1.6 release for mac users, but there exists a developer preview that works just aswell. 
+
+Im not sure if this is the link to java6, since i dont have a account there. but i believe this would get you started. (and remember google is your friend.)
+https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=19650
+
+Starting ntorrent should be the same as in the case of Linux.
+
+==Windows==
+Windows users must download java 1.6 from the link mentioned in prerequisites to run nTorrent.
+
+nTorrent can be started by doubleclicking the nTorrent.jar file. To assosciate torrent files with nTorrent you have to do this through the windows filemanager by setting nTorrent.jar as the default launcher of .torrent files.
