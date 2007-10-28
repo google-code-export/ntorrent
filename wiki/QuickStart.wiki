@@ -76,6 +76,8 @@ scgi_port =localhost:5000
 
 Looks like we made it!
 
+you can now continue with StartingNtorrent
+
 = Final notes =
 
 For more information on configuring rtorrent with xmlrpc take a look at http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide
