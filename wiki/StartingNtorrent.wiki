@@ -24,8 +24,8 @@ or
 ==Mac==
 There is no official java 1.6 release for mac users, but there exists a developer preview that works just aswell. 
 
-Im not sure if this is the link to java6, since i dont have a account there. but i believe this would get you started. (and remember google is your friend.)
-https://connect.apple.com/cgi-bin/WebObjects/MemberSite.woa/wa/getSoftware?bundleID=19650
+java 6 is supposed to be downloadable on the Apple Developer Connection site, at least it was for a couple of months ago, but now i couldn't seem to find it.
+On your marks, get set, start googling!
 
 Starting ntorrent should be the same as in the case of Linux.
 
