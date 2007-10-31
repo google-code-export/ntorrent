@@ -71,7 +71,8 @@ root@netbox:/usr/src/rtorrent-0.7.8# make install
 
 Put this in your ~/.rtorrent.rc:
 {{{
-scgi_port =localhost:5000
+# This will set rtorrent/scgi to listen on localhost, port 5000.
+scgi_port = 127.0.0.1:5000
 }}}
 
 Looks like we made it!
