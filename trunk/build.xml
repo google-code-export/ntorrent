@@ -13,7 +13,7 @@
 
   <target name="compile" depends="init" description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}" srcdir="${src}" source="1.6" target="1.6" encoding="UTF-8" debug="on">
+    <javac destdir="${build}" srcdir="${src}" source="1.5" target="1.5" encoding="UTF-8" debug="on">
         <classpath>
           <pathelement path="./"/>
             <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
@@ -21,6 +21,7 @@
             <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
             <pathelement location="lib/j2ssh/lib/commons-logging.jar"/>
             <pathelement location="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
+        	<pathelement location="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
     	</classpath>
     </javac>    	
         	
@@ -33,8 +34,9 @@
 	    	<zipfileset src="lib/xmlrpc/ws-commons-util-1.0.2.jar" />
 	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-3.1.jar" />
 	    	<zipfileset src="lib/xmlrpc/xmlrpc-common-3.1.jar" />
-	    	<zipfileset src="lib/j2ssh/lib/commons-logging.jar" />
+	    	<zipfileset src="lib/j2ssh/commons-logging.jar" />
 	    	<zipfileset src="lib/j2ssh/j2ssh-core-0.2.9.jar" />
+	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
 	    	<manifest>
 				<attribute name="Main-Class" value="org.heldig.ntorrent.NTorrent" />
 	    	</manifest>
@@ -82,6 +84,7 @@
         <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
         <pathelement location="lib/j2ssh/lib/commons-logging.jar"/>
         <pathelement location="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
+    	<pathelement location="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
     </classpath>
   	</java>
 	</target>
