@@ -29,12 +29,12 @@ public class LabelListModel extends AbstractListModel implements XmlRpcCallback 
 
 	}
 	
-	@Override
+	
 	public Object getElementAt(int index) {
 		return data.get(index);
 	}
 
-	@Override
+	
 	public int getSize() {
 		return data.size();
 	}
@@ -46,7 +46,7 @@ public class LabelListModel extends AbstractListModel implements XmlRpcCallback 
 		}
 	}
 
-	@Override
+	
 	public void handleResult(XmlRpcRequest request, Object result) {
 		for(int x = 0; x < request.getParameterCount(); x++){
 			if(((String)request.getParameter(x)).equals("d.get_custom1="))

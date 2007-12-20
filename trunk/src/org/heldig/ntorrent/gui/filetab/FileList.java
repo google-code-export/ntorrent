@@ -36,11 +36,10 @@ public class FileList extends JScrollPane implements XmlRpcCallback,MouseListene
 		popup.add(Language.File_List_Menu_off).addActionListener(this);
 		filetable.setOpaque(false);
 		filetable.setBackground(Color.white);
-		filetable.setFillsViewportHeight(true);
 		filetable.addMouseListener(this);
 	}
 
-	@Override
+	
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 		filetable.clearSelection();
 		filetable.setVisible(true);
@@ -106,13 +105,13 @@ public class FileList extends JScrollPane implements XmlRpcCallback,MouseListene
 		
 	}
 
-	@Override
+	
 	public void mousePressed(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
 	}
 
-	@Override
+	
 	public void mouseReleased(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);

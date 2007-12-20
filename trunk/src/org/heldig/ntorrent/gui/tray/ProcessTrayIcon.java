@@ -1,6 +1,6 @@
 package org.heldig.ntorrent.gui.tray;
 
-import java.awt.AWTException;
+/*import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
@@ -19,7 +19,7 @@ import org.heldig.ntorrent.settings.Constants;
 /**
  * @author  Kim Eik
  */
-public class ProcessTrayIcon extends JPopupMenu implements MouseListener{
+/*public class ProcessTrayIcon extends JPopupMenu implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	private static TrayIcon trayIcon;
 	private static Window rootWin;
@@ -85,13 +85,13 @@ public class ProcessTrayIcon extends JPopupMenu implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
+	
 	public void mousePressed(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
 	}
 
-	@Override
+	
 	public void mouseReleased(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
@@ -99,3 +99,4 @@ public class ProcessTrayIcon extends JPopupMenu implements MouseListener{
 	
 	
 }
+*/

@@ -167,7 +167,7 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 		return new Ratio(ratio);
 	}
 	
-	@Override
+	
 	public boolean equals(Object obj) {
 		if(obj instanceof String)
 			return ((String)obj).equals(getHash());
@@ -176,7 +176,7 @@ public class TorrentInfo implements Comparable<TorrentInfo>{
 		return ((TorrentInfo)obj).hashCode() == hashCode();
 	}
 	
-	@Override
+	
 	public int hashCode() {
 		return getHash().hashCode();
 	}

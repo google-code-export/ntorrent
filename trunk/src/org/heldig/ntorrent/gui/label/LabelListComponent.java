@@ -33,7 +33,7 @@ public class LabelListComponent extends JList implements ListSelectionListener {
 		return model;
 	}
 
-	@Override
+	
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting())
 			event.labelSelectionEvent((String)getSelectedValue());

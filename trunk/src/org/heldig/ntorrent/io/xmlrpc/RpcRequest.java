@@ -44,7 +44,7 @@ public class RpcRequest implements XmlRpcRequest {
 		if(a == null){
 			callBack = new XmlRpcCallback(){
 
-				@Override
+				
 				public void handleResult(XmlRpcRequest pRequest, Object pResult) {}
 				
 			};
@@ -78,7 +78,7 @@ public class RpcRequest implements XmlRpcRequest {
 		return params.length;
 	}
 	
-	@Override
+	
 	public String toString() {
 		String out = method+"( ";
 		for(int x = 0; x<getParameterCount(); x++)
@@ -87,7 +87,7 @@ public class RpcRequest implements XmlRpcRequest {
 		return out;
 	}
 	
-	@Override
+	
 	public boolean equals(Object obj) {
 		if(!(obj instanceof RpcRequest))
 			return false;

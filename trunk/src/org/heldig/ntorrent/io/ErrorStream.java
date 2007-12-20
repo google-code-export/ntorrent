@@ -41,7 +41,7 @@ public class ErrorStream extends OutputStream {
 		System.setErr(new PrintStream(this));
 	}
     
-	@Override
+	
 	public void write(final int b) throws IOException {
         SwingUtilities.invokeLater(new Runnable(){
         	public void run() {
@@ -50,13 +50,13 @@ public class ErrorStream extends OutputStream {
         });
 	}
 	
-	@Override
+	
 	public void write(byte[] b, int off, int len) throws IOException {
 		super.write(b, off, len);
 		setFocus();
 	}
 	
-	@Override
+	
 	public void write(byte[] b) throws IOException {
 		super.write(b);
 		setFocus();

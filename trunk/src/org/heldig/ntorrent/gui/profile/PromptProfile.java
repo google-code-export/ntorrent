@@ -136,7 +136,7 @@ public class PromptProfile extends Settings implements ActionListener, ItemListe
 	
 
 	
-	@Override
+	
 	protected void restoreData(Object obj) {
 		PromptProfile pf = (PromptProfile)obj;
 		this.vprofiles = pf.vprofiles;

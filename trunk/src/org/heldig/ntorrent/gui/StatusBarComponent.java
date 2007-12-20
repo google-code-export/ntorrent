@@ -134,7 +134,7 @@ public class StatusBarComponent extends JPanel implements ChangeListener,XmlRpcC
 		update();
 	}
 
-	@Override
+	
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 		String methodname = pRequest.getMethodName();
 		if(methodname == "get_port_range")

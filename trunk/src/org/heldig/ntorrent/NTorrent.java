@@ -11,7 +11,7 @@ import javax.swing.UIManager;
 
 import org.heldig.ntorrent.gui.MenuBarComponent;
 import org.heldig.ntorrent.gui.Window;
-import org.heldig.ntorrent.gui.tray.ProcessTrayIcon;
+//import org.heldig.ntorrent.gui.tray.ProcessTrayIcon;
 import org.heldig.ntorrent.io.socket.Client;
 import org.heldig.ntorrent.io.socket.Server;
 import org.heldig.ntorrent.settings.Constants;
@@ -60,7 +60,7 @@ public class NTorrent {
 	private static void draw(){
 		final MenuBarComponent menuBar = new MenuBarComponent();
 		menuBar.addActionListener(C.getGC());
-		new ProcessTrayIcon(rootWin,menuBar);
+		//new ProcessTrayIcon(rootWin,menuBar);
 		rootWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		rootWin.setPreferredSize(new Dimension(1024,768));
 		rootWin.setJMenuBar(menuBar);

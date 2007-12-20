@@ -59,7 +59,7 @@ public class FileJTableModel extends AbstractTableModel{
 			data[x] = new Vector();
 	}
 	
-	@Override
+	
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if(data[columnIndex].size() > rowIndex)
 			data[columnIndex].set(rowIndex,aValue);
@@ -68,7 +68,7 @@ public class FileJTableModel extends AbstractTableModel{
 		fireTableRowsInserted(rowIndex,rowIndex);
 	}
 	
-	@Override
+	
 	public Class<?> getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }

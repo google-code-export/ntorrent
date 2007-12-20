@@ -36,14 +36,14 @@ public class CustomTypeFactory extends TypeFactoryImpl {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+	
 	public TypeParser getParser(XmlRpcStreamConfig pConfig, NamespaceContextImpl pContext, String pURI, String pLocalName) {
 		if("ex.i8".equalsIgnoreCase(pLocalName))
 			return new I8Parser();
 		return super.getParser(pConfig, pContext, pURI, pLocalName);
 	}
 	
-	@Override
+	
 	public TypeSerializer getSerializer(XmlRpcStreamConfig pConfig, Object pObject) throws SAXException {
 		return super.getSerializer(pConfig, pObject);
 	}

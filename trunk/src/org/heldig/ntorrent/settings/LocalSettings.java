@@ -48,7 +48,7 @@ public class LocalSettings extends Settings {
 	public boolean debug = false;
 	
 	@SuppressWarnings("static-access")
-	@Override
+	
 	protected void restoreData(Object obj) {
 		LocalSettings data = (LocalSettings)obj;
 		vintervall = data.vintervall;

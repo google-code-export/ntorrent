@@ -111,7 +111,6 @@ public class GUIController implements ActionListener{
 		return labelList;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (Language.getFromString(e.getActionCommand())){
 		case Menu_File_add_torrent:

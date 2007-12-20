@@ -25,12 +25,12 @@ public class ViewListModel extends AbstractListModel {
 			};
 	
 	private static final long serialVersionUID = 1L;
-	@Override
+	
 	public Object getElementAt(int index) {
 		return data[index];
 	}
 
-	@Override
+	
 	public int getSize() {
 		return data.length;
 	}

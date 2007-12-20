@@ -27,13 +27,13 @@ public class Byte extends DataUnit{
 		super(b);
 	}
 
-	@Override
+	
 	protected String[] getUnitDesc() {
 		String[] s = {"B","KB","MB","GB"};
 		return s;
 	}
 
-	@Override
+	
 	protected int getUnitDivider() {
 		return 	1024;
 	};

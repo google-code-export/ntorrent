@@ -60,7 +60,7 @@ public class MenuBarComponent extends JMenuBar implements ActionListener{
 		al.add(e);
 	}
 	
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
 		for(ActionListener a : al)
 			a.actionPerformed(e);

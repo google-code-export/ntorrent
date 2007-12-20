@@ -48,7 +48,7 @@ public class SshFileTransferThread extends Thread{
 		this.start();
 	}
 	
-	@Override
+	
 	public void run() {
 		try {
 			FileTransferGui progress = new FileTransferGui(remoteFile);

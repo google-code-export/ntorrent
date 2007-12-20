@@ -98,7 +98,6 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 		setRowMargin(5);
 		setRowHeight(25);
 		setBackground(Color.white);
-		setFillsViewportHeight(true);
 		setDefaultRenderer(TorrentInfo.class, new TorrentTitleRenderer());
 		setDefaultRenderer(Percent.class, new PercentRenderer());
 		addMouseListener(this);
@@ -118,14 +117,14 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 		}
 	}
 	
-	@Override
+	
 	public void mouseReleased(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
         maybeShowFileTab(e);
     }
 	
-	@Override
+	
 	public void mousePressed(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
@@ -176,7 +175,7 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 		
 	}
 	
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
 		TorrentInfo[] tf = new TorrentInfo[selectedRows.length];
 		String[] hash = new String[selectedRows.length];
@@ -247,7 +246,7 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 
 
 
-	@Override
+	
 	public void contentsChanged(ListDataEvent e) {
 		// TODO Auto-generated method stub
 		
@@ -255,7 +254,7 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 
 
 
-	@Override
+	
 	public void intervalAdded(ListDataEvent e) {
 		ListModel model = (ListModel)e.getSource();
 		Action a = new NativeAction();
@@ -266,7 +265,7 @@ public class TorrentJTableComponent extends JTable implements ListDataListener, 
 
 
 
-	@Override
+	
 	public void intervalRemoved(ListDataEvent e) {
 		// TODO Auto-generated method stub
 		

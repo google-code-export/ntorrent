@@ -30,7 +30,7 @@ public class ClientProfile implements Serializable {
 	
 	public static enum Protocol {
 		HTTP,SSH,LOCAL;
-		@Override
+		
 		public String toString() {
 			return this.name().toLowerCase();
 		}
@@ -84,7 +84,7 @@ public class ClientProfile implements Serializable {
 		return password.length() > 0;
 	}
 	
-	@Override
+	
 	public boolean equals(Object obj) {
 		if(!(obj instanceof ClientProfile))
 			return false;
@@ -113,7 +113,7 @@ public class ClientProfile implements Serializable {
 		this.socketPort = socketPort;
 	}
 	
-	@Override
+	
 	public String toString() {
 		return prot+"://"+username+"@"+host+":"+connectionPort+":"+socketPort+mount;
 	}
