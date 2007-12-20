@@ -121,12 +121,12 @@ public class Controller implements ControllerEventListener, ActionListener{
 			}
 	}
 	
-	@Override
+	
 	public void viewListEvent(String view) {
 		torrents.setView(view);
 	}
 
-	@Override
+	
 	public void localEvent(TorrentInfo[] tf, String actionCommand) {
 		if(protocol.equals(Protocol.LOCAL)){
 			Language l = Language.getFromString(actionCommand);
@@ -147,13 +147,13 @@ public class Controller implements ControllerEventListener, ActionListener{
 		}
 	}
 
-	@Override
+	
 	public void sshCopyEvent(TorrentInfo t, File path) {
 		if(protocol.equals(Protocol.SSH))
 			TC.startFileTransfer(sftp, t, path);
 	}
 
-	@Override
+	
 	public void sshRemoveEvent(TorrentInfo[] tf) {
 		if(protocol.equals(Protocol.SSH))
 			for(TorrentInfo t : tf){
@@ -166,7 +166,7 @@ public class Controller implements ControllerEventListener, ActionListener{
 			}	
 	}
 
-	@Override
+	
 	public void torrentSelectionEvent(TorrentInfo t) {
 		GC.fileTab.getInfoPanel().setInfo(t);
 		rpc.getFileList(t.getHash(), GC.fileTab.getFileList());
@@ -177,33 +177,33 @@ public class Controller implements ControllerEventListener, ActionListener{
 		torrents.setLabelView(label);
 	}
 
-	@Override
+	
 	public void torrentCommand(String[] hash, String command) {
 		rpc.torrentCommand(hash, command);
 	}
 
-	@Override
+	
 	public void setTorrentPriority(String[] hash, int i) {
 		rpc.setTorrentPriority(hash, i);
 	}
 
-	@Override
+	
 	public void setFilePriority(String hash, int pri, int[] index) {
 		rpc.setFilePriority(hash, pri, index);
 	}
 
-	@Override
+	
 	public void setTrackerEnabled(String hash, int[] id, boolean b,
 			XmlRpcCallback c) {
 		rpc.setTrackerEnabled(hash,id, b, c);
 	}
 
-	@Override
+	
 	public void loadTorrent(String url) {
 		rpc.loadTorrent(url);
 	}
 
-	@Override
+	
 	public boolean loadTorrent(File file) {
 		try {
 			rpc.loadTorrent(file);
@@ -218,7 +218,7 @@ public class Controller implements ControllerEventListener, ActionListener{
 		return GC;
 	}
 
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
 			switch (Language.getFromString(e.getActionCommand())){
 				case Menu_File_start_all:
@@ -230,12 +230,12 @@ public class Controller implements ControllerEventListener, ActionListener{
 			}
 	}
 
-	@Override
+	
 	public Protocol getProtocol() {
 		return protocol;
 	}
 
-	@Override
+	
 	public void setLabel(String[] hash, String label) {
 		rpc.setLabel(hash, label, null);
 	}

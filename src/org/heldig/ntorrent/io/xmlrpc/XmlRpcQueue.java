@@ -65,7 +65,7 @@ public class XmlRpcQueue extends XmlRpcClient implements Runnable {
 		if(pCallback == null)
 			pCallback = new XmlRpcCallback(){
 
-				@Override
+				
 				public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 					// TODO Auto-generated method stub
 					

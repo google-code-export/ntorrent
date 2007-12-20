@@ -64,7 +64,7 @@ public class TrackerList extends JScrollPane implements XmlRpcCallback, MouseLis
 		trackerlist.addMouseListener(this);
 	}
 
-	@Override
+	
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 		Object[] result = (Object[])pResult;
 		TrackerInfo[] t = new TrackerInfo[result.length];
@@ -113,32 +113,32 @@ public class TrackerList extends JScrollPane implements XmlRpcCallback, MouseLis
 		}
 	}
 
-	@Override
+	
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void mousePressed(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);
 		
 	}
 
-	@Override
+	
 	public void mouseReleased(MouseEvent e) {
 		if(e.isPopupTrigger())
 			maybeShowPopup(e);

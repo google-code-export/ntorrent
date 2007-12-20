@@ -67,7 +67,7 @@ public class TorrentSet extends Vector<TorrentInfo>{
 	}
 	
 	
-	@Override
+	
 	public void clear() {
 		map.clear();
 	}

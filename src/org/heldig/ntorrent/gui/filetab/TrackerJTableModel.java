@@ -57,7 +57,7 @@ public class TrackerJTableModel extends AbstractTableModel {
 		}
 	}
 	
-	@Override
+	
 	public Class<?> getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }

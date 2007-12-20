@@ -19,7 +19,7 @@
  */
 package org.heldig.ntorrent.gui.tray;
 
-import java.awt.Image;
+/*import java.awt.Image;
 import java.awt.PopupMenu;
 
 public class TrayIcon extends java.awt.TrayIcon {
@@ -37,11 +37,11 @@ public class TrayIcon extends java.awt.TrayIcon {
 		super(image, string, popup);
 	}
 
-	@Override
+	
 	public void displayMessage(String caption, String text, MessageType messageType) {
 		// TODO format this messagebox to a more ntorrent'ish style.
 		super.displayMessage(caption, text, messageType);
 	}
 
 
-}
+}*/

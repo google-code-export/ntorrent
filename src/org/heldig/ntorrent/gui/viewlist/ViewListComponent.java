@@ -39,15 +39,15 @@ public class ViewListComponent extends JList implements MouseListener, ListSelec
 		return model;
 	}
 
-	@Override
+	
 	public void mouseClicked(MouseEvent e) {}
-	@Override
+	
 	public void mouseEntered(MouseEvent e) {}
-	@Override
+	
 	public void mouseExited(MouseEvent e) {}
-	@Override
+	
 	public void mousePressed(MouseEvent e) {}
-	@Override
+	
 	public void mouseReleased(MouseEvent e) {
 		if(changed){
 		Language l = (Language)model.getElementAt(((JList)e.getSource()).getSelectedIndex());
@@ -56,7 +56,7 @@ public class ViewListComponent extends JList implements MouseListener, ListSelec
 		}
 	}
 
-	@Override
+	
 	public void valueChanged(ListSelectionEvent e) {
 		changed = true;
 	}

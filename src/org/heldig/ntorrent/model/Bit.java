@@ -26,13 +26,13 @@ public class Bit extends DataUnit{
 		super(b);
 	}
 
-	@Override
+	
 	protected String[] getUnitDesc() {
 		String[] s = {"b/s","Kb/s","Mb/s","Gb/s"}; 
 		return s;
 	}
 
-	@Override
+	
 	protected int getUnitDivider() {
 		return 1000;
 	};

@@ -122,7 +122,7 @@ public enum Language implements Action {
 		return result;
 	}
 	
-	@Override
+	
 	public String toString() {
 		String key = this.name();
 		String word = language.getProperty(key);
@@ -142,42 +142,42 @@ public enum Language implements Action {
 		return raw;
 	}
 
-	@Override
+	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		propListeners.add(listener);
 		
 	}
 
-	@Override
+	
 	public Object getValue(String key) {
 		if(key.equals("Name"))
 			return this.toString();
 		return actionMap.get(key);
 	}
 
-	@Override
+	
 	public boolean isEnabled() {
 		Object b = actionMap.get("enabled");
 		return (b == null ? true : (Boolean)b);
 	}
 
-	@Override
+	
 	public void putValue(String key, Object value) {
 		actionMap.put(key, value);
 	}
 
-	@Override
+	
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propListeners.remove(listener);
 	}
 
-	@Override
+	
 	public void setEnabled(boolean b) {
 		actionMap.put("enabled", b);
 	}
 
 
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
 		if(NTorrent.settings.debug)
 			System.out.println(e.paramString());

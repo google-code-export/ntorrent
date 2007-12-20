@@ -131,7 +131,7 @@ public class TorrentPool implements XmlRpcCallback{
 		}
 	}
 
-	@Override
+	
 	public void handleResult(XmlRpcRequest pRequest, Object pResult) {
 		rateUp.setValue(0);
 		rateDown.setValue(0);

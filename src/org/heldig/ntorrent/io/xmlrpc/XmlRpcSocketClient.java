@@ -53,13 +53,13 @@ public class XmlRpcSocketClient extends XmlRpcParser implements XmlRpcInvocation
 		connection = new Socket(host,port);
 	}
 	
-	@Override
+	
 	protected void handleParsedValue(Object value) {
 		returnValue = value;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
+	
 	public Object invoke(String method, List arguments) throws Throwable {
         beginCall(method);
         if ( arguments != null ){
@@ -164,7 +164,7 @@ public class XmlRpcSocketClient extends XmlRpcParser implements XmlRpcInvocation
         }
     }
  
-	   @Override
+	   
 	public void parse(InputStream is) throws XmlRpcException {
 		   String headers = new String();
 		   while(!headers.endsWith("\r\n\r\n")){

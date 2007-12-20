@@ -102,7 +102,7 @@ public class SettingsGui implements ActionListener {
 					final JTextField txt = new JTextField(file.getName());
 					browse.addActionListener(new ActionListener(){
 
-						@Override
+						
 						public void actionPerformed(ActionEvent e) {
 							final JFileChooser chooser = new JFileChooser(file);
 							if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){

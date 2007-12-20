@@ -54,7 +54,7 @@ public class XmlRpcSCGITransport extends XmlRpcStreamTransport {
 	protected XmlRpcSCGITransport(XmlRpcClient client) {
 		super(client);
 	}
-	@Override
+	
 	public Object sendRequest(XmlRpcRequest request) throws XmlRpcException {
 		config = (XmlRpcHttpClientConfig) request.getConfig();
 		URL url = config.getServerURL();
@@ -64,7 +64,7 @@ public class XmlRpcSCGITransport extends XmlRpcStreamTransport {
 	}
 
 	
-	@Override
+	
 	protected void close() throws XmlRpcClientException {
 		IOException e = null;
 		if (input != null) {
@@ -97,7 +97,7 @@ public class XmlRpcSCGITransport extends XmlRpcStreamTransport {
 		}
 	}
 
-	@Override
+	
 	protected InputStream getInputStream() throws XmlRpcException {
 		final byte[] buffer = new byte[2048];
 		try {
@@ -138,12 +138,12 @@ public class XmlRpcSCGITransport extends XmlRpcStreamTransport {
 		}
 	}
 
-	@Override
+	
 	protected boolean isResponseGzipCompressed(XmlRpcStreamRequestConfig config) {
 		return false;
 	}
 
-	@Override
+	
 	protected void writeRequest(ReqWriter writer) throws XmlRpcException,
 			IOException, SAXException {
 		ByteArrayOutputStream sOut=new ByteArrayOutputStream();
