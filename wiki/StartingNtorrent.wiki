@@ -2,7 +2,7 @@
 = Starting nTorrent =
 
 ==Prerequisites==
- * [http://java.sun.com/ java 1.6] 
+ * [http://java.sun.com/ java] 
 
 ==Introduction==
 nTorrent requires java >= 1.6, or java 1.5 as of Thursday, December 20 2007.
