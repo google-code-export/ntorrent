@@ -1,4 +1,4 @@
-Requires java 1.6
+Requires java 1.5 alltough latest java version is recommended.
 
 run program with
 java -jar nTorrent.jar
