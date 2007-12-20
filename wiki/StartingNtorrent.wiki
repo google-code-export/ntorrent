@@ -2,10 +2,10 @@
 = Starting nTorrent =
 
 ==Prerequisites==
- * [http://java.sun.com/ java 1.6]
+ * [http://java.sun.com/ java 1.6] 
 
 ==Introduction==
-nTorrent requires java >= 1.6.
+nTorrent requires java >= 1.6, or java 1.5 as of Thursday, December 20 2007.
 
 You can assosciate ".torrent" files with nTorrent, by setting nTorrent.jar or nTorrent.sh as the default launcher for torrent files. nTorrent will then upload the torrents to the remote rtorrent process.
 
