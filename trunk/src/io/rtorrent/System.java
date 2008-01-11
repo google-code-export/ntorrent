@@ -17,30 +17,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.redstone;
+package io.rtorrent;
 
 import redstone.xmlrpc.XmlRpcArray;
-import redstone.xmlrpc.XmlRpcFault;
-import redstone.xmlrpc.XmlRpcProxy;
-import redstone.xmlrpc.XmlRpcSocketClient;
 
-public class XmlRpcRedstoneImpl {
-
-	static interface system
-	{
-	    public XmlRpcArray listMethods() throws XmlRpcFault;
-	}
-
-	public static void main( String[] args ) throws Exception
-	{
-		XmlRpcSocketClient client = new XmlRpcSocketClient("127.0.0.1",5000);
-		system proxy = (system)XmlRpcProxy.createProxy(new Class[] { system.class }, client);
-		for (Object o : proxy.listMethods()) {
-			System.out.println(o+"\t "+client.invoke("system.methodSignature", new Object[] {o}));
-		}
-		System.out.println();
-		
-
-	}
-
+/**
+ * system.
+ */
+public interface System {
+	XmlRpcArray listMethods();
+	Object methodSignature();
+	Object methodHelp();
+	Object multicall();
+	Object shutdown();
+	Object client_version();
+	Object get_cwd();
+	Object hostname();
+	Object library_version();
+	Object pid();
+	Object set_cwd();
+	Object set_umask();
 }

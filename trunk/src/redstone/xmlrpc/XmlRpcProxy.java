@@ -53,12 +53,9 @@ public class XmlRpcProxy implements InvocationHandler
      *          XML-RPC support.
      */
 
-    public static Object createProxy(
-        URL url,
-        Class[] interfaces,
-        boolean streamMessages )
+    public static Object createProxy(Class[] interfaces, XmlRpcClient c)
     {
-        return createProxy( url, null, interfaces, streamMessages );
+        return createProxy(null, interfaces, c);
     }
 
 
@@ -82,16 +79,12 @@ public class XmlRpcProxy implements InvocationHandler
      *          XML-RPC support
      */
 
-    public static Object createProxy(
-        URL url,
-        String objectName,
-        Class[] interfaces,
-        boolean streamMessages )
+    public static Object createProxy(String objectName,Class[] interfaces,XmlRpcClient c)
     {
         return Proxy.newProxyInstance(
             interfaces[ 0 ].getClassLoader(),
             interfaces,
-            new XmlRpcProxy( url, objectName, streamMessages ) );
+            new XmlRpcProxy(objectName, c));
     }
 
 
@@ -107,10 +100,10 @@ public class XmlRpcProxy implements InvocationHandler
      *                           setRequestProperty() method.
      */
 
-    public void setRequestProperties( Map requestProperties )
+    /*public void setRequestProperties( Map requestProperties )
     {
         client.setRequestProperties( requestProperties );
-    }
+    }*/
     
 
     /**
@@ -121,10 +114,10 @@ public class XmlRpcProxy implements InvocationHandler
      *  @param value The value of the property
      */
 
-    public void setRequestProperty( String name, String value )
+    /*public void setRequestProperty( String name, String value )
     {
         client.setRequestProperty( name, value );
-    }
+    }*/
 
     
     /**
@@ -141,7 +134,7 @@ public class XmlRpcProxy implements InvocationHandler
         Object proxy,
         Method method,
         Object[] args )
-        throws XmlRpcException, XmlRpcFault
+        throws Exception
     {
         String handlerName;
 
@@ -174,6 +167,9 @@ public class XmlRpcProxy implements InvocationHandler
         // Let the basic XmlRpcClient perform the call. This may result in an XmlRpcException
         // which will be propagated out from this method.
 
+        if(handlerName.equals(""))
+        	return client.invoke( method.getName(), args );
+        
         return client.invoke( handlerName + "." + method.getName(), args );
     }
 
@@ -183,18 +179,15 @@ public class XmlRpcProxy implements InvocationHandler
      *  an encapsulated XmlRpcClient. Not for pubilc usage -- use createProxy()
      */
 
-    protected XmlRpcProxy(
-        URL url,
-        String objectName,
-        boolean streamMessages )
+    protected XmlRpcProxy(String objectName,XmlRpcClient c)
     {
-        client = new XmlRpcHTTPClient( url, streamMessages );
+        client = c;
         this.objectName = objectName;
     }
 
     
     /** The encapsulated XmlRpcClient receiving the converted dynamic calls */
-    protected XmlRpcHTTPClient client;
+    protected XmlRpcClient client;
 
     /** The name of the handler that will handle the converted dynamic calls */
     protected String objectName;

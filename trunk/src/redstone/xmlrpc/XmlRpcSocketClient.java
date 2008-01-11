@@ -2,15 +2,9 @@ package redstone.xmlrpc;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import org.heldig.ntorrent.io.xmlrpc.Scgi;
 
@@ -36,27 +30,33 @@ import org.heldig.ntorrent.io.xmlrpc.Scgi;
 
 public class XmlRpcSocketClient extends XmlRpcClient {
 	
+	private final String host;
+	private final int port;
 	private Socket connection;
 
-	public XmlRpcSocketClient(String host, int port) throws UnknownHostException, IOException {
-		connection = new Socket(host,port);
-		writer = new StringWriter( 2048 );
-        
+	public XmlRpcSocketClient(String host, int port) throws Exception {
+		this.host = host;
+		this.port = port;
 	}
 	
 	@Override
-	protected void endCall() throws XmlRpcException, XmlRpcFault {
+	protected void beginCall(String methodName) throws Exception {
+		connection = new Socket(host,port);
+		super.beginCall(methodName);
+	}
+	
+	@Override
+	protected void endCall() throws Exception {
 		super.endCall();
-		try{
         StringBuffer buffer = new StringBuffer(Scgi.make(null,writer.toString()));
-        OutputStream output = new BufferedOutputStream( connection.getOutputStream() );
+        OutputStream output = new BufferedOutputStream(connection.getOutputStream());
         
         //System.out.println(buffer.toString().replace('\0', ' '));
         
         output.write( buffer.toString().getBytes() );
         output.flush();
-      
-        InputStream input = connection.getInputStream();
+        
+        InputStream input = new BufferedInputStream(connection.getInputStream());
         
         /*
          * ignores response message of scgi server.
@@ -68,12 +68,8 @@ public class XmlRpcSocketClient extends XmlRpcClient {
         		if(input.read() == '\r' && input.read() == '\n')
         			break;
         }
-        
+
         handleResponse(input);
-        output.close();
-		} catch(IOException x){
-			throw new XmlRpcException(x.getMessage(),x);
-		}
 	}
 
 }
