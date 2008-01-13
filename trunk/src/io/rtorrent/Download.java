@@ -41,7 +41,7 @@ public interface Download {
 	Object get_connection_leech();
 	Object get_connection_seed();
 	Object get_creation_date();
-	Object get_custom1();
+	Object get_custom1(String hash);
 	Object get_custom2();
 	Object get_custom3();
 	Object get_custom4();

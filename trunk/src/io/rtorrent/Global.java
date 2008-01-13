@@ -1,17 +1,19 @@
 package io.rtorrent;
 
+import redstone.xmlrpc.XmlRpcArray;
+
 /**
  * ""
  */
 public interface Global {
 	Object call_download();
-	Object cat();
+	Object cat(Object args);
 	Object close_low_diskspace();
 	Object close_on_ratio();
 	Object close_untied();
 	Object create_link();
 	Object delete_link();
-	Object download_list();
+	XmlRpcArray download_list();
 	Object enable_trackers();
 	Object encoding_list();
 	Object encryption();
