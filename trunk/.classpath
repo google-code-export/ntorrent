@@ -5,6 +5,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="nTorrent/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="old"/>
 	<classpathentry kind="lib" path="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-3.1.jar" sourcepath="lib/xmlrpc/xmlrpc-client-3.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-common-3.1.jar" sourcepath="lib/xmlrpc/xmlrpc-common-3.1-sources.jar"/>
