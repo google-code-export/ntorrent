@@ -17,18 +17,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent;
+package ntorrent.gui;
 
 /**
- * A ntorrent session
+ * Main session gui component.
  */
 public class Session {
-	public Session() {
-		/**
-		 * 1.Open profile menu
-		 * 2.Open main gui
-		 * 3.Start xmlrpc connection
-		 * 4.Start session threads.
-		 */
-	}
+
 }

@@ -5,19 +5,8 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="nTorrent/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="old"/>
 	<classpathentry kind="src" path="lib"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-3.1.jar" sourcepath="lib/xmlrpc/xmlrpc-client-3.1-sources.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-common-3.1.jar" sourcepath="lib/xmlrpc/xmlrpc-common-3.1-sources.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-3.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-common-3.1-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-3.1-sources.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-common-3.1-sources.jar"/>
-	<classpathentry kind="lib" path="lib/j2ssh/j2ssh-common-0.2.9.jar" sourcepath="lib/j2ssh/src"/>
-	<classpathentry kind="lib" path="lib/j2ssh/j2ssh-core-0.2.9.jar" sourcepath="lib/j2ssh/src"/>
-	<classpathentry kind="lib" path="lib/j2ssh/commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/xmlrpc/xmlrpc-client-1.1.jar" sourcepath="lib/xmlrpc"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="locale"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/sun-jdk-1.5.0.13"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

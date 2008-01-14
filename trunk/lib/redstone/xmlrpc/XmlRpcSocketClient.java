@@ -6,7 +6,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import org.heldig.ntorrent.io.xmlrpc.Scgi;
+import redstone.xmlrpc.util.Scgi;
+
 
 /**
  *   nTorrent - A GUI client to administer a rtorrent process 
