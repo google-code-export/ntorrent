@@ -17,28 +17,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.rtorrent;
+package ntorrent.io.rtorrent;
 
 /**
- * f.
+ * t.
  */
-public interface File {
-	Object get_completed_chunks();	 
-  	Object get_frozen_path();
-  	Object get_is_created();
-  	Object get_is_open();
-  	Object get_last_touched();
-  	Object get_match_depth_next();
-  	Object get_match_depth_prev();
-  	Object get_offset();
-  	Object get_path();
-  	Object get_path_components();
-  	Object get_path_depth();
-  	Object get_priority();
-  	Object get_range_first();
-  	Object get_range_second();
-  	Object get_size_bytes();
-  	Object get_size_chunks();
-  	Object multicall();
-  	Object set_priority();
+public interface Tracker {
+	Object get_group();
+	Object get_id();
+	Object get_min_interval();
+	Object get_normal_interval();
+	Object get_scrape_complete();
+	Object get_scrape_downloaded();
+	Object get_scrape_incomplete();
+	Object get_scrape_time_last();
+	Object get_type();
+	Object get_url();
+	Object is_enabled();
+	Object is_open();
+	Object multicall();
+	Object set_enabled();	
 }

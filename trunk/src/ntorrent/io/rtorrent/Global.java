@@ -1,4 +1,4 @@
-package io.rtorrent;
+package ntorrent.io.rtorrent;
 
 import redstone.xmlrpc.XmlRpcArray;
 

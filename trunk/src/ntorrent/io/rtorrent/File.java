@@ -17,30 +17,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io;
+package ntorrent.io.rtorrent;
 
-import redstone.xmlrpc.XmlRpcArray;
-import redstone.xmlrpc.XmlRpcFault;
-import redstone.xmlrpc.XmlRpcProxy;
-import redstone.xmlrpc.XmlRpcSocketClient;
-
-public class XmlRpcRedstoneImpl {
-
-	static interface system
-	{
-	    public XmlRpcArray listMethods() throws XmlRpcFault;
-	}
-
-	public static void main( String[] args ) throws Exception
-	{
-		XmlRpcSocketClient client = new XmlRpcSocketClient("127.0.0.1",5000);
-		system proxy = (system)XmlRpcProxy.createProxy(new Class[] { system.class }, client);
-		for (Object o : proxy.listMethods()) {
-			System.out.println(o+"\t "+client.invoke("system.methodSignature", new Object[] {o}));
-		}
-		System.out.println();
-		
-
-	}
-
+/**
+ * f.
+ */
+public interface File {
+	Object get_completed_chunks();	 
+  	Object get_frozen_path();
+  	Object get_is_created();
+  	Object get_is_open();
+  	Object get_last_touched();
+  	Object get_match_depth_next();
+  	Object get_match_depth_prev();
+  	Object get_offset();
+  	Object get_path();
+  	Object get_path_components();
+  	Object get_path_depth();
+  	Object get_priority();
+  	Object get_range_first();
+  	Object get_range_second();
+  	Object get_size_bytes();
+  	Object get_size_chunks();
+  	Object multicall();
+  	Object set_priority();
 }
