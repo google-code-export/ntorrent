@@ -22,6 +22,6 @@ package ntorrent.gui;
 /**
  * Main session gui component.
  */
-public class Session {
+public class SessionFrame {
 
 }

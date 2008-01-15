@@ -19,6 +19,36 @@
  */
 package ntorrent.io.settings;
 
+import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public interface Constants {
-	public int intSocketPort = 4050;
+	
+	/** App name **/
+	public static final String appName = "nTorrent-0.5-alpha";
+	
+	/** the users home dir **/
+	public static final File home = new File(System.getProperty("user.home"));
+	
+	/** the users ntorrent dir **/
+	public static final File ntorrent = new File(home,".ntorrent");
+	
+	/** the users language **/
+	public static final String language = System.getProperty("user.language");
+	
+	/** the users country **/
+	public static final String country = System.getProperty("user.country");
+	
+	/** the java vm version **/
+	public static final String javaSpec = System.getProperty("java.specification.version");
+	
+	/** ntorrent comm port. **/
+	public static final int intSocketPort = 4050;
+	
+	/** Locale specification **/
+	public static Locale locale = new Locale(language,country);
+	
+	/** Translations **/
+	public static ResourceBundle messages = ResourceBundle.getBundle("ntorrent", locale);
 }

@@ -17,12 +17,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui;
+package ntorrent.gui.profile;
+
+import java.io.Serializable;
 
 /**
- * The main ntorrent window, consisting of menubar and jtabbedpane, 
- * where each tab holds its own session.
+ * @author Kim Eik
+ *
  */
-public class Main {
+public class ClientProfile implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	
 }

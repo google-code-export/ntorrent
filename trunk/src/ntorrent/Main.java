@@ -19,44 +19,22 @@
  */
 package ntorrent;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import ntorrent.gui.MainWindow;
+import ntorrent.gui.window.Window;
 import ntorrent.io.logging.SystemLog;
+import ntorrent.io.settings.Constants;
 import ntorrent.io.settings.LocalSettings;
 import ntorrent.io.settings.Serializer;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
 
-public class Main {
-	
-	/** the users home dir **/
-	public static File home = new File(System.getProperty("user.home"));
-	
-	/** the users ntorrent dir **/
-	public static File ntorrent = new File(home,".ntorrent");
-	
-	/** the users language **/
-	public static String language = System.getProperty("user.language");
-	
-	/** the users country **/
-	public static String country = System.getProperty("user.country");
-	
-	/** the java vm version **/
-	public static String javaSpec = System.getProperty("java.specification.version");
+public class Main implements Constants {
 
-	/** Locale specification **/
-	public static Locale locale;
-	
-	/** Translations **/
-	public static ResourceBundle messages;
-	
 	/** Local settings **/
 	public static LocalSettings settings = new LocalSettings();
 	
@@ -72,16 +50,7 @@ public class Main {
 	 * @throws IllegalArgumentException 
 	 */
 	public static void main(String[] args) throws IllegalArgumentException, IOException, IllegalAccessException, ClassNotFoundException {
-				
-		/** Load locale **/
-		Logger.global.log(Level.INFO,"Locale: "+language+"_"+country);
-		locale = new Locale(language,country);
-		try{
-			messages = ResourceBundle.getBundle("ntorrent", locale);
-		}catch (MissingResourceException e) {
-			Logger.global.log(Level.WARNING,e.getMessage());
-		}
-		
+
 		/** License **/
 		System.out.println(messages.getString("lic"));
 		
@@ -90,7 +59,7 @@ public class Main {
 			Logger.global.log(Level.WARNING,messages.getString("ntdir")+ntorrent);
 		
 		/** Load logging **/
-		log = new SystemLog();
+		//log = new SystemLog();
 
 		/** Load settings**/
 		try{
@@ -106,9 +75,13 @@ public class Main {
 		}catch(IOException e){
 			Logger.global.info(e.getMessage());
 			new Client(args);
+			System.exit(0);
 		}
 		
 		/** Draw Gui **/
+		Window main = new MainWindow();
+		main.drawWindow();
+		
 	}
 	
 	public static void clientSoConn(String line){
