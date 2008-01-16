@@ -34,7 +34,7 @@ public abstract class Serializer {
 	private static final long serialVersionUID = 1L;
 	
 	public static void serialize(Serializable obj) throws IOException{
-		File file = new File(Main.ntorrent,(obj.getClass().getSimpleName()+".dat").toLowerCase());
+		File file = new File(Main.ntorrent,(getClassName(obj.getClass())));
 		FileOutputStream out = new FileOutputStream(file);
 		ObjectOutputStream objectout = new ObjectOutputStream(out);
 		objectout.writeObject(obj);
@@ -43,11 +43,15 @@ public abstract class Serializer {
 	
 	@SuppressWarnings("unchecked")
 	public static Object deserialize(Class obj) throws IOException, ClassNotFoundException{
-		File file = new File(Main.ntorrent,(obj.getSimpleName()+".dat").toLowerCase());
+		File file = new File(Main.ntorrent,(getClassName(obj)));
 		FileInputStream stream = new FileInputStream(file);
 		ObjectInputStream objectstream = new ObjectInputStream(stream);			
 		return objectstream.readObject();
 		
+	}
+	
+	private static String getClassName(Class obj){
+		return obj.getSimpleName().toLowerCase()+".dat";
 	}
 
 	

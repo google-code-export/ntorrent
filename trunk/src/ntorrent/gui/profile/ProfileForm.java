@@ -19,46 +19,98 @@
  */
 package ntorrent.gui.profile;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import ntorrent.gui.profile.ClientProfile.Protocol;
 import ntorrent.io.settings.Constants;
 
-public class ProfileForm extends JPanel {
-	
-	
-	/** set up labels **/
-    String[] labels = {
-    		Constants.messages.getString("profile.protocol"),
-    		Constants.messages.getString("profile.host"),
-    		Constants.messages.getString("profile.connectionport"), 
-    		Constants.messages.getString("profile.socketport"),
-    		Constants.messages.getString("profile.mountpoint"),
-    		Constants.messages.getString("profile.username"),
-    		Constants.messages.getString("profile.password"),
-    		Constants.messages.getString("profile.rememberpwd"),
-    		Constants.messages.getString("profile.autoconnect")
-    };
-    
-    public ProfileForm() {
-    	setLayout(new GridLayout(labels.length,2));
-    	for(int x = 0; x < labels.length; x++){
-    		JLabel label = new JLabel(labels[x]+":");
-    		JTextField txt = new JTextField(15);
-    		JPanel panelabel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    		JPanel panetxt = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    		label.setHorizontalAlignment(SwingConstants.RIGHT);
-    		label.setVerticalAlignment(SwingConstants.TOP);
-    		label.setLabelFor(txt);
-    		add(panelabel);
-    		add(panetxt);
-    		panetxt.add(txt);
-    		panelabel.add(label);
+public class ProfileForm extends JPanel implements ListSelectionListener, ItemListener  {
+	private static final long serialVersionUID = 1L;
+	private HashMap<String,JComponent> components = new HashMap<String,JComponent>();
+
+	@SuppressWarnings("unchecked")
+	public ProfileForm() {
+    	setLayout(new GridLayout(0,1));
+    	
+    	for(Field f : ClientProfile.class.getDeclaredFields()){
+    		ClientProfile.metadata labelObj = f.getAnnotation(ClientProfile.metadata.class);
+    		if(labelObj != null){
+        		Class type = f.getType();
+        		String label = Constants.messages.getString(labelObj.label());
+        		JComponent c = null;
+        		
+        		if(type.equals(String.class) || type.equals(int.class)){
+            		add(new JLabel(label+":"));
+        			c = new JTextField(10);
+        		}else if(type.equals(Protocol.class)){
+        			add(new JLabel(label+":"));
+        			JComboBox t = new JComboBox(Protocol.values());
+        			t.setSelectedIndex(-1);
+        			t.addItemListener(this);
+        			c = t;
+        		}else if(type.equals(boolean.class)){
+        			c = new JCheckBox(label);
+        		}
+        		add(c);
+        		components.put(labelObj.label(), c);
+    		}
     	}
+   	}
+
+	public void valueChanged(ListSelectionEvent e) {
+		
+	}
+
+	public void getProfile(String name) {
+		ClientProfile profile = new ClientProfile(name);
+		
+	}
+
+	public void itemStateChanged(ItemEvent e) {
+		if(e.getStateChange() == ItemEvent.SELECTED){
+			for(Field f : ClientProfile.class.getDeclaredFields()){
+				ClientProfile.metadata annotation = f.getAnnotation(ClientProfile.metadata.class);
+				if(annotation != null){
+					JComponent component = components.get(annotation.label());
+					boolean exists = false;
+					for(Protocol p : annotation.protocols()){
+						if(exists = p.equals(e.getItem())){
+							break;
+						}
+					}
+				
+					
+					String value = annotation.value()[((Protocol)e.getItem()).ordinal()];	
+					if(component instanceof JTextField){
+						((JTextField)component).setText(value);
+					}else if(component instanceof JCheckBox){
+						boolean b = !value.equals("0");
+						((JCheckBox)component).setSelected(b);
+					}
+					
+					if(!exists){
+						component.setEnabled(false);
+					}else{
+						component.setEnabled(true);
+					}
+
+				}
+			}
+		}
 	}
 }

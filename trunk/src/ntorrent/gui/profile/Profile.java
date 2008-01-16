@@ -28,31 +28,39 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
+import javax.swing.WindowConstants;
 
 import ntorrent.gui.GuiAction;
 import ntorrent.io.settings.Constants;
 
 public class Profile extends JPanel implements ActionListener {
-
+	ProfileForm form;
+	ProfileList list;
+	
 	public Profile() {
 		JPanel buttonpanel = new JPanel();
 		
 		/** buttons **/
 		Action[] buttons = {
-			new GuiAction("profile.host",this),
-			new GuiAction("profile.host",this),
-			new GuiAction("profile.host",this)
+			new GuiAction("connect",this),
+			new GuiAction("profile.save",this),
+			new GuiAction("profile.delete",this)
 		};
 		
 		/** setting the layout mgr**/
         setLayout(new BorderLayout());
-        add(new ProfileForm(),BorderLayout.CENTER);
-        add(new JScrollPane(new ProfileList()),BorderLayout.EAST);
+        
+        form = new ProfileForm();
+        list = new ProfileList(form);
+        
+        add(form,BorderLayout.CENTER);
+        add(new JScrollPane(list),BorderLayout.EAST);
         add(buttonpanel,BorderLayout.SOUTH);
         
         for(int x = 0; x < buttons.length; x++)
@@ -65,10 +73,17 @@ public class Profile extends JPanel implements ActionListener {
     	f.getContentPane().add(new Profile());
     	f.pack();
     	f.setVisible(true);
+    	f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getActionCommand().equals("connect")){
 		
+		}else if(e.getActionCommand().equals("profile.save")){
+			String name = JOptionPane.showInputDialog(this, Constants.messages.getString("profile.name"));
+			form.getProfile(name);
+		}else if(e.getActionCommand().equals("profile.delete")){
+			list.deleteSelected();
+		}
 	}
 }

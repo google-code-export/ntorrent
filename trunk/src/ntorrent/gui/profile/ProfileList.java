@@ -20,14 +20,51 @@
 package ntorrent.gui.profile;
 
 import java.awt.GridLayout;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+
+import ntorrent.io.settings.Serializer;
 
 public class ProfileList extends JList {
-	public ProfileList() {
+	
+	ClientProfile[] data = {};
+	
+	public ProfileList(ListSelectionListener l) {
 		setLayout(new GridLayout(0,1));
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//setListData(listData)
+		try {
+			data = (ClientProfile[])Serializer.deserialize(ClientProfile[].class);
+		} catch(FileNotFoundException e){
+			Logger.global.info(e.getMessage());
+			try {
+				Serializer.serialize(data);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setListData(data);
+		addListSelectionListener(l);
+	}
+
+	public void deleteSelected() {
+		remove(getSelectedIndex());
+		try {
+			Serializer.serialize(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
