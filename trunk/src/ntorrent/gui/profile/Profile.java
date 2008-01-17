@@ -20,31 +20,27 @@
 package ntorrent.gui.profile;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Action;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.Spring;
-import javax.swing.SpringLayout;
-import javax.swing.WindowConstants;
 
 import ntorrent.gui.GuiAction;
 import ntorrent.io.settings.Constants;
 
 public class Profile extends JPanel implements ActionListener {
+	private static final long serialVersionUID = 1L;
 	ProfileForm form;
 	ProfileList list;
+	ProfileRequester req;
 	
-	public Profile() {
+	public Profile(ProfileRequester requester) {
 		JPanel buttonpanel = new JPanel();
+		req = requester;
 		
 		/** buttons **/
 		Action[] buttons = {
@@ -67,23 +63,28 @@ public class Profile extends JPanel implements ActionListener {
         	buttonpanel.add(new JButton(buttons[x]));
 	}
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
     	JFrame f = new JFrame();
     	f.setContentPane(new JPanel());
     	f.getContentPane().add(new Profile());
     	f.pack();
     	f.setVisible(true);
     	f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
+    }*/
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("connect")){
-		
-		}else if(e.getActionCommand().equals("profile.save")){
-			String name = JOptionPane.showInputDialog(this, Constants.messages.getString("profile.name"));
-			form.getProfile(name);
-		}else if(e.getActionCommand().equals("profile.delete")){
-			list.deleteSelected();
+		try {
+			if(e.getActionCommand().equals("connect")){
+				req.sendProfile(form.getProfile());
+			}else if(e.getActionCommand().equals("profile.save")){
+				String name = JOptionPane.showInputDialog(this, Constants.messages.getString("profile.name"));
+				list.add(form.getProfile(name));
+			}else if(e.getActionCommand().equals("profile.delete")){
+				list.deleteSelected();
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 }

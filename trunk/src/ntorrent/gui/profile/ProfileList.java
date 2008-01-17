@@ -28,21 +28,24 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 
-import ntorrent.io.settings.Serializer;
+import ntorrent.io.tools.Serializer;
 
 public class ProfileList extends JList {
-	
-	ClientProfile[] data = {};
+	private static final long serialVersionUID = 1L;
+	ProfileModel model;
 	
 	public ProfileList(ListSelectionListener l) {
 		setLayout(new GridLayout(0,1));
+		setFixedCellWidth(300);
+		setFixedCellHeight(40);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		try {
-			data = (ClientProfile[])Serializer.deserialize(ClientProfile[].class);
+			model = (ProfileModel)Serializer.deserialize(ProfileModel.class);
 		} catch(FileNotFoundException e){
 			Logger.global.info(e.getMessage());
 			try {
-				Serializer.serialize(data);
+				model = new ProfileModel();
+				Serializer.serialize(model);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -54,14 +57,26 @@ public class ProfileList extends JList {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setListData(data);
+		setModel(model);
 		addListSelectionListener(l);
 	}
 
 	public void deleteSelected() {
-		remove(getSelectedIndex());
+		int index = getSelectedIndex();
+		if(index >= 0){
+			model.remove(index);
+			serialize();
+		}
+	}
+	
+	public void add(ClientProfile profile){
+		model.addElement(profile);
+		serialize();
+	}
+	
+	private void serialize(){
 		try {
-			Serializer.serialize(data);
+			Serializer.serialize(model);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

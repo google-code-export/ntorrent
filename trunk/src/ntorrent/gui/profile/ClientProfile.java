@@ -23,13 +23,11 @@ import java.io.Serializable;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import javax.swing.JPasswordField;
-
 /**
  * @author Kim Eik
  *
  */
+@SuppressWarnings("unchecked")
 public class ClientProfile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -44,59 +42,61 @@ public class ClientProfile implements Serializable {
 		String label();
 		Protocol[] protocols() default {Protocol.SSH,Protocol.HTTP,Protocol.LOCAL};
 		String[] value() default {"","",""};
+		Class jclass() default Object.class;
 	}
 
 	
 	@metadata(label = "profile.protocol")
-	private Protocol protocol;
+	public Protocol protocol;
 	
 	@metadata(
 			label = "profile.host",
 			protocols = {Protocol.SSH,Protocol.HTTP}, 
 			value = {"","","127.0.0.1"})
-	private String host;
+	public String host;
 	
 	@metadata(
 			label = "profile.connectionport",
 			protocols = {Protocol.SSH,Protocol.HTTP} ,
 			value = {"22","80",""}
 			)
-	private int port;
+	public int port;
 	
 	@metadata(label = "profile.socketport")
-	private int socketPort;
+	public int socketPort;
 	
 	@metadata(
 			label = "profile.mountpoint", 
 			protocols={Protocol.HTTP}, 
 			value={"","/RPC2",""}
 			)
-	private String mountPoint;
+	public String mountPoint;
 	
 	@metadata(
 			label = "profile.username",
 			protocols = {Protocol.SSH,Protocol.HTTP}
 			)
-	private String username;
+	public String username;
 	
 	@metadata(
 			label = "profile.password",
-			protocols = {Protocol.SSH,Protocol.HTTP}
+			protocols = {Protocol.SSH,Protocol.HTTP},
+			jclass = javax.swing.JPasswordField.class
 			)
-	private String password;
+	public String password;
 	
 	@metadata(
 			label = "profile.rememberpwd",
 			protocols = {Protocol.SSH,Protocol.HTTP},
 			value = {"0","0","0"}
 			)
-	private boolean rememberPassword;
+	public boolean rememberPassword;
 	
 	@metadata(
 			label = "profile.autoconnect",
 			value = {"0","0","0"}
 			)
-	private boolean autoConnect;
+	public boolean autoConnect;
 	
 	private String name;
 	
@@ -163,6 +163,8 @@ public class ClientProfile implements Serializable {
 	}
 	
 	public String toString() {
+		if(name == null)
+			return host;
 		return name;
 	}
 	

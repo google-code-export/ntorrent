@@ -17,26 +17,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent;
+package ntorrent.gui.profile;
 
-import ntorrent.gui.profile.ClientProfile;
-import ntorrent.gui.profile.ProfileRequester;
 
-/**
- * A ntorrent session
- */
-public class Session implements ProfileRequester {
-	public Session() {
-		/**
-		 * 1.Open profile menu
-		 * 2.Open main gui
-		 * 3.Start xmlrpc connection
-		 * 4.Start session threads.
-		 */
-	}
-
-	public void sendProfile(ClientProfile p) {
-		// TODO Auto-generated method stub
-		
-	}
+public interface ProfileRequester {
+	public void sendProfile(ClientProfile p);
 }

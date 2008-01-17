@@ -29,9 +29,9 @@ import ntorrent.gui.window.Window;
 import ntorrent.io.logging.SystemLog;
 import ntorrent.io.settings.Constants;
 import ntorrent.io.settings.LocalSettings;
-import ntorrent.io.settings.Serializer;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
+import ntorrent.io.tools.Serializer;
 
 public class Main implements Constants {
 

@@ -20,8 +20,6 @@
 package ntorrent.gui.profile;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.lang.reflect.Field;
@@ -31,7 +29,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -41,44 +41,89 @@ import ntorrent.io.settings.Constants;
 
 public class ProfileForm extends JPanel implements ListSelectionListener, ItemListener  {
 	private static final long serialVersionUID = 1L;
-	private HashMap<String,JComponent> components = new HashMap<String,JComponent>();
+	private HashMap<Field,JComponent> components = new HashMap<Field,JComponent>();
 
 	@SuppressWarnings("unchecked")
 	public ProfileForm() {
     	setLayout(new GridLayout(0,1));
     	
     	for(Field f : ClientProfile.class.getDeclaredFields()){
-    		ClientProfile.metadata labelObj = f.getAnnotation(ClientProfile.metadata.class);
-    		if(labelObj != null){
+    		ClientProfile.metadata meta = f.getAnnotation(ClientProfile.metadata.class);
+    		if(meta != null){
         		Class type = f.getType();
-        		String label = Constants.messages.getString(labelObj.label());
+        		String label = Constants.messages.getString(meta.label());
         		JComponent c = null;
-        		
-        		if(type.equals(String.class) || type.equals(int.class)){
-            		add(new JLabel(label+":"));
-        			c = new JTextField(10);
-        		}else if(type.equals(Protocol.class)){
-        			add(new JLabel(label+":"));
-        			JComboBox t = new JComboBox(Protocol.values());
-        			t.setSelectedIndex(-1);
-        			t.addItemListener(this);
-        			c = t;
-        		}else if(type.equals(boolean.class)){
-        			c = new JCheckBox(label);
-        		}
+        		if(meta.jclass() != Object.class){
+        			if(meta.jclass().equals(JPasswordField.class)){
+	            		add(new JLabel(label+":"));
+	        			c = new JPasswordField(10);
+        			}
+        		}else{
+        			
+	        		if(type.equals(String.class) || type.equals(int.class)){
+	            		add(new JLabel(label+":"));
+	        			c = new JTextField(10);
+	        		}else if(type.equals(Protocol.class)){
+	        			add(new JLabel(label+":"));
+	        			JComboBox t = new JComboBox(Protocol.values());
+	        			t.setSelectedIndex(-1);
+	        			t.addItemListener(this);
+	        			c = t;
+	        		}else if(type.equals(boolean.class)){
+	        			c = new JCheckBox(label);
+	        		}
+	    		}
         		add(c);
-        		components.put(labelObj.label(), c);
+        		c.setName(meta.label());
+        		components.put(f, c);
     		}
     	}
    	}
 
+	@SuppressWarnings("unchecked")
 	public void valueChanged(ListSelectionEvent e) {
-		
+		if(!e.getValueIsAdjusting()){
+			ClientProfile profile = (ClientProfile)((JList)e.getSource()).getSelectedValue();
+			for(Field f : components.keySet()){
+				Class type = f.getType();
+    			try {
+		    		if(type.equals(String.class) || type.equals(int.class)){
+						((JTextField)components.get(f)).setText(f.get(profile).toString());
+		    		}else if(type.equals(Protocol.class)){
+		    			((JComboBox)components.get(f)).setSelectedItem(f.get(profile));
+		    		}else if(type.equals(boolean.class)){
+		    			((JCheckBox)components.get(f)).setSelected(f.getBoolean(profile));
+		    		}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
-	public void getProfile(String name) {
+	public ClientProfile getProfile() throws IllegalArgumentException, IllegalAccessException{
+		return getProfile(null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ClientProfile getProfile(String name) throws IllegalArgumentException, IllegalAccessException {
 		ClientProfile profile = new ClientProfile(name);
-		
+		for(Field f : components.keySet()){
+			JComponent component = components.get(f);
+			Class type = f.getType();
+    		if(type.equals(String.class)){
+    			f.set(profile, ((JTextField)component).getText());
+    		}else if(type.equals(int.class)){
+    			String value = ((JTextField)component).getText();
+    			f.set(profile, Integer.parseInt(value.equals("") ? "0" : value));
+    		}else if(type.equals(Protocol.class)){
+    			f.set(profile, ((JComboBox)component).getSelectedItem());
+    		}else if(type.equals(boolean.class)){
+    			f.set(profile, ((JCheckBox)component).isSelected());
+    		}
+		}
+		return profile;
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -86,7 +131,7 @@ public class ProfileForm extends JPanel implements ListSelectionListener, ItemLi
 			for(Field f : ClientProfile.class.getDeclaredFields()){
 				ClientProfile.metadata annotation = f.getAnnotation(ClientProfile.metadata.class);
 				if(annotation != null){
-					JComponent component = components.get(annotation.label());
+					JComponent component = components.get(f);
 					boolean exists = false;
 					for(Protocol p : annotation.protocols()){
 						if(exists = p.equals(e.getItem())){
