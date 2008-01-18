@@ -36,6 +36,7 @@ public class ProfileList extends JList {
 	
 	public ProfileList(ListSelectionListener l) {
 		setLayout(new GridLayout(0,1));
+		setSelectedIndex(-1);
 		setFixedCellWidth(300);
 		setFixedCellHeight(40);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

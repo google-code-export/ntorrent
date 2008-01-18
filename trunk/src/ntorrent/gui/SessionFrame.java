@@ -19,9 +19,17 @@
  */
 package ntorrent.gui;
 
+import javax.swing.JPanel;
+
+import ntorrent.gui.profile.Profile;
+import ntorrent.gui.profile.ProfileRequester;
+
 /**
  * Main session gui component.
  */
-public class SessionFrame {
+public class SessionFrame extends JPanel{
+	public SessionFrame(ProfileRequester r) {
+		add(new Profile(r));
+	}
 
 }

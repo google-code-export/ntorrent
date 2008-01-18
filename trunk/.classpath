@@ -7,6 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="lib"/>
 	<classpathentry kind="lib" path="locale"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.36.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/sun-jdk-1.5.0.13"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

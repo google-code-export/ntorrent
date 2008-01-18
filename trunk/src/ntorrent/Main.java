@@ -19,12 +19,17 @@
  */
 package ntorrent;
 
+import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JPanel;
+
 import ntorrent.gui.MainWindow;
+import ntorrent.gui.profile.Profile;
 import ntorrent.gui.window.Window;
 import ntorrent.io.logging.SystemLog;
 import ntorrent.io.settings.Constants;
@@ -40,6 +45,12 @@ public class Main implements Constants {
 	
 	/** Logging system **/
 	public static SystemLog log;
+	
+	/** GUI **/
+	public static MainWindow main = new MainWindow();
+	
+	/** Sessions **/
+	public static Vector<Session> sessions = new Vector<Session>();
 	
 	/**
 	 * The main program.
@@ -79,13 +90,20 @@ public class Main implements Constants {
 		}
 		
 		/** Draw Gui **/
-		Window main = new MainWindow();
 		main.drawWindow();
+		newSession();
+		
 		
 	}
 	
+	public static void newSession(){
+		Session s = new Session();
+		sessions.add(s);
+		main.addTab(messages.getString("profile"),s.getSession());
+	}
+	
 	public static void clientSoConn(String line){
-		
+		System.out.println(line);
 	}
 
 }

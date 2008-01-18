@@ -38,7 +38,8 @@ public class GuiAction extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e);
+		//TODO add own gui action logger?
+		System.out.println(e.getActionCommand());
 		listener.actionPerformed(e);
 	}
 

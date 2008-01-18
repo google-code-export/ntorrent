@@ -19,24 +19,39 @@
  */
 package ntorrent;
 
+import javax.swing.JComponent;
+
+import ntorrent.gui.SessionFrame;
 import ntorrent.gui.profile.ClientProfile;
 import ntorrent.gui.profile.ProfileRequester;
+import ntorrent.io.xmlrpc.XmRpcConnection;
 
 /**
  * A ntorrent session
  */
 public class Session implements ProfileRequester {
+	private static final long serialVersionUID = 1L;
+	final JComponent session;
+	XmRpcConnection connection;
+
 	public Session() {
 		/**
 		 * 1.Open profile menu
-		 * 2.Open main gui
-		 * 3.Start xmlrpc connection
+		 * 2.Start xmlrpc connection
+		 * 3.Open main gui.
 		 * 4.Start session threads.
 		 */
+		session = new SessionFrame(this);
+		
+	}
+	
+	public JComponent getSession() {
+		return session;
 	}
 
 	public void sendProfile(ClientProfile p) {
-		// TODO Auto-generated method stub
-		
+		session.removeAll();
+		session.repaint();
+		connection = new XmRpcConnection(p);
 	}
 }

@@ -24,6 +24,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
@@ -37,14 +38,14 @@ import ntorrent.gui.window.Window;
  */
 public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	JTabbedPane connections;
 	
 	public MainWindow() {
 		super();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setJMenuBar(new MainMenuBar(this));
 		JPanel frame = new JPanel(new BorderLayout());
-		JTabbedPane connections = new JTabbedPane(JTabbedPane.TOP);
-		connections.addTab("Profile", null);
+		connections = new JTabbedPane(JTabbedPane.TOP);
 		frame.add(connections);
 		frame.add(new StatusBar(),BorderLayout.SOUTH);
 		setContentPane(frame);
@@ -52,5 +53,9 @@ public class MainWindow extends Window implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getActionCommand());
+	}
+	
+	public void addTab(String title, JComponent content){
+		connections.insertTab(title, null ,content, null, 0);
 	}
 }
