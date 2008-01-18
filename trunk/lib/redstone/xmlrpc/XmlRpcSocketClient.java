@@ -2,9 +2,11 @@ package redstone.xmlrpc;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import redstone.xmlrpc.util.Scgi;
 
@@ -35,19 +37,21 @@ public class XmlRpcSocketClient extends XmlRpcClient {
 	private final int port;
 	private Socket connection;
 
-	public XmlRpcSocketClient(String host, int port) throws Exception {
+	public XmlRpcSocketClient(String host, int port) throws UnknownHostException, IOException{
 		this.host = host;
 		this.port = port;
+		//test the connection
+		new Socket(host,port);
 	}
 	
 	@Override
-	protected void beginCall(String methodName) throws Exception {
+	protected void beginCall(String methodName) throws UnknownHostException, IOException {
 		connection = new Socket(host,port);
 		super.beginCall(methodName);
 	}
 	
 	@Override
-	protected void endCall() throws Exception {
+	protected void endCall() throws IOException, XmlRpcFault{
 		super.endCall();
         StringBuffer buffer = new StringBuffer(Scgi.make(null,writer.toString()));
         OutputStream output = new BufferedOutputStream(connection.getOutputStream());

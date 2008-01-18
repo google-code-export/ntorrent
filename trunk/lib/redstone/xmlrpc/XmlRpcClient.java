@@ -20,8 +20,10 @@
 package redstone.xmlrpc;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -75,7 +77,7 @@ public abstract class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocat
         return returnValue;
     }
 
-    protected void beginCall( String methodName ) throws Exception{
+    protected void beginCall( String methodName ) throws UnknownHostException, IOException{
     		writer = new StringWriter( 2048 );
             writer.write( "<?xml version=\"1.0\" encoding=\"" );
             writer.write( XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) );
@@ -85,12 +87,12 @@ public abstract class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocat
             writer.write( "</methodName><params>" );
     }
 
-    protected void endCall() throws Exception {
+    protected void endCall() throws IOException, XmlRpcFault {
             writer.write( "</params>" );
             writer.write( "</methodCall>" );
     }
 
-    protected void handleResponse(InputStream is) throws Exception{
+    protected void handleResponse(InputStream is) throws XmlRpcFault{
     	parse( new BufferedInputStream( is ) );
         
         if ( isFaultResponse ){
