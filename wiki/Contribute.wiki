@@ -1,5 +1,5 @@
 #labels Featured
-== How can you help nTorrent? ==
+_How can you help nTorrent?_
 
 = Introduction =
 
