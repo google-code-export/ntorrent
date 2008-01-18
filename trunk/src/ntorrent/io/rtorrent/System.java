@@ -30,11 +30,11 @@ public interface System {
 	Object methodHelp();
 	Object multicall();
 	Object shutdown();
-	Object client_version();
+	String client_version();
 	Object get_cwd();
-	Object hostname();
-	Object library_version();
-	Object pid();
+	String hostname();
+	String library_version();
+	String pid();
 	Object set_cwd();
 	Object set_umask();
 }
