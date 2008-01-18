@@ -1,5 +1,5 @@
 #labels Deprecated
-= Howto write a translation file =
+= Howto write a translation file (Deprecated) =
 
 cd into "your ntorrent dir"/language and copy English.lang to "Yourlanguage".lang. Open the file in your favourite text editor and edit the text on the right side of the equality ( = ) symbol.
 
