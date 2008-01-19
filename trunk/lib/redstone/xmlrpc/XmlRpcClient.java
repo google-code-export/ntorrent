@@ -61,13 +61,17 @@ public abstract class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocat
         return returnValue;
     }
 
-    public synchronized Object invoke(String method, Object[] arguments ) throws Exception {
+    public synchronized Object invoke(String method, Object[] arguments ) throws XmlRpcException, XmlRpcFault{
         beginCall( method );
        
         if ( arguments != null ){
             for ( int i = 0; i < arguments.length; ++i ){
 	            writer.write( "<param>" );
-	            serializer.serialize( arguments[ i ], writer );
+	            try {
+					serializer.serialize( arguments[ i ], writer );
+				} catch (IOException e) {
+					throw new XmlRpcException(e.getMessage(),e);
+				}
 	            writer.write( "</param>" );
             }
         }
@@ -77,7 +81,7 @@ public abstract class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocat
         return returnValue;
     }
 
-    protected void beginCall( String methodName ) throws UnknownHostException, IOException{
+    protected void beginCall( String methodName ) throws XmlRpcException{
     		writer = new StringWriter( 2048 );
             writer.write( "<?xml version=\"1.0\" encoding=\"" );
             writer.write( XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) );
@@ -87,7 +91,7 @@ public abstract class XmlRpcClient extends XmlRpcParser implements XmlRpcInvocat
             writer.write( "</methodName><params>" );
     }
 
-    protected void endCall() throws IOException, XmlRpcFault {
+    protected void endCall() throws XmlRpcException, XmlRpcFault {
             writer.write( "</params>" );
             writer.write( "</methodCall>" );
     }

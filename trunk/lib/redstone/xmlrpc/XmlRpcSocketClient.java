@@ -37,44 +37,59 @@ public class XmlRpcSocketClient extends XmlRpcClient {
 	private final int port;
 	private Socket connection;
 
-	public XmlRpcSocketClient(String host, int port) throws UnknownHostException, IOException{
+	public XmlRpcSocketClient(String host, int port) throws XmlRpcException{
 		this.host = host;
 		this.port = port;
 		//test the connection
-		new Socket(host,port);
+		try {
+			new Socket(host,port);
+		} catch (Exception e) {
+			throw new XmlRpcException(e.getMessage(),e);
+		}
+
 	}
 	
 	@Override
-	protected void beginCall(String methodName) throws UnknownHostException, IOException {
-		connection = new Socket(host,port);
+	protected void beginCall(String methodName) throws XmlRpcException {
+		try {
+			connection = new Socket(host,port);
+		} catch (Exception e) {
+			throw new XmlRpcException(e.getMessage(),e);
+		}
 		super.beginCall(methodName);
 	}
 	
 	@Override
-	protected void endCall() throws IOException, XmlRpcFault{
+	protected void endCall()throws XmlRpcException,XmlRpcFault{
 		super.endCall();
-        StringBuffer buffer = new StringBuffer(Scgi.make(null,writer.toString()));
-        OutputStream output = new BufferedOutputStream(connection.getOutputStream());
-        
-        //System.out.println(buffer.toString().replace('\0', ' '));
-        
-        output.write( buffer.toString().getBytes() );
-        output.flush();
-        
-        InputStream input = new BufferedInputStream(connection.getInputStream());
-        
-        /*
-         * ignores response message of scgi server.
-         */
-        int c = 0;
-        while(c != -1){
-        	c = input.read();
-        	if(c == '\r' && input.read() == '\n')
-        		if(input.read() == '\r' && input.read() == '\n')
-        			break;
-        }
+		try {
+	        StringBuffer buffer = new StringBuffer(Scgi.make(null,writer.toString()));
+	        OutputStream output = new BufferedOutputStream(connection.getOutputStream());
+			
+	        //System.out.println(buffer.toString().replace('\0', ' '));
+	        
+	        output.write( buffer.toString().getBytes() );
+	        output.flush();
+	        
+	        InputStream input = new BufferedInputStream(connection.getInputStream());
+	        
+            
+	        /*
+	         * ignores response message of scgi server.
+	         */
+	        int c = 0;
+	        while(c != -1){
+	        	c = input.read();
+	        	if(c == '\r' && input.read() == '\n')
+	        		if(input.read() == '\r' && input.read() == '\n')
+	        			break;
+	        }
 
-        handleResponse(input);
+	        handleResponse(input);
+			
+		} catch (IOException e) {
+			throw new XmlRpcException(e.getMessage(),e);
+		}
 	}
 
 }
