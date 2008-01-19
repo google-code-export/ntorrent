@@ -19,10 +19,15 @@
  */
 package ntorrent;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import ntorrent.gui.SessionFrame;
 import ntorrent.gui.profile.ClientProfile;
+import ntorrent.gui.profile.Profile;
 import ntorrent.gui.profile.ProfileRequester;
 import ntorrent.io.xmlrpc.XmRpcConnection;
 
@@ -31,7 +36,7 @@ import ntorrent.io.xmlrpc.XmRpcConnection;
  */
 public class Session implements ProfileRequester {
 	private static final long serialVersionUID = 1L;
-	final JComponent session;
+	JComponent session;
 	XmRpcConnection connection;
 
 	public Session() {
@@ -41,7 +46,7 @@ public class Session implements ProfileRequester {
 		 * 3.Open main gui.
 		 * 4.Start session threads.
 		 */
-		session = new SessionFrame(this);
+		session = new Profile(this);
 		
 	}
 	
@@ -50,8 +55,14 @@ public class Session implements ProfileRequester {
 	}
 
 	public void sendProfile(ClientProfile p) {
-		session.removeAll();
-		session.repaint();
-		connection = new XmRpcConnection(p);
+		try {
+			connection = new XmRpcConnection(p);
+			session.removeAll();
+			session.repaint();
+			session = new SessionFrame();
+		} catch (Exception e) {
+			Logger.global.log(Level.WARNING, e.getMessage(), e);
+			JOptionPane.showMessageDialog(session, e.getMessage());
+		}
 	}
 }

@@ -28,8 +28,17 @@ import ntorrent.gui.profile.ProfileRequester;
  * Main session gui component.
  */
 public class SessionFrame extends JPanel{
-	public SessionFrame(ProfileRequester r) {
-		add(new Profile(r));
+	public SessionFrame() {
+		/**
+		 * Left bar
+		 * 		^--- torrent selection
+		 * 		^--- torrent labels
+		 * torrent list table north
+		 * torrent info tabbed pane south
+		 * 		^--- tab, general torrent info
+		 * 		^--- tab, torrent files info
+		 * 		^--- tab, torrent tracker info
+		 */
 	}
 
 }

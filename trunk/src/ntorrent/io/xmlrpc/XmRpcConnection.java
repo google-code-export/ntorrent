@@ -19,6 +19,8 @@
  */
 package ntorrent.io.xmlrpc;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.logging.Logger;
 
 import ntorrent.gui.profile.ClientProfile;
@@ -31,11 +33,13 @@ import ntorrent.io.rtorrent.System;
 import ntorrent.io.rtorrent.Tracker;
 import ntorrent.io.tools.LocalPort;
 import redstone.xmlrpc.XmlRpcClient;
+import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcHTTPClient;
 import redstone.xmlrpc.XmlRpcProxy;
 import redstone.xmlrpc.XmlRpcSocketClient;
 
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class XmRpcConnection {
@@ -43,18 +47,18 @@ public class XmRpcConnection {
 	JSch jsch;
 	Session session;
 	
-	public XmRpcConnection(ClientProfile profile) {
-		try{
-			switch (profile.getProtocol()) {
-			case HTTP:
-				//TODO make streaming in clientprofile?
-				client = new XmlRpcHTTPClient("http://"+profile.getHost()+
-						":"+profile.getPort()+
-						profile.getMountPoint(),
-						false);
-				break;
-				
-			case SSH:
+	public XmRpcConnection(ClientProfile profile) throws XmlRpcException, MalformedURLException {
+		switch (profile.getProtocol()) {
+		case HTTP:
+			//TODO make streaming in clientprofile?
+			client = new XmlRpcHTTPClient("http://"+profile.getHost()+
+					":"+profile.getPort()+
+					profile.getMountPoint(),
+					false);
+			break;
+			
+		case SSH:
+			try{
 				JSch.setLogger(new SSHLogger());
 				jsch = new JSch();
 				session = jsch.getSession(
@@ -67,35 +71,34 @@ public class XmRpcConnection {
 				
 				int localPort = LocalPort.findFreePort();
 				
+				
 				session.connect();
 				
 				session.setPortForwardingL(
 						localPort,
 						"127.0.0.1",
 						profile.getSocketPort());
-								
+				
 				client = new XmlRpcSocketClient(
 						"127.0.0.1",
 						localPort);
-				break;
-				
-			case LOCAL:
-				client = new XmlRpcSocketClient(profile.getHost(),
-						profile.getSocketPort());
-				break;
+			}catch(Exception x){
+				throw new XmlRpcException(x.getMessage(),x);
 			}
+			break;
 			
-			System system = getSystemClient();
-			
-			Logger.global.info("Connected to: Host "+
-					system.hostname()+" Running: client "+
-					system.client_version()+", library "+
-					system.library_version()+", pid="+system.pid());
-			
-		}catch(Exception x){
-			//TODO FIX
-			x.printStackTrace();
+		case LOCAL:
+			client = new XmlRpcSocketClient(profile.getHost(),
+					profile.getSocketPort());
+			break;
 		}
+		
+		System system = getSystemClient();
+		
+		Logger.global.info("Connected to: Host "+
+				system.hostname()+" Running: client "+
+				system.client_version()+", library "+
+				system.library_version()+", pid="+system.pid());
 	}
 	
 	public XmlRpcClient getClient() {

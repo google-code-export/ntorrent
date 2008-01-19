@@ -41,6 +41,7 @@ public class Profile extends JPanel implements ActionListener {
 	ProfileRequester req;
 	
 	public Profile(ProfileRequester requester) {
+		JPanel content = new JPanel(new BorderLayout());
 		JPanel buttonpanel = new JPanel();
 		req = requester;
 		
@@ -50,19 +51,18 @@ public class Profile extends JPanel implements ActionListener {
 			new GuiAction("profile.save",this),
 			new GuiAction("profile.delete",this)
 		};
-		
-		/** setting the layout mgr**/
-        setLayout(new BorderLayout());
         
         form = new ProfileForm();
         list = new ProfileList(form);
         
-        add(form,BorderLayout.CENTER);
-        add(new JScrollPane(list),BorderLayout.EAST);
-        add(buttonpanel,BorderLayout.SOUTH);
+        content.add(form,BorderLayout.CENTER);
+        content.add(new JScrollPane(list),BorderLayout.EAST);
+        content.add(buttonpanel,BorderLayout.SOUTH);
         
         for(int x = 0; x < buttons.length; x++)
         	buttonpanel.add(new JButton(buttons[x]));
+        
+        add(content);
 	}
 
     public static void main(String[] args) {
