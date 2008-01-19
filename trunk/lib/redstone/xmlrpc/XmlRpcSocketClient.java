@@ -41,12 +41,13 @@ public class XmlRpcSocketClient extends XmlRpcClient {
 		this.host = host;
 		this.port = port;
 		//test the connection
+		Socket s;
 		try {
-			new Socket(host,port);
+			s = new Socket(host,port);
+			s.close();
 		} catch (Exception e) {
 			throw new XmlRpcException(e.getMessage(),e);
 		}
-
 	}
 	
 	@Override

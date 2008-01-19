@@ -17,37 +17,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.window;
+package ntorrent.io.logging;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import com.jcraft.jsch.Logger;
 
-import javax.swing.JFrame;
+public class SSHLogger implements Logger {
 
-import ntorrent.io.settings.Constants;
+	public boolean isEnabled(int level) {
+		return true;
+	}
 
-public class Window extends JFrame {
-	private static final long serialVersionUID = 1L;
-	Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
-	public Window(){
-		this(Constants.appName);
+	public void log(int level, String message) {
+		String type = "";
+		if(level == INFO){
+			type = "INFO";
+		}else if(level == DEBUG){
+			type = "DEBUG";
+		}else if(level == WARN){
+			type = "WARN";
+		}else if(level == FATAL){
+			type = "FATAL";
+		}else if(level == ERROR){
+			type = "ERROR";
+		}
+			
+		java.util.logging.Logger.global.log(SSHLoggerLevel.SSH,type+": "+message);
+		
 	}
-	
-	public Window(String title){
-		super(title);
-		this.setIconImage(icon);
-	}
-	
-	public void drawWindow(){
-		this.validate();
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
-	}
-	
-	public void closeWindow(){
-		this.setVisible(false);
-		this.dispose();
-	}
-	
+
 }

@@ -17,37 +17,19 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.window;
+package ntorrent.io.logging;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.util.logging.Level;
 
-import javax.swing.JFrame;
+public class SSHLoggerLevel extends Level {
 
-import ntorrent.io.settings.Constants;
-
-public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
-	Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
-	public Window(){
-		this(Constants.appName);
+
+	protected SSHLoggerLevel(String name, int value) {
+		super(name, value);
 	}
-	
-	public Window(String title){
-		super(title);
-		this.setIconImage(icon);
-	}
-	
-	public void drawWindow(){
-		this.validate();
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
-	}
-	
-	public void closeWindow(){
-		this.setVisible(false);
-		this.dispose();
-	}
-	
+
+    public static Level SSH =
+        new SSHLoggerLevel("SSH", Level.INFO.intValue()+55);
+    
 }

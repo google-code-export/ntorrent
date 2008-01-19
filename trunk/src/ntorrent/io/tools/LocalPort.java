@@ -17,37 +17,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.window;
+package ntorrent.io.tools;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.ServerSocket;
 
-import javax.swing.JFrame;
-
-import ntorrent.io.settings.Constants;
-
-public class Window extends JFrame {
-	private static final long serialVersionUID = 1L;
-	Image icon = Toolkit.getDefaultToolkit().getImage("icons/ntorrent48.png");
-	public Window(){
-		this(Constants.appName);
+public class LocalPort {
+	public static int findFreePort() throws IOException {
+		ServerSocket server = new ServerSocket(0);
+		int port = server.getLocalPort();
+		server.close();
+		return port;
 	}
-	
-	public Window(String title){
-		super(title);
-		this.setIconImage(icon);
-	}
-	
-	public void drawWindow(){
-		this.validate();
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
-	}
-	
-	public void closeWindow(){
-		this.setVisible(false);
-		this.dispose();
-	}
-	
 }

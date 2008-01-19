@@ -22,15 +22,26 @@ package ntorrent.io.xmlrpc;
 import java.util.logging.Logger;
 
 import ntorrent.gui.profile.ClientProfile;
+import ntorrent.io.logging.SSHLogger;
+import ntorrent.io.rtorrent.Download;
+import ntorrent.io.rtorrent.File;
+import ntorrent.io.rtorrent.Global;
+import ntorrent.io.rtorrent.PeerConnection;
 import ntorrent.io.rtorrent.System;
-import ntorrent.io.rtorrent.*;
+import ntorrent.io.rtorrent.Tracker;
+import ntorrent.io.tools.LocalPort;
 import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcHTTPClient;
 import redstone.xmlrpc.XmlRpcProxy;
 import redstone.xmlrpc.XmlRpcSocketClient;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
+
 public class XmRpcConnection {
 	XmlRpcClient client;
+	JSch jsch;
+	Session session;
 	
 	public XmRpcConnection(ClientProfile profile) {
 		try{
@@ -42,8 +53,32 @@ public class XmRpcConnection {
 						profile.getMountPoint(),
 						false);
 				break;
+				
 			case SSH:
+				JSch.setLogger(new SSHLogger());
+				jsch = new JSch();
+				session = jsch.getSession(
+						profile.getUsername(), 
+						profile.getHost(), 
+						profile.getPort());
+				
+				session.setPassword(profile.getPassword());
+				session.setConfig("StrictHostKeyChecking","no");
+				
+				int localPort = LocalPort.findFreePort();
+				
+				session.connect();
+				
+				session.setPortForwardingL(
+						localPort,
+						"127.0.0.1",
+						profile.getSocketPort());
+								
+				client = new XmlRpcSocketClient(
+						"127.0.0.1",
+						localPort);
 				break;
+				
 			case LOCAL:
 				client = new XmlRpcSocketClient(profile.getHost(),
 						profile.getSocketPort());
@@ -90,4 +125,5 @@ public class XmRpcConnection {
 	public Tracker getTrackerClient(){
 		return (Tracker)XmlRpcProxy.createProxy("t",new Class[] { Tracker.class }, client);
 	}
+
 }
