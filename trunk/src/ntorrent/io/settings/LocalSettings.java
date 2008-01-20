@@ -19,6 +19,9 @@
  */
 package ntorrent.io.settings;
 
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+
 
 public class LocalSettings extends Settings {
 
@@ -26,5 +29,8 @@ public class LocalSettings extends Settings {
 	
 	@Description("Debug?")
 	public boolean debug = true;
+	
+	@Description("Skin")
+	public String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 		
 }

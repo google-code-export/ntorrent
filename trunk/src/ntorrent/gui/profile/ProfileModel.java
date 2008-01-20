@@ -19,12 +19,16 @@
  */
 package ntorrent.gui.profile;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 
-public class ProfileModel extends AbstractListModel implements Serializable{
+import ntorrent.io.tools.Serializer;
+
+public class ProfileModel extends AbstractListModel implements Serializable,Iterable<ClientProfile>{
 	private static final long serialVersionUID = 1L;
 	Vector<ClientProfile> list = new Vector<ClientProfile>();
 
@@ -51,6 +55,14 @@ public class ProfileModel extends AbstractListModel implements Serializable{
 		list.addElement(profile);
 		int index = list.indexOf(profile);
 		fireIntervalAdded(this,index,index);
+	}
+	
+	public static ProfileModel deserialize() throws IOException, ClassNotFoundException{
+		return (ProfileModel)Serializer.deserialize(ProfileModel.class);
+	}
+
+	public Iterator<ClientProfile> iterator() {
+		return list.iterator();
 	}
 	
 

@@ -22,6 +22,8 @@ package ntorrent.gui.profile;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -88,8 +90,8 @@ public class Profile extends JPanel implements ActionListener {
 				list.deleteSelected();
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Logger.global.log(Level.SEVERE, e1.getMessage(), e1);
+			JOptionPane.showMessageDialog(this, e1.getMessage());
 		}
 	}
 }

@@ -19,29 +19,9 @@
  */
 package ntorrent.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JComponent;
 
-import javax.swing.AbstractAction;
-
-import ntorrent.io.settings.Constants;
-
-public class GuiAction extends AbstractAction {
-	private static final long serialVersionUID = 1L;
-	ActionListener listener;
-	
-	public GuiAction(String key, ActionListener listener) {
-		this.listener = listener;
-		putValue(ACTION_COMMAND_KEY, key);
-		putValue(NAME,Constants.messages.getString(key));
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		//TODO add own gui action logger?
-		Logger.global.log(Level.INFO, e.toString());
-		listener.actionPerformed(e);
-	}
-
+public interface TabbedPaneHolder {
+	public void addTab(String title, JComponent c);
+	public void removeTab(JComponent c);
 }

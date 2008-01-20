@@ -21,6 +21,7 @@ package ntorrent.gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,12 +37,13 @@ import ntorrent.gui.window.Window;
  * The main ntorrent window, consisting of menubar and jtabbedpane, 
  * where each tab holds its own session.
  */
-public class MainWindow extends Window implements ActionListener {
+public class MainWindow extends Window implements ActionListener, TabbedPaneHolder {
 	private static final long serialVersionUID = 1L;
 	JTabbedPane connections;
 	
 	public MainWindow() {
 		super();
+		setPreferredSize(new Dimension(768,640));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setJMenuBar(new MainMenuBar(this));
 		JPanel frame = new JPanel(new BorderLayout());
@@ -56,6 +58,10 @@ public class MainWindow extends Window implements ActionListener {
 	}
 	
 	public void addTab(String title, JComponent content){
-		connections.insertTab(title, null ,content, null, 0);
+		connections.insertTab(title, null ,content, null, connections.getTabCount());
+	}
+
+	public void removeTab(JComponent c) {
+		connections.remove(c);
 	}
 }

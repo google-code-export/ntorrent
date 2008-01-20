@@ -26,10 +26,16 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import ntorrent.gui.MainWindow;
+import ntorrent.gui.profile.ClientProfile;
 import ntorrent.gui.profile.Profile;
+import ntorrent.gui.profile.ProfileModel;
 import ntorrent.gui.window.Window;
 import ntorrent.io.logging.SystemLog;
 import ntorrent.io.settings.Constants;
@@ -60,48 +66,63 @@ public class Main implements Constants {
 	 * @throws IOException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static void main(String[] args) throws IllegalArgumentException, IOException, IllegalAccessException, ClassNotFoundException {
-
-		/** License **/
-		System.out.println(messages.getString("lic"));
-		
-		/** Loading environment **/
-		if(!(ntorrent.isDirectory() || ntorrent.mkdir()))
-			Logger.global.log(Level.WARNING,messages.getString("ntdir")+ntorrent);
-		
-		/** Load logging **/
-		//log = new SystemLog();
-
-		/** Load settings**/
+	public static void main(String[] args){
 		try{
-		settings = (LocalSettings)Serializer.deserialize(LocalSettings.class);
-		} catch(FileNotFoundException e){
-			Logger.global.log(Level.WARNING,messages.getString("F404")+e.getMessage());
-			Serializer.serialize(settings);
+			/** License **/
+			System.out.println(messages.getString("lic"));
+			
+			/** Loading environment **/
+			if(!(ntorrent.isDirectory() || ntorrent.mkdir()))
+				Logger.global.log(Level.WARNING,messages.getString("ntdir")+ntorrent);
+			
+			/** Load logging **/
+			//log = new SystemLog();
+	
+			/** Load settings**/
+			try{
+			settings = (LocalSettings)Serializer.deserialize(LocalSettings.class);
+			} catch(FileNotFoundException e){
+				Logger.global.log(Level.WARNING,messages.getString("F404")+e.getMessage());
+				Serializer.serialize(settings);
+			}
+			
+			/** Start socket server **/
+			try{
+				new Server().start();
+			}catch(IOException e){
+				Logger.global.info(e.getMessage());
+				new Client(args);
+				System.exit(0);
+			}
+			
+			/** autoconnect **/
+			ProfileModel profiles = ProfileModel.deserialize();
+			for(ClientProfile p : profiles){
+				if(p.isAutoConnect()){
+					Session s = new Session(main);
+					s.sendProfile(p);
+					sessions.add(s);
+				}
+			}
+			
+			if(!(sessions.size() > 0)){
+				Session s = new Session(main);
+				sessions.add(s);
+				
+			}
+			
+			/**UImanager**/
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			
+			/** Draw Gui **/
+			main.drawWindow();
+			
+		} catch(Exception x){
+			Logger.global.log(Level.WARNING, x.getMessage(),x);
 		}
 		
-		/** Start socket server **/
-		try{
-			new Server().start();
-		}catch(IOException e){
-			Logger.global.info(e.getMessage());
-			new Client(args);
-			System.exit(0);
-		}
-		
-		/** Draw Gui **/
-		main.drawWindow();
-		newSession();
-		
-		
 	}
-	
-	public static void newSession(){
-		Session s = new Session();
-		sessions.add(s);
-		main.addTab(messages.getString("profile"),s.getSession());
-	}
-	
+			
 	public static void clientSoConn(String line){
 		System.out.println(line);
 	}

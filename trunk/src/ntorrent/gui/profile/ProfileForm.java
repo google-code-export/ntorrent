@@ -42,7 +42,8 @@ import ntorrent.io.settings.Constants;
 public class ProfileForm extends JPanel implements ListSelectionListener, ItemListener  {
 	private static final long serialVersionUID = 1L;
 	private HashMap<Field,JComponent> components = new HashMap<Field,JComponent>();
-
+	private boolean FormListSelection = false;
+	
 	@SuppressWarnings("unchecked")
 	public ProfileForm() {
     	setLayout(new GridLayout(0,1));
@@ -82,6 +83,7 @@ public class ProfileForm extends JPanel implements ListSelectionListener, ItemLi
 
 	@SuppressWarnings("unchecked")
 	public void valueChanged(ListSelectionEvent e) {
+		FormListSelection = true;
 		if(!e.getValueIsAdjusting()){
 			ClientProfile profile = (ClientProfile)((JList)e.getSource()).getSelectedValue();
 			for(Field f : components.keySet()){
@@ -89,10 +91,10 @@ public class ProfileForm extends JPanel implements ListSelectionListener, ItemLi
     			try {
 		    		if(type.equals(String.class) || type.equals(int.class)){
 						((JTextField)components.get(f)).setText(f.get(profile).toString());
+		    		}else if(type.equals(boolean.class)){
+		    			((JCheckBox)components.get(f)).setSelected((Boolean)f.get(profile));
 		    		}else if(type.equals(Protocol.class)){
 		    			((JComboBox)components.get(f)).setSelectedItem(f.get(profile));
-		    		}else if(type.equals(boolean.class)){
-		    			((JCheckBox)components.get(f)).setSelected(f.getBoolean(profile));
 		    		}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -116,7 +118,7 @@ public class ProfileForm extends JPanel implements ListSelectionListener, ItemLi
     			f.set(profile, ((JTextField)component).getText());
     		}else if(type.equals(int.class)){
     			String value = ((JTextField)component).getText();
-    			f.set(profile, Integer.parseInt(value.equals("") ? "0" : value));
+    			f.set(profile, value.equals("") ? Integer.parseInt("0") : Integer.parseInt(value));
     		}else if(type.equals(Protocol.class)){
     			f.set(profile, ((JComboBox)component).getSelectedItem());
     		}else if(type.equals(boolean.class)){
@@ -127,7 +129,7 @@ public class ProfileForm extends JPanel implements ListSelectionListener, ItemLi
 	}
 
 	public void itemStateChanged(ItemEvent e) {
-		if(e.getStateChange() == ItemEvent.SELECTED){
+		if((e.getStateChange() == ItemEvent.SELECTED)){
 			for(Field f : ClientProfile.class.getDeclaredFields()){
 				ClientProfile.metadata annotation = f.getAnnotation(ClientProfile.metadata.class);
 				if(annotation != null){
@@ -139,23 +141,20 @@ public class ProfileForm extends JPanel implements ListSelectionListener, ItemLi
 						}
 					}
 				
+					component.setEnabled(exists);
 					
-					String value = annotation.value()[((Protocol)e.getItem()).ordinal()];	
-					if(component instanceof JTextField){
-						((JTextField)component).setText(value);
-					}else if(component instanceof JCheckBox){
-						boolean b = !value.equals("0");
-						((JCheckBox)component).setSelected(b);
-					}
-					
-					if(!exists){
-						component.setEnabled(false);
-					}else{
-						component.setEnabled(true);
-					}
-
+					if(!FormListSelection){
+						String value = annotation.value()[((Protocol)e.getItem()).ordinal()];	
+						if(component instanceof JTextField){
+							((JTextField)component).setText(value);
+						}else if(component instanceof JCheckBox){
+							boolean b = !value.equals("0");
+							((JCheckBox)component).setSelected(b);
+						}
+					}	
 				}
 			}
+			FormListSelection = false;
 		}
 	}
 }

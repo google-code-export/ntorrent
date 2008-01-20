@@ -26,43 +26,55 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import ntorrent.gui.SessionFrame;
+import ntorrent.gui.TabbedPaneHolder;
 import ntorrent.gui.profile.ClientProfile;
 import ntorrent.gui.profile.Profile;
 import ntorrent.gui.profile.ProfileRequester;
+import ntorrent.io.settings.Constants;
 import ntorrent.io.xmlrpc.XmRpcConnection;
 
 /**
  * A ntorrent session
  */
-public class Session implements ProfileRequester {
+public class Session extends Thread implements ProfileRequester{
 	private static final long serialVersionUID = 1L;
 	JComponent session;
 	XmRpcConnection connection;
+	ClientProfile profile;
+	TabbedPaneHolder jtab;
 
-	public Session() {
+	public Session(TabbedPaneHolder tph) {
 		/**
 		 * 1.Open profile menu
 		 * 2.Start xmlrpc connection
 		 * 3.Open main gui.
 		 * 4.Start session threads.
 		 */
+		jtab = tph;
 		session = new Profile(this);
-		
-	}
+		jtab.addTab(Constants.messages.getString("profile"), session);
 	
-	public JComponent getSession() {
-		return session;
 	}
 
 	public void sendProfile(ClientProfile p) {
+		profile = p;
+		new Thread(this).start();
+	}
+	
+	@Override
+	public void run() {
 		try {
-			connection = new XmRpcConnection(p);
-			session.removeAll();
-			session.repaint();
+			connection = new XmRpcConnection(profile);
+			jtab.removeTab(session);
 			session = new SessionFrame();
+			jtab.addTab(profile.toString(), session);
 		} catch (Exception e) {
 			Logger.global.log(Level.WARNING, e.getMessage(), e);
-			JOptionPane.showMessageDialog(session, e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	}
+
+	public JComponent getComponent() {
+		return session;
 	}
 }
