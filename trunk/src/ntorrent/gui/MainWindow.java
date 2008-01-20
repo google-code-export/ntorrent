@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
+import ntorrent.Main;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
 
@@ -52,10 +53,6 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 		frame.add(new StatusBar(),BorderLayout.SOUTH);
 		setContentPane(frame);
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
-	}
 	
 	public void addTab(String title, JComponent content){
 		connections.insertTab(title, null ,content, null, connections.getTabCount());
@@ -63,5 +60,12 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 
 	public void removeTab(JComponent c) {
 		connections.remove(c);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		String c = e.getActionCommand();
+		if(c.equals("filemenu.connect")){
+			Main.newSession();
+		}
 	}
 }

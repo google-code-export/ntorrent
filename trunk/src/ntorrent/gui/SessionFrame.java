@@ -19,16 +19,27 @@
  */
 package ntorrent.gui;
 
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
-import ntorrent.gui.profile.Profile;
-import ntorrent.gui.profile.ProfileRequester;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 /**
  * Main session gui component.
  */
 public class SessionFrame extends JPanel{
 	public SessionFrame() {
+		super(new BorderLayout());
+		JSplitPane vsplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		vsplit.add(new JLabel("selection/label"));
+		vsplit.add(new JLabel("table"));
+		
+		JSplitPane hsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		hsplit.add(vsplit);
+		hsplit.add(new JLabel("JTAB"));
+		
+		add(hsplit);
 		/**
 		 * Left bar
 		 * 		^--- torrent selection
