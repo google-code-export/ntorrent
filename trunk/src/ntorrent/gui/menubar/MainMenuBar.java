@@ -41,6 +41,8 @@ public class MainMenuBar extends JMenuBar {
 		file.add(new JMenuItem(new GuiAction("filemenu.startall",listener)));
 		file.add(new JMenuItem(new GuiAction("filemenu.stopall",listener)));
 		file.add(new JSeparator());
+		file.add(new JMenuItem(new GuiAction("filemenu.connect",listener)));
+		file.add(new JSeparator());
 		file.add(new JMenuItem(new GuiAction("filemenu.quit",listener)));
 		help.add(new JMenuItem(new GuiAction("helpmenu.settings",listener)));
 		help.add(new JMenuItem(new GuiAction("helpmenu.about",listener)));
