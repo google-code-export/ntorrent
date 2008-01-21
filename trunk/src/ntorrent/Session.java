@@ -39,7 +39,7 @@ import ntorrent.io.xmlrpc.XmRpcConnection;
 public class Session extends Thread implements ProfileRequester{
 	private static final long serialVersionUID = 1L;
 	JComponent session;
-	XmRpcConnection connection;
+	XmRpcConnection connection = null;
 	ClientProfile profile;
 	TabbedPaneHolder jtab;
 
@@ -76,5 +76,9 @@ public class Session extends Thread implements ProfileRequester{
 
 	public JComponent getComponent() {
 		return session;
+	}
+	
+	public boolean isConnected(){
+		return !(connection == null);
 	}
 }

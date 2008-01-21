@@ -40,7 +40,7 @@ public class GuiAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		//TODO add own gui action logger?
-		Logger.global.log(Level.INFO, e.toString());
+		Logger.global.log(Level.INFO, e.getActionCommand());
 		listener.actionPerformed(e);
 	}
 

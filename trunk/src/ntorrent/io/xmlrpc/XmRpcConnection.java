@@ -19,7 +19,6 @@
  */
 package ntorrent.io.xmlrpc;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Logger;
 
@@ -39,7 +38,6 @@ import redstone.xmlrpc.XmlRpcProxy;
 import redstone.xmlrpc.XmlRpcSocketClient;
 
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class XmRpcConnection {
@@ -47,14 +45,18 @@ public class XmRpcConnection {
 	JSch jsch;
 	Session session;
 	
-	public XmRpcConnection(ClientProfile profile) throws XmlRpcException, MalformedURLException {
+	public XmRpcConnection(ClientProfile profile) throws XmlRpcException {
 		switch (profile.getProtocol()) {
 		case HTTP:
 			//TODO make streaming in clientprofile?
-			client = new XmlRpcHTTPClient("http://"+profile.getHost()+
-					":"+profile.getPort()+
-					profile.getMountPoint(),
-					false);
+			try {
+					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
+							":"+profile.getPort()+
+							profile.getMountPoint(),
+							false);
+				} catch (MalformedURLException e) {
+					throw new XmlRpcException(e.getMessage(),e);
+				}
 			break;
 			
 		case SSH:
@@ -70,7 +72,6 @@ public class XmRpcConnection {
 				session.setConfig("StrictHostKeyChecking","no");
 				
 				int localPort = LocalPort.findFreePort();
-				
 				
 				session.connect();
 				
