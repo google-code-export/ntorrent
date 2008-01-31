@@ -107,7 +107,9 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 	}
 	
 	public JComponent getDisplay() {
-		return pane;
+		JPanel p = new JPanel();
+		p.add(pane);
+		return p;
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {

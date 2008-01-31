@@ -19,6 +19,8 @@
  */
 package ntorrent.gui.profile;
 
+import javax.swing.JComponent;
+
 import ntorrent.gui.profile.model.ClientProfileInterface;
 import ntorrent.gui.profile.model.HttpProfileModel;
 import ntorrent.gui.profile.model.LocalProfileModel;
@@ -41,24 +43,21 @@ public class ClientProfileController {
 	HttpProfileView httpView = new HttpProfileView(httpModel);
 	ClientProfileView mainView;
 	
-	public ClientProfileController() {
+	ProfileRequester req;
+	
+	public ClientProfileController(ProfileRequester r) {
+		req = r;
 		AbstractClientProfileView[] views = {localView,sshView,httpView};
 		mainView = new ClientProfileView(views,this);
 	}
 	
 	
-	public ClientProfileView getMainView() {
-		return mainView;
+	public JComponent getDisplay() {
+		return mainView.getDisplay();
 	}
-	
-	public static void main(String[] args) {
-		new ClientProfileController().getMainView().display();
-	}
-
 
 	public void connectEvent(ClientProfileInterface model) {
-		// TODO Auto-generated method stub
-		
+		req.sendProfile(model);
 	}
 
 }

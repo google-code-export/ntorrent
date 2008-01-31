@@ -27,8 +27,9 @@ import javax.swing.JOptionPane;
 
 import ntorrent.gui.SessionFrame;
 import ntorrent.gui.TabbedPaneHolder;
-import ntorrent.gui.profile.ClientProfile;
+import ntorrent.gui.profile.ClientProfileController;
 import ntorrent.gui.profile.ProfileRequester;
+import ntorrent.gui.profile.model.ClientProfileInterface;
 import ntorrent.io.settings.Constants;
 import ntorrent.io.xmlrpc.XmRpcConnection;
 
@@ -39,7 +40,7 @@ public class Session extends Thread implements ProfileRequester{
 	private static final long serialVersionUID = 1L;
 	JComponent session;
 	XmRpcConnection connection = null;
-	ClientProfile profile;
+	ClientProfileInterface profile;
 	TabbedPaneHolder jtab;
 
 	public Session(TabbedPaneHolder tph) {
@@ -50,12 +51,12 @@ public class Session extends Thread implements ProfileRequester{
 		 * 4.Start session threads.
 		 */
 		jtab = tph;
-		//session = new Profile(this);
+		session = new ClientProfileController(this).getDisplay();
 		jtab.addTab(Constants.messages.getString("profile"), session);
 	
 	}
 
-	public void sendProfile(ClientProfile p) {
+	public void sendProfile(ClientProfileInterface  p) {
 		profile = p;
 		new Thread(this).start();
 	}

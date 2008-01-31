@@ -22,7 +22,10 @@ package ntorrent.io.xmlrpc;
 import java.net.MalformedURLException;
 import java.util.logging.Logger;
 
-import ntorrent.gui.profile.ClientProfile;
+import ntorrent.gui.profile.model.ClientProfileInterface;
+import ntorrent.gui.profile.model.HttpProfileModel;
+import ntorrent.gui.profile.model.LocalProfileModel;
+import ntorrent.gui.profile.model.SshProfileModel;
 import ntorrent.io.logging.SSHLogger;
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.rtorrent.File;
@@ -45,14 +48,15 @@ public class XmRpcConnection {
 	JSch jsch;
 	Session session;
 	
-	public XmRpcConnection(ClientProfile profile) throws XmlRpcException {
-		switch (profile.getProtocol()) {
+	public XmRpcConnection(ClientProfileInterface p) throws XmlRpcException {
+		switch (p.getProtocol()) {
 		case HTTP:
 			//TODO make streaming in clientprofile?
 			try {
+					HttpProfileModel profile = (HttpProfileModel) p;
 					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
 							":"+profile.getPort()+
-							profile.getMountPoint(),
+							profile.getMountpoint(),
 							false);
 				} catch (MalformedURLException e) {
 					throw new XmlRpcException(e.getMessage(),e);
@@ -61,6 +65,7 @@ public class XmRpcConnection {
 			
 		case SSH:
 			try{
+				SshProfileModel profile = (SshProfileModel) p;
 				JSch.setLogger(new SSHLogger());
 				jsch = new JSch();
 				session = jsch.getSession(
@@ -78,7 +83,7 @@ public class XmRpcConnection {
 				session.setPortForwardingL(
 						localPort,
 						"127.0.0.1",
-						profile.getSocketPort());
+						profile.getSocketport());
 				
 				client = new XmlRpcSocketClient(
 						"127.0.0.1",
@@ -89,8 +94,9 @@ public class XmRpcConnection {
 			break;
 			
 		case LOCAL:
+			LocalProfileModel profile = (LocalProfileModel) p;
 			client = new XmlRpcSocketClient(profile.getHost(),
-					profile.getSocketPort());
+					profile.getSocketport());
 			break;
 		}
 		
