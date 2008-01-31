@@ -28,8 +28,6 @@ import java.util.logging.Logger;
 import javax.swing.UIManager;
 
 import ntorrent.gui.MainWindow;
-import ntorrent.gui.profile.ClientProfile;
-import ntorrent.gui.profile.ProfileModel;
 import ntorrent.io.logging.SystemLog;
 import ntorrent.io.settings.Constants;
 import ntorrent.io.settings.LocalSettings;
@@ -95,12 +93,12 @@ public class Main implements Constants {
 			main = new MainWindow();
 			
 			/** autoconnect **/
-			ProfileModel profiles = ProfileModel.deserialize();
-			for(ClientProfile p : profiles){
+			//ProfileModel profiles = ProfileModel.deserialize();
+			/*for(ClientProfile p : profiles){
 				if(p.isAutoConnect()){
 					newSession().sendProfile(p);
 				}
-			}
+			}*/
 			
 			if(!(sessions.size() > 0)){
 				newSession();

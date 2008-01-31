@@ -17,9 +17,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.profile;
+package ntorrent.gui.profile.model;
 
+import java.io.Serializable;
 
-public interface ProfileRequester {
-	public void sendProfile(ClientProfile p);
+public interface ClientProfileInterface extends Serializable, Cloneable {
+	
+	public enum Protocol implements Serializable {
+		LOCAL,SSH,HTTP
+	}
+	
+	public Protocol getProtocol();
+	public boolean isAutoConnect();
+	public void setAutoConnect(boolean autoConnect);
+	public String getName();
+	public void setName(String name);
+	public Object clone();
+	
 }
