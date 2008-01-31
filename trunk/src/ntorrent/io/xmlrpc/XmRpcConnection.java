@@ -57,6 +57,7 @@ public class XmRpcConnection {
 					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
 							":"+profile.getPort()+
 							profile.getMountpoint(),
+							profile.getProxy().getJavaProxy(),
 							false);
 				} catch (MalformedURLException e) {
 					throw new XmlRpcException(e.getMessage(),e);
@@ -75,6 +76,7 @@ public class XmRpcConnection {
 				
 				session.setPassword(profile.getPassword());
 				session.setConfig("StrictHostKeyChecking","no");
+				session.setProxy(profile.getProxy().getJschProxy());
 				
 				int localPort = LocalPort.findFreePort();
 				

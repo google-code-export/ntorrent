@@ -26,6 +26,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,9 +61,9 @@ public class XmlRpcHTTPClient extends XmlRpcClient
      * @throws MalformedURLException 
      */
 
-    public XmlRpcHTTPClient( String url, boolean streamMessages ) throws MalformedURLException
+    public XmlRpcHTTPClient( String url, Proxy proxy,boolean streamMessages ) throws MalformedURLException
     {
-        this( new URL( url ), streamMessages );
+        this( new URL( url ),proxy, streamMessages );
     }
     
     
@@ -70,9 +71,10 @@ public class XmlRpcHTTPClient extends XmlRpcClient
      *  @see XmlRpcClient(String,boolean)
      */
 
-    public XmlRpcHTTPClient( URL url, boolean streamMessages )
+    public XmlRpcHTTPClient( URL url, Proxy proxy, boolean streamMessages )
     {
         this.url = url;
+        this.proxy = proxy;
         this.streamMessages = streamMessages;
         
         if ( !streamMessages )
@@ -468,7 +470,7 @@ public class XmlRpcHTTPClient extends XmlRpcClient
 
     private void openConnection() throws IOException
     {
-        connection = ( HttpURLConnection ) url.openConnection();
+        connection = ( HttpURLConnection ) url.openConnection(proxy);
         connection.setDoInput( true );
         connection.setDoOutput( true );
         connection.setRequestMethod( "POST" );
@@ -493,6 +495,9 @@ public class XmlRpcHTTPClient extends XmlRpcClient
 
     /** The server URL. */
     private URL url;
+    
+    /** Proxy connection **/
+    private Proxy proxy;
 
     /** Connection to the server. */
     private HttpURLConnection connection;
