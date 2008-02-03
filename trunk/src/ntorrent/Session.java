@@ -55,9 +55,22 @@ public class Session extends Thread implements ProfileRequester{
 		jtab.addTab(Constants.messages.getString("profile"), session);
 	
 	}
+	
+	public Session(TabbedPaneHolder tph, ClientProfileInterface p) {
+		/**
+		 * 1.Open profile menu
+		 * 2.Start xmlrpc connection
+		 * 3.Open main gui.
+		 * 4.Start session threads.
+		 */
+		jtab = tph;
+		sendProfile(p);
+	
+	}
 
 	public void sendProfile(ClientProfileInterface  p) {
 		profile = p;
+		jtab.removeTab(session);
 		new Thread(this).start();
 	}
 	
@@ -65,7 +78,6 @@ public class Session extends Thread implements ProfileRequester{
 	public void run() {
 		try {
 			connection = new XmRpcConnection(profile);
-			jtab.removeTab(session);
 			session = new SessionFrame();
 			jtab.addTab(profile.toString(), session);
 		} catch (Exception e) {
@@ -73,12 +85,16 @@ public class Session extends Thread implements ProfileRequester{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
-
-	public JComponent getComponent() {
-		return session;
-	}
 	
 	public boolean isConnected(){
 		return !(connection == null);
+	}
+	
+	public XmRpcConnection getConnection() {
+		return connection;
+	}
+	
+	public ClientProfileInterface getProfile() {
+		return profile;
 	}
 }

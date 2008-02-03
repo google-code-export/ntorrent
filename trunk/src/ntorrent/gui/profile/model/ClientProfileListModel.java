@@ -85,4 +85,13 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 	public void removeListDataListener(ListDataListener l) {
 		listener.remove(l);
 	}
+
+	public static ClientProfileListModel Deserialize() {
+		try {
+			return (ClientProfileListModel) Serializer.deserialize(ClientProfileListModel.class);
+		} catch (Exception e) {
+			Logger.global.log(Level.WARNING,e.getMessage(),e);
+		}
+		return null;
+	}
 }
