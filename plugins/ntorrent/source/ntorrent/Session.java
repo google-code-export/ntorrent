@@ -27,8 +27,8 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import ntorrent.env.Environment;
-import ntorrent.gui.SessionFrame;
 import ntorrent.gui.TabbedPaneHolder;
+import ntorrent.gui.session.SessionFrame;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.ClientProfileController;
 import ntorrent.profile.ProfileRequester;
