@@ -11,6 +11,7 @@
 	<classpathentry kind="src" output="plugins/ntorrent.tools/classes" path="plugins/ntorrent.tools/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.model/classes" path="plugins/ntorrent.model/source"/>
 	<classpathentry kind="src" output="plugins/testplugin/classes" path="plugins/testplugin/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.gui.session/classes" path="plugins/ntorrent.gui.session/source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
