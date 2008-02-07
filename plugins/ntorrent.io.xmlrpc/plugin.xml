@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
+<plugin id="ntorrent.io.xmlrpc" version="0.1">
+	<requires>
+		<import plugin-id="redstone.xmlrpc" />
+		<import plugin-id="ntorrent.profile" />
+		<import plugin-id="ntorrent.io.rtorrent" />
+	</requires>
+	<runtime>
+		<library id="src" path="classes/" type="code">
+			<export prefix="*" />
+		</library>
+		<library id="jsch" path="lib/jsch-0.1.37.jar" type="code" />
+	</runtime>
+</plugin>

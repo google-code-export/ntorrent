@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
+<plugin id="ntorrent.profile" version="0.1">
+	<requires>
+		<import plugin-id="ntorrent.mvc" />
+		<import plugin-id="ntorrent.env" />
+		<import plugin-id="ntorrent.tools" reverse-lookup="true" />
+	</requires>
+	<runtime>
+		<library id="src" path="classes/" type="code">
+			<export prefix="*" />
+		</library>
+	</runtime>
+</plugin>

@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
+<plugin id="ntorrent" version="0.1" class="ntorrent.Main">
+	<requires>
+		<import plugin-id="redstone.xmlrpc" />
+		<import plugin-id="ntorrent.io.xmlrpc" />
+		<import plugin-id="ntorrent.profile" />
+		<import plugin-id="ntorrent.env" />
+		<import plugin-id="ntorrent.tools" reverse-lookup="true" />
+	</requires>
+	<runtime>
+		<library id="src" path="classes/" type="code">
+			<export prefix="*" />
+		</library>
+		<library id="jsch" path="lib/jsch-0.1.37.jar" type="code" />
+		<library id="locale" path="locale/" type="resources"/>
+		<library type="resources" path="icons/" id="icons">
+			<export prefix="*"/>
+		</library>
+	</runtime>
+	<extension-point id="MenuBarExtension">
+		<parameter-def id="class"/>
+	</extension-point>
+</plugin>

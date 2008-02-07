@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="plugins/ntorrent/classes" path="plugins/ntorrent/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.gui.trayicon/classes" path="plugins/ntorrent.gui.trayicon/source"/>
+	<classpathentry kind="src" output="plugins/redstone.xmlrpc/classes" path="plugins/redstone.xmlrpc/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.io.xmlrpc/classes" path="plugins/ntorrent.io.xmlrpc/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.profile/classes" path="plugins/ntorrent.profile/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.mvc/classes" path="plugins/ntorrent.mvc/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.env/classes" path="plugins/ntorrent.env/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.io.rtorrent/classes" path="plugins/ntorrent.io.rtorrent/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.tools/classes" path="plugins/ntorrent.tools/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.model/classes" path="plugins/ntorrent.model/source"/>
+	<classpathentry kind="src" output="plugins/testplugin/classes" path="plugins/testplugin/source"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
+	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
+	<classpathentry kind="lib" path="plugins/ntorrent.io.xmlrpc/lib/jsch-0.1.37.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

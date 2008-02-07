@@ -1,0 +1,32 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2005 Dmitry Olshansky
+// $Id$
+// Updated by Michael Dawson 20/02/2006
+%>
+<%
+include("/functions.ijxp");
+
+printHeader("Concepts");
+printMenu("concepts");
+%>
+<div class="content">
+    <h1>Core JPF Concepts</h1>
+	<h3>Our Purpose</h3>
+	<p>The goal of the JPF project is to help Java developers build <strong>modular</strong> and <strong>extensible</strong> applications. At JPF, we think it is important to clearly distinguish between the two.</p>
+	<h3>Modules and Application Modularity</h3>
+	<p>Simply speaking, modularization is splitting an application into several smaller parts. The JPF framework allows this by using the concept of plug-ins. This means you can think of plug-ins as a collection of classes and resources managed by special ClassLoader that makes them available to all dependent plug-ins transparently.</p>
+	<p>Lets say a plug-in <em>PluginA</em> introduces a class <code>ClassA</code> (this class is included in a plug-in directory hierarchy described by a JPF plug-in manifest). Now you are developing another plug-in, <em>PluginB</em>, and add another class, <code>ClassB</code>, to this plug-in. You want to reference <code>ClassA</code> in your <code>ClassB</code> code so you need to declare a plug-in dependency. You can do this by making an entry in the JPF manifest of the plug-in <em>PluginB</em> that says "<em>PluginB</em> depends on <em>PluginA</em>". This is done in the prerequisites/imports section of the JPF manifest. JPF handles finding and loading <em>ClassA</em> when it is first called. The magic lies in the ClassLoaders created by JPF. The extend the classpath of <em>PluginB</em> so that it includes the classpath of <em>PluginA</em>. So the developer doesn't have to worry about finding classes and can use the basic code that follows in <code>ClassB</code>:</p>
+	<pre>
+	ClassA clsA = new ClassA();
+	</pre>
+	<p>No further work is necessary to make <code>ClassA</code> visible for <code>ClassB</code> code, only simple <strong>JPF manifest declarations</strong>.</p>
+	<h3>Extensions and Application Extensibility</h3>
+	<p>Simply speaking, application extensibility is adding on to already existing functionality. JPF supports this with special manifest declarations. In JPF extensibility is based on the concept of <em>extension points</em> and <em>extensions</em>. An extenstion point is an opening that may be added to by later code. An extension is code that adds onto an existing extension point. Typically <em>extension points</em> are declared in a plug-in manifest and supported with Java code  There is no special dedicated API for such code in JPF as it can be anything! For examples of <em>extension points</em> see the JPF demo application.</p>
+	<p>When designing applications based on JPF it is better to think in terms of <em>extension points</em> and <em>extensions</em> rather than <em>plug-ins</em>. In general, it doesn't matter where (in what <em>plug-in</em>) the actual code and/or resources are placed. It is much more important to define where an application can be extended, and design and develop <em>extension points</em> to support this extensibility.</p>
+	<h3>Summary</h3>
+	<p><em>Plug-ins</em> - are what makes an application <strong>modular</strong>. <em>Extension points</em>&nbsp;/&nbsp;<em>extensions</em> - are what makes application <strong>extensible</strong>.</p>
+</div>
+<%
+printFooter();
+%>
