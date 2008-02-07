@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="nTorrent" default="run" basedir=".">
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="releases"/>
+	
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac destdir="${build}" srcdir="${src}" source="1.5" target="1.5" encoding="UTF-8" debug="on">
+        <classpath>
+          <pathelement path="./"/>
+            <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
+            <pathelement location="lib/xmlrpc/xmlrpc-client-3.1.jar"/>
+            <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
+            <pathelement location="lib/j2ssh/lib/commons-logging.jar"/>
+            <pathelement location="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
+        	<pathelement location="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
+    	</classpath>
+    </javac>    	
+        	
+  </target>
+
+	<target name="jar" depends="compile">
+	  	<buildnumber/>
+	  	<echo>Building jar file!</echo>
+	    <jar jarfile="nTorrent.jar" basedir="${build}">
+	    	<zipfileset src="lib/xmlrpc/ws-commons-util-1.0.2.jar" />
+	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-3.1.jar" />
+	    	<zipfileset src="lib/xmlrpc/xmlrpc-common-3.1.jar" />
+	    	<zipfileset src="lib/j2ssh/commons-logging.jar" />
+	    	<zipfileset src="lib/j2ssh/j2ssh-core-0.2.9.jar" />
+	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
+	    	<manifest>
+				<attribute name="Main-Class" value="org.heldig.ntorrent.NTorrent" />
+	    	</manifest>
+	    </jar>	
+	</target>
+	
+  <target name="dist" depends="jar" description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}"/>
+  	<echo>Building tar file of jar!</echo>
+  	<tar destfile="${dist}/nTorrent-bin-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
+  			<exclude name="*settings/**"/>
+  			<exclude name=".**"/>
+  			<exclude name="build/**"/>
+  			<exclude name="releases/**"/>
+			<exclude name="build.xml"/>
+  			<exclude name="codetemplates.xml"/>
+			<exclude name="lib/**"/>
+			<exclude name="src/**"/>
+  			<exclude name="*.dat"/>
+			<exclude name="svn2cl/**"/>
+  	</tar>
+
+	<delete file="nTorrent.jar"/>
+		
+
+  	<echo>Building tar file of source!</echo>
+  	<tar destfile="${dist}/nTorrent-src-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
+  			<exclude name="*settings/**"/>
+  			<exclude name=".**"/>
+  			<exclude name="build/**"/>
+  			<exclude name="releases/**"/>
+			<exclude name="*.dat"/>
+			<exclude name="svn2cl/**"/>
+
+  	</tar>
+  </target>
+	
+  <target name="run" depends="compile">
+  	<java fork="true" classname="org.heldig.ntorrent.NTorrent">
+    <classpath>
+      <pathelement location="${build}"/>
+        <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
+        <pathelement location="lib/xmlrpc/xmlrpc-client-3.1.jar"/>
+        <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
+        <pathelement location="lib/j2ssh/lib/commons-logging.jar"/>
+        <pathelement location="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
+    	<pathelement location="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
+    </classpath>
+  	</java>
+	</target>
+
+  <target name="clean" description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+  </target>
+</project>
