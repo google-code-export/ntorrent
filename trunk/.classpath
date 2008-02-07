@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
 	<classpathentry kind="lib" path="plugins/ntorrent.io.xmlrpc/lib/jsch-0.1.37.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
