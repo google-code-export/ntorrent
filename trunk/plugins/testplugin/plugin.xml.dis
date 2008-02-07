@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
+<plugin id="testplugin" version="0.1">
+	<requires>
+		<import plugin-id="ntorrent"/>
+	</requires>
+	<runtime>
+		<library id="src" path="classes/" type="code">
+			<export prefix="*" />
+		</library>
+	</runtime>
+		<extension plugin-id="ntorrent" point-id="TabExtension" id="testplugin">
+		<parameter id="class" value="testplugin.Test" />
+		<parameter id="name" value="TabName" />
+	</extension>
+</plugin>

@@ -1,0 +1,69 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2005 Dmitry Olshansky
+// $Id$
+%>
+<%
+import org.onemind.jxp.*;
+import java.io.*;
+
+// Functions
+
+function void processFile(JxpProcessor processor, File baseFolder, File file,
+		File outFolder) {
+	println("Processing " + file + " to the folder " + outFolder);
+	if (file.isDirectory()) {
+		File newOutFolder = new File(outFolder, file.getName());
+		File[] files = file.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			String name = files[i].getName();
+			if (!name.endsWith(".jxp") || name.endsWith(".ijxp")) {
+				continue;
+			}
+			processFile(processor, baseFolder, files[i], newOutFolder);
+		}
+		return;
+	}
+	if (!outFolder.exists()) {
+		outFolder.mkdirs();
+	}
+	String fileName = file.getName();
+	fileName = fileName.substring(0, fileName.lastIndexOf('.')) + ".html";
+	Writer out = new OutputStreamWriter(new BufferedOutputStream(
+		new FileOutputStream(new File(outFolder, fileName), false)), "UTF-8");
+	try {
+		processor.process(file.getCanonicalPath().substring(
+			baseFolder.getCanonicalPath().length()),
+			new JxpProcessingContext(out, new HashMap()));
+	} finally {
+		out.close();
+	}
+}
+
+// Main control flow
+
+JxpProcessor processor = new JxpProcessor(
+	jxp_context.getCurrentPage().getSource());
+File inFolder =
+	new File(jxp_context.getCurrentPage().getSource().getPathPrefix());
+File outFolder = new File(System.getProperty("jdocs.outputFolder"));
+if (!outFolder.isDirectory()) {
+	println("Output directory not found: " + outFolder.getCanonicalFile());
+	exit;
+}
+println("Processing files in folder: " + inFolder.getCanonicalFile());
+println("Generating result to: " + outFolder.getCanonicalFile());
+
+File[] files = inFolder.listFiles();
+for (int i = 0; i < files.length; i++) {
+	if (files[i].equals(outFolder)) {
+		continue;
+	}
+	String name = files[i].getName();
+	if ((!name.endsWith(".jxp") || name.equals(jxp_script_name)
+			|| name.endsWith(".ijxp")) && !files[i].isDirectory()) {
+		continue;
+	}
+	processFile(processor, inFolder, files[i], outFolder);
+}
+%>
