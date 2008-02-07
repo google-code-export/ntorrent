@@ -101,15 +101,16 @@ public class XmlRpcConnection {
 			break;
 		}
 		
+		
+		/** Set xmlrpc dialect **/
+		getGlobalClient().xmlrpc_dialect("i8");
+		
 		System system = getSystemClient();
 		
 		Logger.global.info("Connected to: Host "+
 				system.hostname()+" Running: client "+
 				system.client_version()+", library "+
 				system.library_version()+", pid="+system.pid());
-		
-		/** Set xmlrpc dialect **/
-		getGlobalClient().xmlrpc_dialect("i8");
 		
 	}
 	
