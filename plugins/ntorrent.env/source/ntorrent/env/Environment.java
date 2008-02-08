@@ -24,6 +24,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import org.java.plugin.ObjectFactory;
+import org.java.plugin.PluginManager;
+
 import ntorrent.Session;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.logging.SystemLog;
@@ -33,6 +36,9 @@ public class Environment {
 	
 	/** App name **/
 	private static final String appName = "nTorrent-0.5-alpha";
+	
+	/** Plugin manager **/
+	private static PluginManager pluginManager;
 	
 	/** the users home dir **/
 	private static File home;
@@ -142,6 +148,14 @@ public class Environment {
 	 */
 	public static final void setIntSocketPort(int intSocketPort) {
 		Environment.intSocketPort = intSocketPort;
+	}
+	
+	public static PluginManager getPluginManager() {
+		return pluginManager;
+	}
+
+	public static void setPluginManager(PluginManager manager) {
+		pluginManager = manager;
 	}
 	
 

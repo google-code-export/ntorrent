@@ -2,6 +2,7 @@ package ntorrent.gui.trayicon;
 
 import java.awt.AWTException;
 import java.awt.Image;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 
@@ -13,24 +14,18 @@ import org.java.plugin.Plugin;
 public class TrayIconHandler extends Plugin {
 	
 	TrayIcon trayIcon;
+	SystemTray tray = SystemTray.getSystemTray();
 	
 	@Override
 	protected void doStart() throws Exception {
 		if (java.awt.SystemTray.isSupported()) {
 
-			java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
 		    Image image = Toolkit.getDefaultToolkit().getImage("plugins/ntorrent/icons/ntorrent48.png");
 
 
 		    trayIcon = new TrayIcon(image, Environment.getAppName());
 		    trayIcon.setImageAutoSize(true);
-
-
-		    try {
-		        tray.add(trayIcon);
-		    } catch (AWTException e) {
-		        System.err.println("TrayIcon could not be added.");
-		    }
+		    tray.add(trayIcon);
 
 		} else {
 
@@ -42,7 +37,7 @@ public class TrayIconHandler extends Plugin {
 
 	@Override
 	protected void doStop() throws Exception {
-		System.out.println("tray icon");
+		tray.remove(trayIcon);
 	}
 
 
