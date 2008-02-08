@@ -1,6 +1,7 @@
 package ntorrent;
 
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -125,13 +126,12 @@ public class Main extends ApplicationPlugin implements Application {
 
 		/** autoconnect **/
 		try{
-			
 			for(ClientProfileInterface p : ClientProfileListModel.Deserialize())
 				if(p.isAutoConnect())
 					newSession(p);
 		} catch(FileNotFoundException e){
 			new ClientProfileListModel().Serialize();
-		}catch(InvalidClassException e){
+		}catch(EOFException e){
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
 		}
 		

@@ -19,7 +19,9 @@
  */
 package ntorrent.io.xmlrpc;
 
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.util.logging.Logger;
 
 import ntorrent.io.rtorrent.Download;
@@ -31,6 +33,7 @@ import ntorrent.io.rtorrent.Tracker;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.HttpProfileModel;
 import ntorrent.profile.model.LocalProfileModel;
+import ntorrent.profile.model.ProxyProfileModel;
 import ntorrent.profile.model.SshProfileModel;
 import ntorrent.tools.LocalPort;
 import redstone.xmlrpc.XmlRpcClient;
@@ -40,6 +43,8 @@ import redstone.xmlrpc.XmlRpcProxy;
 import redstone.xmlrpc.XmlRpcSocketClient;
 
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.ProxyHTTP;
+import com.jcraft.jsch.ProxySOCKS5;
 import com.jcraft.jsch.Session;
 
 public class XmlRpcConnection {
@@ -53,10 +58,19 @@ public class XmlRpcConnection {
 			//TODO make streaming in clientprofile?
 			try {
 					HttpProfileModel profile = (HttpProfileModel) p;
+					
+					ProxyProfileModel proxy = profile.getProxy();
+					
+					switch(profile.getProxy().getType()){
+					case DIRECT:
+					case HTTP:
+					case SOCKS:
+					}
+					
 					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
 							":"+profile.getPort()+
 							profile.getMountpoint(),
-							profile.getProxy().getJavaProxy(),
+							new Proxy(proxy.getType(),new InetSocketAddress(proxy.getHost(),proxy.getPort())),
 							false);
 				} catch (MalformedURLException e) {
 					throw new XmlRpcException(e.getMessage(),e);
@@ -75,7 +89,16 @@ public class XmlRpcConnection {
 				
 				session.setPassword(profile.getPassword());
 				session.setConfig("StrictHostKeyChecking","no");
-				session.setProxy(profile.getProxy().getJschProxy());
+				
+				ProxyProfileModel proxy = profile.getProxy();
+				switch(profile.getProxy().getType()){
+					case HTTP:
+						session.setProxy(new ProxyHTTP(proxy.getHost(),proxy.getPort()));
+						break;
+					case SOCKS:
+						session.setProxy(new ProxySOCKS5(proxy.getHost(),proxy.getPort()));
+						break;
+				}
 				
 				int localPort = LocalPort.findFreePort();
 				
