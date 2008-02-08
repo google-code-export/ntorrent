@@ -19,41 +19,64 @@
  */
 package ntorrent.jpf;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.swing.JCheckBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-
-import org.java.plugin.Plugin;
-import org.java.plugin.PluginManager;
-import org.java.plugin.boot.ApplicationPlugin;
-import org.java.plugin.registry.PluginDescriptor;
+import javax.swing.JOptionPane;
 
 import ntorrent.env.Environment;
-import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.menubar.MenuBarExtension;
 
-public class PluginHandlerMenuBar extends Plugin implements MenuBarExtension,ActionListener {
+import org.java.plugin.PluginLifecycleException;
+import org.java.plugin.PluginManager;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.PluginRegistry;
 
+public class PluginHandlerMenuBar implements MenuBarExtension, ItemListener {
+	
+	PluginManager manager = Environment.getPluginManager();
+	PluginRegistry reg = manager.getRegistry();
+	
 	public void init(JMenuBar menuBar) {
 		JMenu plugin = new JMenu(Environment.getString("plugin"));
-		menuBar.add(plugin);
-	}
+		menuBar.add(plugin);			
+			for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
+				JCheckBox c = new JCheckBox(e.getDeclaringPluginDescriptor().getId());
+				double jversion = Double.parseDouble(
+						System.getProperty("java.specification.version"));
+				double pversion = e.getParameter("java-spec").valueAsNumber().doubleValue();
+				
+				if(!(jversion >= pversion && manager.isPluginEnabled(e.getDeclaringPluginDescriptor()))){
+					c.setEnabled(false);
+				}
+				c.setSelected(manager.isPluginActivated(e.getDeclaringPluginDescriptor()));
+				c.setName(e.getDeclaringPluginDescriptor().getId());
+				c.addItemListener(this);
+				plugin.add(c);
+			}
 
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	protected void doStart() throws Exception {
-		//
-	}
-
-	@Override
-	protected void doStop() throws Exception {
-		//
+	public void itemStateChanged(ItemEvent e) {
+		JCheckBox c = ((JCheckBox)e.getItem());
+		String id  = c.getName();
+		boolean selected = e.getStateChange() == ItemEvent.SELECTED;
+		if(selected)
+			try {
+				manager.activatePlugin(id);
+			} catch (PluginLifecycleException e1) {
+				Logger.global.log(Level.WARNING,e1.getMessage(),e1);
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "Plugin error", JOptionPane.ERROR_MESSAGE);
+			}
+		else
+			manager.deactivatePlugin(id);
+		c.setSelected(manager.isPluginActivated(reg.getPluginDescriptor(id)));
 	}
 
 }

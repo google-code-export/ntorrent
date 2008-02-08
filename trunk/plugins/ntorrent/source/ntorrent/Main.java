@@ -57,9 +57,7 @@ import org.java.plugin.util.ExtendedProperties;
  */
 
 public class Main extends ApplicationPlugin implements Application {
-	
-	private static PluginManager pluginManager = ObjectFactory.newInstance().createManager();
-	
+		
 	/** GUI **/
 	public static MainWindow main;
 	
@@ -86,6 +84,8 @@ public class Main extends ApplicationPlugin implements Application {
 		
 		
 		Environment.setMessages(ResourceBundle.getBundle("ntorrent", Environment.getLocale()));
+		
+		Environment.setPluginManager(getManager());
 		
 		/** License **/
 		System.out.println(Environment.getString("lic"));
