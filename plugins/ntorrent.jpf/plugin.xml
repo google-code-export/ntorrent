@@ -13,7 +13,4 @@
 	<extension-point id="HandledPlugin">
 		<parameter-def id="java-spec" type="number" default-value="1.5"/>
 	</extension-point>
-	<extension plugin-id="ntorrent" point-id="MenuBarExtension" id="ntorrent.jpf">
-		<parameter id="class" value="ntorrent.jpf.PluginHandlerMenuBar" />
-	</extension>
 </plugin>

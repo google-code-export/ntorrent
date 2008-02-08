@@ -30,19 +30,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
 import ntorrent.env.Environment;
-import ntorrent.gui.menubar.MenuBarExtension;
 
 import org.java.plugin.PluginLifecycleException;
 import org.java.plugin.PluginManager;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.PluginRegistry;
 
-public class PluginHandlerMenuBar implements MenuBarExtension, ItemListener {
+public class PluginHandlerMenuBar implements ItemListener {
 	
 	PluginManager manager = Environment.getPluginManager();
 	PluginRegistry reg = manager.getRegistry();
 	
-	public void init(JMenuBar menuBar) {
+	public PluginHandlerMenuBar(JMenuBar menuBar){
 		JMenu plugin = new JMenu(Environment.getString("plugin"));
 		menuBar.add(plugin);			
 			for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){

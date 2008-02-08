@@ -26,6 +26,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import ntorrent.jpf.PluginHandlerMenuBar;
+
 public class MainMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
 	public MainMenuBar(ActionListener listener) {
@@ -46,5 +48,6 @@ public class MainMenuBar extends JMenuBar {
 		add(help);
 		file.addActionListener(listener);
 		help.addActionListener(listener);
+		new PluginHandlerMenuBar(this);
 	}
 }

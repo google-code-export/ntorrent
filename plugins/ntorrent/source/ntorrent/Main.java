@@ -5,35 +5,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InvalidClassException;
-import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 import ntorrent.env.Environment;
 import ntorrent.gui.MainWindow;
-import ntorrent.gui.TabExtension;
-import ntorrent.gui.menubar.MenuBarExtension;
-import ntorrent.io.logging.SystemLog;
-import ntorrent.io.settings.LocalSettings;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.ClientProfileListModel;
 
-import org.java.plugin.ObjectFactory;
-import org.java.plugin.PluginManager;
 import org.java.plugin.boot.Application;
 import org.java.plugin.boot.ApplicationPlugin;
-import org.java.plugin.registry.Extension;
-import org.java.plugin.registry.ExtensionPoint;
-import org.java.plugin.registry.Extension.Parameter;
 import org.java.plugin.util.ExtendedProperties;
 
 /**
@@ -119,22 +107,6 @@ public class Main extends ApplicationPlugin implements Application {
 		
 		/** create gui **/
 		main = new MainWindow();
-		
-		
-		/** adding plugins to menubar **/
-		ExtensionPoint toolExtPoint =
-			getManager().getRegistry().getExtensionPoint(
-				getDescriptor().getId(), "MenuBarExtension");
-
-		for(Extension x : toolExtPoint.getAvailableExtensions()){
-				getManager().activatePlugin(x.getId());
-				ClassLoader classLoader = getManager().getPluginClassLoader(x.getDeclaringPluginDescriptor());
-				Class cls = classLoader.loadClass(x.getParameter("class").valueAsString());
-				MenuBarExtension t = (MenuBarExtension) cls.newInstance();
-				t.init(main.getJMenuBar());
-		}
-		
-		
 		
 		return this;
 	}
