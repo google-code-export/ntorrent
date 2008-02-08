@@ -19,10 +19,12 @@
  */
 package ntorrent.profile.model;
 
+import java.io.Serializable;
+import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 
-public class ProxyProfileModel implements ProxyProfileInterface {
+public class ProxyProfileModel implements Serializable,Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private Type type = Type.DIRECT;
@@ -53,14 +55,6 @@ public class ProxyProfileModel implements ProxyProfileInterface {
 	
 	public Type getType() {
 		return type;
-	}
-
-	public Proxy getJavaProxy() {
-		return null;
-	}
-
-	public com.jcraft.jsch.Proxy getJschProxy() {
-		return null;
 	}
 	
     public Object clone() {
