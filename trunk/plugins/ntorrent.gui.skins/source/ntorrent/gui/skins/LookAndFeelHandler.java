@@ -21,6 +21,7 @@ package ntorrent.gui.skins;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.logging.Logger;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
@@ -49,7 +50,10 @@ public class LookAndFeelHandler extends Plugin implements ItemListener {
 		
 		for(LookAndFeelInfo lafi : UIManager.getInstalledLookAndFeels()){
 			JRadioButtonMenuItem radio = new JRadioButtonMenuItem(lafi.getName());
+			String currentLF = UIManager.getLookAndFeel().getClass().getName();
 			radio.setName(lafi.getClassName());
+			if(currentLF.equals(lafi.getClassName()))
+				radio.setSelected(true);
 			radio.addItemListener(this);
 			bgroup.add(radio);
 			skins.add(radio);
@@ -74,18 +78,8 @@ public class LookAndFeelHandler extends Plugin implements ItemListener {
 				UIManager.setLookAndFeel(radio.getName());
 				SwingUtilities.updateComponentTreeUI(w);
 				w.pack();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (InstantiationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IllegalAccessException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (UnsupportedLookAndFeelException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (Exception x){
+				Logger.global.warning(x.getMessage());
 			}
 		}
 	}
