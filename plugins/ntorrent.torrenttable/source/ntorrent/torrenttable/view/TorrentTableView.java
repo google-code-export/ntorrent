@@ -1,8 +1,3 @@
-package testplugin;
-import javax.swing.JComponent;
-
-import ntorrent.gui.TabExtension;
-
 /**
  *   nTorrent - A GUI client to administer a rtorrent process 
  *   over a network connection.
@@ -22,11 +17,13 @@ import ntorrent.gui.TabExtension;
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.torrenttable.view;
 
-public class Test implements TabExtension {
+import javax.swing.JTable;
 
-	public void init(JComponent rootContainer) {
-		System.out.println(rootContainer);
-	}
+import ntorrent.torrenttable.model.TorrentTableModel;
+
+public class TorrentTableView extends JTable {
+	private static final long serialVersionUID = 1L;
 
 }
