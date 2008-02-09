@@ -12,10 +12,12 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import ntorrent.env.Environment;
 import ntorrent.gui.MainWindow;
+import ntorrent.io.logging.SystemLog;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
 import ntorrent.profile.model.ClientProfileInterface;
@@ -55,6 +57,8 @@ public class Main extends ApplicationPlugin implements Application {
 	
 	/** ntorrent dir **/
 	File ntorrent;
+
+	private SystemLog nlog;
 	
 	@Override
 	protected Application initApplication(ExtendedProperties properties, String[] args)
@@ -84,7 +88,7 @@ public class Main extends ApplicationPlugin implements Application {
 			Logger.global.log(Level.WARNING,Environment.getString("ntdir")+ntorrent);
 		
 		/** Load logging **/
-		//log = new SystemLog();
+		//nlog = new SystemLog();
 
 		/** Load settings**/
 		//try{
@@ -131,7 +135,7 @@ public class Main extends ApplicationPlugin implements Application {
 					newSession(p);
 		} catch(FileNotFoundException e){
 			new ClientProfileListModel().Serialize();
-		}catch(EOFException e){
+		}catch(Exception e){
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
 		}
 		
