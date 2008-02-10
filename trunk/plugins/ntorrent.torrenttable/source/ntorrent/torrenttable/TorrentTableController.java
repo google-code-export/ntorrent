@@ -22,29 +22,34 @@ package ntorrent.torrenttable;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableModel;
 
 import ntorrent.gui.window.Window;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
-import ntorrent.torrenttable.view.TorrentTableView;
+import ntorrent.torrenttable.view.TorrentTable;
 
 public class TorrentTableController {
 	public static void main(String[] args) {
 		Window w = new Window();
 		w.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		JTable t = new TorrentTableView();
+				
 		TorrentTableModel ttm = new TorrentTableModel();
-		Torrent tor = new Torrent("08234i9pojkasmd");
-		tor.setProperty("torrenttable.eta", "1");
-		ttm.setValueAt(tor, 0);
-		ttm.setValueAt(new Torrent("08234i9pojk234asmd"), 0);
+
 		
-		t.setModel(ttm);
+		TorrentTable t = new TorrentTable(ttm,new TorrentColumnModel());
+		
+		Torrent tor = new Torrent("sadasd");
+		tor.setProperty("torrenttable.name", "Lost.S01.E02....");
+		ttm.setValueAt(tor, 0);
 		
 		w.setContentPane(new JScrollPane(t));
 		w.drawWindow();
-		t.validate();
-		t.repaint();
+		
+
+	
+		
 		
 	}
 }

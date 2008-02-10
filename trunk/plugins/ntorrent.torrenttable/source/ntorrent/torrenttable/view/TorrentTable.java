@@ -19,11 +19,48 @@
  */
 package ntorrent.torrenttable.view;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JTable;
 
+import ntorrent.torrenttable.model.TorrentColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
-public class TorrentTableView extends JTable {
+
+public class TorrentTable extends JTable implements MouseListener{
 	private static final long serialVersionUID = 1L;
+	
+	TorrentTablePopupMenu popup;
+
+
+	public TorrentTable(TorrentTableModel tmodel,
+			TorrentColumnModel cmodel) {
+		getTableHeader().addMouseListener(this);
+		tmodel.addTableModelListener(this);
+		setColumnModel(cmodel);
+		setModel(tmodel);
+		cmodel.setColumnWidths();
+		popup = new TorrentTablePopupMenu(cmodel);
+	}
+
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	
+	
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger()){
+			popup.show(this, e.getX(), e.getY());
+		}
+		
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		if(e.isPopupTrigger()){
+			popup.show(this, e.getX(), e.getY());
+		}
+		
+	}
 
 }
