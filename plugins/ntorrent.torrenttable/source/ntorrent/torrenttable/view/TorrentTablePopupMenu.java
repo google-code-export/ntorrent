@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,25 +33,25 @@ import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import ntorrent.env.Environment;
 import ntorrent.tools.Serializer;
-import ntorrent.torrenttable.model.TorrentColumnModel;
+import ntorrent.torrenttable.model.TorrentTableModel;
 
 public class TorrentTablePopupMenu extends JPopupMenu implements ItemListener {
 	private static final long serialVersionUID = 1L;
-	final DefaultTableColumnModel model;
+	final TableColumnModel model;
 	
-	public TorrentTablePopupMenu(DefaultTableColumnModel columnModel) {
-		model = columnModel;
+	public TorrentTablePopupMenu(TableColumnModel cmodel) {
+		model = cmodel;
 		
-		for(String c : TorrentColumnModel.cols){
+		for(String c : TorrentTableModel.cols){
 			JCheckBox check = new JCheckBox(c);
 			check.setName(c);
 			try{
-				columnModel.getColumnIndex(c);
+				model.getColumnIndex(c);
 				check.setSelected(true);
 			}catch(IllegalArgumentException x){
 				check.setSelected(false);
@@ -64,7 +65,8 @@ public class TorrentTablePopupMenu extends JPopupMenu implements ItemListener {
 
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Serializer.serialize(model, Environment.getNtorrentDir());
+					if(model instanceof Serializable)
+						Serializer.serialize((Serializable)model, Environment.getNtorrentDir());
 				} catch (IOException x) {
 					Logger.global.log(Level.WARNING,x.getMessage(),x);
 				}
@@ -87,11 +89,17 @@ public class TorrentTablePopupMenu extends JPopupMenu implements ItemListener {
 				TableColumn col = new TableColumn();
 				col.setHeaderValue(src.getText());
 				col.setIdentifier(src.getName());
+				for(int i = 0; i < TorrentTableModel.cols.length; i++){
+					if(TorrentTableModel.cols[i].equals(src.getName()))
+						col.setModelIndex(i);
+				}
 				model.addColumn(col);
+				System.out.println("adding col"+src.getName());
 			}
 		}else{
 			if(model.getColumnCount() > 1){
 				int index = model.getColumnIndex(src.getName());
+				System.out.println("removing column "+src.getName());
 				model.removeColumn(model.getColumn(index));
 			}else
 				src.setSelected(true);
