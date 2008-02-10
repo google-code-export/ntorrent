@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.model;
+package ntorrent.torrenttable.model;
 
 public class Percent implements Comparable<Percent> {
 	int percent;

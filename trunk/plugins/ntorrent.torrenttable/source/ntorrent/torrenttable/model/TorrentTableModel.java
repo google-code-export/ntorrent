@@ -21,35 +21,35 @@ package ntorrent.torrenttable.model;
 
 import java.util.Vector;
 
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.table.AbstractTableModel;
 
-import ntorrent.env.Environment;
+public class TorrentTableModel extends AbstractTableModel  {
+	private static final long serialVersionUID = 1L;
 
-public class TorrentTableModel implements TableModel {
-
-	Vector<TableModelListener> listener = new Vector<TableModelListener>();
-	Vector<Torrent> torrents = new Vector<Torrent>();
+	private Vector<Torrent> torrents = new Vector<Torrent>();
 	
-	public void addTableModelListener(TableModelListener l) {
-		listener.add(l);
-	}
-
-	public Class<?> getColumnClass(int columnIndex) {
-		try{
-			return getValueAt(0, columnIndex).getClass();
-		} catch(NullPointerException x){
-			return String.class;
-		}
-	}
-
+	public final static String[] cols = {
+		"torrenttable.name",
+		"torrenttable.size",
+		"torrenttable.down",
+		"torrenttable.up",
+		"torrenttable.seeders",
+		"torrenttable.leechers",
+		"torrenttable.downspeed",
+		"torrenttable.upspeed",
+		"torrenttable.eta",
+		"torrenttable.percent",
+		"torrenttable.ratio",
+		"torrenttable.priority"
+	};
+	
 	public int getColumnCount() {
-		return TorrentColumnModel.cols.length;
+		return cols.length;
 	}
-
-	public String getColumnName(int columnIndex) {
-		return TorrentColumnModel.cols[columnIndex];
+	
+	@Override
+	public String getColumnName(int column) {
+		return cols[column];
 	}
 
 	public int getRowCount() {
@@ -57,37 +57,13 @@ public class TorrentTableModel implements TableModel {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		System.out.println(rowIndex+","+columnIndex);
-		return torrents.get(rowIndex).getProperty(getColKey(columnIndex));
-	}
-
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return false;
-	}
-
-	public void removeTableModelListener(TableModelListener l) {
-		listener.remove(l);
-	}
-
-	/**
-	 * Doesnt do anything.
-	 */
-	public void setValueAt(Object value, int rowIndex, int columnIndex) {
-		//dont do anything
+		String hv = cols[columnIndex];
+		return torrents.get(rowIndex).getProperty(hv);
 	}
 	
-	public void setValueAt(Torrent value, int rowIndex) {
-		torrents.add(rowIndex, value);
-		fireRowChanged(rowIndex);
+	public void setValueAt(Torrent tor, int rowIndex) {
+		torrents.add(rowIndex,tor);
+		fireTableRowsUpdated(rowIndex, rowIndex);
 	}
-	
-	public void fireRowChanged(int rowIndex){
-		for(TableModelListener l : listener){
-			l.tableChanged(new TableModelEvent(this,rowIndex));
-		}
-	}
-	
-	private String getColKey(int columnIndex){
-		return TorrentColumnModel.cols[columnIndex];
-	}
+
 }

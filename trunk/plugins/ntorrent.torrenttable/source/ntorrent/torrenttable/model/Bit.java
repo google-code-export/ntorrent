@@ -17,39 +17,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package ntorrent.torrenttable.model;
 
-import java.util.HashMap;
-import java.util.Map;
+public class Bit extends DataUnit{
+	
+	public Bit(long b) {
+		super(b);
+	}
 
-public class Torrent {
-	/** additonal torrent properties **/
-	Map<String,Object> property = new HashMap<String, Object>();
 	
-	String hash;
-	
-	public Torrent(String hash) {
-		this.hash = hash;
+	protected String[] getUnitDesc() {
+		String[] s = {"b/s","Kb/s","Mb/s","Gb/s"}; 
+		return s;
 	}
+
 	
-	public Object setProperty(String key, Object value) {
-		return property.put(key, value);
-	}
+	protected int getUnitDivider() {
+		return 1000;
+	};
 	
-	public Object getProperty(String key) {
-		return property.get(key);
-	}
-	
-	public Map<String,Object> values(){
-		return property;
-	}
-	
-	public String getHash() {
-		return hash;
-	}
-	
-	@Override
-	public String toString() {
-		return hash;
-	}
 }

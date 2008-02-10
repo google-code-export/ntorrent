@@ -17,26 +17,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ntorrent.torrenttable;
 
-package ntorrent.model;
+import java.util.Vector;
 
+import redstone.xmlrpc.XmlRpcArray;
+import redstone.xmlrpc.XmlRpcClient;
+import redstone.xmlrpc.XmlRpcException;
+import redstone.xmlrpc.XmlRpcFault;
 
-public class Byte extends DataUnit{
-	
-	public Byte(long b) {
-		super(b);
-	}
+import ntorrent.io.rtorrent.Download;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.torrenttable.model.Torrent;
 
-	
-	protected String[] getUnitDesc() {
-		String[] s = {"B","KB","MB","GB"};
-		return s;
-	}
-
-	
-	protected int getUnitDivider() {
-		return 	1024;
-	};
+public class XmlRpcToTorrent {
 
 
+   
+   Vector<Torrent> torrents = new Vector<Torrent>();
+   
+   public XmlRpcToTorrent(XmlRpcConnection c, String view) {
+
+		XmlRpcClient client = c.getClient();
+
+   }
 }

@@ -18,30 +18,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ntorrent.model;
+package ntorrent.torrenttable.model;
 
-import java.text.DecimalFormat;
 
-public class Ratio implements Comparable<Ratio> {
-	double ratio;
+public class Byte extends DataUnit{
 	
-	public Ratio(double r){
-		ratio = r;
-	}
-	
-	public Double getValue(){ return ratio;}
-	
-	public String toString(){
-		DecimalFormat output = new DecimalFormat("#0.00");
-		return output.format(ratio);
-	
+	public Byte(long b) {
+		super(b);
 	}
 
-	public int compareTo(Ratio o) {
-		if(this.ratio > o.ratio)
-			return 1;
-		if(this.ratio < o.ratio)
-			return -1;
-		return 0;
-	}		
+	
+	protected String[] getUnitDesc() {
+		String[] s = {"B","KB","MB","GB"};
+		return s;
+	}
+
+	
+	protected int getUnitDivider() {
+		return 	1024;
+	};
+
+
 }

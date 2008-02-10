@@ -19,6 +19,9 @@
  */
 package ntorrent.io.rtorrent;
 
+import redstone.xmlrpc.XmlRpcArray;
+import redstone.xmlrpc.XmlRpcStruct;
+
 /**
  * d.
  */
@@ -96,7 +99,7 @@ public interface Download {
 	Object is_open();
 	Object is_pex_active();
 	Object is_private();
-	Object multicall();
+	//XmlRpcArray multicall(XmlRpcArray args); doesnt work, return wrong object type.
 	Object open();
 	Object set_connection_current();
 	Object set_connection_leech();

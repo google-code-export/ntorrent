@@ -21,10 +21,12 @@ package ntorrent.torrenttable.view;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
 
-import ntorrent.torrenttable.model.TorrentColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
 
@@ -34,14 +36,11 @@ public class TorrentTable extends JTable implements MouseListener{
 	TorrentTablePopupMenu popup;
 
 
-	public TorrentTable(TorrentTableModel tmodel,
-			TorrentColumnModel cmodel) {
+	public TorrentTable(TorrentTableModel tmodel) {
+		super(tmodel);
 		getTableHeader().addMouseListener(this);
-		tmodel.addTableModelListener(this);
-		setColumnModel(cmodel);
-		setModel(tmodel);
-		cmodel.setColumnWidths();
-		popup = new TorrentTablePopupMenu(cmodel);
+		this.popup = new TorrentTablePopupMenu(getColumnModel()); 
+	
 	}
 
 	public void mouseClicked(MouseEvent e) {}
@@ -62,5 +61,6 @@ public class TorrentTable extends JTable implements MouseListener{
 		}
 		
 	}
+	
 
 }
