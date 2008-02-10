@@ -28,23 +28,9 @@ import javax.swing.table.TableModel;
 import ntorrent.env.Environment;
 
 public class TorrentTableModel implements TableModel {
+
 	Vector<TableModelListener> listener = new Vector<TableModelListener>();
 	Vector<Torrent> torrents = new Vector<Torrent>();
-	
-	String[] columns = {
-			"torrenttable.name",
-			"torrenttable.size",
-			"torrenttable.down",
-			"torrenttable.up",
-			"torrenttable.seeders",
-			"torrenttable.leechers",
-			"torrenttable.downspeed",
-			"torrenttable.upspeed",
-			"torrenttable.eta",
-			"torrenttable.percent",
-			"torrenttable.ratio",
-			"torrenttable.priority"
-	};
 	
 	public void addTableModelListener(TableModelListener l) {
 		listener.add(l);
@@ -59,12 +45,11 @@ public class TorrentTableModel implements TableModel {
 	}
 
 	public int getColumnCount() {
-		return columns.length;
+		return TorrentColumnModel.cols.length;
 	}
 
 	public String getColumnName(int columnIndex) {
-		return columns[columnIndex];
-		//return Environment.getString(columns[columnIndex]);
+		return TorrentColumnModel.cols[columnIndex];
 	}
 
 	public int getRowCount() {
@@ -72,6 +57,7 @@ public class TorrentTableModel implements TableModel {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		System.out.println(rowIndex+","+columnIndex);
 		return torrents.get(rowIndex).getProperty(getColKey(columnIndex));
 	}
 
@@ -102,6 +88,6 @@ public class TorrentTableModel implements TableModel {
 	}
 	
 	private String getColKey(int columnIndex){
-		return columns[columnIndex];
+		return TorrentColumnModel.cols[columnIndex];
 	}
 }
