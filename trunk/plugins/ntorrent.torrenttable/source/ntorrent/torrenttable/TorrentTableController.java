@@ -50,14 +50,7 @@ public class TorrentTableController implements Runnable{
 	private final XmlRpcConnection connection;
 	
 	public TorrentTableController(XmlRpcConnection connection) {
-		Torrent tor = new Torrent("asdasd");
-		tor.setProperty("torrenttable.down", 23);
-		tor.setProperty("torrenttable.eta", 5);
-		tor.setProperty("torrenttable.name", "LOST");
-		ttm.setValueAt(tor,0);
-		
 		this.connection = connection;
-		
 		new Thread(this).start();
 	}
 	
