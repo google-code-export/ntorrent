@@ -57,13 +57,45 @@ public class TorrentTableModel extends AbstractTableModel  {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		String hv = cols[columnIndex];
-		return torrents.get(rowIndex).getProperty(hv);
+		Torrent tor = torrents.get(rowIndex);
+		switch(columnIndex){
+			case 0:
+				return tor;
+			case 1:
+				return tor.getSizeBytes();
+			case 2:
+				return tor.getCompletedBytes();
+			case 3:
+				return tor.getUpTotal();
+			case 4:
+				return tor.getSeeders();
+			case 5:
+				return tor.getLeechers();
+			case 6:
+				return tor.getDownRate();
+			case 7:
+				return tor.getUpRate();
+			case 8:
+				return tor.getEta();
+			case 9:
+				return tor.getPercentDone();
+			case 10:
+				return tor.getRatio();
+			case 11:
+				return tor.getPriority();
+		}
+		return null;
 	}
 	
 	public void setValueAt(Torrent tor, int rowIndex) {
+		//fireTableRowsUpdated(rowIndex, rowIndex);
+		if(torrents.contains(tor))
+			torrents.remove(tor);
 		torrents.add(rowIndex,tor);
-		fireTableRowsUpdated(rowIndex, rowIndex);
 	}
-
+	
+	public void removeRow(int rowIndex){
+		torrents.remove(rowIndex);
+	}
+	
 }
