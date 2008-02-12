@@ -188,6 +188,11 @@ public class XmlRpcArray extends ArrayList
     {
         return ( Date ) get( index );
     }
+    
+    public Long getLong( int index )
+    {
+        return ( Long ) get( index );
+    }
 
 
     /**

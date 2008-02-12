@@ -22,10 +22,14 @@ package ntorrent.torrenttable;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import javax.swing.event.TableModelEvent;
 
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
@@ -47,10 +51,30 @@ public class TorrentTableController implements Runnable{
 	
 	final TorrentTableModel ttm = new TorrentTableModel();
 	final TorrentTable table = new TorrentTable(ttm);
+	final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
 	private final XmlRpcConnection connection;
+	
+
+    Object[] download_variable = {
+                    "", //reserved for view arg
+                    "d.get_hash=",  //ID
+                    "d.get_name=", //constant
+                    "d.get_state=",         //variable
+                    "d.get_completed_bytes=", //variable
+                    "d.get_up_total=",      //variable
+                    "d.get_peers_complete=",
+                    "d.get_peers_accounted=",
+                    "d.get_down_rate=", //variable
+                    "d.get_up_rate=", //variable
+                    "d.get_message=", //relative
+                    "d.get_priority=", //relative
+                    "d.get_size_bytes="
+    };
+
 	
 	public TorrentTableController(XmlRpcConnection connection) {
 		this.connection = connection;
+		table.setAutoCreateRowSorter(true);
 		new Thread(this).start();
 	}
 	
@@ -60,40 +84,54 @@ public class TorrentTableController implements Runnable{
 	}
 	
 	public void run() {
-		
-	   final String[] download_variable = {
-               "", //reserved for view arg
-               "d.get_hash=",  //ID
-               "d.get_name=", //constant
-               "d.get_size_bytes=", //constant
-               "d.get_completed_bytes=", //variable
-               "d.get_up_total=",      //variable
-               "d.get_peers_complete=",
-               "cat=$d.get_peers_connected=,(,$d.get_peers_not_connected=,)",
-               "d.get_down_rate=", //variable
-               "d.get_up_rate=", //variable
-               //"d.get_state=",         //variable
-               "d.get_message=", //relative
-               "d.get_priority=", //relative
-               //"d.get_tied_to_file=", //constant?
-               //"d.get_tracker_size=",
-               //#"d.get_custom1="        //label
-               //"d.get_size_files=",//constant
-               //"d.get_base_path=" //constant
-	   };
-		
 	   XmlRpcClient client = connection.getClient();
-	   
 		try {
-			XmlRpcArray download_list = (XmlRpcArray)client.invoke("d.multicall", download_variable);
+			while(true){
+				XmlRpcArray download_list = (XmlRpcArray)client.invoke("d.multicall", download_variable);
 			
-			int i = 0;
-			for(Object d : download_list){
-				XmlRpcArray	data = (XmlRpcArray) d;
-				Torrent tor = new Torrent(data.getString(0));
-				ttm.setValueAt(tor, i++);
-				for(int x = 1; x < data.size(); x++){
-					tor.setProperty(TorrentTableModel.cols[x-1], data.get(x));
+				if(ttm.getRowCount() > download_list.size()){
+					int diff = ttm.getRowCount()-download_list.size();
+					int x = 0;
+					//table.getRowSorter().rowsDeleted(firstRow, endRow)
+					//ttm.fireTableRowsDeleted(download_list.size(), ttm.getRowCount()-1);
+					while(x < diff){
+						System.out.println("removing row: "+(download_list.size()+x));
+						//ttm.removeRow(download_list.size()+x);
+						x++;
+					}
+					System.out.println(download_list.size()+" "+download_list.size()+diff);
+
+				}
+				
+				for(int x = 0 ; x < download_list.size(); x++){
+					XmlRpcArray data = (XmlRpcArray)download_list.get(x);
+					Torrent tor = new Torrent(data.getString(0));
+					
+					if(!torrents.keySet().contains(tor.getHash()))
+						torrents.put(tor.getHash(),tor);
+					else
+						tor = torrents.get(data.getString(0));
+					
+					tor.setName(data.getString(1));
+					tor.setStarted(data.getLong(2) == 1);
+					tor.setCompletedBytes(data.getLong(3));
+					tor.setUpTotal(data.getLong(4));
+					tor.setPeersComplete(data.getLong(5));
+					tor.setPeersAccounted(data.getLong(6));
+					tor.setDownRate(data.getLong(7));
+					tor.setUpRate(data.getLong(8));
+					tor.setMessage(data.getString(9));
+					tor.setPriority(data.getLong(10));
+					tor.setSizeBytes(data.getLong(11));
+					
+					ttm.setValueAt(tor, x);
+					
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 			
@@ -103,7 +141,7 @@ public class TorrentTableController implements Runnable{
 		} catch (XmlRpcFault e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	public static void main(String[] args) {
