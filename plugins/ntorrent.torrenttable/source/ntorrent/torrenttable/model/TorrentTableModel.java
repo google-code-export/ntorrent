@@ -57,45 +57,59 @@ public class TorrentTableModel extends AbstractTableModel  {
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Torrent tor = torrents.get(rowIndex);
-		switch(columnIndex){
-			case 0:
-				return tor;
-			case 1:
-				return tor.getSizeBytes();
-			case 2:
-				return tor.getCompletedBytes();
-			case 3:
-				return tor.getUpTotal();
-			case 4:
-				return tor.getSeeders();
-			case 5:
-				return tor.getLeechers();
-			case 6:
-				return tor.getDownRate();
-			case 7:
-				return tor.getUpRate();
-			case 8:
-				return tor.getEta();
-			case 9:
-				return tor.getPercentDone();
-			case 10:
-				return tor.getRatio();
-			case 11:
-				return tor.getPriority();
+		try{
+			
+			Torrent tor = torrents.get(rowIndex);
+			
+			switch(columnIndex){
+				case 0:
+					return tor;
+				case 1:
+					return tor.getSizeBytes();
+				case 2:
+					return tor.getCompletedBytes();
+				case 3:
+					return tor.getUpTotal();
+				case 4:
+					return tor.getSeeders();
+				case 5:
+					return tor.getLeechers();
+				case 6:
+					return tor.getDownRate();
+				case 7:
+					return tor.getUpRate();
+				case 8:
+					return tor.getEta();
+				case 9:
+					return tor.getPercentDone();
+				case 10:
+					return tor.getRatio();
+				case 11:
+					return tor.getPriority();
+			}
+			
+		}catch(ArrayIndexOutOfBoundsException x){
+			//do nothing, will return null.
 		}
 		return null;
 	}
 	
 	public void setValueAt(Torrent tor, int rowIndex) {
-		//fireTableRowsUpdated(rowIndex, rowIndex);
+		fireTableRowsUpdated(rowIndex, rowIndex);
 		if(torrents.contains(tor))
 			torrents.remove(tor);
 		torrents.add(rowIndex,tor);
 	}
 	
 	public void removeRow(int rowIndex){
+		fireTableRowsDeleted(rowIndex, rowIndex);
 		torrents.remove(rowIndex);
+	}
+
+	public void addRow(Torrent tor) {
+		int row = torrents.size();
+		fireTableRowsInserted(row, row);
+		torrents.add(tor);
 	}
 	
 }

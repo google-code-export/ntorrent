@@ -30,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableRowSorter;
 
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
@@ -52,6 +53,7 @@ public class TorrentTableController implements Runnable{
 	final TorrentTableModel ttm = new TorrentTableModel();
 	final TorrentTable table = new TorrentTable(ttm);
 	final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
+	final TorrentTableRowSorter sorter = new TorrentTableRowSorter(ttm);
 	private final XmlRpcConnection connection;
 	
 
@@ -74,7 +76,7 @@ public class TorrentTableController implements Runnable{
 	
 	public TorrentTableController(XmlRpcConnection connection) {
 		this.connection = connection;
-		table.setAutoCreateRowSorter(true);
+		table.setRowSorter(sorter);
 		new Thread(this).start();
 	}
 	
@@ -92,14 +94,11 @@ public class TorrentTableController implements Runnable{
 				if(ttm.getRowCount() > download_list.size()){
 					int diff = ttm.getRowCount()-download_list.size();
 					int x = 0;
-					//table.getRowSorter().rowsDeleted(firstRow, endRow)
-					//ttm.fireTableRowsDeleted(download_list.size(), ttm.getRowCount()-1);
 					while(x < diff){
 						System.out.println("removing row: "+(download_list.size()+x));
-						//ttm.removeRow(download_list.size()+x);
+						ttm.removeRow(download_list.size()+x);
 						x++;
 					}
-					System.out.println(download_list.size()+" "+download_list.size()+diff);
 
 				}
 				
@@ -124,11 +123,14 @@ public class TorrentTableController implements Runnable{
 					tor.setPriority(data.getLong(10));
 					tor.setSizeBytes(data.getLong(11));
 					
-					ttm.setValueAt(tor, x);
-					
+					if(ttm.getRowCount()>x)
+						ttm.setValueAt(tor, x);
+					else
+						ttm.addRow(tor);
+
 				}
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

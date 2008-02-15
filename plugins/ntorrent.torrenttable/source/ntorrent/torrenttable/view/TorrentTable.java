@@ -23,9 +23,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableRowSorter;
 
 import ntorrent.torrenttable.model.TorrentTableModel;
 
