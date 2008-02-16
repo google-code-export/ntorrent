@@ -46,7 +46,7 @@ import ntorrent.profile.model.LocalProfileModel;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
-import ntorrent.torrenttable.view.TorrentTablePopupMenu;
+import ntorrent.torrenttable.view.TorrentTableHeaderPopupMenu;
 
 public class TorrentTableController implements Runnable{
 	
@@ -130,6 +130,7 @@ public class TorrentTableController implements Runnable{
 						ttm.addRow(tor);
 					//System.out.println(ttm.getRowCount()+" "+x);
 				}
+				
 				try {
 					Thread.sleep(1000);
 					//ttm.removeRow(ttm.getRowCount()-1);

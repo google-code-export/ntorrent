@@ -55,6 +55,11 @@ public class TorrentTableModel extends AbstractTableModel  {
 	public int getRowCount() {
 		return torrents.size();
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		return getValueAt(0,columnIndex).getClass();
+	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		try{

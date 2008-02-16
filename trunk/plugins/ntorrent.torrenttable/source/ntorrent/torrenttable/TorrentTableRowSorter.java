@@ -68,7 +68,12 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, T
 	
 	@Override
 	public int convertRowIndexToModel(int index) {
-		return super.convertRowIndexToModel(index);
+		try {
+			return super.convertRowIndexToModel(index);
+		}catch (Exception x){
+			//why are they throwing exceptions at me?
+			return index;
+		}
 	}
 	
 	@Override
