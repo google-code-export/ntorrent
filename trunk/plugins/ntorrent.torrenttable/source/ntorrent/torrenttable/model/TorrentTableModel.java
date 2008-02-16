@@ -96,6 +96,7 @@ public class TorrentTableModel extends AbstractTableModel  {
 	
 	public void setValueAt(Torrent tor, int rowIndex) {
 		fireTableRowsUpdated(rowIndex, rowIndex);
+		System.out.println("updating "+tor);
 		if(torrents.contains(tor))
 			torrents.remove(tor);
 		torrents.add(rowIndex,tor);
@@ -107,9 +108,14 @@ public class TorrentTableModel extends AbstractTableModel  {
 	}
 
 	public void addRow(Torrent tor) {
+		System.out.println("adding "+tor);
 		int row = torrents.size();
 		fireTableRowsInserted(row, row);
-		torrents.add(tor);
+		torrents.addElement(tor);
+	}
+	
+	public Torrent getRow(int row){
+		return torrents.get(row);
 	}
 	
 }

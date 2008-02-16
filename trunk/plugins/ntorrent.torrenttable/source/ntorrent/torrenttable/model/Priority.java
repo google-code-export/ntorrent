@@ -20,7 +20,7 @@
 package ntorrent.torrenttable.model;
 
 
-public class Priority {
+public class Priority implements Comparable<Integer> {
 	Integer pri;
 	
 	public Priority(long p){
@@ -42,5 +42,9 @@ public class Priority {
 			case 3: return "high";
 			default: return "wuff";
 		}
+	}
+
+	public int compareTo(Integer o) {
+		return pri.compareTo(o);
 	}
 }

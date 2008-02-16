@@ -123,14 +123,17 @@ public class TorrentTableController implements Runnable{
 					tor.setPriority(data.getLong(10));
 					tor.setSizeBytes(data.getLong(11));
 					
-					if(ttm.getRowCount()>x)
+					//System.out.println(ttm.getRowCount()+" "+x);
+					if(ttm.getRowCount() > x)
 						ttm.setValueAt(tor, x);
 					else
 						ttm.addRow(tor);
-
+					//System.out.println(ttm.getRowCount()+" "+x);
 				}
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(1000);
+					//ttm.removeRow(ttm.getRowCount()-1);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
