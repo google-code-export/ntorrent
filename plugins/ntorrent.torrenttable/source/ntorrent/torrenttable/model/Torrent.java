@@ -19,7 +19,6 @@
  */
 package ntorrent.torrenttable.model;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,15 +161,16 @@ public class Torrent implements Comparable<Torrent> {
 		return getPeersAccounted().intValue()-getSeeders();
 	}
 	
-	public Date getEta(){
+	public Eta getEta(){
 		long done = getCompletedBytes().getValue();
 		long complete = getSizeBytes().getValue();
 		long speed = getDownRate().getValue();
 		
-		//long milis = ((complete-done)/speed+1)*1000;
-		long milis = 1;
-		
-		return new Date(System.currentTimeMillis()+milis);
+		try {
+			return new Eta((int)(((complete-done)/(speed))));
+		} catch (ArithmeticException x){
+			return new Eta(0);
+		}
 	}
 	
 
@@ -223,7 +223,7 @@ public class Torrent implements Comparable<Torrent> {
 	}
 
 	public int compareTo(Torrent o) {
-		return getName().compareTo(o.getName());
+		return getName().toLowerCase().compareTo(o.getName().toLowerCase());
 	}
 	
 	@Override

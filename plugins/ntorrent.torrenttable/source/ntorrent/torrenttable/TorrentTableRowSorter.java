@@ -21,15 +21,16 @@ package ntorrent.torrenttable;
 
 import javax.swing.DefaultRowSorter;
 
+import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
-public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, Integer> {
+public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, Torrent> {
 	
 	final TorrentTableModel model;
 	
 	public TorrentTableRowSorter(final TorrentTableModel model) {
 		super.setSortsOnUpdates(true);
-		super.setModelWrapper(new ModelWrapper<TorrentTableModel, Integer>(){
+		super.setModelWrapper(new ModelWrapper<TorrentTableModel, Torrent>(){
 
 			@Override
 			public int getColumnCount() {
@@ -37,8 +38,8 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, I
 			}
 
 			@Override
-			public Integer getIdentifier(int row) {
-				return row;
+			public Torrent getIdentifier(int row) {
+				return model.getRow(row);
 			}
 
 			@Override
@@ -72,29 +73,32 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, I
 	
 	@Override
 	public void rowsUpdated(int firstRow, int endRow) {
-		try{
-			super.rowsDeleted(firstRow, endRow);
+		//modelStructureChanged();
+		/*try{
+			super.rowsUpdated(firstRow, endRow);
 		}catch(Exception x){
-			
-		}
+			System.out.println(x.getMessage());
+		}*/
 	}
 	
 	@Override
 	public void rowsDeleted(int firstRow, int endRow) {
-		try{
+		modelStructureChanged();
+		/*try{
 			super.rowsDeleted(firstRow, endRow);
 		}catch(Exception x){
-			
-		}
+			System.out.println(x.getMessage());
+		}*/
 	}
 	
 	@Override
 	public void rowsInserted(int firstRow, int endRow) {
-		try{
-			super.rowsDeleted(firstRow, endRow);
+		modelStructureChanged();
+		/*try{
+			super.rowsInserted(firstRow, endRow);
 		}catch(Exception x){
-			
-		}
+			System.out.println("inserted: "+x.getMessage());
+		}*/
 	}
 	
 	

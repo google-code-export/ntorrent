@@ -19,44 +19,39 @@
  */
 package ntorrent.torrenttable.model;
 
-import java.text.DecimalFormat;
 
-public abstract class DataUnit implements Comparable<Long> {
-	protected Long data;
+public class Eta implements Comparable<Integer>{
+
+	Integer sec;
+	Integer[] div = {60,60,60,24,7,4,12};
+	String[] unit = {"s","m","h","D","W","M","Y"};
+	private int l = 0;
 	
-	public DataUnit(long b){
-		data = b;
+	public Eta(Integer sec) {
+		this.sec = sec;
 	}
 	
-	protected abstract String[] getUnitDesc();
-	protected abstract int getUnitDivider();
+	public int compareTo(Integer o) {
+		return sec.compareTo(o);
+	}
 	
-	public long getValue(){ return data;}
-	
-	public String toString(){
-		int x = 0;
-		double bytes = this.data;
-		while(bytes >= getUnitDivider()){
-			bytes /= getUnitDivider();
-			x++;
+	@Override
+	public String toString() {
+		int x = sec;
+		int rest = 0;
+		while(!(x < div[l])){
+			rest = x%div[l];
+			x /= div[l++];
 		}
-		if(x < getUnitDesc().length){
 
-			 DecimalFormat output = new DecimalFormat("#0.0 "+getUnitDesc()[x]);
-			 return output.format(bytes);
-		}
-		return "...";		
+			if(x == 0)
+				return "-";
+			else{
+				String out = x+unit[l];
+				if(l > 0)
+					out += " "+rest+unit[l-1];
+				return out;
+			}
 	}
 
-	public int compareTo(Long o) {
-		return data.compareTo(o);
-	}
-
-	public void setValue(long l) {
-		data = l;
-	}
-	
-	public void appendValue(DataUnit b){
-		data += b.getValue();
-	}
 }
