@@ -95,7 +95,7 @@ public class TorrentTableController implements Runnable{
 					int diff = ttm.getRowCount()-download_list.size();
 					int x = 0;
 					while(x < diff){
-						System.out.println("removing row: "+(download_list.size()+x));
+						//System.out.println("removing row: "+(download_list.size()+x));
 						ttm.removeRow(download_list.size()+x);
 						x++;
 					}
