@@ -29,20 +29,27 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableRowSorter;
 
+import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
 
 public class TorrentTable extends JTable implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	
-	TorrentTablePopupMenu popup;
+	TorrentTableHeaderPopupMenu popup;
 
 
 	public TorrentTable(TorrentTableModel tmodel) {
 		super(tmodel);
 		getTableHeader().addMouseListener(this);
-		this.popup = new TorrentTablePopupMenu(getColumnModel()); 
-	
+		this.popup = new TorrentTableHeaderPopupMenu(getColumnModel()); 
+		
+		setFillsViewportHeight(true);
+		setRowHeight(20);
+		
+		setDoubleBuffered(true);
+		
+		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
 	}
 
 	public void mouseClicked(MouseEvent e) {}

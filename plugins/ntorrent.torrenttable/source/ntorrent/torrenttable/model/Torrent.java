@@ -57,7 +57,7 @@ public class Torrent implements Comparable<Torrent> {
 		this.message = message;
 	}
 	
-	public Boolean getStarted() {
+	public Boolean isStarted() {
 		return started;
 	}
 	
@@ -93,7 +93,7 @@ public class Torrent implements Comparable<Torrent> {
 		return peersComplete;
 	}
 	
-	public void setPeersComplete(Long peersComplete) {
+	public void setPeersComplete(long peersComplete) {
 		this.peersComplete = peersComplete;
 	}
 	
@@ -101,7 +101,7 @@ public class Torrent implements Comparable<Torrent> {
 		return peersAccounted;
 	}
 	
-	public void setPeersAccounted(Long peersConnected) {
+	public void setPeersAccounted(long peersConnected) {
 		this.peersAccounted = peersConnected;
 	}
 	
@@ -232,6 +232,18 @@ public class Torrent implements Comparable<Torrent> {
 			return (( Torrent )obj).getHash().equals(getHash());
 		}
 		return false;
+	}
+
+	public boolean hasMessage() {
+		return message.length() > 0;
+	}
+
+	public boolean isDownloading() {
+		return downRate.getValue() > 0;
+	}
+
+	public boolean isUploading() {
+		return upRate.getValue() > 0;
 	}
 
 }

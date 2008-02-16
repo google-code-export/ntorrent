@@ -40,11 +40,11 @@ import ntorrent.env.Environment;
 import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
-public class TorrentTablePopupMenu extends JPopupMenu implements ItemListener {
+public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener {
 	private static final long serialVersionUID = 1L;
 	final TableColumnModel model;
 	
-	public TorrentTablePopupMenu(TableColumnModel cmodel) {
+	public TorrentTableHeaderPopupMenu(TableColumnModel cmodel) {
 		model = cmodel;
 		
 		for(String c : TorrentTableModel.cols){
