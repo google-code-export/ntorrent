@@ -145,7 +145,7 @@ public class TorrentTableController implements Runnable{
 				
 				try {
 					//Thread.sleep(1000);
-					ttm.removeRow(ttm.getRowCount()-1);
+					//ttm.removeRow(ttm.getRowCount()-1);
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
