@@ -21,8 +21,6 @@ package ntorrent.torrenttable.model;
 
 import java.text.DecimalFormat;
 
-import javax.swing.DefaultRowSorter;
-
 public abstract class DataUnit implements Comparable<DataUnit> {
 	protected Long data;
 	

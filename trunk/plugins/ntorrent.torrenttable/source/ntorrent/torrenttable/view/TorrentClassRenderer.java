@@ -19,19 +19,14 @@
  */
 package ntorrent.torrenttable.view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
-
-import com.sun.org.apache.xml.internal.utils.StopParseException;
 
 import ntorrent.torrenttable.model.Torrent;
 
@@ -40,7 +35,7 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 
 	private static final ImageIcon stoppedIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/stopped.png");
 	private static final ImageIcon startedIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/started.png");
-	private static final ImageIcon messageIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/message.png");
+	private static final ImageIcon messageIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/emblem-important.png");
 	private static final ImageIcon upIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/uploading.png");
 	private static final ImageIcon downIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downloading.png");
 	private static final ImageIcon dandupIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downandup.png");
@@ -65,38 +60,43 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 		}
 		
 		Torrent tor = (Torrent) value;
-		
-		name.setText(tor.toString());
-		
-		if(tor.hasMessage()){
-			name.setIcon(messageIcon);
-		}else if(tor.isStarted()){
-			if(tor.isDownloading() && tor.isUploading()){
-				name.setIcon(dandupIcon);
-			}else if(tor.isDownloading()){
-				name.setIcon(downIcon);
-			}else if(tor.isUploading()){
-				name.setIcon(upIcon);
-			}else
-				name.setIcon(startedIcon);
-		}else{
-			name.setIcon(stoppedIcon);
-		}
-		
-		if(isSelected){
-			setBackground(table.getSelectionBackground());
-			setForeground(table.getSelectionForeground());
+		try{
+			name.setText(tor.toString());
+			
 			if(tor.hasMessage()){
-				add(message);
-				table.setRowHeight(row, 40);
-				message.setText("Message: "+tor.getMessage());
+				name.setIcon(messageIcon);
+			}else if(tor.isStarted()){
+				if(tor.isDownloading() && tor.isUploading()){
+					name.setIcon(dandupIcon);
+				}else if(tor.isDownloading()){
+					name.setIcon(downIcon);
+				}else if(tor.isUploading()){
+					name.setIcon(upIcon);
+				}else
+					name.setIcon(startedIcon);
+			}else{
+				name.setIcon(stoppedIcon);
 			}
 			
-		}else{
-			setBackground(table.getBackground());
-			setForeground(table.getForeground());
-			table.setRowHeight(row,20);
-			remove(message);
+			if(isSelected){
+				setBackground(table.getSelectionBackground());
+				setForeground(table.getSelectionForeground());
+				if(tor.hasMessage()){
+					add(message);
+					table.setRowHeight(row, 40);
+					message.setText("Message: "+tor.getMessage());
+				}else{
+					remove(message);
+				}
+				
+			}else{
+				setBackground(table.getBackground());
+				setForeground(table.getForeground());
+				table.setRowHeight(row,20);
+				remove(message);
+			}
+		}catch(NullPointerException x){
+			//something wrong
 		}
 		
 		

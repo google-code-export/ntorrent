@@ -158,7 +158,8 @@ public class Torrent implements Comparable<Torrent> {
 	}
 	
 	public int getLeechers(){
-		return getPeersAccounted().intValue()-getSeeders();
+		int leechers = getPeersAccounted().intValue()-getSeeders();
+		return leechers > 0 ? leechers : 0;
 	}
 	
 	public Eta getEta(){

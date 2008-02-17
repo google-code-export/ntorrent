@@ -19,6 +19,8 @@
  */
 package ntorrent.torrenttable;
 
+import java.util.Comparator;
+
 import javax.swing.DefaultRowSorter;
 
 import ntorrent.torrenttable.model.Torrent;
@@ -105,7 +107,6 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, T
 			System.out.println("inserted: "+x.getMessage());
 		}*/
 	}
-	
 	
 
 }
