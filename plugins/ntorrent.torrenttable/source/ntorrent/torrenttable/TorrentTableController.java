@@ -19,6 +19,7 @@
  */
 package ntorrent.torrenttable;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -26,8 +27,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableRowSorter;
@@ -46,16 +50,20 @@ import ntorrent.profile.model.LocalProfileModel;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
+import ntorrent.torrenttable.view.TorrentTableFinder;
 import ntorrent.torrenttable.view.TorrentTableHeaderPopupMenu;
 
 public class TorrentTableController implements Runnable{
 	
-	final TorrentTableModel ttm = new TorrentTableModel();
-	final TorrentTable table = new TorrentTable(ttm);
-	final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
-	final TorrentTableRowSorter sorter = new TorrentTableRowSorter(ttm);
+	private final TorrentTableModel ttm = new TorrentTableModel();
+	private final TorrentTable table = new TorrentTable(ttm);
+	private final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
+	private final TorrentTableRowSorter sorter = new TorrentTableRowSorter(ttm);
+	private final TorrentTableRowFilter filter = new TorrentTableRowFilter(sorter);
 	private final XmlRpcConnection connection;
 	
+	
+	private final JPanel panel = new JPanel(new BorderLayout());
 
     Object[] download_variable = {
                     "", //reserved for view arg
@@ -78,11 +86,14 @@ public class TorrentTableController implements Runnable{
 		this.connection = connection;
 		table.setRowSorter(sorter);
 		new Thread(this).start();
+		
+		panel.add(new JScrollPane(table));
+		panel.add(new TorrentTableFinder(filter),BorderLayout.NORTH);
 	}
 	
 
-	public Component getDisplay() {
-		return table;
+	public JComponent getDisplay() {
+		return panel;
 	}
 	
 	public void run() {
@@ -128,13 +139,14 @@ public class TorrentTableController implements Runnable{
 						ttm.setValueAt(tor, x);
 					else
 						ttm.addRow(tor);
+
 					//System.out.println(ttm.getRowCount()+" "+x);
 				}
 				
 				try {
-					Thread.sleep(1000);
-					//ttm.removeRow(ttm.getRowCount()-1);
-					Thread.sleep(1000);
+					//Thread.sleep(1000);
+					ttm.removeRow(ttm.getRowCount()-1);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -156,7 +168,7 @@ public class TorrentTableController implements Runnable{
 		Window w = new Window();
 		w.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
-		w.setContentPane(new JScrollPane(t.getDisplay()));
+		w.setContentPane(t.getDisplay());
 		w.drawWindow();		
 		
 	}
