@@ -19,9 +19,11 @@
  */
 package ntorrent.torrenttable.model;
 
+import java.util.Comparator;
 
-public class Priority implements Comparable<Integer> {
-	Integer pri;
+
+public class Priority implements Comparable<Priority>, Comparator<Priority> {
+	private Integer pri;
 	
 	public Priority(long p){
 		this(p,true);
@@ -44,7 +46,11 @@ public class Priority implements Comparable<Integer> {
 		}
 	}
 
-	public int compareTo(Integer o) {
-		return pri.compareTo(o);
+	public int compareTo(Priority o) {
+		return pri.compareTo(o.pri);
+	}
+
+	public int compare(Priority o1, Priority o2) {
+		return o1.compareTo(o2);
 	}
 }

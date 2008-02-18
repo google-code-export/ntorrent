@@ -21,8 +21,9 @@
 package ntorrent.torrenttable.model;
 
 import java.text.DecimalFormat;
+import java.util.Comparator;
 
-public class Ratio implements Comparable<Ratio> {
+public class Ratio implements Comparable<Ratio>, Comparator<Ratio> {
 	double ratio;
 	
 	public Ratio(double r){
@@ -43,5 +44,9 @@ public class Ratio implements Comparable<Ratio> {
 		if(this.ratio < o.ratio)
 			return -1;
 		return 0;
+	}
+
+	public int compare(Ratio o1, Ratio o2) {
+		return o1.compareTo(o2);
 	}		
 }

@@ -19,22 +19,20 @@
  */
 package ntorrent.torrenttable.model;
 
+import java.util.Comparator;
 
-public class Eta implements Comparable<Integer>{
 
-	Integer sec;
-	Integer[] div = {60,60,60,24,7,4,12};
-	String[] unit = {"s","m","h","D","W","M","Y"};
+public class Eta implements Comparable<Eta>, Comparator<Eta>{
+
+	private Integer sec;
+	private Integer[] div = {60,60,60,24,7,4,12};
+	private String[] unit = {"s","m","h","D","W","M","Y"};
 	private int l = 0;
 	
 	public Eta(Integer sec) {
 		this.sec = sec;
 	}
-	
-	public int compareTo(Integer o) {
-		return sec.compareTo(o);
-	}
-	
+		
 	@Override
 	public String toString() {
 		int x = sec;
@@ -52,6 +50,14 @@ public class Eta implements Comparable<Integer>{
 					out += " "+rest+unit[l-1];
 				return out;
 			}
+	}
+
+	public int compareTo(Eta o) {
+		return sec.compareTo(o.sec);
+	}
+
+	public int compare(Eta o1, Eta o2) {
+		return o1.compareTo(o2);
 	}
 
 }
