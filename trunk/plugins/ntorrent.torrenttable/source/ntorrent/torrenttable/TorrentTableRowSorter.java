@@ -64,6 +64,13 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, T
 	}
 	
 	@Override
+	public Comparator<?> getComparator(int column) {
+		if(model.getValueAt(0, column) instanceof Comparator)
+			return (Comparator) model.getValueAt(0, column);
+		return null;
+	}
+	
+	@Override
 	public int convertRowIndexToView(int index) {
 		return index;
 	}

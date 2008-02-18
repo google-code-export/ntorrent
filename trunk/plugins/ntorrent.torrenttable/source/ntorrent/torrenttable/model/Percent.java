@@ -20,8 +20,10 @@
 
 package ntorrent.torrenttable.model;
 
-public class Percent implements Comparable<Integer> {
-	Integer percent;
+import java.util.Comparator;
+
+public class Percent implements Comparable<Percent>, Comparator<Percent> {
+	private Integer percent;
 	
 	public Percent(int p){
 		 percent = p;
@@ -35,7 +37,11 @@ public class Percent implements Comparable<Integer> {
 		return percent+"%";
 	}
 
-	public int compareTo(Integer o) {
-		return percent.compareTo(o);
+	public int compareTo(Percent o) {
+		return percent.compareTo(o.getValue());
+	}
+
+	public int compare(Percent o1, Percent o2) {
+		return o1.compareTo(o2);
 	}		
 }

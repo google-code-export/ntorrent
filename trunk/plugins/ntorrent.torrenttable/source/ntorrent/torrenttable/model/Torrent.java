@@ -19,10 +19,11 @@
  */
 package ntorrent.torrenttable.model;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Torrent implements Comparable<Torrent> {
+public class Torrent implements Comparable<Torrent>, Comparator<Torrent> {
 
 	private String hash,name,message;
 	private Boolean started;
@@ -245,6 +246,10 @@ public class Torrent implements Comparable<Torrent> {
 
 	public boolean isUploading() {
 		return upRate.getValue() > 0;
+	}
+
+	public int compare(Torrent o1, Torrent o2) {
+		return o1.compareTo(o2);
 	}
 
 }

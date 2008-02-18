@@ -20,8 +20,9 @@
 package ntorrent.torrenttable.model;
 
 import java.text.DecimalFormat;
+import java.util.Comparator;
 
-public abstract class DataUnit implements Comparable<DataUnit> {
+public abstract class DataUnit implements Comparable<DataUnit>, Comparator<DataUnit> {
 	protected Long data;
 	
 	public DataUnit(long b){
@@ -50,6 +51,10 @@ public abstract class DataUnit implements Comparable<DataUnit> {
 
 	public int compareTo(DataUnit o) {
 		return data.compareTo(o.data);
+	}
+	
+	public int compare(DataUnit o1, DataUnit o2){
+		return o1.compareTo(o2);
 	}
 
 	public void setValue(long l) {
