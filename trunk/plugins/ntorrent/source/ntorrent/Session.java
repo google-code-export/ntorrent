@@ -28,11 +28,11 @@ import javax.swing.JOptionPane;
 
 import ntorrent.env.Environment;
 import ntorrent.gui.TabbedPaneHolder;
-import ntorrent.gui.session.SessionFrame;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.ClientProfileController;
 import ntorrent.profile.ProfileRequester;
 import ntorrent.profile.model.ClientProfileInterface;
+import ntorrent.session.ConnectionSession;
 
 /**
  * A ntorrent session
@@ -79,7 +79,7 @@ public class Session extends Thread implements ProfileRequester{
 	public void run() {
 		try {
 			connection = new XmlRpcConnection(profile);
-			session = new SessionFrame();
+			session = new ConnectionSession(connection).getDisplay();
 			jtab.addTab(profile.toString(), session);
 		} catch (Exception e) {
 			Logger.global.log(Level.WARNING, e.getMessage(), e);

@@ -17,39 +17,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.session;
+package ntorrent.torrenttable.sorter.view;
 
-import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 
-/**
- * Main session gui component.
- */
-public class SessionFrame extends JPanel{
-	public SessionFrame() {
-		super(new BorderLayout());
-		JSplitPane vsplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		vsplit.add(new JLabel("selection/label"));
-		vsplit.add(new JLabel("table"));
+public class TorrentTableFinder extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
+	final JTextField searchBox = new JTextField(10);
+	final static ImageIcon searchIcon = new ImageIcon("plugins/ntorrent.torrenttable.sorter/icons/system-search.png");
+	
+	public TorrentTableFinder(KeyListener k) {
+		super(new FlowLayout(FlowLayout.RIGHT));
 		
-		JSplitPane hsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		hsplit.add(vsplit);
-		hsplit.add(new JLabel("JTAB"));
+		searchBox.addKeyListener(k);
 		
-		add(hsplit);
-		/**
-		 * Left bar
-		 * 		^--- torrent selection
-		 * 		^--- torrent labels
-		 * torrent list table north
-		 * torrent info tabbed pane south
-		 * 		^--- tab, general torrent info
-		 * 		^--- tab, torrent files info
-		 * 		^--- tab, torrent tracker info
-		 */
+		add(new JLabel(searchIcon));
+		add(searchBox);
 	}
 
 }

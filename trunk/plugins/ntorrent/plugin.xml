@@ -8,7 +8,7 @@
 		<import plugin-id="ntorrent.env" />
 		<import plugin-id="ntorrent.jpf" />
 		<import plugin-id="ntorrent.tools" reverse-lookup="true" />
-		<import plugin-id="ntorrent.gui.session" />
+		<import plugin-id="ntorrent.session" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">

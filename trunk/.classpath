@@ -9,7 +9,6 @@
 	<classpathentry kind="src" output="plugins/ntorrent.env/classes" path="plugins/ntorrent.env/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.io.rtorrent/classes" path="plugins/ntorrent.io.rtorrent/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.tools/classes" path="plugins/ntorrent.tools/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.gui.session/classes" path="plugins/ntorrent.gui.session/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.jpf/classes" path="plugins/ntorrent.jpf/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.gui.skins/classes" path="plugins/ntorrent.gui.skins/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentfiles/classes" path="plugins/ntorrent.torrentfiles/source"/>
@@ -17,6 +16,8 @@
 	<classpathentry kind="src" output="plugins/ntorrent.torrenttable/classes" path="plugins/ntorrent.torrenttable/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrenttrackers/classes" path="plugins/ntorrent.torrenttrackers/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.viewmenu/classes" path="plugins/ntorrent.viewmenu/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.torrenttable.sorter/classes" path="plugins/ntorrent.torrenttable.sorter/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.session/classes" path="plugins/ntorrent.session/source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>

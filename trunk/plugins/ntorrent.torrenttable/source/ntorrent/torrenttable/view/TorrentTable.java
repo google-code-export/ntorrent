@@ -30,17 +30,19 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableRowSorter;
 
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
 
 public class TorrentTable extends JTable implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	
+	final static TorrentTableColumnModel cmodel = new TorrentTableColumnModel();
 	TorrentTableHeaderPopupMenu popup;
 
 
 	public TorrentTable(TorrentTableModel tmodel) {
-		super(tmodel);
+		super(tmodel,cmodel);
 		getTableHeader().addMouseListener(this);
 		this.popup = new TorrentTableHeaderPopupMenu(getColumnModel()); 
 		

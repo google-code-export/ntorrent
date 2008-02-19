@@ -81,6 +81,8 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			if(isSelected){
 				setBackground(table.getSelectionBackground());
 				setForeground(table.getSelectionForeground());
+				name.setForeground(table.getSelectionForeground());
+				message.setForeground(table.getSelectionForeground());
 				if(tor.hasMessage()){
 					add(message);
 					table.setRowHeight(row, 40);
@@ -92,6 +94,8 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			}else{
 				setBackground(table.getBackground());
 				setForeground(table.getForeground());
+				name.setForeground(table.getForeground());
+				message.setForeground(table.getForeground());
 				table.setRowHeight(row,20);
 				remove(message);
 			}

@@ -23,33 +23,15 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+import ntorrent.env.Environment;
+
 public class TorrentTableModel extends AbstractTableModel  {
 	private static final long serialVersionUID = 1L;
 
 	private Vector<Torrent> torrents = new Vector<Torrent>();
 	
-	public final static String[] cols = {
-		"torrenttable.name",
-		"torrenttable.size",
-		"torrenttable.down",
-		"torrenttable.up",
-		"torrenttable.seeders",
-		"torrenttable.leechers",
-		"torrenttable.downspeed",
-		"torrenttable.upspeed",
-		"torrenttable.eta",
-		"torrenttable.percent",
-		"torrenttable.ratio",
-		"torrenttable.priority"
-	};
-	
 	public int getColumnCount() {
-		return cols.length;
-	}
-	
-	@Override
-	public String getColumnName(int column) {
-		return cols[column];
+		return TorrentTableColumnModel.cols.length;
 	}
 
 	public int getRowCount() {
@@ -100,23 +82,23 @@ public class TorrentTableModel extends AbstractTableModel  {
 	}
 	
 	public void setValueAt(Torrent tor, int rowIndex) {
-		fireTableRowsUpdated(rowIndex, rowIndex);
 		//System.out.println("updating "+tor);
 		if(torrents.contains(tor))
 			torrents.remove(tor);
 		torrents.add(rowIndex,tor);
+		fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 	
 	public void removeRow(int rowIndex){
-		fireTableRowsDeleted(rowIndex, rowIndex);
 		torrents.remove(rowIndex);
+		fireTableRowsDeleted(rowIndex, rowIndex);
 	}
 
 	public void addRow(Torrent tor) {
 		//System.out.println("adding "+tor);
 		int row = torrents.size();
-		fireTableRowsInserted(row, row);
 		torrents.addElement(tor);
+		fireTableRowsInserted(row, row);
 	}
 	
 	public Torrent getRow(int row){
