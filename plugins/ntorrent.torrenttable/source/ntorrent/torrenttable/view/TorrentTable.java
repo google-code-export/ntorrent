@@ -46,7 +46,6 @@ public class TorrentTable extends JTable implements MouseListener{
 		getTableHeader().addMouseListener(this);
 		this.popup = new TorrentTableHeaderPopupMenu(getColumnModel()); 
 		
-		setFillsViewportHeight(true);
 		setRowHeight(20);
 		
 		setDoubleBuffered(true);
