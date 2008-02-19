@@ -52,17 +52,13 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, T
 			return (Comparator) model.getValueAt(0, column);
 		return null;
 	}
-	
-	@Override
-	public int convertRowIndexToView(int index) {
-		return index;
-	}
-	
+
 	@Override
 	public int convertRowIndexToModel(int index) {
 		try {
 			return super.convertRowIndexToModel(index);
 		}catch (Exception x){
+			/**@TODO fix this**/
 			//why are they throwing exceptions at me?
 			return index;
 		}

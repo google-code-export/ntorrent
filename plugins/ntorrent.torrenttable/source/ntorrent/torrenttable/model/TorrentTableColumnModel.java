@@ -19,19 +19,12 @@
  */
 package ntorrent.torrenttable.model;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
-
 import ntorrent.env.Environment;
-import ntorrent.tools.Serializer;
 
-public class TorrentTableColumnModel extends DefaultTableColumnModel implements Externalizable {
+public class TorrentTableColumnModel extends DefaultTableColumnModel {
 	private static final long serialVersionUID = 1L;
 
 	public final static String[] cols = {
@@ -65,7 +58,6 @@ public class TorrentTableColumnModel extends DefaultTableColumnModel implements 
 	};
 	
 	public TorrentTableColumnModel() {
-		//super();
 		for(int x = 0; x < cols.length; x++){
 			TableColumn t = new TableColumn(x);
 			t.setHeaderValue(Environment.getString(cols[x]));
@@ -74,27 +66,6 @@ public class TorrentTableColumnModel extends DefaultTableColumnModel implements 
 			addColumn(t);
 		}
 	}
-
-
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		 tableColumns.clear();
-		 int size = in.readInt();
-		 for(int x = 0; x < size; x++){
-			String col = in.readUTF();
-			int width = in.readInt();
-			TableColumn t = new TableColumn(x);
-			t.setHeaderValue(Environment.getString(col));
-			t.setIdentifier(col);
-			t.setPreferredWidth(width);
-			addColumn(t);
-		 }
-	}
-
-	public void writeExternal(ObjectOutput out) throws IOException {
-		 out.writeInt(tableColumns.size());
-		 for(TableColumn t : tableColumns){
-			 out.writeUTF((String) t.getIdentifier());
-			 out.writeInt(t.getPreferredWidth());
-		 }
-	}
+	
+	
 }

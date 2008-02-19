@@ -20,6 +20,7 @@
 package ntorrent.torrenttable.sorter;
 
 import java.awt.BorderLayout;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -32,55 +33,36 @@ import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.sorter.model.TorrentTableRowFilter;
 import ntorrent.torrenttable.sorter.model.TorrentTableRowSorter;
 import ntorrent.torrenttable.sorter.view.TorrentTableFinder;
+import ntorrent.torrenttable.view.TorrentTable;
 
 public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
 
-	private TorrentTableRowSorter sorter;
-	private TorrentTableRowFilter filter;
-	private JTable table;
-	private JPanel panel;
-	private TorrentTableFinder gui;
-	
-	boolean init = false;
-	boolean started = false;
-	
+	private static boolean started = false;
 	
 	public void init(TorrentTableController controller) {
 		
-		init = true;
+		JPanel panel = controller.getDisplay();
+		TorrentTable table = controller.getTable();
 		
-		panel = controller.getDisplay();
-		table = controller.getTable();
+		TorrentTableRowSorter sorter = new TorrentTableRowSorter((TorrentTableModel)table.getModel());
+		TorrentTableRowFilter filter = new TorrentTableRowFilter(sorter);
+		TorrentTableFinder gui = new TorrentTableFinder(filter);
 		
-		sorter = new TorrentTableRowSorter((TorrentTableModel)table.getModel());
-		filter = new TorrentTableRowFilter(sorter);
-		gui = new TorrentTableFinder(filter);
-		
-		if(started)
-			try {
-				doStart();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	}
-
-	@Override
-	protected void doStart() throws Exception {
-		started = true;
-		if(init){
+		if(started){
 			table.setRowSorter(sorter);
 			panel.add(gui,BorderLayout.NORTH);
 		}
 	}
 
 	@Override
+	protected void doStart() throws Exception {
+		started = true;
+	}
+
+	@Override
 	protected void doStop() throws Exception {
 		started = false;
-		if(init){
-			table.setRowSorter(null);
-			panel.remove(gui);
-		}
 	}
+
 
 }
