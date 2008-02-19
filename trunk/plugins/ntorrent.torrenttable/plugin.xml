@@ -15,4 +15,5 @@
 			<export prefix="*" />
 		</library>		
 	</runtime>
+	<extension-point id="TorrentTableSorter" />
 </plugin>

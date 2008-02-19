@@ -21,14 +21,12 @@ package ntorrent.torrenttable.view;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.Serializable;
+import java.io.IOException;
 
-import javax.swing.DefaultRowSorter;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableRowSorter;
 
+import ntorrent.env.Environment;
+import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
@@ -45,12 +43,12 @@ public class TorrentTable extends JTable implements MouseListener{
 		super(tmodel,cmodel);
 		getTableHeader().addMouseListener(this);
 		this.popup = new TorrentTableHeaderPopupMenu(getColumnModel()); 
-		
+		setColumnSelectionAllowed(false);
 		setRowHeight(20);
 		
 		setDoubleBuffered(true);
 		
-		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
+		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());		
 	}
 
 	public void mouseClicked(MouseEvent e) {}

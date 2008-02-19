@@ -66,13 +66,14 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 		save.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
-				try {
+				//doesnt work.
+				/*try {
 					if(model instanceof Serializable){
 						Serializer.serialize((TorrentTableColumnModel)model, Environment.getNtorrentDir());
 					}
 				} catch (IOException x) {
 					Logger.global.log(Level.WARNING,x.getMessage(),x);
-				}
+				}*/
 			}
 			
 		});

@@ -20,6 +20,7 @@
 package ntorrent.torrenttable;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +30,16 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
+import org.java.plugin.PluginManager;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
+
 import ntorrent.env.Environment;
 import ntorrent.gui.window.Window;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.model.LocalProfileModel;
+import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
@@ -70,11 +77,26 @@ public class TorrentTableController implements Runnable{
 
 	
 	public TorrentTableController(XmlRpcConnection connection) {
-		this.connection = connection;
-		//table.setRowSorter(sorter);
+		this.connection = connection;		
+		panel.add(new JScrollPane(table));
+		
 		new Thread(this).start();
 		
-		panel.add(new JScrollPane(table));
+		try {
+			//throws nullpointer exception if Environment is not set up.
+			PluginManager manager = Environment.getPluginManager();
+			ExtensionPoint ext = manager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableSorter");
+			for(Extension e : ext.getAvailableExtensions()){
+				PluginDescriptor p = e.getDeclaringPluginDescriptor();
+				Class cls = manager.getPluginClassLoader(p).loadClass(p.getPluginClassName());
+				TorrentTableExtension tte = (TorrentTableExtension) cls.newInstance();
+				tte.init(this);
+			}
+		} catch (Exception x) {
+			// TODO Auto-generated catch block
+			x.printStackTrace();
+		}
+		
 	}
 	
 
@@ -134,9 +156,10 @@ public class TorrentTableController implements Runnable{
 				}
 				
 				try {
-					//Thread.sleep(4000);
+					//Thread.sleep(1000);
 					//ttm.removeRow(ttm.getRowCount()-1);
 					Thread.sleep(1000);
+					//System.out.println(table.getSelectedRow());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
