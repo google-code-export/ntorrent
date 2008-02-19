@@ -81,8 +81,12 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			if(isSelected){
 				setBackground(table.getSelectionBackground());
 				setForeground(table.getSelectionForeground());
-				name.setForeground(table.getSelectionForeground());
-				message.setForeground(table.getSelectionForeground());
+				//if(System.getProperty("java.specification.version") == "1.6"){
+					name.setForeground(table.getSelectionForeground());
+					//name.setBackground(table.getSelectionBackground());
+					message.setForeground(table.getSelectionForeground());
+					//message.setBackground(table.getSelectionBackground());
+				//}
 				if(tor.hasMessage()){
 					add(message);
 					table.setRowHeight(row, 40);
