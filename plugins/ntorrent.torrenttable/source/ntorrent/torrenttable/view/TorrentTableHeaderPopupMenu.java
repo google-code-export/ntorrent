@@ -38,6 +38,7 @@ import javax.swing.table.TableColumnModel;
 
 import ntorrent.env.Environment;
 import ntorrent.tools.Serializer;
+import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
 public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener {
@@ -47,8 +48,9 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 	public TorrentTableHeaderPopupMenu(TableColumnModel cmodel) {
 		model = cmodel;
 		
-		for(String c : TorrentTableModel.cols){
-			JCheckBox check = new JCheckBox(c);
+		for(String c : TorrentTableColumnModel.cols){
+			String name = Environment.getString(c);
+			JCheckBox check = new JCheckBox(name);
 			check.setName(c);
 			try{
 				model.getColumnIndex(c);
@@ -60,13 +62,14 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 			add(check);
 		}
 		add(new JSeparator());
-		JMenuItem save = add("torrenttable.popup.savestate");
+		JMenuItem save = add(Environment.getString("torrenttable.popup.savestate"));
 		save.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(model instanceof Serializable)
-						Serializer.serialize((Serializable)model, Environment.getNtorrentDir());
+					if(model instanceof Serializable){
+						Serializer.serialize((TorrentTableColumnModel)model, Environment.getNtorrentDir());
+					}
 				} catch (IOException x) {
 					Logger.global.log(Level.WARNING,x.getMessage(),x);
 				}
@@ -89,8 +92,8 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 				TableColumn col = new TableColumn();
 				col.setHeaderValue(src.getText());
 				col.setIdentifier(src.getName());
-				for(int i = 0; i < TorrentTableModel.cols.length; i++){
-					if(TorrentTableModel.cols[i].equals(src.getName()))
+				for(int i = 0; i < TorrentTableColumnModel.cols.length; i++){
+					if(TorrentTableColumnModel.cols[i].equals(src.getName()))
 						col.setModelIndex(i);
 				}
 				model.addColumn(col);

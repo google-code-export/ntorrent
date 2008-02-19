@@ -59,7 +59,11 @@ public class Environment {
 	private static int intSocketPort;
 	
 	public static String getString(String key) {
-		return messages.getString(key);
+		try{
+			return messages.getString(key);
+		}catch(NullPointerException x){
+			return key;
+		}
 	}
 	
 	public static String getAppName() {

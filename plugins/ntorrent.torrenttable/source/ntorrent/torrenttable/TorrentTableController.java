@@ -20,46 +20,33 @@
 package ntorrent.torrenttable;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.TableRowSorter;
 
+import ntorrent.env.Environment;
+import ntorrent.gui.window.Window;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.profile.model.LocalProfileModel;
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableColumnModel;
+import ntorrent.torrenttable.model.TorrentTableModel;
+import ntorrent.torrenttable.view.TorrentTable;
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
-
-import ntorrent.gui.window.Window;
-import ntorrent.io.rtorrent.Download;
-import ntorrent.io.rtorrent.Global;
-import ntorrent.io.xmlrpc.XmlRpcConnection;
-import ntorrent.profile.model.ClientProfileInterface;
-import ntorrent.profile.model.LocalProfileModel;
-import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentTableModel;
-import ntorrent.torrenttable.view.TorrentTable;
-import ntorrent.torrenttable.view.TorrentTableFinder;
-import ntorrent.torrenttable.view.TorrentTableHeaderPopupMenu;
 
 public class TorrentTableController implements Runnable{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
 	private final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
-	private final TorrentTableRowSorter sorter = new TorrentTableRowSorter(ttm);
-	private final TorrentTableRowFilter filter = new TorrentTableRowFilter(sorter);
 	private final XmlRpcConnection connection;
 	
 	
@@ -84,16 +71,19 @@ public class TorrentTableController implements Runnable{
 	
 	public TorrentTableController(XmlRpcConnection connection) {
 		this.connection = connection;
-		table.setRowSorter(sorter);
+		//table.setRowSorter(sorter);
 		new Thread(this).start();
 		
 		panel.add(new JScrollPane(table));
-		panel.add(new TorrentTableFinder(filter),BorderLayout.NORTH);
 	}
 	
 
-	public JComponent getDisplay() {
+	public JPanel getDisplay() {
 		return panel;
+	}
+	
+	public TorrentTable getTable() {
+		return table;
 	}
 	
 	public void run() {
@@ -144,9 +134,9 @@ public class TorrentTableController implements Runnable{
 				}
 				
 				try {
-					//Thread.sleep(1000);
+					//Thread.sleep(4000);
 					//ttm.removeRow(ttm.getRowCount()-1);
-					Thread.sleep(500);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -162,9 +152,10 @@ public class TorrentTableController implements Runnable{
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		XmlRpcConnection c = new XmlRpcConnection(new LocalProfileModel());
 		TorrentTableController t = new TorrentTableController(c);
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		Window w = new Window();
 		w.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
