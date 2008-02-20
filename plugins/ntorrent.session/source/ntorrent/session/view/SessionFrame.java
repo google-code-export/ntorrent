@@ -22,6 +22,7 @@ package ntorrent.session.view;
 import java.awt.BorderLayout;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -38,6 +39,7 @@ public class SessionFrame extends JPanel{
 		super(new BorderLayout());
 		hsplit.add(vsplit);
 		add(hsplit);
+		add(new JLabel("statusbar!"), BorderLayout.SOUTH);
 	}
 	
 	public JSplitPane getHsplit() {

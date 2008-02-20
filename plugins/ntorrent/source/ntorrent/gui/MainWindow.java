@@ -41,7 +41,6 @@ import ntorrent.gui.window.Window;
 public class MainWindow extends Window implements ActionListener, TabbedPaneHolder {
 	private static final long serialVersionUID = 1L;
 	JTabbedPane connections;
-	StatusBar statusBar = new StatusBar();
 	
 	public MainWindow() {
 		super();
@@ -51,7 +50,6 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 		JPanel frame = new JPanel(new BorderLayout());
 		connections = new JTabbedPane(JTabbedPane.TOP);
 		frame.add(connections);
-		frame.add(statusBar,BorderLayout.SOUTH);
 		setContentPane(frame);
 		
 	}
@@ -64,10 +62,6 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 		connections.remove(c);
 	}
 	
-	public StatusBar getStatusBar() {
-		return statusBar;
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		if(c.equals("filemenu.connect")){
