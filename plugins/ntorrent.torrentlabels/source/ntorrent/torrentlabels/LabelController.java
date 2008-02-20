@@ -17,10 +17,37 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable;
+package ntorrent.torrentlabels;
 
-import javax.swing.JComponent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-public interface TorrentTableExtension {
-	public void init(TorrentTableController controller);
+import ntorrent.torrenttable.sorter.model.TorrentTableFilterExtension;
+import ntorrent.torrenttable.sorter.model.TorrentTableFilterExtensionPoint;
+
+import org.java.plugin.Plugin;
+
+public class LabelController extends Plugin implements TorrentTableFilterExtension, TableModelListener {
+
+	private static boolean started = false;
+	
+	@Override
+	protected void doStart() throws Exception {
+		started = true;
+	}
+
+	@Override
+	protected void doStop() throws Exception {
+		started = false;
+	}
+
+	public void init(TorrentTableFilterExtensionPoint p) {
+		p.getModel().addTableModelListener(this);
+		
+	}
+
+	public void tableChanged(TableModelEvent e) {
+
+	}
+
 }

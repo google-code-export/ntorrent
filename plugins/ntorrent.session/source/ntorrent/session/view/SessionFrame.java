@@ -20,11 +20,18 @@
 package ntorrent.session.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 /**
  * Main session gui component.
@@ -33,13 +40,21 @@ public class SessionFrame extends JPanel{
 	
 	final private JSplitPane vsplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	final private JSplitPane hsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+	final private JSplitPane menu = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
 	
-	public SessionFrame() {
+	public SessionFrame(JComponent[] p) {
 		super(new BorderLayout());
 		hsplit.add(vsplit);
 		add(hsplit);
-		add(new JLabel("statusbar!"), BorderLayout.SOUTH);
+		
+		menu.add(p[0]);
+		menu.add(new JLabel("label"));
+		
+		vsplit.add(menu);
+		vsplit.add(p[1]);
+		hsplit.add(p[2]);
+		add(p[3], BorderLayout.SOUTH);
 	}
 	
 	public JSplitPane getHsplit() {

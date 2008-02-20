@@ -17,10 +17,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable;
+package ntorrent.torrenttable.sorter.model;
 
-import javax.swing.JComponent;
+import javax.swing.RowFilter;
 
-public interface TorrentTableExtension {
-	public void init(TorrentTableController controller);
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableModel;
+
+public interface TorrentTableFilterExtensionPoint {
+	public void addFilter(RowFilter<TorrentTableModel,Torrent> filter);
+	public void updateFilter();
+	public TorrentTableModel getModel();
 }

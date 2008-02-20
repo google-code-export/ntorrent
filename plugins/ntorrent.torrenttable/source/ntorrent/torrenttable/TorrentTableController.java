@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
@@ -39,6 +40,7 @@ import ntorrent.env.Environment;
 import ntorrent.gui.window.Window;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.model.LocalProfileModel;
+import ntorrent.session.ConnectionSession;
 import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
@@ -57,9 +59,6 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 	private final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
 	private final XmlRpcConnection connection;
 	private final Thread controllerTread = new Thread(this);
-	
-	
-	private final JPanel panel = new JPanel(new BorderLayout());
 
     private final Object[] download_variable = {
                     "", //reserved for view arg
@@ -80,7 +79,6 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 	
 	public TorrentTableController(XmlRpcConnection connection) {
 		this.connection = connection;		
-		panel.add(new JScrollPane(table));
 		
 		controllerTread.start();
 		
@@ -99,12 +97,9 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 				// TODO Auto-generated catch block
 				x.printStackTrace();
 			}
+			
+			
 		
-	}
-	
-
-	public JPanel getDisplay() {
-		return panel;
 	}
 	
 	public TorrentTable getTable() {
@@ -193,7 +188,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 		Window w = new Window();
 		w.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
-		w.setContentPane(t.getDisplay());
+		w.setContentPane(t.getTable().getDisplay());
 		w.drawWindow();		
 		
 	}
