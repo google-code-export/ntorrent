@@ -163,7 +163,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 				
 				
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(500);
 					//ttm.removeRow(ttm.getRowCount()-1);
 					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
