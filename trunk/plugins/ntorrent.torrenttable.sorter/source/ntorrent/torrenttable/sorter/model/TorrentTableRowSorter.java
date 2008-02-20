@@ -65,6 +65,17 @@ public class TorrentTableRowSorter extends DefaultRowSorter<TorrentTableModel, T
 	}
 	
 	@Override
+	public int convertRowIndexToView(int index) {
+		try{
+			return super.convertRowIndexToView(index);
+		}catch(Exception x){
+		/**@TODO fix this**/
+		//why are they throwing exceptions at me?
+			return index;
+		}
+	}
+	
+	@Override
 	public void rowsUpdated(int firstRow, int endRow) {
 		//allRowsChanged();
 		//modelStructureChanged();

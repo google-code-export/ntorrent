@@ -61,7 +61,7 @@ public class Environment {
 	public static String getString(String key) {
 		try{
 			return messages.getString(key);
-		}catch(NullPointerException x){
+		}catch(Exception x){
 			return key;
 		}
 	}

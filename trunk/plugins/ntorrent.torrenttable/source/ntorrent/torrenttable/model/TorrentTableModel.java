@@ -40,7 +40,11 @@ public class TorrentTableModel extends AbstractTableModel  {
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return getValueAt(0,columnIndex).getClass();
+		try{
+			return getValueAt(0,columnIndex).getClass();
+		}catch(NullPointerException x){
+			return Object.class;
+		}
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -102,6 +106,10 @@ public class TorrentTableModel extends AbstractTableModel  {
 	
 	public Torrent getRow(int row){
 		return torrents.get(row);
+	}
+
+	public void clear() {
+		torrents.clear();
 	}
 	
 }

@@ -7,6 +7,7 @@ import ntorrent.io.xmlrpc.XmlRpcConnection;
 
 import ntorrent.session.view.SessionFrame;
 import ntorrent.torrenttable.TorrentTableController;
+import ntorrent.viewmenu.ViewMenuController;
 /**
  *   nTorrent - A GUI client to administer a rtorrent process 
  *   over a network connection.
@@ -31,13 +32,15 @@ public class ConnectionSession {
 	
 	private final XmlRpcConnection connection;
 	private final TorrentTableController ttc;
+	private final ViewMenuController vmc;
 	
 	private final SessionFrame session = new SessionFrame();
 	
 	public ConnectionSession(XmlRpcConnection c) {
 		connection = c;
 		ttc = new TorrentTableController(connection);
-		session.getVsplit().add(new JLabel("menu"));
+		vmc = new ViewMenuController(ttc);
+		session.getVsplit().add(vmc.getDisplay());
 		session.getVsplit().add(ttc.getDisplay());
 		session.getHsplit().add(new JLabel("tab components"));
 	}
