@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.skins;
+package ntorrent.skins;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
