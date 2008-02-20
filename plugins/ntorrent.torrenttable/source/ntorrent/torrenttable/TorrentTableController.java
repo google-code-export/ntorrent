@@ -44,22 +44,24 @@ import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
+import ntorrent.viewmenu.ViewChangeListener;
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements Runnable{
+public class TorrentTableController implements Runnable, ViewChangeListener{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
 	private final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
 	private final XmlRpcConnection connection;
+	private final Thread controllerTread = new Thread(this);
 	
 	
 	private final JPanel panel = new JPanel(new BorderLayout());
 
-    Object[] download_variable = {
+    private final Object[] download_variable = {
                     "", //reserved for view arg
                     "d.get_hash=",  //ID
                     "d.get_name=", //constant
@@ -80,7 +82,7 @@ public class TorrentTableController implements Runnable{
 		this.connection = connection;		
 		panel.add(new JScrollPane(table));
 		
-		new Thread(this).start();
+		controllerTread.start();
 		
 		if(Double.parseDouble(System.getProperty("java.specification.version")) >= 1.6)
 			try {
@@ -171,8 +173,7 @@ public class TorrentTableController implements Runnable{
 					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
 				}
 			}
 			
@@ -195,6 +196,14 @@ public class TorrentTableController implements Runnable{
 		w.setContentPane(t.getDisplay());
 		w.drawWindow();		
 		
+	}
+
+
+	public void viewChanged(String view) {
+		ttm.clear();
+		ttm.fireTableDataChanged();
+		download_variable[0] = view;
+		controllerTread.interrupt();
 	}
 
 }
