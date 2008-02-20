@@ -19,14 +19,19 @@
  */
 package ntorrent.torrenttable.view;
 
+import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import ntorrent.env.Environment;
 import ntorrent.tools.Serializer;
+import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
@@ -35,8 +40,10 @@ import ntorrent.torrenttable.model.TorrentTableModel;
 public class TorrentTable extends JTable implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	
+	
 	final static TorrentTableColumnModel cmodel = new TorrentTableColumnModel();
 	TorrentTableHeaderPopupMenu popup;
+	JPanel panel = new JPanel(new BorderLayout());
 
 
 	public TorrentTable(TorrentTableModel tmodel) {
@@ -48,7 +55,13 @@ public class TorrentTable extends JTable implements MouseListener{
 		
 		setDoubleBuffered(true);
 		
-		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());		
+		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
+		setDefaultRenderer(Percent.class, new PercentRenderer());
+		panel.add(new JScrollPane(this));
+	}
+	
+	public JPanel getDisplay(){
+		return panel;
 	}
 
 	public void mouseClicked(MouseEvent e) {}

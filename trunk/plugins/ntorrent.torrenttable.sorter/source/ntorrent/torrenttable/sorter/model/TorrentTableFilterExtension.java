@@ -17,10 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable;
+package ntorrent.torrenttable.sorter.model;
 
-import javax.swing.JComponent;
-
-public interface TorrentTableExtension {
-	public void init(TorrentTableController controller);
+public interface TorrentTableFilterExtension {
+	public void init(TorrentTableFilterExtensionPoint p);
 }

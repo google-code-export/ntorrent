@@ -41,8 +41,8 @@ public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
 	
 	public void init(TorrentTableController controller) {
 		
-		JPanel panel = controller.getDisplay();
 		TorrentTable table = controller.getTable();
+		JPanel panel = table.getDisplay();
 		
 		TorrentTableRowSorter sorter = new TorrentTableRowSorter((TorrentTableModel)table.getModel());
 		TorrentTableRowFilter filter = new TorrentTableRowFilter(sorter);
@@ -50,7 +50,7 @@ public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
 		
 		if(started){
 			table.setRowSorter(sorter);
-			panel.add(gui,BorderLayout.NORTH);
+			panel.add(gui,BorderLayout.SOUTH);
 		}
 	}
 

@@ -34,15 +34,20 @@ public class ConnectionSession {
 	private final TorrentTableController ttc;
 	private final ViewMenuController vmc;
 	
-	private final SessionFrame session = new SessionFrame();
+	private final SessionFrame session;
 	
 	public ConnectionSession(XmlRpcConnection c) {
 		connection = c;
 		ttc = new TorrentTableController(connection);
 		vmc = new ViewMenuController(ttc);
-		session.getVsplit().add(vmc.getDisplay());
-		session.getVsplit().add(ttc.getDisplay());
-		session.getHsplit().add(new JLabel("tab components"));
+		session = new SessionFrame(
+				new JComponent[] {
+						vmc.getDisplay(),
+						ttc.getTable().getDisplay(),
+						new JLabel("tab components"),
+						new JLabel("statusbar")
+						}
+		);
 	}
 	
 	public JComponent getDisplay(){
