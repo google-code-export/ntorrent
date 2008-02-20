@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
-<plugin id="ntorrent.gui.trayicon" version="0.1" class="ntorrent.gui.trayicon.TrayIconHandler">
+<plugin id="ntorrent.trayicon" version="0.1" class="ntorrent.trayicon.TrayIconHandler">
 	<requires>
 		<import plugin-id="ntorrent.jpf" />
 	</requires>
@@ -9,7 +9,7 @@
 			<export prefix="*" />
 		</library>
 	</runtime>
-	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="ntorrent.gui.trayicon">
+	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="ntorrent.trayicon">
 		<parameter id="java-spec" value="1.6" />
 	</extension>
 </plugin>
