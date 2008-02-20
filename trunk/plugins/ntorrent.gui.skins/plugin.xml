@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
-<plugin id="ntorrent.gui.skins" version="0.1" class="ntorrent.gui.skins.LookAndFeelHandler">
+<plugin id="ntorrent.skins" version="0.1" class="ntorrent.skins.LookAndFeelHandler">
 	<requires>
 		<import plugin-id="ntorrent" />
 		<import plugin-id="ntorrent.jpf" />
@@ -11,7 +11,7 @@
 			<export prefix="*" />
 		</library>
 	</runtime>
-	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="ntorrent.gui.skins">
+	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="ntorrent.skins">
 		<parameter id="java-spec" value="1.5" />
 	</extension>
 </plugin>
