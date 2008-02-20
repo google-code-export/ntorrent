@@ -1,4 +1,4 @@
-package ntorrent.gui.trayicon;
+package ntorrent.trayicon;
 
 import java.awt.AWTException;
 import java.awt.Image;
