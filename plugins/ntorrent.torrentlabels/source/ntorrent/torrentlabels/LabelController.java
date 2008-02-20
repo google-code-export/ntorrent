@@ -19,15 +19,18 @@
  */
 package ntorrent.torrentlabels;
 
+import javax.swing.RowFilter;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.sorter.model.TorrentTableFilterExtension;
 import ntorrent.torrenttable.sorter.model.TorrentTableFilterExtensionPoint;
 
 import org.java.plugin.Plugin;
 
-public class LabelController extends Plugin implements TorrentTableFilterExtension, TableModelListener {
+public class LabelController extends Plugin implements TorrentTableFilterExtension {
 
 	private static boolean started = false;
 	
@@ -42,12 +45,19 @@ public class LabelController extends Plugin implements TorrentTableFilterExtensi
 	}
 
 	public void init(TorrentTableFilterExtensionPoint p) {
-		p.getModel().addTableModelListener(this);
-		
-	}
-
-	public void tableChanged(TableModelEvent e) {
-
+		if(started){
+			final RowFilter<TorrentTableModel, Torrent> filter = new RowFilter<TorrentTableModel, Torrent>(){
+	
+				@Override
+				public boolean include(
+						javax.swing.RowFilter.Entry<? extends TorrentTableModel, ? extends Torrent> entry) {
+					return entry.getIdentifier().getProperty("d.get_custom1") == null; 
+				}
+				
+			};
+			p.addFilter(filter);
+			p.updateFilter();
+		}
 	}
 
 }
