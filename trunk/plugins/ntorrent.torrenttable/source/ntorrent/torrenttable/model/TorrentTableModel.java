@@ -85,19 +85,19 @@ public class TorrentTableModel extends AbstractTableModel  {
 		//System.out.println("updating "+tor);
 		
 		torrents.set(rowIndex,tor);
-		fireTableRowsUpdated(rowIndex, rowIndex);
+		//fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 	
 	public void removeRow(int rowIndex){
 		torrents.remove(rowIndex);
-		fireTableRowsDeleted(rowIndex, rowIndex);
+		//fireTableRowsDeleted(rowIndex, rowIndex);
 	}
 
 	public void addRow(Torrent tor) {
 		//System.out.println("adding "+tor);
-		int row = torrents.size();
+		//int row = torrents.size();
 		torrents.addElement(tor);
-		fireTableRowsInserted(row, row);
+		//fireTableRowsInserted(row, row);
 	}
 	
 	public Torrent getRow(int row){

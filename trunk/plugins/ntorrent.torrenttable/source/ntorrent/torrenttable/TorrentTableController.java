@@ -82,20 +82,21 @@ public class TorrentTableController implements Runnable{
 		
 		new Thread(this).start();
 		
-		try {
-			//throws nullpointer exception if Environment is not set up.
-			PluginManager manager = Environment.getPluginManager();
-			ExtensionPoint ext = manager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableSorter");
-			for(Extension e : ext.getAvailableExtensions()){
-				PluginDescriptor p = e.getDeclaringPluginDescriptor();
-				Class cls = manager.getPluginClassLoader(p).loadClass(p.getPluginClassName());
-				TorrentTableExtension tte = (TorrentTableExtension) cls.newInstance();
-				tte.init(this);
+		if(Double.parseDouble(System.getProperty("java.specification.version")) >= 1.6)
+			try {
+				//throws nullpointer exception if Environment is not set up.
+				PluginManager manager = Environment.getPluginManager();
+				ExtensionPoint ext = manager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableSorter");
+				for(Extension e : ext.getAvailableExtensions()){
+					PluginDescriptor p = e.getDeclaringPluginDescriptor();
+					Class cls = manager.getPluginClassLoader(p).loadClass(p.getPluginClassName());
+					TorrentTableExtension tte = (TorrentTableExtension) cls.newInstance();
+					tte.init(this);
+				}
+			} catch (Exception x) {
+				// TODO Auto-generated catch block
+				x.printStackTrace();
 			}
-		} catch (Exception x) {
-			// TODO Auto-generated catch block
-			x.printStackTrace();
-		}
 		
 	}
 	
@@ -113,19 +114,16 @@ public class TorrentTableController implements Runnable{
 		try {
 			while(true){
 				XmlRpcArray download_list = (XmlRpcArray)client.invoke("d.multicall", download_variable);
-			
-				if(ttm.getRowCount() > download_list.size()){
-					int diff = ttm.getRowCount()-download_list.size();
-					int x = 0;
-					while(x < diff){
-						//System.out.println("removing row: "+(download_list.size()+x));
-						ttm.removeRow(download_list.size()+x);
-						x++;
-					}
-
+				
+				int rowsRecieved = download_list.size();
+				int rowsPresent = ttm.getRowCount();
+				
+				for(int x = rowsPresent-1; x > rowsRecieved-1; x--){
+					ttm.removeRow(x);
+					//System.out.println("removing row: "+x);
 				}
 				
-				for(int x = 0 ; x < download_list.size(); x++){
+				for(int x = 0 ; x < rowsRecieved; x++){
 					XmlRpcArray data = (XmlRpcArray)download_list.get(x);
 					Torrent tor = new Torrent(data.getString(0));
 					
@@ -146,19 +144,31 @@ public class TorrentTableController implements Runnable{
 					tor.setPriority(data.getLong(10));
 					tor.setSizeBytes(data.getLong(11));
 					
-					//System.out.println(ttm.getRowCount()+" "+x);
-					if(ttm.getRowCount() > x)
+					if(rowsPresent > x){
+						//System.out.println("updating row: "+x);
 						ttm.setValueAt(tor, x);
-					else
+					}else{
+						//System.out.println("adding row: "+x);
 						ttm.addRow(tor);
-
-					//System.out.println(ttm.getRowCount()+" "+x);
+					}
 				}
 				
+				if(rowsRecieved > rowsPresent){
+					//System.out.println("inserted rows,"+rowsPresent+","+(rowsRecieved-1));
+					ttm.fireTableRowsInserted(rowsPresent, rowsRecieved-1);
+				}else if(rowsRecieved < rowsPresent){
+					//System.out.println("deleted rows,"+rowsRecieved+","+(rowsPresent-1));
+					ttm.fireTableRowsDeleted(rowsRecieved, rowsPresent-1);
+				}
+				//System.out.println("updated rows,"+0+","+(rowsRecieved-1));
+				ttm.fireTableRowsUpdated(0, rowsRecieved-1);
+				
+				
+				
 				try {
-					//Thread.sleep(1000);
+					Thread.sleep(5000);
 					//ttm.removeRow(ttm.getRowCount()-1);
-					Thread.sleep(1000);
+					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
