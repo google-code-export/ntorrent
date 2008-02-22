@@ -19,46 +19,50 @@
  */
 package ntorrent.torrenttable;
 
-import java.awt.BorderLayout;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-
-import org.java.plugin.PluginManager;
-import org.java.plugin.registry.Extension;
-import org.java.plugin.registry.ExtensionPoint;
-import org.java.plugin.registry.PluginDescriptor;
 
 import ntorrent.env.Environment;
 import ntorrent.gui.window.Window;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.model.LocalProfileModel;
-import ntorrent.session.ConnectionSession;
-import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
 import ntorrent.viewmenu.ViewChangeListener;
+
+import org.java.plugin.Plugin;
+import org.java.plugin.PluginLifecycleException;
+import org.java.plugin.PluginManager;
+import org.java.plugin.PluginManager.EventListener;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
+
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements Runnable, ViewChangeListener{
+public class TorrentTableController implements Runnable, ViewChangeListener, EventListener{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
 	private final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
 	private final XmlRpcConnection connection;
 	private final Thread controllerTread = new Thread(this);
+	
+	private final PluginManager pluginManager;
+	
+	private final Vector<String> extensions = new Vector<String>();
+	
+	private final static String extensionPointPluginId = "ntorrent.torrenttable";
+	private final static String extensionPointId = "TorrentTableSorter";
 
     private final Object[] download_variable = {
                     "", //reserved for view arg
@@ -78,28 +82,11 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 
 	
 	public TorrentTableController(XmlRpcConnection connection) {
-		this.connection = connection;		
-		
+		this.connection = connection;
 		controllerTread.start();
-		
-		if(Double.parseDouble(System.getProperty("java.specification.version")) >= 1.6)
-			try {
-				//throws nullpointer exception if Environment is not set up.
-				PluginManager manager = Environment.getPluginManager();
-				ExtensionPoint ext = manager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableSorter");
-				for(Extension e : ext.getAvailableExtensions()){
-					PluginDescriptor p = e.getDeclaringPluginDescriptor();
-					Class cls = manager.getPluginClassLoader(p).loadClass(p.getPluginClassName());
-					TorrentTableExtension tte = (TorrentTableExtension) cls.newInstance();
-					tte.init(this);
-				}
-			} catch (Exception x) {
-				// TODO Auto-generated catch block
-				x.printStackTrace();
-			}
-			
-			
-		
+		pluginManager = Environment.getPluginManager();
+		pluginManager.registerListener(this);
+		initExtensions();
 	}
 	
 	public TorrentTable getTable() {
@@ -200,5 +187,35 @@ public class TorrentTableController implements Runnable, ViewChangeListener{
 		download_variable[0] = view;
 		controllerTread.interrupt();
 	}
+
+	private void initExtensions(){
+		ExtensionPoint ext = pluginManager.getRegistry().getExtensionPoint(extensionPointPluginId,extensionPointId);
+		for(Extension e : ext.getAvailableExtensions()){
+			extensions.add(e.getDeclaringPluginDescriptor().getId());
+			initExtension(e.getDeclaringPluginDescriptor());
+		}
+	}
+	
+	private void initExtension(PluginDescriptor p){
+		try{
+			if(pluginManager.isPluginActivated(p)){
+				Plugin plugin = pluginManager.getPlugin(p.getId());
+				((TorrentTableExtension)plugin).init(this);
+			}
+		}catch(PluginLifecycleException x){
+			x.printStackTrace();
+		}
+	}
+
+	public void pluginActivated(Plugin plugin) {
+		if(extensions.contains(plugin.getDescriptor().getId())){
+			initExtension(plugin.getDescriptor());
+		}
+		
+	}
+
+	public void pluginDeactivated(Plugin plugin) {}
+	public void pluginDisabled(PluginDescriptor descriptor) {}
+	public void pluginEnabled(PluginDescriptor descriptor) {}
 
 }
