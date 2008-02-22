@@ -21,6 +21,9 @@ package ntorrent.jpf;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,21 +34,29 @@ import javax.swing.JOptionPane;
 
 import ntorrent.env.Environment;
 
+import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
 import org.java.plugin.PluginManager;
+import org.java.plugin.PluginManager.EventListener;
 import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-public class PluginHandlerMenuBar implements ItemListener {
+public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
 	PluginManager manager = Environment.getPluginManager();
 	PluginRegistry reg = manager.getRegistry();
 	
+	Map<String,JCheckBox> extensions = new HashMap<String, JCheckBox>();
+	
 	public PluginHandlerMenuBar(JMenuBar menuBar){
+		manager.registerListener(this);
 		JMenu plugin = new JMenu(Environment.getString("plugin"));
 		menuBar.add(plugin);			
 			for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
-				JCheckBox c = new JCheckBox(e.getDeclaringPluginDescriptor().getId());
+				String id = e.getDeclaringPluginDescriptor().getId();
+				JCheckBox c = new JCheckBox(id);
+				extensions.put(id,c);
 				double jversion = Double.parseDouble(
 						System.getProperty("java.specification.version"));
 				double pversion = e.getParameter("java-spec").valueAsNumber().doubleValue();
@@ -54,7 +65,7 @@ public class PluginHandlerMenuBar implements ItemListener {
 					c.setEnabled(false);
 				}
 				c.setSelected(manager.isPluginActivated(e.getDeclaringPluginDescriptor()));
-				c.setName(e.getDeclaringPluginDescriptor().getId());
+				c.setName(id);
 				c.addItemListener(this);
 				plugin.add(c);
 			}
@@ -75,7 +86,25 @@ public class PluginHandlerMenuBar implements ItemListener {
 			}
 		else
 			manager.deactivatePlugin(id);
-		c.setSelected(manager.isPluginActivated(reg.getPluginDescriptor(id)));
 	}
+
+	public void pluginActivated(Plugin plugin) {
+		String id = plugin.getDescriptor().getId();
+		JCheckBox c = extensions.get(id);
+		if(c != null){
+			c.setSelected(true);
+		}
+	}
+
+	public void pluginDeactivated(Plugin plugin) {
+		String id = plugin.getDescriptor().getId();
+		JCheckBox c = extensions.get(id);
+		if(c != null){
+			c.setSelected(false);
+		}
+	}
+
+	public void pluginDisabled(PluginDescriptor descriptor) {}
+	public void pluginEnabled(PluginDescriptor descriptor) {}
 
 }

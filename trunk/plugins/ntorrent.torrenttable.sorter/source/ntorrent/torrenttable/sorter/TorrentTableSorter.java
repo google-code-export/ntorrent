@@ -36,32 +36,51 @@ import ntorrent.torrenttable.sorter.view.TorrentTableFinder;
 import ntorrent.torrenttable.view.TorrentTable;
 
 public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
-
-	private static boolean started = false;
+	
+	private TorrentTable table;
+	private JPanel panel;
+	private TorrentTableRowSorter sorter;
+	private TorrentTableRowFilter filter;
+	private TorrentTableFinder gui;
+	private boolean init = false;
 	
 	public void init(TorrentTableController controller) {
+		init = true;
+
+		table = controller.getTable();
+		panel = table.getDisplay();
 		
-		TorrentTable table = controller.getTable();
-		JPanel panel = table.getDisplay();
+		sorter = new TorrentTableRowSorter((TorrentTableModel)table.getModel());
+		filter = new TorrentTableRowFilter(sorter);
+		gui = new TorrentTableFinder(filter);
 		
-		TorrentTableRowSorter sorter = new TorrentTableRowSorter((TorrentTableModel)table.getModel());
-		TorrentTableRowFilter filter = new TorrentTableRowFilter(sorter);
-		TorrentTableFinder gui = new TorrentTableFinder(filter);
-		
-		if(started){
-			table.setRowSorter(sorter);
-			panel.add(gui,BorderLayout.SOUTH);
-		}
+		if(getManager().isPluginActivated(getDescriptor()))
+			try {
+				doStart();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	@Override
 	protected void doStart() throws Exception {
-		started = true;
+		if(init){
+			table.setRowSorter(sorter);
+			panel.add(gui,BorderLayout.SOUTH);
+			panel.revalidate();
+			panel.repaint();
+		}
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		started = false;
+		if(init){
+			table.setRowSorter(null);
+			panel.remove(gui);
+			panel.revalidate();
+			panel.repaint();
+		}
 	}
 
 
