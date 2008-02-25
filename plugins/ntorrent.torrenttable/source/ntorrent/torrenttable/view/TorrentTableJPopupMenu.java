@@ -93,8 +93,9 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 			if(manager.isPluginActivated(p)){
 				try {
 					Plugin plugin = manager.getPlugin(p.getId());
-					if (plugin instanceof TorrentTableJPopupMenuExtension)
+					if (plugin instanceof TorrentTableJPopupMenuExtension){
 						((TorrentTableJPopupMenuExtension)plugin).init(this);
+					}
 				} catch (PluginLifecycleException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -109,6 +110,13 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	@Override
 	public JMenuItem add(JMenuItem menuItem) {
 		JMenuItem item = super.add(menuItem);
+		item.addActionListener(this);
+		return item;
+	}
+	
+	@Override
+	public JMenuItem add(String s) {
+		JMenuItem item = super.add(s);
 		item.addActionListener(this);
 		return item;
 	}

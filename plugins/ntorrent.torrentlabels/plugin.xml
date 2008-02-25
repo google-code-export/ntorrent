@@ -3,6 +3,7 @@
 <plugin id="ntorrent.torrentlabels" version="0.1" class="ntorrent.torrentlabels.LabelController">
 	<requires>
 		<import plugin-id="ntorrent.torrenttable.sorter" />
+		<import plugin-id="ntorrent.torrenttable" />
 		<import plugin-id="ntorrent.jpf" />
 	</requires>
 	<runtime>
@@ -15,4 +16,5 @@
 		<parameter id="java-spec" value="1.6" />
 		<parameter id="name" value="Labeler" />
 	</extension>
+	<extension plugin-id="ntorrent.torrenttable" point-id="TorrentTablePopupMenu" id="TableMenuInit" />
 </plugin>
