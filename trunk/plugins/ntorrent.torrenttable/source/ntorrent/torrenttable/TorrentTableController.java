@@ -37,6 +37,7 @@ import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
+import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
 import ntorrent.viewmenu.ViewChangeListener;
 
 import org.java.plugin.Plugin;
@@ -67,13 +68,6 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 	private final static String extensionPointPluginId = "ntorrent.torrenttable";
 	private final static String extensionPointId = "TorrentTableSorter";
 
-	
-	public final static String[] mitems = {
-		"torrenttable.menu.start",
-		"torrenttable.menu.stop",
-		"torrenttable.menu.remove",
-		"torrenttable.menu.check"
-		};
 	
     private final Object[] download_variable = {
                     "", //reserved for view arg
@@ -233,17 +227,40 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 	public void torrentActionPerformed(final Torrent[] tor, final String command) {
 		//invoking the commands asynchronously so the gui won't be blocked
         new Thread(){
+        	String[] mitems = TorrentTableJPopupMenu.mitems;
+        	String[] priorityMenu = TorrentTableJPopupMenu.priorityMenu;
             public void run(){
         		Download d = connection.getDownloadClient();
         		for(Torrent t : tor){
+            		String hash = t.getHash();
         			if(command.equals(mitems[0])){
-        				d.start(t.getHash());
+        				//start
+        				d.start(hash);
         			}else if(command.equals(mitems[1])){
-        				d.stop(t.getHash());
+        				//stop
+        				d.stop(hash);
         			}else if(command.equals(mitems[2])){
-        				d.erase(t.getHash());
+        				//erase
+        				d.erase(hash);
         			}else if(command.equals(mitems[3])){
-        				d.check_hash(t.getHash());
+        				//check hash
+        				d.check_hash(hash);
+        			}else if(command.equals(priorityMenu[1])){
+        				//priority high
+        				d.set_priority(hash,3);
+        				//d.update_priorities(hash); might not need this here, only on individual file priorities.
+        			}else if(command.equals(priorityMenu[2])){
+        				//priority normal
+        				d.set_priority(hash,2);
+        				//d.update_priorities(hash);
+        			}else if(command.equals(priorityMenu[3])){
+        				//priority low
+        				d.set_priority(hash,1);
+        				//d.update_priorities(hash);
+        			}else if(command.equals(priorityMenu[0])){
+        				//priority off
+        				d.set_priority(hash,0);
+        				//d.update_priorities(hash);
         			}
         		}
             }
