@@ -26,12 +26,12 @@ import redstone.xmlrpc.XmlRpcStruct;
  * d.
  */
 public interface Download {
-	Object check_hash();
+	Object check_hash(String string);
 	Object close();
 	Object create_link();
 	Object delete_link();
 	Object delete_tied();
-	Object erase();
+	Object erase(String string);
 	Object get_base_filename();
 	Object get_base_path();
 	Object get_bytes_done();
@@ -120,7 +120,7 @@ public interface Download {
 	Object set_priority();
 	Object set_tracker_numwant();
 	Object set_uploads_max();
-	Object start();
-	Object stop();
+	Object start(String string);
+	Object stop(String string);
 	Object update_priorities();
 }

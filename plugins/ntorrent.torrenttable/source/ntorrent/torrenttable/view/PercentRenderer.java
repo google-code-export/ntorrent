@@ -47,6 +47,10 @@ public class PercentRenderer extends JPanel implements TableCellRenderer {
 	}
 	
 	public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected, boolean hasFocus, int row, int column) {
+		
+		if(value == null)
+			return null;
+		
 		Percent p = (Percent) value;
 		pbar.setValue(p.getValue());
 		pbar.setString(p.toString());

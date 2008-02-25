@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import ntorrent.env.Environment;
 import ntorrent.torrenttable.model.Torrent;
 
 public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
@@ -59,54 +60,53 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			message.setFont(table.getFont());
 		}
 		
+		if (value == null)
+			return null;
+		
 		Torrent tor = (Torrent) value;
-		try{
-			name.setText(tor.toString());
-			
+		name.setText(tor.toString());
+		
+
+		if(tor.isStarted()){
 			if(tor.hasMessage()){
 				name.setIcon(messageIcon);
-			}else if(tor.isStarted()){
-				if(tor.isDownloading() && tor.isUploading()){
-					name.setIcon(dandupIcon);
-				}else if(tor.isDownloading()){
-					name.setIcon(downIcon);
-				}else if(tor.isUploading()){
-					name.setIcon(upIcon);
-				}else
-					name.setIcon(startedIcon);
-			}else{
-				name.setIcon(stoppedIcon);
-			}
-			
-			if(isSelected){
-				setBackground(table.getSelectionBackground());
-				setForeground(table.getSelectionForeground());
-				//if(System.getProperty("java.specification.version") == "1.6"){
-					name.setForeground(table.getSelectionForeground());
-					//name.setBackground(table.getSelectionBackground());
-					message.setForeground(table.getSelectionForeground());
-					//message.setBackground(table.getSelectionBackground());
-				//}
-				if(tor.hasMessage()){
-					add(message);
-					table.setRowHeight(row, 40);
-					message.setText("Message: "+tor.getMessage());
-				}else{
-					remove(message);
-				}
-				
-			}else{
-				setBackground(table.getBackground());
-				setForeground(table.getForeground());
-				name.setForeground(table.getForeground());
-				message.setForeground(table.getForeground());
-				table.setRowHeight(row,20);
-				remove(message);
-			}
-		}catch(NullPointerException x){
-			//something wrong
+			}else if(tor.isDownloading() && tor.isUploading()){
+				name.setIcon(dandupIcon);
+			}else if(tor.isDownloading()){
+				name.setIcon(downIcon);
+			}else if(tor.isUploading()){
+				name.setIcon(upIcon);
+			}else
+				name.setIcon(startedIcon);
+		}else{
+			name.setIcon(stoppedIcon);
 		}
 		
+		if(isSelected){
+			setBackground(table.getSelectionBackground());
+			setForeground(table.getSelectionForeground());
+			//if(System.getProperty("java.specification.version") == "1.6"){
+				name.setForeground(table.getSelectionForeground());
+				//name.setBackground(table.getSelectionBackground());
+				message.setForeground(table.getSelectionForeground());
+				//message.setBackground(table.getSelectionBackground());
+			//}
+			if(tor.hasMessage() && tor.isStarted()){
+				add(message);
+				table.setRowHeight(row, 40);
+				message.setText(Environment.getString("torrenttable.message")+": "+tor.getMessage());
+			}else{
+				remove(message);
+			}
+			
+		}else{
+			setBackground(table.getBackground());
+			setForeground(table.getForeground());
+			name.setForeground(table.getForeground());
+			message.setForeground(table.getForeground());
+			table.setRowHeight(row,20);
+			remove(message);
+		}
 		
 		return this;
 	}

@@ -28,6 +28,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import ntorrent.env.Environment;
 import ntorrent.tools.Serializer;
@@ -42,14 +43,15 @@ public class TorrentTable extends JTable implements MouseListener{
 	
 	
 	final static TorrentTableColumnModel cmodel = new TorrentTableColumnModel();
-	TorrentTableHeaderPopupMenu popup;
+	final TorrentTableHeaderPopupMenu headerPopup;
+	final TorrentTableJPopupMenu tablePopup = new TorrentTableJPopupMenu(this);
 	JPanel panel = new JPanel(new BorderLayout());
 
 
 	public TorrentTable(TorrentTableModel tmodel) {
 		super(tmodel,cmodel);
+		this.headerPopup = new TorrentTableHeaderPopupMenu(getColumnModel());
 		getTableHeader().addMouseListener(this);
-		this.popup = new TorrentTableHeaderPopupMenu(getColumnModel()); 
 		setColumnSelectionAllowed(false);
 		setRowHeight(20);
 		
@@ -57,13 +59,17 @@ public class TorrentTable extends JTable implements MouseListener{
 		
 		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
 		setDefaultRenderer(Percent.class, new PercentRenderer());
+		
 		panel.add(new JScrollPane(this));
+		
+		add(tablePopup);
+		addMouseListener(this);
 	}
 	
 	public JPanel getDisplay(){
 		return panel;
 	}
-
+	
 	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
@@ -71,17 +77,31 @@ public class TorrentTable extends JTable implements MouseListener{
 	
 	public void mousePressed(MouseEvent e) {
 		if(e.isPopupTrigger()){
-			popup.show(this, e.getX(), e.getY());
+			if(e.getSource().equals(getTableHeader()))
+				headerPopup.show(this, e.getX(), e.getY());
+			else if(e.getSource().equals(this))
+				tablePopup.show(this,e.getX(),e.getY());
 		}
 		
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		if(e.isPopupTrigger()){
-			popup.show(this, e.getX(), e.getY());
+			if(e.getSource().equals(getTableHeader()))
+				headerPopup.show(this, e.getX(), e.getY());
+			else if(e.getSource().equals(this)){
+				tablePopup.show(this,e.getX(),e.getY());
+			}
 		}
 		
 	}
 	
+	public TorrentTableJPopupMenu getTablePopup() {
+		return tablePopup;
+	}
+	
+	public TorrentTableModel getModel() {
+		return (TorrentTableModel) super.getModel();
+	}
 
 }
