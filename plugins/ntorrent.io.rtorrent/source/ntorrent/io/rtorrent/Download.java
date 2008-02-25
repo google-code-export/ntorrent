@@ -117,10 +117,10 @@ public interface Download {
 	Object set_peer_exchange();
 	Object set_peers_max();
 	Object set_peers_min();
-	Object set_priority();
+	Object set_priority(String hash, int i);
 	Object set_tracker_numwant();
 	Object set_uploads_max();
 	Object start(String string);
 	Object stop(String string);
-	Object update_priorities();
+	Object update_priorities(String hash);
 }

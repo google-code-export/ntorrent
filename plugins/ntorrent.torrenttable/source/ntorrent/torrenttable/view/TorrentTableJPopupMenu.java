@@ -21,10 +21,14 @@ package ntorrent.torrenttable.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 
 import ntorrent.env.Environment;
 import ntorrent.torrenttable.TorrentTableController;
@@ -35,19 +39,43 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	private static final long serialVersionUID = 1L;
 	
 	Vector<TorrentTableActionListener> listeners = new Vector<TorrentTableActionListener>();
-
+	Map<String,JMenuItem> menuItems = new HashMap<String,JMenuItem>();
+	
 	private TorrentTable table;
+	
+	public final static String[] mitems = {
+		"torrenttable.menu.start",
+		"torrenttable.menu.stop",
+		"torrenttable.menu.remove",
+		"torrenttable.menu.check"
+		};
+	
+	public final static String[] priorityMenu = {
+		"torrenttable.menu.priority",
+		"torrenttable.menu.priority.high",
+		"torrenttable.menu.priority.normal",
+		"torrenttable.menu.priority.low",
+		"torrenttable.menu.priority.off"
+		};
 	
 	public TorrentTableJPopupMenu(TorrentTable table) {
 		this.table = table;
-		for(String s : TorrentTableController.mitems)
-			add(Environment.getString(s),s);
-	}
+		for(String s : mitems){
+			JMenuItem item = add(Environment.getString(s));
+			item.setActionCommand(s);
+			item.addActionListener(this);
+		}
+		
+		JMenu priority = new JMenu(Environment.getString(priorityMenu[0]));
+		add(priority);
+		
+		for(int x = 1; x < priorityMenu.length; x++){
+			JMenuItem item = priority.add(Environment.getString(priorityMenu[x]));
+			item.setActionCommand(priorityMenu[x]);
+			item.addActionListener(this);
+		}
+		
 
-	public void add(String text, String actionCommand) {
-		JMenuItem item = add(text);
-		item.setActionCommand(actionCommand);
-		item.addActionListener(this);
 	}
 	
 	public void show(TorrentTable table, int x, int y) {
