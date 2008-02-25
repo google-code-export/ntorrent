@@ -14,8 +14,9 @@
 		</library>
 	</runtime>
 	<extension-point id="FilterExtension" />
-	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="ntorrent.torrenttable.sorter">
+	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="TableSorterPlugin">
 		<parameter id="java-spec" value="1.6" />
+		<parameter id="name" value="Torrent sorter" />
 	</extension>
-	<extension plugin-id="ntorrent.torrenttable" point-id="TorrentTableSorter" id="ntorrent.torrenttable.sorter.TorrentTableSorter" />
+	<extension plugin-id="ntorrent.torrenttable" point-id="TorrentTableSorter" id="TableSorterInit" />
 </plugin>

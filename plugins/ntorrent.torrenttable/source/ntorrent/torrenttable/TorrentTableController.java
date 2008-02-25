@@ -27,6 +27,8 @@ import java.util.Vector;
 
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ntorrent.env.Environment;
 import ntorrent.gui.window.Window;
@@ -34,6 +36,7 @@ import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.model.LocalProfileModel;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
@@ -47,13 +50,14 @@ import org.java.plugin.PluginManager.EventListener;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
+import org.java.plugin.registry.PluginRegistry;
 
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements Runnable, ViewChangeListener, EventListener, TorrentTableActionListener{
+public class TorrentTableController implements Runnable, ViewChangeListener, EventListener, TorrentTableActionListener, ListSelectionListener{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
@@ -93,6 +97,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 		pluginManager.registerListener(this);
 		initExtensions();
 		table.getTablePopup().addTorrentTableActionListener(this);
+		table.getSelectionModel().addListSelectionListener(this);
 	}
 	
 	public TorrentTable getTable() {
@@ -173,20 +178,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
-		XmlRpcConnection c = new XmlRpcConnection(new LocalProfileModel());
-		TorrentTableController t = new TorrentTableController(c);
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		Window w = new Window();
-		w.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
-		w.setContentPane(t.getTable().getDisplay());
-		w.drawWindow();		
-		
-	}
-
-
+	
 	public void viewChanged(String view) {
 		ttm.clear();
 		ttm.fireTableDataChanged();
@@ -265,5 +257,29 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
         		}
             }
         }.start();
+	}
+
+	public void valueChanged(ListSelectionEvent e) {
+		if(!e.getValueIsAdjusting()){
+			int[] rows = table.getSelectedRows();
+			Torrent[] tor = new Torrent[rows.length];
+			for(int i = 0; i < rows.length; i++)
+				tor[i] = ttm.getRow(i);
+			PluginRegistry registry = pluginManager.getRegistry();
+			ExtensionPoint ext = registry.getExtensionPoint("ntorrent.torrenttable", "TorrentSelectionListener");
+			for(Extension x :ext.getAvailableExtensions()){
+				PluginDescriptor p = x.getDeclaringPluginDescriptor();
+				if(pluginManager.isPluginActivated(p)){
+					try {
+						Plugin plugin = pluginManager.getPlugin(p.getId());
+						((TorrentSelectionListener)p).torrentsSelected(tor);
+					} catch (PluginLifecycleException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		}
+		
 	}
 }

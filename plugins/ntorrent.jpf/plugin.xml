@@ -11,5 +11,6 @@
 	</runtime>
 	<extension-point id="HandledPlugin">
 		<parameter-def id="java-spec" type="number" />
+		<parameter-def id="name" type="string" />
 	</extension-point>
 </plugin>

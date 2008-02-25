@@ -41,6 +41,7 @@ import org.java.plugin.PluginManager.EventListener;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
+import org.java.plugin.registry.Extension.Parameter;
 
 public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
@@ -55,7 +56,8 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 		menuBar.add(plugin);			
 			for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
 				String id = e.getDeclaringPluginDescriptor().getId();
-				JCheckBox c = new JCheckBox(id);
+				String name = e.getParameter("name").valueAsString();
+				JCheckBox c = new JCheckBox(name);
 				extensions.put(id,c);
 				double jversion = Double.parseDouble(
 						System.getProperty("java.specification.version"));
@@ -64,6 +66,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 				if(!(jversion >= pversion && manager.isPluginEnabled(e.getDeclaringPluginDescriptor()))){
 					c.setEnabled(false);
 				}
+				
 				c.setSelected(manager.isPluginActivated(e.getDeclaringPluginDescriptor()));
 				c.setName(id);
 				c.addItemListener(this);

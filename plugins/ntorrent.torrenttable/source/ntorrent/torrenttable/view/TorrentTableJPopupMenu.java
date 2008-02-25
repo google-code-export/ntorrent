@@ -25,15 +25,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
+import org.java.plugin.Plugin;
+import org.java.plugin.PluginLifecycleException;
+import org.java.plugin.PluginManager;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
+import org.java.plugin.registry.PluginRegistry;
+
 import ntorrent.env.Environment;
 import ntorrent.torrenttable.TorrentTableController;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
+import ntorrent.torrenttable.model.TorrentTableJPopupMenuExtension;
 
 public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -75,8 +85,34 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 			item.addActionListener(this);
 		}
 		
+		PluginManager manager = Environment.getPluginManager();
+		PluginRegistry reg = manager.getRegistry();
+		ExtensionPoint ext = reg.getExtensionPoint("ntorrent.torrenttable", "TorrentTablePopupMenu");
+		for(Extension e : ext.getAvailableExtensions()){
+			PluginDescriptor p = e.getDeclaringPluginDescriptor();
+			if(manager.isPluginActivated(p)){
+				try {
+					Plugin plugin = manager.getPlugin(p.getId());
+					if (plugin instanceof TorrentTableJPopupMenuExtension)
+						((TorrentTableJPopupMenuExtension)plugin).init(this);
+				} catch (PluginLifecycleException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+		
+		
 
 	}
+	
+	@Override
+	public JMenuItem add(JMenuItem menuItem) {
+		JMenuItem item = super.add(menuItem);
+		item.addActionListener(this);
+		return item;
+	}
+	
 	
 	public void show(TorrentTable table, int x, int y) {
 		if(!table.getSelectionModel().isSelectionEmpty())
@@ -86,6 +122,7 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	public void addTorrentTableActionListener(TorrentTableActionListener listener){
 		listeners.add(listener);
 	}
+	
 
 	public void actionPerformed(ActionEvent e) {
 		int[] rows = table.getSelectedRows();
