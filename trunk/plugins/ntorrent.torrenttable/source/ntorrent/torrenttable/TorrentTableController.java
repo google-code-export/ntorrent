@@ -19,19 +19,22 @@
  */
 package ntorrent.torrenttable;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import ntorrent.env.Environment;
 import ntorrent.gui.window.Window;
+import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.profile.model.LocalProfileModel;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableActionListener;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
 import ntorrent.viewmenu.ViewChangeListener;
@@ -49,7 +52,7 @@ import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements Runnable, ViewChangeListener, EventListener{
+public class TorrentTableController implements Runnable, ViewChangeListener, EventListener, TorrentTableActionListener{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
@@ -64,6 +67,14 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 	private final static String extensionPointPluginId = "ntorrent.torrenttable";
 	private final static String extensionPointId = "TorrentTableSorter";
 
+	
+	public final static String[] mitems = {
+		"torrenttable.menu.start",
+		"torrenttable.menu.stop",
+		"torrenttable.menu.remove",
+		"torrenttable.menu.check"
+		};
+	
     private final Object[] download_variable = {
                     "", //reserved for view arg
                     "d.get_hash=",  //ID
@@ -87,6 +98,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 		pluginManager = Environment.getPluginManager();
 		pluginManager.registerListener(this);
 		initExtensions();
+		table.getTablePopup().addTorrentTableActionListener(this);
 	}
 	
 	public TorrentTable getTable() {
@@ -168,7 +180,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 		}
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public static void main(String[] args) throws Exception {
 		XmlRpcConnection c = new XmlRpcConnection(new LocalProfileModel());
 		TorrentTableController t = new TorrentTableController(c);
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -206,7 +218,7 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 			x.printStackTrace();
 		}
 	}
-
+	
 	public void pluginActivated(Plugin plugin) {
 		if(extensions.contains(plugin.getDescriptor().getId())){
 			initExtension(plugin.getDescriptor());
@@ -218,4 +230,23 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
 
+	public void torrentActionPerformed(final Torrent[] tor, final String command) {
+		//invoking the commands asynchronously so the gui won't be blocked
+        new Thread(){
+            public void run(){
+        		Download d = connection.getDownloadClient();
+        		for(Torrent t : tor){
+        			if(command.equals(mitems[0])){
+        				d.start(t.getHash());
+        			}else if(command.equals(mitems[1])){
+        				d.stop(t.getHash());
+        			}else if(command.equals(mitems[2])){
+        				d.erase(t.getHash());
+        			}else if(command.equals(mitems[3])){
+        				d.check_hash(t.getHash());
+        			}
+        		}
+            }
+        }.start();
+	}
 }

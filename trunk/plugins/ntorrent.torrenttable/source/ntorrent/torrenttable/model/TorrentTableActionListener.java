@@ -17,33 +17,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui.menubar;
+package ntorrent.torrenttable.model;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-
-import ntorrent.env.Environment;
-/**
- * @deprecated
- */
-public class GuiAction extends AbstractAction {
-	private static final long serialVersionUID = 1L;
-	ActionListener listener;
-	
-	public GuiAction(String key, ActionListener listener) {
-		this.listener = listener;
-		putValue(ACTION_COMMAND_KEY, key);
-		putValue(NAME,Environment.getString(key));
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		//TODO add own gui action logger?
-		Logger.global.log(Level.INFO, e.getActionCommand());
-		listener.actionPerformed(e);
-	}
-
+public interface TorrentTableActionListener {
+	public void torrentActionPerformed(Torrent[] tor,String command);
 }
