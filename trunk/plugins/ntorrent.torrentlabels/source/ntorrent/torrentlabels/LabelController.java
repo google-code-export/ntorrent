@@ -19,34 +19,47 @@
  */
 package ntorrent.torrentlabels;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.RowFilter;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import ntorrent.env.Environment;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableActionListener;
+import ntorrent.torrenttable.model.TorrentTableJPopupMenuExtension;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.sorter.model.TorrentTableFilterExtension;
 import ntorrent.torrenttable.sorter.model.TorrentTableFilterExtensionPoint;
+import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
 
 import org.java.plugin.Plugin;
 
-public class LabelController extends Plugin implements TorrentTableFilterExtension {
+public class LabelController extends Plugin implements TorrentTableFilterExtension, TorrentTableJPopupMenuExtension, TorrentTableActionListener {
 
-	private static boolean started = false;
+	private final static String[] mitems = {
+		"torrentlabel.menu.none",
+		"torrentlabel.menu.new"
+		};
+	private TorrentTableJPopupMenu menu;
+	private JMenu label;
+	
 	
 	@Override
 	protected void doStart() throws Exception {
-		started = true;
+		if(menu != null)
+			menu.add(label);
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		started = false;
+		if(menu != null)
+			menu.remove(label);
 	}
 
 	public void init(TorrentTableFilterExtensionPoint p) {
-		if(started){
-			final RowFilter<TorrentTableModel, Torrent> filter = new RowFilter<TorrentTableModel, Torrent>(){
+			/*final RowFilter<TorrentTableModel, Torrent> filter = new RowFilter<TorrentTableModel, Torrent>(){
 	
 				@Override
 				public boolean include(
@@ -56,8 +69,31 @@ public class LabelController extends Plugin implements TorrentTableFilterExtensi
 				
 			};
 			p.addFilter(filter);
-			p.updateFilter();
+			p.updateFilter();*/
+		
+	}
+
+	public void init(TorrentTableJPopupMenu menu) {
+		this.menu = menu;
+		menu.addTorrentTableActionListener(this);
+		label = new JMenu(Environment.getString("torrentlabel.menu"));
+		
+		for(int x = 0; x < mitems.length; x++){
+			JMenuItem item = new JMenuItem(Environment.getString(mitems[x]));
+			item.setActionCommand(mitems[x]);
+			item.addActionListener(menu);
+			label.add(item);
 		}
+		
+		label.addSeparator();
+		//existing labels
+		
+		
+		menu.add(label);
+	}
+
+	public void torrentActionPerformed(Torrent[] tor, String command) {
+		System.out.println("command peformed: "+command);
 	}
 
 }
