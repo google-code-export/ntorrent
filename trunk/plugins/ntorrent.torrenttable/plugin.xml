@@ -16,7 +16,5 @@
 			<export prefix="*" />
 		</library>		
 	</runtime>
-	<extension-point id="TorrentTableSorter" />
-	<extension-point id="TorrentTablePopupMenu" />
-	<extension-point id="TorrentSelectionListener" />
+	<extension-point id="TorrentTableExtension" />
 </plugin>

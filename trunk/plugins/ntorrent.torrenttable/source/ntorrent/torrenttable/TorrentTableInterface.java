@@ -17,12 +17,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.model;
+package ntorrent.torrenttable;
 
-import javax.swing.JPopupMenu;
+import java.util.Map;
+import java.util.Vector;
 
-import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentSelectionListener;
+import ntorrent.torrenttable.model.TorrentTableActionListener;
+import ntorrent.torrenttable.view.TorrentTable;
+import ntorrent.viewmenu.ViewChangeListener;
 
-public interface TorrentTableJPopupMenuExtension {
-	public void init(TorrentTableJPopupMenu menu);
+/**
+ * @author Kim Eik
+ *
+ */
+public interface TorrentTableInterface extends ViewChangeListener,TorrentTableActionListener {
+	public void viewChanged(String view);
+	public Map<String, Torrent> getTorrents();
+	public TorrentTable getTable();
+	public Vector<String> getDownloadVariable();
+	public void addTorrentSelectionListener(TorrentSelectionListener listener);
 }

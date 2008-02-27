@@ -19,7 +19,7 @@ import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
 @SuppressWarnings("unchecked")
-public class TorrentTableRowFilter extends RowFilter<TorrentTableModel,Torrent> implements KeyListener, TorrentTableFilterExtensionPoint {
+public class TorrentTableRowFilter extends RowFilter<TorrentTableModel,Torrent> implements KeyListener {
 	private final TorrentTableRowSorter sorter;
 	
 	Vector<RowFilter> extensions = new Vector<RowFilter>();
@@ -28,14 +28,7 @@ public class TorrentTableRowFilter extends RowFilter<TorrentTableModel,Torrent> 
 	
 	public TorrentTableRowFilter(TorrentTableRowSorter r) {
 		sorter = r;
-		sorter.setRowFilter(this);
-		
-		PluginManager manager = Environment.getPluginManager();
-		ExtensionPoint ext = manager.getRegistry().getExtensionPoint("ntorrent.torrenttable.sorter", "FilterExtension");
-		for(Extension e : ext.getAvailableExtensions()){
-			
-		}
-		
+		sorter.setRowFilter(this);	
 	}
 	
 
@@ -56,22 +49,21 @@ public class TorrentTableRowFilter extends RowFilter<TorrentTableModel,Torrent> 
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {
 		nameFilter = ((JTextField)e.getSource()).getText();
-		updateFilter();
-	}
-	
-	public void updateFilter(){
 		sorter.sort();
 	}
 
 
 	public void addFilter(RowFilter<TorrentTableModel, Torrent> filter) {
 		extensions.add(filter);
+		sorter.sort();
 	}
 
 
-	public TorrentTableModel getModel() {
-		return sorter.getModel();
+	public void removeFilter(RowFilter<TorrentTableModel, Torrent> filter) {
+		extensions.remove(filter);
 	}
+	
+	
 
 
 }

@@ -29,6 +29,7 @@ import org.java.plugin.Plugin;
 
 import ntorrent.torrenttable.TorrentTableController;
 import ntorrent.torrenttable.TorrentTableExtension;
+import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.sorter.model.TorrentTableRowFilter;
 import ntorrent.torrenttable.sorter.model.TorrentTableRowSorter;
@@ -44,25 +45,6 @@ public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
 	private TorrentTableFinder gui;
 	private boolean init = false;
 	
-	public void init(TorrentTableController controller) {
-		init = true;
-
-		table = controller.getTable();
-		panel = table.getDisplay();
-		
-		sorter = new TorrentTableRowSorter((TorrentTableModel)table.getModel());
-		filter = new TorrentTableRowFilter(sorter);
-		gui = new TorrentTableFinder(filter);
-		
-		if(getManager().isPluginActivated(getDescriptor()))
-			try {
-				doStart();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	}
-
 	@Override
 	protected void doStart() throws Exception {
 		if(init){
@@ -81,6 +63,25 @@ public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
 			panel.revalidate();
 			panel.repaint();
 		}
+	}
+
+	public void init(TorrentTableInterface controller) {
+		init = true;
+
+		table = controller.getTable();
+		panel = table.getDisplay();
+		
+		sorter = new TorrentTableRowSorter(table.getModel());
+		filter = new TorrentTableRowFilter(sorter);
+		gui = new TorrentTableFinder(filter);
+		
+		if(getManager().isPluginActivated(getDescriptor()))
+			try {
+				doStart();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 

@@ -17,8 +17,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.sorter.model;
+package ntorrent.session;
 
-public interface TorrentTableFilterExtension {
-	public void init(TorrentTableFilterExtensionPoint p);
+/**
+ * @author Kim Eik
+ *
+ */
+public interface SessionExtension {
+	public void init(ConnectionSession session);
 }
