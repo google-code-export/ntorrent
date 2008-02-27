@@ -5,10 +5,12 @@
 		<import plugin-id="redstone.xmlrpc" />
 		<import plugin-id="ntorrent.torrenttable" />
 		<import plugin-id="ntorrent.viewmenu" />
+		<import plugin-id="ntorrent.env" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
 	</runtime>
+	<extension-point id="SessionExtension" />
 </plugin>

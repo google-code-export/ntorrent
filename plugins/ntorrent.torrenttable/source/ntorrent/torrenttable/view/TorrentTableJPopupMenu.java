@@ -25,31 +25,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
+
+import ntorrent.env.Environment;
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableActionListener;
 
 import org.java.plugin.Plugin;
-import org.java.plugin.PluginLifecycleException;
 import org.java.plugin.PluginManager;
-import org.java.plugin.registry.Extension;
-import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-import ntorrent.env.Environment;
-import ntorrent.torrenttable.TorrentTableController;
-import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentTableActionListener;
-import ntorrent.torrenttable.model.TorrentTableJPopupMenuExtension;
-
-public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener {
+public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	
 	Vector<TorrentTableActionListener> listeners = new Vector<TorrentTableActionListener>();
+	Vector<String> extensions = new Vector<String>();
 	Map<String,JMenuItem> menuItems = new HashMap<String,JMenuItem>();
+	
+	PluginManager manager = Environment.getPluginManager();
+	PluginRegistry reg = manager.getRegistry();
 	
 	private TorrentTable table;
 	
@@ -84,26 +81,6 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 			item.setActionCommand(priorityMenu[x]);
 			item.addActionListener(this);
 		}
-		
-		PluginManager manager = Environment.getPluginManager();
-		PluginRegistry reg = manager.getRegistry();
-		ExtensionPoint ext = reg.getExtensionPoint("ntorrent.torrenttable", "TorrentTablePopupMenu");
-		for(Extension e : ext.getAvailableExtensions()){
-			PluginDescriptor p = e.getDeclaringPluginDescriptor();
-			if(manager.isPluginActivated(p)){
-				try {
-					Plugin plugin = manager.getPlugin(p.getId());
-					if (plugin instanceof TorrentTableJPopupMenuExtension){
-						((TorrentTableJPopupMenuExtension)plugin).init(this);
-					}
-				} catch (PluginLifecycleException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		}
-		
-		
 
 	}
 	
@@ -142,5 +119,10 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 		for(TorrentTableActionListener x : listeners)
 			x.torrentActionPerformed(tor, e.getActionCommand());
 	}
+
+
+	public void pluginDeactivated(Plugin plugin) {}
+	public void pluginDisabled(PluginDescriptor descriptor) {}
+	public void pluginEnabled(PluginDescriptor descriptor) {}
 	
 }

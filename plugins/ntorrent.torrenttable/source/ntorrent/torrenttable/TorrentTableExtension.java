@@ -22,5 +22,5 @@ package ntorrent.torrenttable;
 import javax.swing.JComponent;
 
 public interface TorrentTableExtension {
-	public void init(TorrentTableController controller);
+	public void init(TorrentTableInterface controller);
 }

@@ -49,12 +49,12 @@ public class SessionFrame extends JPanel{
 		add(hsplit);
 		
 		menu.add(p[0]);
-		menu.add(new JLabel("label"));
+		menu.add(p[2]);
 		
 		vsplit.add(menu);
 		vsplit.add(p[1]);
-		hsplit.add(p[2]);
-		add(p[3], BorderLayout.SOUTH);
+		hsplit.add(p[3]);
+		add(p[4], BorderLayout.SOUTH);
 	}
 	
 	public JSplitPane getHsplit() {
@@ -63,6 +63,10 @@ public class SessionFrame extends JPanel{
 	
 	public JSplitPane getVsplit() {
 		return vsplit;
+	}
+	
+	public JSplitPane getMenu() {
+		return menu;
 	}
 
 }

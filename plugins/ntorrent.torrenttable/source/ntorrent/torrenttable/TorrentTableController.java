@@ -57,7 +57,7 @@ import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements Runnable, ViewChangeListener, EventListener, TorrentTableActionListener, ListSelectionListener{
+public class TorrentTableController implements TorrentTableInterface,Runnable, EventListener, ListSelectionListener{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
@@ -67,49 +67,64 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 	
 	private final PluginManager pluginManager;
 	
-	private final Vector<String> extensions = new Vector<String>();
-	
-	private final static String extensionPointPluginId = "ntorrent.torrenttable";
-	private final static String extensionPointId = "TorrentTableSorter";
-
-	
-    private final Object[] download_variable = {
-                    "", //reserved for view arg
-                    "d.get_hash=",  //ID
-                    "d.get_name=", //constant
-                    "d.get_state=",         //variable
-                    "d.get_completed_bytes=", //variable
-                    "d.get_up_total=",      //variable
-                    "d.get_peers_complete=",
-                    "d.get_peers_accounted=",
-                    "d.get_down_rate=", //variable
-                    "d.get_up_rate=", //variable
-                    "d.get_message=", //relative
-                    "d.get_priority=", //relative
-                    "d.get_size_bytes="
-    };
-
+	private final Vector<String> download_variable = new Vector<String>();
+	private final Vector<String> torrentTableExtensions = new Vector<String>();
+	private final Vector<TorrentSelectionListener > torrentSelectionListeners = new Vector<TorrentSelectionListener>();
 	
 	public TorrentTableController(XmlRpcConnection connection) {
 		this.connection = connection;
-		controllerTread.start();
+		
+		//populate downloadlist
+	    final String[] download_variable = {
+                "", //reserved for view arg
+                "d.get_hash=",  //ID
+                "d.get_name=", //constant
+                "d.get_state=",         //variable
+                "d.get_completed_bytes=", //variable
+                "d.get_up_total=",      //variable
+                "d.get_peers_complete=",
+                "d.get_peers_accounted=",
+                "d.get_down_rate=", //variable
+                "d.get_up_rate=", //variable
+                "d.get_message=", //relative
+                "d.get_priority=", //relative
+                "d.get_size_bytes="
+	    };
+	    
+	    for(String i : download_variable){
+	    	this.download_variable.add(i);
+	    }
+	    
 		pluginManager = Environment.getPluginManager();
 		pluginManager.registerListener(this);
-		initExtensions();
+		
+		initTorrentTableExtensions();
+		
 		table.getTablePopup().addTorrentTableActionListener(this);
 		table.getSelectionModel().addListSelectionListener(this);
+		
+		controllerTread.start();
 	}
 	
 	public TorrentTable getTable() {
 		return table;
 	}
 	
+	public Map<String, Torrent> getTorrents() {
+		return torrents;
+	}
+	
+	public Vector<String> getDownloadVariable() {
+		return download_variable;
+	}
+		
 	public void run() {
 	   XmlRpcClient client = connection.getClient();
 		try {
 			while(true){
 				XmlRpcArray download_list = (XmlRpcArray)client.invoke("d.multicall", download_variable);
-				
+				//System.out.println(download_variable);
+				//System.out.println(download_list);
 				int rowsRecieved = download_list.size();
 				int rowsPresent = ttm.getRowCount();
 				
@@ -120,24 +135,35 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 				
 				for(int x = 0 ; x < rowsRecieved; x++){
 					XmlRpcArray data = (XmlRpcArray)download_list.get(x);
-					Torrent tor = new Torrent(data.getString(0));
+					
+					int dataCell = 0;
+					
+					Torrent tor = new Torrent(data.getString(dataCell));
 					
 					if(!torrents.keySet().contains(tor.getHash()))
 						torrents.put(tor.getHash(),tor);
 					else
-						tor = torrents.get(data.getString(0));
+						tor = torrents.get(data.getString(dataCell));
 					
-					tor.setName(data.getString(1));
-					tor.setStarted(data.getLong(2) == 1);
-					tor.setCompletedBytes(data.getLong(3));
-					tor.setUpTotal(data.getLong(4));
-					tor.setPeersComplete(data.getLong(5));
-					tor.setPeersAccounted(data.getLong(6));
-					tor.setDownRate(data.getLong(7));
-					tor.setUpRate(data.getLong(8));
-					tor.setMessage(data.getString(9));
-					tor.setPriority(data.getLong(10));
-					tor.setSizeBytes(data.getLong(11));
+					tor.setName(data.getString(++dataCell));
+					tor.setStarted(data.getLong(++dataCell) == 1);
+					tor.setCompletedBytes(data.getLong(++dataCell));
+					tor.setUpTotal(data.getLong(++dataCell));
+					tor.setPeersComplete(data.getLong(++dataCell));
+					tor.setPeersAccounted(data.getLong(++dataCell));
+					tor.setDownRate(data.getLong(++dataCell));
+					tor.setUpRate(data.getLong(++dataCell));
+					tor.setMessage(data.getString(++dataCell));
+					tor.setPriority(data.getLong(++dataCell));
+					tor.setSizeBytes(data.getLong(++dataCell));
+					
+					//get additional data
+					while(++dataCell < data.size()){
+						System.out.println("Setting additional data: "+download_variable.elementAt(dataCell+1)+" "+data.get(dataCell));
+						tor.setProperty(download_variable.elementAt(dataCell+1), 
+								data.get(dataCell));
+						dataCell++;
+					}
 					
 					if(rowsPresent > x){
 						//System.out.println("updating row: "+x);
@@ -176,25 +202,28 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 		} catch (XmlRpcFault e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
 	public void viewChanged(String view) {
 		ttm.clear();
 		ttm.fireTableDataChanged();
-		download_variable[0] = view;
+		download_variable.setElementAt(view, 0);
 		controllerTread.interrupt();
 	}
 
-	private void initExtensions(){
-		ExtensionPoint ext = pluginManager.getRegistry().getExtensionPoint(extensionPointPluginId,extensionPointId);
+	private void initTorrentTableExtensions(){
+		ExtensionPoint ext = pluginManager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableExtension");
 		for(Extension e : ext.getAvailableExtensions()){
-			extensions.add(e.getDeclaringPluginDescriptor().getId());
-			initExtension(e.getDeclaringPluginDescriptor());
+			torrentTableExtensions.add(e.getDeclaringPluginDescriptor().getId());
+			initTorrentTableExtension(e.getDeclaringPluginDescriptor());
 		}
 	}
 	
-	private void initExtension(PluginDescriptor p){
+	private void initTorrentTableExtension(PluginDescriptor p){
 		try{
 			if(pluginManager.isPluginActivated(p)){
 				Plugin plugin = pluginManager.getPlugin(p.getId());
@@ -204,10 +233,10 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 			x.printStackTrace();
 		}
 	}
-	
+		
 	public void pluginActivated(Plugin plugin) {
-		if(extensions.contains(plugin.getDescriptor().getId())){
-			initExtension(plugin.getDescriptor());
+		if(torrentTableExtensions.contains(plugin.getDescriptor().getId())){
+			initTorrentTableExtension(plugin.getDescriptor());
 		}
 		
 	}
@@ -265,21 +294,15 @@ public class TorrentTableController implements Runnable, ViewChangeListener, Eve
 			Torrent[] tor = new Torrent[rows.length];
 			for(int i = 0; i < rows.length; i++)
 				tor[i] = ttm.getRow(i);
-			PluginRegistry registry = pluginManager.getRegistry();
-			ExtensionPoint ext = registry.getExtensionPoint("ntorrent.torrenttable", "TorrentSelectionListener");
-			for(Extension x :ext.getAvailableExtensions()){
-				PluginDescriptor p = x.getDeclaringPluginDescriptor();
-				if(pluginManager.isPluginActivated(p)){
-					try {
-						Plugin plugin = pluginManager.getPlugin(p.getId());
-						((TorrentSelectionListener)p).torrentsSelected(tor);
-					} catch (PluginLifecycleException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
+			
+			for(TorrentSelectionListener tsl : torrentSelectionListeners){
+				tsl.torrentsSelected(tor);
 			}
 		}
 		
+	}
+
+	public void addTorrentSelectionListener(TorrentSelectionListener listener) {
+		torrentSelectionListeners.add(listener);
 	}
 }

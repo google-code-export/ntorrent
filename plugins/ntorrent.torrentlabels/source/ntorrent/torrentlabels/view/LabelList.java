@@ -17,15 +17,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.sorter.model;
+package ntorrent.torrentlabels.view;
 
-import javax.swing.RowFilter;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 
-import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentTableModel;
+import ntorrent.env.Environment;
+import ntorrent.torrentlabels.model.LabelListModel;
 
-public interface TorrentTableFilterExtensionPoint {
-	public void addFilter(RowFilter<TorrentTableModel,Torrent> filter);
-	public void updateFilter();
-	public TorrentTableModel getModel();
+/**
+ * @author Kim Eik
+ *
+ */
+public class LabelList extends JList {
+	public LabelList() {
+		super(new LabelListModel());
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectedIndex(0);
+	}
 }

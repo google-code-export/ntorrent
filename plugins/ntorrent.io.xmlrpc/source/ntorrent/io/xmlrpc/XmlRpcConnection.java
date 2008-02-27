@@ -51,8 +51,10 @@ public class XmlRpcConnection {
 	XmlRpcClient client;
 	JSch jsch;
 	Session session;
+	ClientProfileInterface profile;
 	
 	public XmlRpcConnection(ClientProfileInterface p) throws XmlRpcException {
+		profile = p;
 		switch (p.getProtocol()) {
 		case HTTP:
 			//TODO make streaming in clientprofile?
@@ -163,6 +165,10 @@ public class XmlRpcConnection {
 	
 	public Tracker getTrackerClient(){
 		return (Tracker)XmlRpcProxy.createProxy("t",new Class[] { Tracker.class }, client);
+	}
+	
+	public ClientProfileInterface getProfile() {
+		return profile;
 	}
 
 }
