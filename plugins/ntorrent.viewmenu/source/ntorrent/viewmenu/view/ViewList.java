@@ -29,6 +29,7 @@ public class ViewList extends JList {
 	public ViewList(ListModel model,ListSelectionListener listener) {
 		super(model);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setSelectedIndex(0);
 		addListSelectionListener(listener);
 	}
 }

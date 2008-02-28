@@ -215,36 +215,6 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 		controllerTread.interrupt();
 	}
 
-	/*private void initTorrentTableExtensions(){
-		ExtensionPoint ext = pluginManager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableExtension");
-		for(Extension e : ext.getAvailableExtensions()){
-			torrentTableExtensions.add(e.getDeclaringPluginDescriptor().getId());
-			initTorrentTableExtension(e.getDeclaringPluginDescriptor());
-		}
-	}
-	
-	private void initTorrentTableExtension(PluginDescriptor p){
-		try{
-			if(pluginManager.isPluginActivated(p)){
-				Plugin plugin = pluginManager.getPlugin(p.getId());
-				((TorrentTableExtension)plugin).init(this);
-			}
-		}catch(PluginLifecycleException x){
-			x.printStackTrace();
-		}
-	}*/
-		
-	/*public void pluginActivated(Plugin plugin) {
-		if(torrentTableExtensions.contains(plugin.getDescriptor().getId())){
-			initTorrentTableExtension(plugin.getDescriptor());
-		}
-		
-	}
-
-	public void pluginDeactivated(Plugin plugin) {}
-	public void pluginDisabled(PluginDescriptor descriptor) {}
-	public void pluginEnabled(PluginDescriptor descriptor) {}*/
-
 	public void torrentActionPerformed(final Torrent[] tor, final String command) {
 		//invoking the commands asynchronously so the gui won't be blocked
         new Thread(){
@@ -292,8 +262,11 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 		if(!e.getValueIsAdjusting()){
 			int[] rows = table.getSelectedRows();
 			Torrent[] tor = new Torrent[rows.length];
+			System.out.println(e.getFirstIndex()+" "+e.getLastIndex());
+			//not java 1.5 compatible.
 			for(int i = 0; i < rows.length; i++)
-				tor[i] = ttm.getRow(i);
+				tor[i] = ttm.getRow(table.getRowSorter().convertRowIndexToModel(i));
+			
 			
 			for(TorrentSelectionListener tsl : torrentSelectionListeners){
 				tsl.torrentsSelected(tor);
