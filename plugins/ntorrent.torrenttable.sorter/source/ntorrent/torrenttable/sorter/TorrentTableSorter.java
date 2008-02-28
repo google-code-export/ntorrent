@@ -20,23 +20,19 @@
 package ntorrent.torrenttable.sorter;
 
 import java.awt.BorderLayout;
-import java.util.Vector;
 
 import javax.swing.JPanel;
-import javax.swing.JTable;
 
-import org.java.plugin.Plugin;
-
-import ntorrent.torrenttable.TorrentTableController;
-import ntorrent.torrenttable.TorrentTableExtension;
-import ntorrent.torrenttable.TorrentTableInterface;
-import ntorrent.torrenttable.model.TorrentTableModel;
+import ntorrent.session.ConnectionSession;
+import ntorrent.session.SessionExtension;
 import ntorrent.torrenttable.sorter.model.TorrentTableRowFilter;
 import ntorrent.torrenttable.sorter.model.TorrentTableRowSorter;
 import ntorrent.torrenttable.sorter.view.TorrentTableFinder;
 import ntorrent.torrenttable.view.TorrentTable;
 
-public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
+import org.java.plugin.Plugin;
+
+public class TorrentTableSorter extends Plugin implements SessionExtension{
 	
 	private TorrentTable table;
 	private JPanel panel;
@@ -65,10 +61,11 @@ public class TorrentTableSorter extends Plugin implements TorrentTableExtension{
 		}
 	}
 
-	public void init(TorrentTableInterface controller) {
+
+	public void init(ConnectionSession session) {
 		init = true;
 
-		table = controller.getTable();
+		table = session.getTorrentTableController().getTable();
 		panel = table.getDisplay();
 		
 		sorter = new TorrentTableRowSorter(table.getModel());
