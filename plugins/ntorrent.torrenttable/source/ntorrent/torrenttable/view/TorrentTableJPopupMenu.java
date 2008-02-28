@@ -44,10 +44,7 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	Vector<TorrentTableActionListener> listeners = new Vector<TorrentTableActionListener>();
 	Vector<String> extensions = new Vector<String>();
 	Map<String,JMenuItem> menuItems = new HashMap<String,JMenuItem>();
-	
-	PluginManager manager = Environment.getPluginManager();
-	PluginRegistry reg = manager.getRegistry();
-	
+		
 	private TorrentTable table;
 	
 	public final static String[] mitems = {
