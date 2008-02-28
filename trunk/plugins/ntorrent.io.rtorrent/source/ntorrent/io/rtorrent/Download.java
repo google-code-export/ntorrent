@@ -102,7 +102,7 @@ public interface Download {
 	Object set_connection_current();
 	Object set_connection_leech();
 	Object set_connection_seed();
-	Object set_custom1();
+	Object set_custom1(String hash, String label);
 	Object set_custom2();
 	Object set_custom3();
 	Object set_custom4();

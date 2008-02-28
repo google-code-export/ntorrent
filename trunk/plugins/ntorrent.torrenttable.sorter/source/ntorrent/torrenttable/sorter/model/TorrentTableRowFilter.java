@@ -34,12 +34,12 @@ public class TorrentTableRowFilter extends RowFilter<TorrentTableModel,Torrent> 
 
 	@Override
 	public boolean include(RowFilter.Entry<? extends TorrentTableModel, ? extends Torrent> entry) {
-		if(nameFilter == "")
-			return true;
-		
 		for(RowFilter f : extensions)
 			if(!f.include(entry))
 				return false;
+		
+		if(nameFilter == "")
+			return true;
 		
 		String name = entry.getIdentifier().getName().toLowerCase();
 		return name.contains(nameFilter.toLowerCase());
@@ -54,13 +54,18 @@ public class TorrentTableRowFilter extends RowFilter<TorrentTableModel,Torrent> 
 
 
 	public void addFilter(RowFilter<TorrentTableModel, Torrent> filter) {
-		extensions.add(filter);
-		sorter.sort();
+		if(!extensions.contains(filter)){
+			extensions.add(filter);
+			sorter.sort();
+		}
 	}
 
 
 	public void removeFilter(RowFilter<TorrentTableModel, Torrent> filter) {
-		extensions.remove(filter);
+		if(extensions.contains(filter)){
+			extensions.remove(filter);
+			sorter.sort();
+		}
 	}
 	
 	

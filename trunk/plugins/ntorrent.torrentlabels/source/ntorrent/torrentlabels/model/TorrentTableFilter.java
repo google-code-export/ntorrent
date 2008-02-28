@@ -17,28 +17,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrentlabels.view;
+package ntorrent.torrentlabels.model;
 
-import javax.swing.JList;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.RowFilter;
 
-import ntorrent.env.Environment;
-import ntorrent.torrentlabels.model.LabelListModel;
+import ntorrent.torrentlabels.LabelController;
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableModel;
 
 /**
  * @author Kim Eik
  *
  */
-public class LabelList extends JList {
-	private static final long serialVersionUID = 1L;
+public class TorrentTableFilter extends RowFilter<TorrentTableModel, Torrent> implements
+		TorrentLabelFilterInterface {
 
-	public LabelList(ListModel l) {
-		super(l);
-		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		setSelectedIndex(0);
+	private String label = null;
+
+	public void allLabel() {
+		this.label = null;
+	}
+
+	public void noneLabel() {
+		this.label = "";
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	@Override
+	public boolean include(
+			javax.swing.RowFilter.Entry<? extends TorrentTableModel, ? extends Torrent> entry) {
+		if(label == null)
+			return true;
+		return entry.getIdentifier().getProperty(LabelController.PROPERTY).equals(label); 
 	}
 
 }

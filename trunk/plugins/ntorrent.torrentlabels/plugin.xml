@@ -6,6 +6,7 @@
 		<import plugin-id="ntorrent.torrenttable" />
 		<import plugin-id="ntorrent.jpf" />
 		<import plugin-id="ntorrent.session" />
+		<import plugin-id="ntorrent.io.rtorrent" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
