@@ -1,5 +1,9 @@
 package ntorrent.session;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Vector;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -7,9 +11,11 @@ import javax.swing.JPanel;
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
 import org.java.plugin.PluginManager;
+import org.java.plugin.PluginManager.EventListener;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
+import org.java.plugin.registry.PluginFragment;
 import org.java.plugin.registry.PluginRegistry;
 
 import ntorrent.env.Environment;
@@ -39,7 +45,7 @@ import ntorrent.viewmenu.ViewMenuController;
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class ConnectionSession {
+public class ConnectionSession implements EventListener {
 	
 	private final XmlRpcConnection connection;
 	private final TorrentTableInterface ttc;
@@ -47,7 +53,14 @@ public class ConnectionSession {
 	
 	private final SessionFrame session;
 	
-	public ConnectionSession(XmlRpcConnection c) {
+	private final PluginManager manager = Environment.getPluginManager();
+	private final PluginRegistry registry = manager.getRegistry();
+	private final ExtensionPoint ext = registry.getExtensionPoint("ntorrent.session", "SessionExtension");
+	
+	private final HashMap<PluginDescriptor,Collection<PluginDescriptor>> dependencies = 
+		new HashMap<PluginDescriptor, Collection<PluginDescriptor>>();
+	
+	public ConnectionSession(final XmlRpcConnection c) {
 		connection = c;
 		ttc = new TorrentTableController(connection);
 		vmc = new ViewMenuController(ttc);
@@ -60,27 +73,48 @@ public class ConnectionSession {
 						new JLabel("statusbar")
 						}
 		);
+				
+		manager.registerListener(this);
 		
-		PluginManager manager = Environment.getPluginManager();
-		PluginRegistry registry = manager.getRegistry();
-		ExtensionPoint ext = registry.getExtensionPoint("ntorrent.session", "SessionExtension");
-		for(Extension e : ext.getAvailableExtensions()){
-			PluginDescriptor p = e.getDeclaringPluginDescriptor();
-			if (manager.isPluginActivated(p)){
-				try {
-					Plugin plugin = manager.getPlugin(p.getId());
-					if(plugin instanceof SessionExtension){
-						((SessionExtension)plugin).init(this);
-					}else{
-						throw new Exception(p+" does not implement SessionExtension interface");
-					}
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+		for(Extension e : ext.getConnectedExtensions()){
+			PluginDescriptor owner = e.getDeclaringPluginDescriptor();
+			dependencies.put(owner, registry.getDependingPlugins(owner));
+			//System.out.println(owner+" <-- "+dependencies.get(owner));
 		}
 		
+		while(!dependencies.isEmpty())
+			for(PluginDescriptor owner : dependencies.keySet()){
+				if(isExtensionSafeToLoad(owner)){
+					System.out.println(owner+" this extension is safe to load");
+					loadExtension(owner);
+					dependencies.remove(owner);
+					break;
+				}else{
+					System.out.println(owner+" this extension is not safe to load at the moment");
+				}
+			}	
+	}
+	
+	private boolean isExtensionSafeToLoad(PluginDescriptor p){
+		boolean safe = true;
+		for(PluginDescriptor owner : dependencies.keySet()){
+			for(PluginDescriptor dep : dependencies.get(owner)){
+				if(p.equals(dep))
+					safe = false;
+			}
+		}
+		return safe;
+	}
+	
+	private void loadExtension(PluginDescriptor p){
+		if (manager.isPluginActivated(p)){
+			try {
+				pluginActivated(manager.getPlugin(p.getId()));
+			} catch (PluginLifecycleException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public SessionFrame getDisplay(){
@@ -90,4 +124,17 @@ public class ConnectionSession {
 	public XmlRpcConnection getConnection() {
 		return connection;
 	}
+	
+	public TorrentTableInterface getTorrentTableController() {
+		return ttc;
+	}
+
+	public void pluginActivated(Plugin plugin) {
+		if(plugin instanceof SessionExtension){
+			((SessionExtension)plugin).init(this);
+		}
+	}
+	public void pluginDeactivated(Plugin plugin) {}
+	public void pluginDisabled(PluginDescriptor descriptor) {}
+	public void pluginEnabled(PluginDescriptor descriptor) {}
 }

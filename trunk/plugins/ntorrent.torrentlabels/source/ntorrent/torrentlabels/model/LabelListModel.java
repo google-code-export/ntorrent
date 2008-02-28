@@ -27,9 +27,11 @@ import java.util.Vector;
 
 import javax.swing.JMenuItem;
 import javax.swing.ListModel;
+import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import ntorrent.env.Environment;
+import ntorrent.torrentlabels.LabelController;
 
 /**
  * @author Kim Eik
@@ -120,4 +122,21 @@ public class LabelListModel implements ListModel,Map<String,JMenuItem> {
 	
 	//*map methods
 
+	public void fireIntervallAdded(Object src, int startRow, int endRow){
+		for(ListDataListener l : listDataListeners){
+			l.intervalAdded(new ListDataEvent(src,ListDataEvent.INTERVAL_ADDED,startRow,endRow));
+		}
+	}
+	
+	public void fireIntervallRemoved(Object src, int startRow, int endRow){
+		for(ListDataListener l : listDataListeners){
+			l.intervalAdded(new ListDataEvent(src,ListDataEvent.INTERVAL_REMOVED,startRow,endRow));
+		}
+	}
+
+	public void fireIntervallChanged(Object src, int startRow, int endRow) {
+		for(ListDataListener l : listDataListeners){
+			l.intervalAdded(new ListDataEvent(src,ListDataEvent.CONTENTS_CHANGED,startRow,endRow));
+		}
+	}
 }

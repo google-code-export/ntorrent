@@ -16,5 +16,4 @@
 			<export prefix="*" />
 		</library>		
 	</runtime>
-	<extension-point id="TorrentTableExtension" />
 </plugin>

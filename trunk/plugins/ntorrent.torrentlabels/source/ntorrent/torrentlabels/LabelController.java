@@ -31,6 +31,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.RowFilter;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -38,8 +40,8 @@ import ntorrent.env.Environment;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.session.ConnectionSession;
 import ntorrent.session.SessionExtension;
+import ntorrent.torrentlabels.model.LabelListModel;
 import ntorrent.torrentlabels.view.LabelList;
-import ntorrent.torrenttable.TorrentTableExtension;
 import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
@@ -51,7 +53,7 @@ import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
 
 import org.java.plugin.Plugin;
 
-public class LabelController extends Plugin implements TorrentTableActionListener, SessionExtension,TorrentTableExtension, TableModelListener {
+public class LabelController extends Plugin implements TorrentTableActionListener, SessionExtension, TableModelListener, ListSelectionListener {
 
 	private final static String[] mitems = {
 		"torrentlabel.menu.none",
@@ -63,14 +65,13 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	RowFilter<TorrentTableModel, Torrent> labelFilter;
 	XmlRpcConnection connection;
 	private TorrentTableInterface controller;
-	private final LabelList labelList = new LabelList();
-	private final Map<String,JMenuItem> labelItems = new HashMap<String, JMenuItem>();
+	private final LabelListModel listModel = new LabelListModel();
+	private final LabelList labelList = new LabelList(listModel);
 	
 	private TorrentTableJPopupMenu menu;
 	private JMenu label;
 	
-	private boolean tableInit = false;
-	private boolean sessionInit = false;
+	private boolean init = false;
 
 	private TorrentTable table;
 
@@ -81,29 +82,23 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	private Component oldComponent;
 	
 	@Override
-	protected void doStart() throws Exception {
-		if(tableInit){
+	protected void doStart() throws Exception {		
+		if(init){
 			menu.add(label);
 			if(!download_variable.contains(property)){
 				download_variable.add(property);
 			}
 			filter.addFilter(labelFilter);
-		}
-		
-		if(sessionInit){
 			menuPane.setBottomComponent(labelList);
 		}
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		if(tableInit){
+		if(init){
 			menu.remove(label);
 			download_variable.remove(property);
 			filter.removeFilter(labelFilter);
-		}
-		
-		if(sessionInit){
 			menuPane.setBottomComponent(oldComponent);
 		}
 	}	
@@ -121,9 +116,10 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 		}
 	}
 
-	public void init(TorrentTableInterface controller) {
-		tableInit = true;
-		this.controller = controller;
+	public void init(ConnectionSession session) {
+		init = true;
+
+		this.controller = session.getTorrentTableController();
 		this.table = controller.getTable();
 		this.tablemodel = table.getModel();
 		tablemodel.addTableModelListener(this);
@@ -135,23 +131,12 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 		initFilter();
 		initMenu(controller.getTable().getTablePopup());
 		
-		if(getManager().isPluginActivated(getDescriptor())){
-			try {
-				doStart();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}	
-	}
-	
-
-	public void init(ConnectionSession session) {
-		sessionInit = true;
 		connection = session.getConnection();
 		menuPane = session.getDisplay().getMenu();
 		oldComponent = menuPane.getBottomComponent();
 		menuPane.setBottomComponent(labelList);
+		
+		labelList.addListSelectionListener(this);
 		
 		if(getManager().isPluginActivated(getDescriptor())){
 			try {
@@ -196,28 +181,40 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	}
 
 	public void tableChanged(TableModelEvent event) {
-		if(event.getType() != TableModelEvent.DELETE){
-			for(int x = event.getFirstRow(); x <= event.getLastRow(); x++){
-				Torrent t = tablemodel.getRow(x);
-				String label = (String)t.getProperty(property);
-				if(label != null && label.length() > 0 && !labelItems.containsKey(label)){
-					JMenuItem item = new JMenuItem(label);
-					item.addActionListener(menu);
-					item.setActionCommand("label:"+label);
-					labelItems.put(label, item);
-					this.label.add(item);
-				}
-			}
-		}else{
-			//remove labels or just keep them?
+		int type = event.getType();
+		boolean updateOnce = true;
+
+		if(type == TableModelEvent.INSERT){
+			updateLabels();
+		}else if(updateOnce && type == TableModelEvent.UPDATE){
+			updateOnce = false;
+			updateLabels();
 		}
 	}
-	
+
+	private void updateLabels(){
+		for(Torrent t : controller.getTorrents().values()){
+			String label = (String)t.getProperty(property);
+			if(label != null && label.length() > 0 && !listModel.containsKey(label)){
+				JMenuItem item = new JMenuItem(label);
+				item.addActionListener(menu);
+				item.setActionCommand("label:"+label);
+				listModel.put(label, item);
+				this.label.add(item);
+				// yes yes yes, im cheating i know..
+				listModel.fireIntervallAdded(this, 0, listModel.getSize()-1);
+			}
+		}
+	}
 	
 	private void setLabel(String label, Torrent[] tor) {
 		for(Torrent t : tor){
 			System.out.println("stub: set label \""+label+"\"");
 		}
+	}
+
+	public void valueChanged(ListSelectionEvent e) {
+		System.out.println("stub: listselection changed");
 	}
 
 

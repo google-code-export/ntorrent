@@ -57,7 +57,7 @@ import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements TorrentTableInterface,Runnable, EventListener, ListSelectionListener{
+public class TorrentTableController implements TorrentTableInterface,Runnable, /*EventListener,*/ ListSelectionListener{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
@@ -65,7 +65,7 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, E
 	private final XmlRpcConnection connection;
 	private final Thread controllerTread = new Thread(this);
 	
-	private final PluginManager pluginManager;
+	//private final PluginManager pluginManager;
 	
 	private final Vector<String> download_variable = new Vector<String>();
 	private final Vector<String> torrentTableExtensions = new Vector<String>();
@@ -95,10 +95,10 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, E
 	    	this.download_variable.add(i);
 	    }
 	    
-		pluginManager = Environment.getPluginManager();
-		pluginManager.registerListener(this);
+		//pluginManager = Environment.getPluginManager();
+		//pluginManager.registerListener(this);
 		
-		initTorrentTableExtensions();
+		//initTorrentTableExtensions();
 		
 		table.getTablePopup().addTorrentTableActionListener(this);
 		table.getSelectionModel().addListSelectionListener(this);
@@ -159,7 +159,7 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, E
 					
 					//get additional data
 					while(++dataCell < data.size()){
-						System.out.println("Setting additional data: "+download_variable.elementAt(dataCell+1)+" "+data.get(dataCell));
+						//System.out.println("Setting additional data: "+download_variable.elementAt(dataCell+1)+" "+data.get(dataCell));
 						tor.setProperty(download_variable.elementAt(dataCell+1), 
 								data.get(dataCell));
 						dataCell++;
@@ -215,7 +215,7 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, E
 		controllerTread.interrupt();
 	}
 
-	private void initTorrentTableExtensions(){
+	/*private void initTorrentTableExtensions(){
 		ExtensionPoint ext = pluginManager.getRegistry().getExtensionPoint("ntorrent.torrenttable","TorrentTableExtension");
 		for(Extension e : ext.getAvailableExtensions()){
 			torrentTableExtensions.add(e.getDeclaringPluginDescriptor().getId());
@@ -232,9 +232,9 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, E
 		}catch(PluginLifecycleException x){
 			x.printStackTrace();
 		}
-	}
+	}*/
 		
-	public void pluginActivated(Plugin plugin) {
+	/*public void pluginActivated(Plugin plugin) {
 		if(torrentTableExtensions.contains(plugin.getDescriptor().getId())){
 			initTorrentTableExtension(plugin.getDescriptor());
 		}
@@ -243,7 +243,7 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, E
 
 	public void pluginDeactivated(Plugin plugin) {}
 	public void pluginDisabled(PluginDescriptor descriptor) {}
-	public void pluginEnabled(PluginDescriptor descriptor) {}
+	public void pluginEnabled(PluginDescriptor descriptor) {}*/
 
 	public void torrentActionPerformed(final Torrent[] tor, final String command) {
 		//invoking the commands asynchronously so the gui won't be blocked

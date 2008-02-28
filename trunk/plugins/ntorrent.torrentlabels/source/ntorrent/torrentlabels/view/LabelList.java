@@ -20,7 +20,10 @@
 package ntorrent.torrentlabels.view;
 
 import javax.swing.JList;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ntorrent.env.Environment;
 import ntorrent.torrentlabels.model.LabelListModel;
@@ -30,9 +33,11 @@ import ntorrent.torrentlabels.model.LabelListModel;
  *
  */
 public class LabelList extends JList {
-	public LabelList() {
-		super(new LabelListModel());
+	private static final long serialVersionUID = 1L;
+
+	public LabelList(ListModel l) {
+		super(l);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		setSelectedIndex(0);
 	}
+
 }

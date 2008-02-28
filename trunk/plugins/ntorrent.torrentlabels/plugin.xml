@@ -16,6 +16,5 @@
 		<parameter id="java-spec" value="1.6" />
 		<parameter id="name" value="Labeler" />
 	</extension>
-	<extension plugin-id="ntorrent.torrenttable" point-id="TorrentTableExtension" id="TorrentTableExtension" />
 	<extension plugin-id="ntorrent.session" point-id="SessionExtension" id="SessionExtension" />
 </plugin>
