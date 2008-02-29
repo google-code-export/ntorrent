@@ -65,11 +65,12 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	private final XmlRpcConnection connection;
 	private final Thread controllerTread = new Thread(this);
 	
-	//private final PluginManager pluginManager;
-	
 	private final Vector<String> download_variable = new Vector<String>();
 	private final Vector<String> torrentTableExtensions = new Vector<String>();
 	private final Vector<TorrentSelectionListener > torrentSelectionListeners = new Vector<TorrentSelectionListener>();
+	
+	private SelectionValueInterface selectionMethod = null;
+
 	
 	public TorrentTableController(XmlRpcConnection connection) {
 		this.connection = connection;
@@ -94,13 +95,9 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	    for(String i : download_variable){
 	    	this.download_variable.add(i);
 	    }
-	    
-		//pluginManager = Environment.getPluginManager();
-		//pluginManager.registerListener(this);
-		
-		//initTorrentTableExtensions();
-		
+	    		
 		table.getTablePopup().addTorrentTableActionListener(this);
+		addTorrentSelectionListener(table.getTablePopup());
 		table.getSelectionModel().addListSelectionListener(this);
 		
 		controllerTread.start();
@@ -182,7 +179,8 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 					ttm.fireTableRowsDeleted(rowsRecieved, rowsPresent-1);
 				}
 				//System.out.println("updated rows,"+0+","+(rowsRecieved-1));
-				ttm.fireTableRowsUpdated(0, rowsRecieved-1);
+				if(ttm.getRowCount() > 0)
+					ttm.fireTableRowsUpdated(0, rowsRecieved-1);
 				
 				
 				
@@ -262,11 +260,14 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 		if(!e.getValueIsAdjusting()){
 			int[] rows = table.getSelectedRows();
 			Torrent[] tor = new Torrent[rows.length];
-			System.out.println(e.getFirstIndex()+" "+e.getLastIndex());
-			//not java 1.5 compatible.
-			for(int i = 0; i < rows.length; i++)
-				tor[i] = ttm.getRow(table.getRowSorter().convertRowIndexToModel(i));
-			
+			for(int i = 0; i < rows.length; i++){
+				if(selectionMethod == null){
+					tor[i] = ttm.getRow(rows[i]);
+				}else {
+					tor[i] = selectionMethod.getTorrentFromView(rows[i]);
+				}
+				System.out.println(tor[i]);
+			}
 			
 			for(TorrentSelectionListener tsl : torrentSelectionListeners){
 				tsl.torrentsSelected(tor);
@@ -278,4 +279,9 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	public void addTorrentSelectionListener(TorrentSelectionListener listener) {
 		torrentSelectionListeners.add(listener);
 	}
+	
+	public void setSelectionMethod(SelectionValueInterface selectionMethod) {
+		this.selectionMethod = selectionMethod;
+	}
+	
 }

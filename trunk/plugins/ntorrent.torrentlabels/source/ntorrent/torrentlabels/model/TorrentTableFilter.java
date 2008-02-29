@@ -29,7 +29,7 @@ import ntorrent.torrenttable.model.TorrentTableModel;
  * @author Kim Eik
  *
  */
-public class TorrentTableFilter extends RowFilter<TorrentTableModel, Torrent> implements
+public class TorrentTableFilter extends RowFilter<TorrentTableModel, Integer> implements
 		TorrentLabelFilterInterface {
 
 	private String label = null;
@@ -48,10 +48,12 @@ public class TorrentTableFilter extends RowFilter<TorrentTableModel, Torrent> im
 
 	@Override
 	public boolean include(
-			javax.swing.RowFilter.Entry<? extends TorrentTableModel, ? extends Torrent> entry) {
+			javax.swing.RowFilter.Entry<? extends TorrentTableModel, ? extends Integer> entry) {
 		if(label == null)
 			return true;
-		return entry.getIdentifier().getProperty(LabelController.PROPERTY).equals(label); 
+		
+		Torrent t = entry.getModel().getRow(entry.getIdentifier());
+		return t.getProperty(LabelController.PROPERTY).equals(label); 
 	}
 
 }

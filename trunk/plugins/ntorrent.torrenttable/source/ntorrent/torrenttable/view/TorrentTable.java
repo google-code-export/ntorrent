@@ -22,22 +22,15 @@ package ntorrent.torrenttable.view;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.RowSorter;
-import javax.swing.table.TableModel;
 
-import ntorrent.env.Environment;
-import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
-import ntorrent.torrenttable.sorter.model.TorrentTableRowSorter;
 
 
 public class TorrentTable extends JTable implements MouseListener{
