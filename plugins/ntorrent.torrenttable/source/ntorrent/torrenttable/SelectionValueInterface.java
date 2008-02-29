@@ -19,24 +19,12 @@
  */
 package ntorrent.torrenttable;
 
-import java.util.Map;
-import java.util.Vector;
-
 import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentSelectionListener;
-import ntorrent.torrenttable.model.TorrentTableActionListener;
-import ntorrent.torrenttable.view.TorrentTable;
-import ntorrent.viewmenu.ViewChangeListener;
 
 /**
  * @author Kim Eik
  *
  */
-public interface TorrentTableInterface extends ViewChangeListener,TorrentTableActionListener {
-	public void viewChanged(String view);
-	public Map<String, Torrent> getTorrents();
-	public TorrentTable getTable();
-	public Vector<String> getDownloadVariable();
-	public void addTorrentSelectionListener(TorrentSelectionListener listener);
-	public void setSelectionMethod(SelectionValueInterface i);
+public interface SelectionValueInterface {
+	public Torrent getTorrentFromView(int index);
 }

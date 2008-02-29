@@ -31,6 +31,7 @@ import javax.swing.JPopupMenu;
 
 import ntorrent.env.Environment;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
 
 import org.java.plugin.Plugin;
@@ -38,12 +39,14 @@ import org.java.plugin.PluginManager;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener{
+public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener, TorrentSelectionListener{
 	private static final long serialVersionUID = 1L;
 	
 	Vector<TorrentTableActionListener> listeners = new Vector<TorrentTableActionListener>();
 	Vector<String> extensions = new Vector<String>();
 	Map<String,JMenuItem> menuItems = new HashMap<String,JMenuItem>();
+	
+	private Torrent[] selection = new Torrent[]{};
 		
 	private TorrentTable table;
 	
@@ -107,19 +110,17 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	
 
 	public void actionPerformed(ActionEvent e) {
-		int[] rows = table.getSelectedRows();
-		Torrent[] tor = new Torrent[rows.length];
-		
-		for(int x = 0; x < rows.length; x++)
-			tor[x] = table.getModel().getRow(rows[x]);
-		
 		for(TorrentTableActionListener x : listeners)
-			x.torrentActionPerformed(tor, e.getActionCommand());
+			x.torrentActionPerformed(selection, e.getActionCommand());
 	}
 
 
 	public void pluginDeactivated(Plugin plugin) {}
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
+
+	public void torrentsSelected(Torrent[] tor) {
+		selection = tor;
+	}
 	
 }

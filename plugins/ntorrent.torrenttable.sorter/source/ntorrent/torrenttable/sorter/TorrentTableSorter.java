@@ -22,11 +22,17 @@ package ntorrent.torrenttable.sorter;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.RowSorter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import ntorrent.session.ConnectionSession;
 import ntorrent.session.SessionExtension;
-import ntorrent.torrenttable.sorter.model.TorrentTableRowFilter;
-import ntorrent.torrenttable.sorter.model.TorrentTableRowSorter;
+import ntorrent.torrenttable.SelectionValueInterface;
+import ntorrent.torrenttable.TorrentTableInterface;
+import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentTableModel;
+import ntorrent.torrenttable.sorter.model.TorrentRowFilter;
 import ntorrent.torrenttable.sorter.view.TorrentTableFinder;
 import ntorrent.torrenttable.view.TorrentTable;
 
@@ -34,16 +40,26 @@ import org.java.plugin.Plugin;
 
 public class TorrentTableSorter extends Plugin implements SessionExtension{
 	
+	private TorrentTableInterface controller;
 	private TorrentTable table;
 	private JPanel panel;
-	private TorrentTableRowSorter sorter;
-	private TorrentTableRowFilter filter;
+	private TableRowSorter<TorrentTableModel> sorter;
+	private TorrentRowFilter filter;
 	private TorrentTableFinder gui;
 	private boolean init = false;
+	private final SelectionValueInterface selectionMethod = new SelectionValueInterface(){
+
+		public Torrent getTorrentFromView(int index) {
+			return table.getModel().getRow(sorter.convertRowIndexToModel(index));
+		}
+		
+		
+	};
 	
 	@Override
 	protected void doStart() throws Exception {
 		if(init){
+			controller.setSelectionMethod(selectionMethod);
 			table.setRowSorter(sorter);
 			panel.add(gui,BorderLayout.SOUTH);
 			panel.revalidate();
@@ -54,6 +70,7 @@ public class TorrentTableSorter extends Plugin implements SessionExtension{
 	@Override
 	protected void doStop() throws Exception {
 		if(init){
+			controller.setSelectionMethod(null);
 			table.setRowSorter(null);
 			panel.remove(gui);
 			panel.revalidate();
@@ -64,12 +81,12 @@ public class TorrentTableSorter extends Plugin implements SessionExtension{
 
 	public void init(ConnectionSession session) {
 		init = true;
-
-		table = session.getTorrentTableController().getTable();
+		controller = session.getTorrentTableController();
+		table = controller.getTable();
 		panel = table.getDisplay();
 		
-		sorter = new TorrentTableRowSorter(table.getModel());
-		filter = new TorrentTableRowFilter(sorter);
+		sorter = new TableRowSorter<TorrentTableModel>(table.getModel());
+		filter = new TorrentRowFilter(sorter);
 		gui = new TorrentTableFinder(filter);
 		
 		if(getManager().isPluginActivated(getDescriptor()))

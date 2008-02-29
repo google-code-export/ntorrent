@@ -21,7 +21,9 @@ package ntorrent.torrentlabels;
 
 import java.awt.Component;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -35,6 +37,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableRowSorter;
 
 import ntorrent.env.Environment;
 import ntorrent.io.rtorrent.Download;
@@ -49,8 +52,6 @@ import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.sorter.TorrentTableSorter;
-import ntorrent.torrenttable.sorter.model.TorrentTableRowFilter;
-import ntorrent.torrenttable.sorter.model.TorrentTableRowSorter;
 import ntorrent.torrenttable.view.TorrentTable;
 import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
 
@@ -66,7 +67,7 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 		};
 	
 	Vector<String> download_variable;
-	TorrentTableRowFilter filter;
+	RowFilter filter;
 	TorrentTableFilter labelFilter = new TorrentTableFilter();
 	private XmlRpcConnection connection;
 	private TorrentTableInterface controller;
@@ -79,12 +80,14 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	private boolean init = false;
 
 	private TorrentTable table;
-	private TorrentTableRowSorter sorter;
+	private TableRowSorter sorter;
 
 	private TorrentTableModel tablemodel;
 
 	private JSplitPane menuPane;
 	private Component oldComponent;
+	
+	private final Set<RowFilter> filterSet = new HashSet<RowFilter>(); 
 	
 	/**
 	 * CLEAN THIS MESS UP!
@@ -97,7 +100,7 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 			if(!download_variable.contains(PROPERTY)){
 				download_variable.add(PROPERTY);
 			}
-			filter.addFilter(labelFilter);
+			sorter.setRowFilter(filter.andFilter(filterSet));
 			menuPane.setBottomComponent(labelList);
 		}
 	}
@@ -107,9 +110,9 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 		if(init){
 			menu.remove(label);
 			download_variable.remove(PROPERTY);
-			filter.removeFilter(labelFilter);
 			menuPane.setBottomComponent(oldComponent);
 		}
+		sorter.setRowFilter(filter);
 	}	
 
 	public void torrentActionPerformed(Torrent[] tor, String command) {
@@ -126,17 +129,19 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	}
 
 	public void init(ConnectionSession session) {
-		init = true;
-
+		if(!init){
+			filterSet.add(labelFilter);
+			init = true;
+		}
+		
 		this.controller = session.getTorrentTableController();
 		this.table = controller.getTable();
 		this.tablemodel = table.getModel();
-		this.sorter = ((TorrentTableRowSorter)table.getRowSorter());
+		this.sorter = ((TableRowSorter)table.getRowSorter());
 		tablemodel.addTableModelListener(this);
 		
 		download_variable = controller.getDownloadVariable();
-		TorrentTableRowSorter sorter = (TorrentTableRowSorter) table.getRowSorter();
-		filter = (TorrentTableRowFilter) sorter.getRowFilter();
+		filter = sorter.getRowFilter();
 		
 		initMenu(controller.getTable().getTablePopup());
 		
@@ -146,6 +151,8 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 		menuPane.setBottomComponent(labelList);
 		
 		labelList.addListSelectionListener(this);
+		
+
 		
 		if(getManager().isPluginActivated(getDescriptor())){
 			try {

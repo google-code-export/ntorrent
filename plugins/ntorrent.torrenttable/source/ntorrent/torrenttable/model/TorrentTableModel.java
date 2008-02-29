@@ -104,7 +104,7 @@ public class TorrentTableModel extends AbstractTableModel  {
 		//fireTableRowsInserted(row, row);
 	}
 	
-	public Torrent getRow(int row){
+	public Torrent getRow(Integer row){
 		return torrents.get(row);
 	}
 
