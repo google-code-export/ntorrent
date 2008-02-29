@@ -129,10 +129,6 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	}
 
 	public void init(ConnectionSession session) {
-		if(!init){
-			filterSet.add(labelFilter);
-			init = true;
-		}
 		
 		this.controller = session.getTorrentTableController();
 		this.table = controller.getTable();
@@ -142,6 +138,12 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 		
 		download_variable = controller.getDownloadVariable();
 		filter = sorter.getRowFilter();
+		
+		if(!init){
+			filterSet.add(labelFilter);
+			filterSet.add(filter);
+			init = true;
+		}
 		
 		initMenu(controller.getTable().getTablePopup());
 		
