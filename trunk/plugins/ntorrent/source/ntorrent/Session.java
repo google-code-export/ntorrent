@@ -25,8 +25,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
-import ntorrent.gui.TabbedPaneHolder;
+import ntorrent.gui.MainWindow;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.profile.ClientProfileController;
@@ -39,48 +40,48 @@ import ntorrent.session.ConnectionSession;
  */
 public class Session extends Thread implements ProfileRequester{
 	private static final long serialVersionUID = 1L;
-	JComponent session;
-	XmlRpcConnection connection = null;
-	ClientProfileInterface profile;
-	TabbedPaneHolder jtab;
+	private JComponent session;
+	private XmlRpcConnection connection = null;
+	private ClientProfileInterface profile;
+	private JTabbedPane jtab;
 
-	public Session(TabbedPaneHolder tph) {
+	public Session(MainWindow window) {
 		/**
 		 * 1.Open profile menu
 		 * 2.Start xmlrpc connection
 		 * 3.Open main gui.
 		 * 4.Start session threads.
 		 */
-		jtab = tph;
+		jtab = window.getConnectionsTab();
 		session = new ClientProfileController(this).getDisplay();
 		jtab.addTab(ResourcePool.getString("profile","locale",this), session);
 	
 	}
 	
-	public Session(TabbedPaneHolder tph, ClientProfileInterface p) {
+	public Session(MainWindow window, ClientProfileInterface p) {
 		/**
 		 * 1.Open profile menu
 		 * 2.Start xmlrpc connection
 		 * 3.Open main gui.
 		 * 4.Start session threads.
 		 */
-		jtab = tph;
+		jtab = window.getConnectionsTab();
 		sendProfile(p);
-	
 	}
 
 	public void sendProfile(ClientProfileInterface  p) {
 		profile = p;
-		jtab.removeTab(session);
 		new Thread(this).start();
 	}
 	
 	@Override
 	public void run() {
 		try {
+			int tabIndex = jtab.getSelectedIndex();
 			connection = new XmlRpcConnection(profile);
 			session = new ConnectionSession(connection).getDisplay();
-			jtab.addTab(profile.toString(), session);
+			jtab.removeTabAt(tabIndex);
+			jtab.addTab(profile.getName(), session);
 		} catch (Exception e) {
 			Logger.global.log(Level.WARNING, e.getMessage(), e);
 			JOptionPane.showMessageDialog(null, e.getMessage());
