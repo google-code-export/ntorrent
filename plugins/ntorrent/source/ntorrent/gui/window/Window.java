@@ -24,13 +24,13 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import ntorrent.env.Environment;
+import ntorrent.Main;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Image icon = Toolkit.getDefaultToolkit().getImage("plugins/ntorrent/icons/ntorrent48.png");
 	public Window(){
-		this(Environment.getAppName());
+		this(Main.getAppName());
 	}
 	
 	public Window(String title){

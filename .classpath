@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="plugins/ntorrent/classes" path="plugins/ntorrent/source"/>
 	<classpathentry kind="src" output="plugins/redstone.xmlrpc/classes" path="plugins/redstone.xmlrpc/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.io.xmlrpc/classes" path="plugins/ntorrent.io.xmlrpc/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.profile/classes" path="plugins/ntorrent.profile/source"/>
@@ -19,6 +18,8 @@
 	<classpathentry kind="src" output="plugins/ntorrent.trayicon/classes" path="plugins/ntorrent.trayicon/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.skins/classes" path="plugins/ntorrent.skins/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentlabels/classes" path="plugins/ntorrent.torrentlabels/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent/classes" path="plugins/ntorrent/source"/>
+	<classpathentry kind="src" output="plugins/ntorrent.locale/classes" path="plugins/ntorrent.locale/source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>

@@ -4,12 +4,13 @@
 	<requires>
 		<import plugin-id="ntorrent" />
 		<import plugin-id="ntorrent.jpf" />
-		<import plugin-id="ntorrent.env" />
+		<import plugin-id="ntorrent.locale" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
+		<library id="locale" path="locale/" type="resources"/>
 	</runtime>
 	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="ntorrent.skins">
 		<parameter id="java-spec" value="1.5" />

@@ -1,28 +1,27 @@
 package ntorrent;
 
 
-import java.io.EOFException;
+import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import ntorrent.env.Environment;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.logging.SystemLog;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
+import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.ClientProfileListModel;
 
+import org.java.plugin.PluginManager;
 import org.java.plugin.boot.Application;
 import org.java.plugin.boot.ApplicationPlugin;
 import org.java.plugin.util.ExtendedProperties;
@@ -48,16 +47,37 @@ import org.java.plugin.util.ExtendedProperties;
  */
 
 public class Main extends ApplicationPlugin implements Application {
+	
+	/** App name **/
+	private static final String appName = "nTorrent-0.5-alpha";
+	
+	/** Plugin manager **/
+	private static PluginManager pluginManager;
+	
+	/** the users home dir **/
+	private static File home;
+	
+	/** the users ntorrent dir **/
+	private static File ntorrent;
+	
+	/** Logging system **/
+	private static SystemLog log;
 		
+	/** Locale specification **/
+	private static Locale locale;
+	
+	/** Translations **/
+	private static ResourceBundle messages;
+	
+	/** Internal communication port **/
+	private static int intSocketPort;
+	
 	/** GUI **/
 	public static MainWindow main;
 	
 	/** Sessions **/
 	public static Vector<Session> sessions = new Vector<Session>();
 	
-	/** ntorrent dir **/
-	File ntorrent;
-
 	private SystemLog nlog;
 	
 	@Override
@@ -66,26 +86,21 @@ public class Main extends ApplicationPlugin implements Application {
 		
 		ntorrent = new File(properties.getProperty("userNtorrentDir"));
 		
-		Environment.setHome(new File(properties.getProperty("userHomeDir")));
+		home = new File(properties.getProperty("userHomeDir"));
+				
+		intSocketPort = Integer.parseInt(properties.getProperty("internalCommPort"));
+			
+		pluginManager = getManager();
 		
-		Environment.setNtorrentDir(ntorrent);
-		
-		Environment.setIntSocketPort(Integer.parseInt(properties.getProperty("internalCommPort")));
-		
-		Environment.setLocale(new Locale(properties.getProperty("userLanguage"),
-				properties.getProperty("userCountry")));
-		
-		
-		Environment.setMessages(ResourceBundle.getBundle("ntorrent", Environment.getLocale()));
-		
-		Environment.setPluginManager(getManager());
+		ResourcePool.setLocale(properties.getProperty("userLanguage"),
+				properties.getProperty("userCountry"));
 		
 		/** License **/
-		System.out.println(Environment.getString("lic"));
+		System.out.println(ResourcePool.getString("lic","locale",this));
 		
 		/** Loading environment **/
 		if(!(ntorrent.isDirectory() || ntorrent.mkdir()))
-			Logger.global.log(Level.WARNING,Environment.getString("ntdir")+ntorrent);
+			Logger.global.log(Level.WARNING,ResourcePool.getString("ntdir","exceptions",this)+ntorrent);
 		
 		/** Load logging **/
 		//nlog = new SystemLog();
@@ -169,5 +184,21 @@ public class Main extends ApplicationPlugin implements Application {
 	
 	public static MainWindow getMainWindow() {
 		return main;
+	}
+
+	public static String getAppName() {
+		return appName;
+	}
+
+	public static File getNtorrentDir() {
+		return ntorrent;
+	}
+
+	public static int getIntSocketPort() {
+		return intSocketPort;
+	}
+
+	public static PluginManager getPluginManager() {
+		return pluginManager;
 	}
 }

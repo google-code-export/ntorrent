@@ -41,8 +41,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import ntorrent.Main;
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.mvc.AbstractView;
 import ntorrent.profile.ClientProfileController;
 import ntorrent.profile.model.ClientProfileInterface;
@@ -53,6 +52,7 @@ import ntorrent.profile.model.SshProfileModel;
 
 public class ClientProfileView extends AbstractView implements ItemListener, ActionListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
+	private static final String bundle = "locale";
 	
 	CardLayout layout = new CardLayout();
 	JComboBox box;
@@ -90,9 +90,9 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 			cards.add(panel,v.toString());
 		}
 		
-		connect = new JButton(Environment.getString("connect"));
-		save = new JButton(Environment.getString("profile.save"));
-		delete = new JButton(Environment.getString("profile.delete"));
+		connect = new JButton(ResourcePool.getString("connect",bundle,this));
+		save = new JButton(ResourcePool.getString("save",bundle,this));
+		delete = new JButton(ResourcePool.getString("delete",bundle,this));
 		
 		connect.addActionListener(this);
 		save.addActionListener(this);

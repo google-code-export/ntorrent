@@ -19,7 +19,7 @@
  */
 package ntorrent.viewmenu.model;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 
 public class ViewModel implements View {
 
@@ -41,7 +41,7 @@ public class ViewModel implements View {
 	
 	@Override
 	public String toString() {
-		return Environment.getString(id);
+		return ResourcePool.getString(id,"locale",this);
 	}
 
 }

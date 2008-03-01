@@ -30,7 +30,7 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.torrentlabels.LabelController;
 
 /**
@@ -45,12 +45,12 @@ public class LabelListModel implements ListModel,Map<String,JMenuItem> {
 	
 	public LabelListModel() {
 		String[] entries = new String[] {
-				"torrentlabel.all",
-				"torrentlabel.none",
+				"all",
+				"none",
 				};
 		
 		for(String s : entries){
-			put(Environment.getString(s), null);
+			put(ResourcePool.getString(s,"locale",this), null);
 		}
 	}
 	

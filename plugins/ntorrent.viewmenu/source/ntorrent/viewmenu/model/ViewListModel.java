@@ -24,13 +24,13 @@ import javax.swing.AbstractListModel;
 public class ViewListModel extends AbstractListModel {
 
 	private final View[] elements = {
-			new ViewModel("viewmenu.main","main"),
-			new ViewModel("viewmenu.started","started"),
-			new ViewModel("viewmenu.stopped","stopped"),
-			new ViewModel("viewmenu.complete","complete"),
-			new ViewModel("viewmenu.incomplete","incomplete"),
-			new ViewModel("viewmenu.hashing","hashing"),
-			new ViewModel("viewmenu.seeding","seeding")
+			new ViewModel("main","main"),
+			new ViewModel("started","started"),
+			new ViewModel("stopped","stopped"),
+			new ViewModel("complete","complete"),
+			new ViewModel("incomplete","incomplete"),
+			new ViewModel("hashing","hashing"),
+			new ViewModel("seeding","seeding")
 	};
 	
 	

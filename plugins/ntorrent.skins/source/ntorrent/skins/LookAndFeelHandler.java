@@ -26,23 +26,21 @@ import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import ntorrent.Main;
-import ntorrent.env.Environment;
 import ntorrent.gui.MainWindow;
+import ntorrent.locale.ResourcePool;
 
 import org.java.plugin.Plugin;
 
 public class LookAndFeelHandler extends Plugin implements ItemListener {
 
 	JMenuBar bar = Main.getMainWindow().getJMenuBar();
-	JMenu skins = new JMenu(Environment.getString("skins"));
+	JMenu skins = new JMenu(ResourcePool.getString("skins","locale",this));
 	ButtonGroup bgroup = new ButtonGroup();
 	
 	@Override

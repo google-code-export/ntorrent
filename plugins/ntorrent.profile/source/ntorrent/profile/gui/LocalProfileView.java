@@ -28,7 +28,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.LocalProfileModel;
 
@@ -51,8 +51,8 @@ public class LocalProfileView extends AbstractClientProfileView {
 	}
 
 	private void initDisplay(){
-		socketLabel = new JLabel(Environment.getString("profile.socketport"));
-		autoConnLabel = new JLabel(Environment.getString("profile.autoconnect"));
+		socketLabel = new JLabel(ResourcePool.getString("socketport",guiBundle,this));
+		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",guiBundle,this));
 		socket = new JTextField(10);
 		autoConn = new JCheckBox();
 		

@@ -29,55 +29,51 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
 
 import org.java.plugin.Plugin;
-import org.java.plugin.PluginManager;
 import org.java.plugin.registry.PluginDescriptor;
-import org.java.plugin.registry.PluginRegistry;
 
 public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener, TorrentSelectionListener{
 	private static final long serialVersionUID = 1L;
+	private static final String bundle = "locale";
 	
 	Vector<TorrentTableActionListener> listeners = new Vector<TorrentTableActionListener>();
 	Vector<String> extensions = new Vector<String>();
 	Map<String,JMenuItem> menuItems = new HashMap<String,JMenuItem>();
 	
 	private Torrent[] selection = new Torrent[]{};
-		
-	private TorrentTable table;
 	
 	public final static String[] mitems = {
-		"torrenttable.menu.start",
-		"torrenttable.menu.stop",
-		"torrenttable.menu.remove",
-		"torrenttable.menu.check"
+		"start",
+		"stop",
+		"remove",
+		"checkhash"
 		};
 	
 	public final static String[] priorityMenu = {
-		"torrenttable.menu.priority",
-		"torrenttable.menu.priority.high",
-		"torrenttable.menu.priority.normal",
-		"torrenttable.menu.priority.low",
-		"torrenttable.menu.priority.off"
+		"setpriority",
+		"setpriority.high",
+		"setpriority.normal",
+		"setpriority.low",
+		"setpriority.off"
 		};
 	
-	public TorrentTableJPopupMenu(TorrentTable table) {
-		this.table = table;
+	public TorrentTableJPopupMenu() {
 		for(String s : mitems){
-			JMenuItem item = add(Environment.getString(s));
+			JMenuItem item = add(ResourcePool.getString(s,bundle,this));
 			item.setActionCommand(s);
 			item.addActionListener(this);
 		}
 		
-		JMenu priority = new JMenu(Environment.getString(priorityMenu[0]));
+		JMenu priority = new JMenu(ResourcePool.getString(priorityMenu[0],bundle,this));
 		add(priority);
 		
 		for(int x = 1; x < priorityMenu.length; x++){
-			JMenuItem item = priority.add(Environment.getString(priorityMenu[x]));
+			JMenuItem item = priority.add(ResourcePool.getString(priorityMenu[x],bundle,this));
 			item.setActionCommand(priorityMenu[x]);
 			item.addActionListener(this);
 		}

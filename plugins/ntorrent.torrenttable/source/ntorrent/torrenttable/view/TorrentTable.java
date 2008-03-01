@@ -39,7 +39,7 @@ public class TorrentTable extends JTable implements MouseListener{
 	
 	final static TorrentTableColumnModel cmodel = new TorrentTableColumnModel();
 	final TorrentTableHeaderPopupMenu headerPopup;
-	final TorrentTableJPopupMenu tablePopup = new TorrentTableJPopupMenu(this);
+	final TorrentTableJPopupMenu tablePopup = new TorrentTableJPopupMenu();
 	JPanel panel = new JPanel(new BorderLayout());
 
 

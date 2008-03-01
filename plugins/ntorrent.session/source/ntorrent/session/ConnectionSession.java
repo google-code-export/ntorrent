@@ -2,7 +2,6 @@ package ntorrent.session;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -15,10 +14,9 @@ import org.java.plugin.PluginManager.EventListener;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
-import org.java.plugin.registry.PluginFragment;
 import org.java.plugin.registry.PluginRegistry;
 
-import ntorrent.env.Environment;
+import ntorrent.Main;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 
 import ntorrent.session.view.SessionFrame;
@@ -53,7 +51,7 @@ public class ConnectionSession implements EventListener {
 	
 	private final SessionFrame session;
 	
-	private final PluginManager manager = Environment.getPluginManager();
+	private final PluginManager manager = Main.getPluginManager();
 	private final PluginRegistry registry = manager.getRegistry();
 	private final ExtensionPoint ext = registry.getExtensionPoint("ntorrent.session", "SessionExtension");
 	

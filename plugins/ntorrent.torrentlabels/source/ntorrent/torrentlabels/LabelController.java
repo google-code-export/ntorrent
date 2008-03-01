@@ -39,9 +39,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
 
-import ntorrent.env.Environment;
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
 import ntorrent.session.SessionExtension;
 import ntorrent.torrentlabels.model.LabelListModel;
@@ -62,8 +62,8 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	
 	public final static String PROPERTY = "d.get_custom1=";
 	private final static String[] mitems = {
-		"torrentlabel.menu.none",
-		"torrentlabel.menu.new"
+		"none",
+		"new"
 		};
 	
 	Vector<String> download_variable;
@@ -169,10 +169,10 @@ public class LabelController extends Plugin implements TorrentTableActionListene
 	private void initMenu(TorrentTableJPopupMenu menu){
 		this.menu = menu;
 		menu.addTorrentTableActionListener(this);
-		label = new JMenu(Environment.getString("torrentlabel.menu"));
+		label = new JMenu(ResourcePool.getString("menu","locale",this));
 		
 		for(int x = 0; x < mitems.length; x++){
-			JMenuItem item = new JMenuItem(Environment.getString(mitems[x]));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(mitems[x],"locale",this));
 			item.setActionCommand(mitems[x]);
 			item.addActionListener(menu);
 			label.add(item);

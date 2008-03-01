@@ -3,12 +3,13 @@
 <plugin id="ntorrent.profile" version="0.1">
 	<requires>
 		<import plugin-id="ntorrent.mvc" />
-		<import plugin-id="ntorrent.env" />
+		<import plugin-id="ntorrent.locale" />
 		<import plugin-id="ntorrent.tools" reverse-lookup="true" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
+		<library id="locale" path="locale/" type="resources" />
 	</runtime>
 </plugin>

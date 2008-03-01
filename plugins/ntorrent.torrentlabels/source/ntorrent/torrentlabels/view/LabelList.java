@@ -22,11 +22,6 @@ package ntorrent.torrentlabels.view;
 import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import ntorrent.env.Environment;
-import ntorrent.torrentlabels.model.LabelListModel;
 
 /**
  * @author Kim Eik

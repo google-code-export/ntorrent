@@ -27,23 +27,26 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import ntorrent.jpf.PluginHandlerMenuBar;
+import ntorrent.locale.ResourcePool;
 
 public class MainMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
+	private static final String bundle = "locale";
+	
 	public MainMenuBar(ActionListener listener) {
-		JMenu file = new JMenu(new GuiAction("filemenu",listener));
-		JMenu help = new JMenu(new GuiAction("helpmenu",listener));
-		file.add(new JMenuItem(new GuiAction("filemenu.addtorrent",listener)));
-		file.add(new JMenuItem(new GuiAction("filemenu.addurl",listener)));
+		JMenu file = new JMenu(ResourcePool.getString("filemenu", bundle, this));
+		JMenu help = new JMenu(ResourcePool.getString("helpmenu", bundle, this));
+		file.add(new JMenuItem(ResourcePool.getString("filemenu.addtorrent", bundle, this))).addActionListener(listener);
+		file.add(new JMenuItem(ResourcePool.getString("filemenu.addurl", bundle, this))).addActionListener(listener);
 		file.add(new JSeparator());
-		file.add(new JMenuItem(new GuiAction("filemenu.startall",listener)));
-		file.add(new JMenuItem(new GuiAction("filemenu.stopall",listener)));
+		file.add(new JMenuItem(ResourcePool.getString("filemenu.startall", bundle, this))).addActionListener(listener);
+		file.add(new JMenuItem(ResourcePool.getString("filemenu.stopall", bundle, this))).addActionListener(listener);
 		file.add(new JSeparator());
-		file.add(new JMenuItem(new GuiAction("filemenu.connect",listener)));
+		file.add(new JMenuItem(ResourcePool.getString("filemenu.connect", bundle, this))).addActionListener(listener);
 		file.add(new JSeparator());
-		file.add(new JMenuItem(new GuiAction("filemenu.quit",listener)));
-		help.add(new JMenuItem(new GuiAction("helpmenu.settings",listener)));
-		help.add(new JMenuItem(new GuiAction("helpmenu.about",listener)));
+		file.add(new JMenuItem(ResourcePool.getString("filemenu.quit", bundle, this))).addActionListener(listener);
+		help.add(new JMenuItem(ResourcePool.getString("helpmenu.settings", bundle, this))).addActionListener(listener);
+		help.add(new JMenuItem(ResourcePool.getString("helpmenu.about", bundle, this))).addActionListener(listener);
 		add(file);
 		add(help);
 		file.addActionListener(listener);

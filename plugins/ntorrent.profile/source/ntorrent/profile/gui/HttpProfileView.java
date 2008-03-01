@@ -31,8 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ntorrent.Main;
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.HttpProfileModel;
 
@@ -62,13 +61,13 @@ public class HttpProfileView extends AbstractClientProfileView  {
 	}
 
 	private void initDisplay(){
-		hostLabel = new JLabel(Environment.getString("profile.host"));
-		portLabel = new JLabel(Environment.getString("profile.connectionport"));
-		usernameLabel = new JLabel(Environment.getString("profile.username"));
-		passwordLabel = new JLabel(Environment.getString("profile.password"));
-		rememberPwdLabel = new JLabel(Environment.getString("profile.rememberpwd"));
-		autoConnLabel = new JLabel(Environment.getString("profile.autoconnect"));
-		mountpointLabel = new JLabel(Environment.getString("profile.mountpoint"));
+		hostLabel = new JLabel(ResourcePool.getString("host",guiBundle,this));
+		portLabel = new JLabel(ResourcePool.getString("connectionport",guiBundle,this));
+		usernameLabel = new JLabel(ResourcePool.getString("username",guiBundle,this));
+		passwordLabel = new JLabel(ResourcePool.getString("password",guiBundle,this));
+		rememberPwdLabel = new JLabel(ResourcePool.getString("rememberpwd",guiBundle,this));
+		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",guiBundle,this));
+		mountpointLabel = new JLabel(ResourcePool.getString("mountpoint",guiBundle,this));
 		
 		mountpoint = new JTextField(10);
 		host = new JTextField(10);

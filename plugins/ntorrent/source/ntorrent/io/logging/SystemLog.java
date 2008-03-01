@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import ntorrent.Main;
-import ntorrent.env.Environment;
 
 public class SystemLog {
     
@@ -37,7 +36,7 @@ public class SystemLog {
     PrintStream stderr = System.err; 
     
 	public SystemLog() throws IOException {
-		File parent = new File(Environment.getNtorrentDir(),"log");
+		File parent = new File(Main.getNtorrentDir(),"log");
 		File log = new File(parent,"ntorrent");
 		if(!parent.isDirectory())
 			parent.mkdir();

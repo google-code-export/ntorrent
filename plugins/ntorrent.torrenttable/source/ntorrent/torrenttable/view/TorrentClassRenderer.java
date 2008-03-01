@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.torrenttable.model.Torrent;
 
 public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
@@ -94,7 +94,7 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			if(tor.hasMessage() && tor.isStarted()){
 				add(message);
 				table.setRowHeight(row, 40);
-				message.setText(Environment.getString("torrenttable.message")+": "+tor.getMessage());
+				message.setText(ResourcePool.getString("torrenttable.message","locale",this)+": "+tor.getMessage());
 			}else{
 				remove(message);
 			}

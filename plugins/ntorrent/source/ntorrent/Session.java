@@ -26,9 +26,9 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-import ntorrent.env.Environment;
 import ntorrent.gui.TabbedPaneHolder;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.locale.ResourcePool;
 import ntorrent.profile.ClientProfileController;
 import ntorrent.profile.ProfileRequester;
 import ntorrent.profile.model.ClientProfileInterface;
@@ -53,7 +53,7 @@ public class Session extends Thread implements ProfileRequester{
 		 */
 		jtab = tph;
 		session = new ClientProfileController(this).getDisplay();
-		jtab.addTab(Environment.getString("profile"), session);
+		jtab.addTab(ResourcePool.getString("profile","locale",this), session);
 	
 	}
 	

@@ -30,8 +30,7 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-
-import ntorrent.env.Environment;
+import ntorrent.Main;
 import ntorrent.tools.Serializer;
 
 public class ClientProfileListModel extends Vector<ClientProfileInterface> implements ListModel, Serializable  {
@@ -42,7 +41,7 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 	@SuppressWarnings("unchecked")
 	public ClientProfileListModel(){
 		try {
-			ClientProfileListModel list = (ClientProfileListModel)Serializer.deserialize(this.getClass(),Environment.getNtorrentDir());
+			ClientProfileListModel list = (ClientProfileListModel)Serializer.deserialize(this.getClass(),Main.getNtorrentDir());
 			addAll(list);
 		} catch (Exception e) {
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
@@ -67,7 +66,7 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 	
 	public void Serialize(){
 		try {
-			Serializer.serialize(this,Environment.getNtorrentDir());
+			Serializer.serialize(this,Main.getNtorrentDir());
 		} catch (IOException e) {
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
 		}
@@ -90,6 +89,6 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 	}
 	
 	public static ClientProfileListModel Deserialize() throws IOException, ClassNotFoundException{
-		return (ClientProfileListModel) Serializer.deserialize(ClientProfileListModel.class, Environment.getNtorrentDir());
+		return (ClientProfileListModel) Serializer.deserialize(ClientProfileListModel.class, Main.getNtorrentDir());
 	}
 }

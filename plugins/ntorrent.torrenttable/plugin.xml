@@ -5,7 +5,7 @@
 		<import plugin-id="redstone.xmlrpc" />
 		<import plugin-id="ntorrent.profile" />
 		<import plugin-id="ntorrent.io.xmlrpc" />
-		<import plugin-id="ntorrent.env" />
+		<import plugin-id="ntorrent.locale" />
 		<import plugin-id="ntorrent.viewmenu" />
 	</requires>
 	<runtime>
@@ -14,6 +14,7 @@
 		</library>
 		<library id="icons" path="icons/" type="resources">
 			<export prefix="*" />
-		</library>		
+		</library>
+		<library id="locale" path="locale/" type="resources" />
 	</runtime>
 </plugin>
