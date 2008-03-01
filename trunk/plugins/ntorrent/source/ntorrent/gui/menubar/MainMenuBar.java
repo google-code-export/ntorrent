@@ -33,24 +33,45 @@ public class MainMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
 	private static final String bundle = "locale";
 	
+	public final static String[] identifiers = {
+		"filemenu.addtorrent",
+		"filemenu.addurl",
+		"filemenu.startall",
+		"filemenu.stopall",
+		"filemenu.connect",
+		"filemenu.quit",
+		"helpmenu.settings",
+		"helpmenu.about"
+	};
+		
 	public MainMenuBar(ActionListener listener) {
 		JMenu file = new JMenu(ResourcePool.getString("filemenu", bundle, this));
 		JMenu help = new JMenu(ResourcePool.getString("helpmenu", bundle, this));
-		file.add(new JMenuItem(ResourcePool.getString("filemenu.addtorrent", bundle, this))).addActionListener(listener);
-		file.add(new JMenuItem(ResourcePool.getString("filemenu.addurl", bundle, this))).addActionListener(listener);
+		
+		JMenuItem[] items = new JMenuItem[identifiers.length];
+		for(int x = 0; x < items.length; x++){
+			String id = identifiers[x];
+			JMenuItem item = new JMenuItem(ResourcePool.getString(id, bundle, this));
+			item.setActionCommand(id);
+			item.addActionListener(listener);
+			items[x] = item;
+		}
+		
+		int x = 0;
+		file.add(items[x++]);
+		file.add(items[x++]);
 		file.add(new JSeparator());
-		file.add(new JMenuItem(ResourcePool.getString("filemenu.startall", bundle, this))).addActionListener(listener);
-		file.add(new JMenuItem(ResourcePool.getString("filemenu.stopall", bundle, this))).addActionListener(listener);
+		file.add(items[x++]);
+		file.add(items[x++]);
 		file.add(new JSeparator());
-		file.add(new JMenuItem(ResourcePool.getString("filemenu.connect", bundle, this))).addActionListener(listener);
+		file.add(items[x++]);
 		file.add(new JSeparator());
-		file.add(new JMenuItem(ResourcePool.getString("filemenu.quit", bundle, this))).addActionListener(listener);
-		help.add(new JMenuItem(ResourcePool.getString("helpmenu.settings", bundle, this))).addActionListener(listener);
-		help.add(new JMenuItem(ResourcePool.getString("helpmenu.about", bundle, this))).addActionListener(listener);
+		file.add(items[x++]);
+		help.add(items[x++]);
+		help.add(items[x++]);
 		add(file);
 		add(help);
-		file.addActionListener(listener);
-		help.addActionListener(listener);
+		
 		new PluginHandlerMenuBar(this);
 	}
 }

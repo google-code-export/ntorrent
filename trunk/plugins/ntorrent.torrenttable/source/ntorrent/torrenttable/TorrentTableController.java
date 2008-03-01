@@ -247,7 +247,6 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 				}else {
 					tor[i] = selectionMethod.getTorrentFromView(rows[i]);
 				}
-				System.out.println(tor[i]);
 			}
 			
 			for(TorrentSelectionListener tsl : torrentSelectionListeners){
