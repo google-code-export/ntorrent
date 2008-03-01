@@ -5,7 +5,7 @@
 		<import plugin-id="redstone.xmlrpc" />
 		<import plugin-id="ntorrent.torrenttable" />
 		<import plugin-id="ntorrent.viewmenu" />
-		<import plugin-id="ntorrent.env" />
+		<import plugin-id="ntorrent.locale" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">

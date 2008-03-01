@@ -7,10 +7,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.java.plugin.boot.Application;
-
 import ntorrent.Main;
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 
 
 /**
@@ -20,8 +18,8 @@ public class Server extends Thread{
 	private static ServerSocket servSocket;
 	
 	public Server() throws IOException {
-		servSocket = new ServerSocket(Environment.getIntSocketPort());
-		Logger.global.info(Environment.getString("soopen"));
+		servSocket = new ServerSocket(Main.getIntSocketPort());
+		Logger.global.info(ResourcePool.getString("soopen","exceptions",this));
 	}
 
 	public void run() {

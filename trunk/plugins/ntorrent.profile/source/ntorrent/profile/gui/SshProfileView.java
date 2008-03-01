@@ -31,8 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ntorrent.Main;
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.SshProfileModel;
 
@@ -63,13 +62,13 @@ public class SshProfileView extends AbstractClientProfileView {
 	}
 
 	private void initDisplay(){
-		hostLabel = new JLabel(Environment.getString("profile.host"));
-		portLabel = new JLabel(Environment.getString("profile.connectionport"));
-		usernameLabel = new JLabel(Environment.getString("profile.username"));
-		passwordLabel = new JLabel(Environment.getString("profile.password"));
-		rememberPwdLabel = new JLabel(Environment.getString("profile.rememberpwd"));
-		autoConnLabel = new JLabel(Environment.getString("profile.autoconnect"));
-		socketLabel = new JLabel(Environment.getString("profile.socketport"));
+		hostLabel = new JLabel(ResourcePool.getString("host",guiBundle,this));
+		portLabel = new JLabel(ResourcePool.getString("connectionport",guiBundle,this));
+		usernameLabel = new JLabel(ResourcePool.getString("username",guiBundle,this));
+		passwordLabel = new JLabel(ResourcePool.getString("password",guiBundle,this));
+		rememberPwdLabel = new JLabel(ResourcePool.getString("rememberpwd",guiBundle,this));
+		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",guiBundle,this));
+		socketLabel = new JLabel(ResourcePool.getString("socketport",guiBundle,this));
 		
 		socket = new JTextField(10);
 		host = new JTextField(10);

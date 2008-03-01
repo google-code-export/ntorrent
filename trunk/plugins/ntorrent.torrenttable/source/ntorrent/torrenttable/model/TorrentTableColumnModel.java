@@ -22,24 +22,25 @@ package ntorrent.torrenttable.model;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
+
 
 public class TorrentTableColumnModel extends DefaultTableColumnModel {
 	private static final long serialVersionUID = 1L;
 
 	public final static String[] cols = {
-		"torrenttable.name",
-		"torrenttable.size",
-		"torrenttable.down",
-		"torrenttable.up",
-		"torrenttable.seeders",
-		"torrenttable.leechers",
-		"torrenttable.downspeed",
-		"torrenttable.upspeed",
-		"torrenttable.eta",
-		"torrenttable.percent",
-		"torrenttable.ratio",
-		"torrenttable.priority"
+		"name",
+		"size",
+		"down",
+		"up",
+		"seeders",
+		"leechers",
+		"downspeed",
+		"upspeed",
+		"eta",
+		"percent",
+		"ratio",
+		"priority"
 	};
 	
 	public final static int[] widths = {
@@ -60,7 +61,7 @@ public class TorrentTableColumnModel extends DefaultTableColumnModel {
 	public TorrentTableColumnModel() {
 		for(int x = 0; x < cols.length; x++){
 			TableColumn t = new TableColumn(x);
-			t.setHeaderValue(Environment.getString(cols[x]));
+			t.setHeaderValue(ResourcePool.getString(cols[x],"locale",this));
 			t.setIdentifier(cols[x]);
 			t.setPreferredWidth(widths[x]);
 			addColumn(t);

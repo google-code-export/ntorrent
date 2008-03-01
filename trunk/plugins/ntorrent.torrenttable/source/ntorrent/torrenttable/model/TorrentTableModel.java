@@ -23,8 +23,6 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import ntorrent.env.Environment;
-
 public class TorrentTableModel extends AbstractTableModel  {
 	private static final long serialVersionUID = 1L;
 
@@ -87,21 +85,16 @@ public class TorrentTableModel extends AbstractTableModel  {
 	
 	public void setValueAt(Torrent tor, int rowIndex) {
 		//System.out.println("updating "+tor);
-		
 		torrents.set(rowIndex,tor);
-		//fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 	
 	public void removeRow(int rowIndex){
 		torrents.remove(rowIndex);
-		//fireTableRowsDeleted(rowIndex, rowIndex);
 	}
 
 	public void addRow(Torrent tor) {
 		//System.out.println("adding "+tor);
-		//int row = torrents.size();
 		torrents.addElement(tor);
-		//fireTableRowsInserted(row, row);
 	}
 	
 	public Torrent getRow(Integer row){

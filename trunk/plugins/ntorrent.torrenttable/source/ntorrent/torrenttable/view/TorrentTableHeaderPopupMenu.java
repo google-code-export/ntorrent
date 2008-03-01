@@ -38,20 +38,21 @@ import javax.swing.JSeparator;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import ntorrent.env.Environment;
+import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
 
 public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener{
 	private static final long serialVersionUID = 1L;
+	private static final String bundle = "locale";
 	final TableColumnModel model;
 	
 	public TorrentTableHeaderPopupMenu(TableColumnModel cmodel) {
 		model = cmodel;
 		
 		for(String c : TorrentTableColumnModel.cols){
-			String name = Environment.getString(c);
+			String name = ResourcePool.getString(c,bundle,this);
 			JCheckBox check = new JCheckBox(name);
 			check.setName(c);
 			try{
@@ -64,7 +65,7 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 			add(check);
 		}
 		add(new JSeparator());
-		JMenuItem save = add(Environment.getString("torrenttable.popup.savestate"));
+		JMenuItem save = add(ResourcePool.getString("savestate",bundle,this));
 		save.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {

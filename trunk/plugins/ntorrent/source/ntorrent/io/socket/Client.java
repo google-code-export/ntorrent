@@ -9,13 +9,13 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ntorrent.env.Environment;
+import ntorrent.Main;
 
 
 
 public class Client {
 	public Client(String[] args) throws IOException {
-		Socket link = new Socket(InetAddress.getLocalHost(), Environment.getIntSocketPort());
+		Socket link = new Socket(InetAddress.getLocalHost(), Main.getIntSocketPort());
 		PrintWriter out = new PrintWriter(link.getOutputStream(), true);
 		for(String s : args){
 			File f = new File(s);
