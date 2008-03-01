@@ -64,8 +64,23 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 	
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
-		if(c.equals("filemenu.connect")){
+		String[] ids = MainMenuBar.identifiers;
+		if(c.equals(ids[0])){
+			System.out.println("stub "+c);
+		}else if(c.equals(ids[1])){
+			System.out.println("stub "+c);
+		}else if(c.equals(ids[2])){
+			System.out.println("stub "+c);
+		}else if(c.equals(ids[3])){
+			System.out.println("stub "+c);
+		}else if(c.equals(ids[4])){
 			Main.newSession();
+		}else if(c.equals(ids[5])){
+			System.exit(0);
+		}else if(c.equals(ids[6])){
+			System.out.println("stub "+c);
+		}else if(c.equals(ids[7])){
+			System.out.println("stub "+c);
 		}
 	}
 }

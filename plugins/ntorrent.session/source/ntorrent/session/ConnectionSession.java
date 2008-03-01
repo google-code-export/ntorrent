@@ -2,6 +2,7 @@ package ntorrent.session;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -77,18 +78,17 @@ public class ConnectionSession implements EventListener {
 		for(Extension e : ext.getConnectedExtensions()){
 			PluginDescriptor owner = e.getDeclaringPluginDescriptor();
 			dependencies.put(owner, registry.getDependingPlugins(owner));
-			//System.out.println(owner+" <-- "+dependencies.get(owner));
 		}
 		
 		while(!dependencies.isEmpty())
 			for(PluginDescriptor owner : dependencies.keySet()){
 				if(isExtensionSafeToLoad(owner)){
-					System.out.println(owner+" this extension is safe to load");
+					Logger.global.info(owner+" this extension is safe to load");
 					loadExtension(owner);
 					dependencies.remove(owner);
 					break;
 				}else{
-					System.out.println(owner+" this extension is not safe to load at the moment");
+					Logger.global.info(owner+" this extension is not safe to load at the moment");
 				}
 			}	
 	}
