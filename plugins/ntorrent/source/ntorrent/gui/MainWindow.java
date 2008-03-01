@@ -24,9 +24,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
@@ -38,9 +42,9 @@ import ntorrent.gui.window.Window;
  * The main ntorrent window, consisting of menubar and jtabbedpane, 
  * where each tab holds its own session.
  */
-public class MainWindow extends Window implements ActionListener, TabbedPaneHolder {
+public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	JTabbedPane connections;
+	private final static JTabbedPane connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	
 	public MainWindow() {
 		super();
@@ -48,20 +52,12 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setJMenuBar(new MainMenuBar(this));
 		JPanel frame = new JPanel(new BorderLayout());
-		connections = new JTabbedPane(JTabbedPane.TOP);
-		frame.add(connections);
+		frame.add(connectionsTab);
 		setContentPane(frame);
+
 		
 	}
-	
-	public void addTab(String title, JComponent content){
-		connections.insertTab(title, null ,content, null, connections.getTabCount());
-	}
-
-	public void removeTab(JComponent c) {
-		connections.remove(c);
-	}
-	
+		
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		String[] ids = MainMenuBar.identifiers;
@@ -83,4 +79,9 @@ public class MainWindow extends Window implements ActionListener, TabbedPaneHold
 			System.out.println("stub "+c);
 		}
 	}
+	
+	public JTabbedPane getConnectionsTab() {
+		return connectionsTab;
+	}
+
 }
