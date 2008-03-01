@@ -19,7 +19,7 @@ As i prepare for the next release of nTorrent i could use some help on discoveri
 nTorrent is as we speak implementing a new Locale system, and it's seeking people who can help with submitting application translation. If you are interested in being a translation member, mail me with your translation capabilities.
 
 You will recieve an email when it nears a new nTorrent release and given information on where to find the files awaiting translation, and also how you should go about translating the files. Then you will have a deadline to complete the translation, and if it's not complete within the deadline it won't be included with the release.
-If you wish to contribute, but don't have the opportunity to do so
+
 = Donations =
 
 You like nTorrent, you wish to contribute, but for whatever reason you don't have the opportunity. Then why don't you consider a small donation to further the development progress?
