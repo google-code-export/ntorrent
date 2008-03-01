@@ -8,18 +8,20 @@ nTorrent is growing, and it could use your help!
 
 = Project support =
 
-Coming..
+Coming...
 
 = Application tester =
 
-Coming..
+As i prepare for the next release of nTorrent i could use some help on discovering the most critical bugs and issues and also people who can verify fixed issues on the issues tab. If you are interested in signing up as a tester. please mail me.
 
 = Translations =
 
 nTorrent is as we speak implementing a new Locale system, and it's seeking people who can help with submitting application translation. If you are interested in being a translation member, mail me with your translation capabilities.
 
-more coming..
-
+You will recieve an email when it nears a new nTorrent release and given information on where to find the files awaiting translation, and also how you should go about translating the files. Then you will have a deadline to complete the translation, and if it's not complete within the deadline it won't be included with the release.
+If you wish to contribute, but don't have the opportunity to do so
 = Donations =
 
-Coming..
+You like nTorrent, you wish to contribute, but for whatever reason you don't have the opportunity. Then why don't you consider a small donation to further the development progress?
+
+[https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=kei060%40gmail%2ecom&item_name=nTorrent%20donation&no_shipping=1&cn=Optional%20message&tax=0&currency_code=USD&lc=NO&bn=PP%2dDonationsBF&charset=UTF%2d8 Make a donation.]
