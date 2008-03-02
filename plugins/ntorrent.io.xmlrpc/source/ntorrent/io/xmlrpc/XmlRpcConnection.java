@@ -61,18 +61,22 @@ public class XmlRpcConnection {
 			try {
 					HttpProfileModel profile = (HttpProfileModel) p;
 					
-					ProxyProfileModel proxy = profile.getProxy();
+					ProxyProfileModel proxyProfile = profile.getProxy();
+					Proxy proxy = null;
 					
 					switch(profile.getProxy().getType()){
 					case DIRECT:
+						proxy = Proxy.NO_PROXY;
+						break;
 					case HTTP:
 					case SOCKS:
+						proxy = new Proxy(proxyProfile.getType(),new InetSocketAddress(proxyProfile.getHost(),proxyProfile.getPort()));
 					}
 					
 					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
 							":"+profile.getPort()+
 							profile.getMountpoint(),
-							new Proxy(proxy.getType(),new InetSocketAddress(proxy.getHost(),proxy.getPort())),
+							proxy,
 							false);
 				} catch (MalformedURLException e) {
 					throw new XmlRpcException(e.getMessage(),e);
