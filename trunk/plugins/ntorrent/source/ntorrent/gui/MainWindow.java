@@ -44,7 +44,7 @@ import ntorrent.gui.window.Window;
  */
 public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private final static JTabbedPane connectionsTab = new ConnectionTab(JTabbedPane.TOP);
+	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	
 	public MainWindow() {
 		super();
@@ -80,7 +80,7 @@ public class MainWindow extends Window implements ActionListener {
 		}
 	}
 	
-	public JTabbedPane getConnectionsTab() {
+	public ConnectionTab getConnectionsTab() {
 		return connectionsTab;
 	}
 

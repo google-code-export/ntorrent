@@ -51,6 +51,8 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	private final Vector<TorrentSelectionListener > torrentSelectionListeners = new Vector<TorrentSelectionListener>();
 	
 	private SelectionValueInterface selectionMethod = null;
+	private boolean stop = false;
+	private boolean shutdown = false;
 
 	
 	public TorrentTableController(XmlRpcConnection connection) {
@@ -95,11 +97,24 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	public Vector<String> getDownloadVariable() {
 		return download_variable;
 	}
+	
+	public void stop(){
+		this.stop = true;
+	}
+	
+	public void shutdown(){
+		this.shutdown = true;
+	}
+	
+	public void start(){
+		this.stop = false;
+		controllerTread.interrupt();
+	}
 		
 	public void run() {
 	   XmlRpcClient client = connection.getClient();
 		try {
-			while(true){
+			while(!shutdown){
 				XmlRpcArray download_list = (XmlRpcArray)client.invoke("d.multicall", download_variable);
 				//System.out.println(download_variable);
 				//System.out.println(download_list);
@@ -166,7 +181,10 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 				
 				
 				try {
-					Thread.sleep(500);
+					if(stop)
+						Thread.currentThread().join();
+					else
+						Thread.sleep(500);
 					//ttm.removeRow(ttm.getRowCount()-1);
 					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
