@@ -19,6 +19,7 @@
  */
 package ntorrent.gui.window;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -28,26 +29,34 @@ import ntorrent.Main;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
-	Image icon = Toolkit.getDefaultToolkit().getImage("plugins/ntorrent/icons/ntorrent48.png");
+	Toolkit toolkit = Toolkit.getDefaultToolkit();
+	Dimension screenSize = toolkit.getScreenSize();
+	Image icon = toolkit.getImage("plugins/ntorrent/icons/ntorrent48.png");
+	
 	public Window(){
 		this(Main.getAppName());
 	}
 	
 	public Window(String title){
 		super(title);
-		this.setIconImage(icon);
+		setIconImage(icon);
 	}
 	
 	public void drawWindow(){
-		this.validate();
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		validate();
+		pack();
+		
+		int x = (screenSize.width - getWidth()) / 2;
+		int y = (screenSize.height - getHeight()) / 2;
+		
+		setLocation(x, y);
+		
+		setVisible(true);
 	}
 	
 	public void closeWindow(){
-		this.setVisible(false);
-		this.dispose();
+		setVisible(false);
+		dispose();
 	}
 	
 }
