@@ -12,13 +12,13 @@ Coming...
 
 = Application tester =
 
-As i prepare for the next release of nTorrent i could use some help on discovering the most critical bugs and issues and also people who can verify fixed issues on the issues tab. If you are interested in signing up as a tester. please mail me.
+As i prepare for the next release of nTorrent i could use some help on discovering the most critical bugs and issues and also people who can verify fixed issues on the issues tab. If you are interested in signing up as a tester. please request to join the ntorrent-testers group.
 
 = Translations =
 
-nTorrent is as we speak implementing a new Locale system, and it's seeking people who can help with submitting application translation. If you are interested in being a translation member, mail me with your translation capabilities.
+nTorrent is as we speak implementing a new Locale system, and it's seeking people who can help with submitting application translation. If you are interested in being a translation member, please request to join the ntorrent-translators group.
 
-You will recieve an email when it nears a new nTorrent release and given information on where to find the files awaiting translation, and also how you should go about translating the files. Then you will have a deadline to complete the translation, and if it's not complete within the deadline it won't be included with the release.
+You will recieve notification when a new nTorrent release is around the corner and given information on where to find the files awaiting translation, and also how you should go about translating the files.
 
 = Donations =
 
