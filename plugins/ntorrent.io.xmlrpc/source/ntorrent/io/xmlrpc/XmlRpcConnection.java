@@ -74,11 +74,11 @@ public class XmlRpcConnection {
 						break;
 					}
 					
-					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
-							":"+profile.getPort()+
-							profile.getMountpoint(),
-							proxy,
-							false);
+					String url = "http://"+profile.getHost()+":"+profile.getPort()+profile.getMountpoint();
+					client = new XmlRpcHTTPClient(url,proxy,false);
+					
+					Logger.global.info("URL: "+url);
+					
 				} catch (MalformedURLException e) {
 					throw new XmlRpcException(e.getMessage(),e);
 				}
