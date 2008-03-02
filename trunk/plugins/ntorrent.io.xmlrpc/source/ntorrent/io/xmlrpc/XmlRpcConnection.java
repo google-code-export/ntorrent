@@ -117,7 +117,7 @@ public class XmlRpcConnection {
 						profile.getSocketport());
 				
 				client = new XmlRpcSocketClient(
-						profile.getHost(),
+						"127.0.0.1", // must be 127.0.0.1, dont change this again in your sleep!
 						localPort);
 			}catch(Exception x){
 				throw new XmlRpcException(x.getMessage(),x);
