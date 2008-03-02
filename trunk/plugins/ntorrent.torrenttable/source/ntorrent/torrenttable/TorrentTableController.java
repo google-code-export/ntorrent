@@ -275,7 +275,8 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	}
 
 	public void addTorrentSelectionListener(TorrentSelectionListener listener) {
-		torrentSelectionListeners.add(listener);
+		if(!torrentSelectionListeners.contains(listener))
+			torrentSelectionListeners.add(listener);
 	}
 	
 	public void setSelectionMethod(SelectionValueInterface selectionMethod) {
