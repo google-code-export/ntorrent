@@ -71,6 +71,7 @@ public class XmlRpcConnection {
 					case HTTP:
 					case SOCKS:
 						proxy = new Proxy(proxyProfile.getType(),new InetSocketAddress(proxyProfile.getHost(),proxyProfile.getPort()));
+						break;
 					}
 					
 					client = new XmlRpcHTTPClient("http://"+profile.getHost()+
