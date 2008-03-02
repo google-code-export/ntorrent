@@ -64,13 +64,14 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	
 	public TorrentTableJPopupMenu() {
 		for(String s : mitems){
-			JMenuItem item = add(ResourcePool.getString(s,bundle,this));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(s,bundle,this));
 			item.setActionCommand(s);
 			item.addActionListener(this);
+			super.add(item);
 		}
 		
 		JMenu priority = new JMenu(ResourcePool.getString(priorityMenu[0],bundle,this));
-		add(priority);
+		super.add(priority);
 		
 		for(int x = 1; x < priorityMenu.length; x++){
 			JMenuItem item = priority.add(ResourcePool.getString(priorityMenu[x],bundle,this));
@@ -101,7 +102,8 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	}
 	
 	public void addTorrentTableActionListener(TorrentTableActionListener listener){
-		listeners.add(listener);
+		if(!listeners.contains(listener))
+			listeners.add(listener);
 	}
 	
 
