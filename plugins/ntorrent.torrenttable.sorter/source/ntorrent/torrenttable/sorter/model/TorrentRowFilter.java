@@ -25,7 +25,6 @@ public class TorrentRowFilter extends javax.swing.RowFilter<TorrentTableModel,In
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {
 		nameFilter = ((JTextField)e.getSource()).getText();
-		System.out.println(nameFilter);
 		sorter.sort();
 	}
 	@Override
@@ -36,7 +35,6 @@ public class TorrentRowFilter extends javax.swing.RowFilter<TorrentTableModel,In
 		
 		Torrent t = entry.getModel().getRow(entry.getIdentifier());
 		String name = t.getName().toLowerCase();
-		System.out.println(name);
 		return name.contains(nameFilter.toLowerCase());
 	}
 	

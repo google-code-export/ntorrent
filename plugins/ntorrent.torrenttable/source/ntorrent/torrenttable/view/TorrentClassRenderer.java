@@ -94,7 +94,7 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			if(tor.hasMessage() && tor.isStarted()){
 				add(message);
 				table.setRowHeight(row, 40);
-				message.setText(ResourcePool.getString("torrenttable.message","locale",this)+": "+tor.getMessage());
+				message.setText(ResourcePool.getString("message","locale",this)+": "+tor.getMessage());
 			}else{
 				remove(message);
 			}

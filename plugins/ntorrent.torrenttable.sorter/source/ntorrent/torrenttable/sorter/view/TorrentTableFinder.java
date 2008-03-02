@@ -42,5 +42,9 @@ public class TorrentTableFinder extends JPanel {
 		add(new JLabel(searchIcon));
 		add(searchBox);
 	}
+	
+	public JTextField getSearchBox() {
+		return searchBox;
+	}
 
 }

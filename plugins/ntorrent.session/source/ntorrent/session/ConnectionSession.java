@@ -47,7 +47,7 @@ import ntorrent.viewmenu.ViewMenuController;
 public class ConnectionSession implements EventListener {
 	
 	private final XmlRpcConnection connection;
-	private final TorrentTableInterface ttc;
+	private final TorrentTableController ttc;
 	private final ViewMenuController vmc;
 	
 	private final SessionFrame session;
@@ -74,7 +74,10 @@ public class ConnectionSession implements EventListener {
 		);
 				
 		manager.registerListener(this);
-		
+		loadExtensions();
+	}
+	
+	private void loadExtensions(){
 		for(Extension e : ext.getConnectedExtensions()){
 			PluginDescriptor owner = e.getDeclaringPluginDescriptor();
 			dependencies.put(owner, registry.getDependingPlugins(owner));
@@ -90,7 +93,7 @@ public class ConnectionSession implements EventListener {
 				}else{
 					Logger.global.info(owner+" this extension is not safe to load at the moment");
 				}
-			}	
+			}
 	}
 	
 	private boolean isExtensionSafeToLoad(PluginDescriptor p){
@@ -126,6 +129,18 @@ public class ConnectionSession implements EventListener {
 	public TorrentTableInterface getTorrentTableController() {
 		return ttc;
 	}
+	
+	public void stop(){
+		ttc.stop();
+	}
+	
+	public void start() {
+		ttc.start();
+	}
+	
+	public void shutdown(){
+		ttc.shutdown();
+	}
 
 	public void pluginActivated(Plugin plugin) {
 		if(plugin instanceof SessionExtension){
@@ -135,4 +150,6 @@ public class ConnectionSession implements EventListener {
 	public void pluginDeactivated(Plugin plugin) {}
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
+
+
 }
