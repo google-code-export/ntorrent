@@ -76,7 +76,7 @@ public class MainWindow extends Window implements ActionListener {
 		}else if(c.equals(ids[6])){
 			System.out.println("stub "+c);
 		}else if(c.equals(ids[7])){
-			System.out.println("stub "+c);
+			new AboutWindow().drawWindow();
 		}
 	}
 	
