@@ -12,7 +12,7 @@ Coming...
 
 = Application tester =
 
-As i prepare for the next release of nTorrent i could use some help on discovering the most critical bugs and issues and also people who can verify fixed issues on the issues tab. If you are interested in signing up as a tester. please request to join the ntorrent-testers group.
+As i prepare for the next release of nTorrent i could use some help on discovering the most critical bugs and issues and also people who can verify fixed issues on the issues tab. If you are interested in signing up as a tester. please request to join the ntorrent-testers group. More information can be found [http://groups.google.com/group/ntorrent-testers/web/the-testers-responsibility here.]
 
 = Translations =
 
