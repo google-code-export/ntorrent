@@ -45,7 +45,9 @@ import org.xml.sax.SAXException;
 
 public class XmlRpcHTTPClient extends XmlRpcClient
 {
-    /**
+    private Proxy proxy;
+
+	/**
      *  Creates a new client with the ability to send XML-RPC messages
      *  to the the server at the given URL.
      *
@@ -65,6 +67,7 @@ public class XmlRpcHTTPClient extends XmlRpcClient
     {
         this( new URL( url ),proxy, streamMessages );
     }
+
     
     
     /**
@@ -82,6 +85,7 @@ public class XmlRpcHTTPClient extends XmlRpcClient
             writer = new StringWriter( 2048 );
         }
     }
+
 
 
     /**
@@ -163,7 +167,8 @@ public class XmlRpcHTTPClient extends XmlRpcClient
                 }
             }
         }
-
+        
+        endCall();
         return returnValue;
     }
 
@@ -207,10 +212,26 @@ public class XmlRpcHTTPClient extends XmlRpcClient
                 }
             }
         }
-
+        endCall();
         return returnValue;
     }
 
+
+    /**
+     *  Returns the HTTP header fields from the latest server invocation.
+     *  These are the fields set by the HTTP server hosting the XML-RPC service.
+     * 
+     *  @return The HTTP header fields from the latest server invocation. Note that
+     *          the XmlRpcClient instance retains ownership of this map and the map
+     *          contents is replaced on the next request. If there is a need to
+     *          keep the fields between requests the map returned should be cloned.
+     */
+
+    public Map getResponseHeaderFields()
+    {
+        return headerFields;
+    }
+    
 
     /**
      *  A asynchronous version of invoke performing the call in a separate thread and
@@ -354,7 +375,7 @@ public class XmlRpcHTTPClient extends XmlRpcClient
                 connection.setRequestProperty( "Content-Length", String.valueOf( buffer.length() ) );
 
                 OutputStream output = new BufferedOutputStream( connection.getOutputStream() );
-                output.write( buffer.toString().getBytes() );
+                output.write( buffer.toString().getBytes( XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) ) );
                 output.flush();
                 output.close();
             }
@@ -378,7 +399,6 @@ public class XmlRpcHTTPClient extends XmlRpcClient
             connection.disconnect();
             connection = null;
         }
-        
     }
 
 
@@ -403,6 +423,16 @@ public class XmlRpcHTTPClient extends XmlRpcClient
         try
         {
             parse( new BufferedInputStream( connection.getInputStream() ) );
+
+            int fieldNumber = 1;
+            String headerFieldKey = null;
+            headerFields.clear();
+
+            while ( ( headerFieldKey = connection.getHeaderFieldKey( fieldNumber ) ) != null )
+            {
+                headerFields.put( headerFieldKey, connection.getHeaderField( fieldNumber ) );
+                ++fieldNumber;
+            }
         }
         catch ( Exception e )
         {
@@ -495,15 +525,15 @@ public class XmlRpcHTTPClient extends XmlRpcClient
 
     /** The server URL. */
     private URL url;
-    
-    /** Proxy connection **/
-    private Proxy proxy;
 
     /** Connection to the server. */
     private HttpURLConnection connection;
     
     /** HTTP request properties, or null if none have been set by the application. */
     private Map requestProperties;
+    
+    /** HTTP header fields returned by the server in the latest response. */
+    private Map headerFields = new HashMap();
     
     /** The parsed value returned in a response. */
     private Object returnValue;
