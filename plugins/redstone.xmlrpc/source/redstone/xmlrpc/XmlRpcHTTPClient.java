@@ -35,6 +35,8 @@ import java.util.Map;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+import redstone.xmlrpc.util.Base64;
+
 /**
  *  An XmlRpcClient represents a connection to an XML-RPC enabled server. It
  *  implements the XmlRpcInvocationHandler so that it may be used as a relay
@@ -46,6 +48,10 @@ import org.xml.sax.SAXException;
 public class XmlRpcHTTPClient extends XmlRpcClient
 {
     private Proxy proxy;
+
+	private String password;
+
+	private String username;
 
 	/**
      *  Creates a new client with the ability to send XML-RPC messages
@@ -508,6 +514,14 @@ public class XmlRpcHTTPClient extends XmlRpcClient
             "Content-Type", "text/xml; charset=" +
             XmlRpcMessages.getString( "XmlRpcClient.Encoding" ) );
         
+        if(hasBasicAuth()){
+        	String data = this.username+":"+this.password;
+        	String encoded = new String();
+        	for(char c : Base64.encode(data.getBytes()))
+        		encoded += c;
+        	connection.setRequestProperty("Authorization", "Basic "+encoded);
+        }
+        
         if ( requestProperties != null )
         {
             for ( Iterator propertyNames = requestProperties.keySet().iterator();
@@ -521,6 +535,18 @@ public class XmlRpcHTTPClient extends XmlRpcClient
             }
         }
     }
+    
+    private boolean hasBasicAuth(){
+    	return this.username.length() > 0 && this.password.length() > 0;
+    }
+    
+    public void setBasicUsername(String username) {
+		this.username = username;
+	}
+    
+    public void setBasicPassword(String password) {
+		this.password = password;
+	}
 
 
     /** The server URL. */

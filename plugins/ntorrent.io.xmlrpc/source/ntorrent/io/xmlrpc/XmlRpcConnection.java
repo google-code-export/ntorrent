@@ -75,9 +75,15 @@ public class XmlRpcConnection {
 					}
 					
 					String url = "http://"+profile.getHost()+":"+profile.getPort()+profile.getMountpoint();
-					client = new XmlRpcHTTPClient(url,proxy,false);
-					
 					Logger.global.info("URL: "+url);
+					
+					XmlRpcHTTPClient client = new XmlRpcHTTPClient(url,proxy,false);
+					
+					/** set username & pass **/
+					client.setBasicUsername(profile.getUsername());
+					client.setBasicPassword(profile.getPassword());
+					
+					this.client = client;
 					
 				} catch (MalformedURLException e) {
 					throw new XmlRpcException(e.getMessage(),e);
