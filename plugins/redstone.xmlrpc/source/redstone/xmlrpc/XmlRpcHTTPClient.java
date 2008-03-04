@@ -547,6 +547,10 @@ public class XmlRpcHTTPClient extends XmlRpcClient
     public void setBasicPassword(String password) {
 		this.password = password;
 	}
+    
+    public boolean isUsingProxy() {
+		return connection.usingProxy();
+	}
 
 
     /** The server URL. */
