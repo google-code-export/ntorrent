@@ -19,8 +19,8 @@
  */
 package ntorrent.io.xmlrpc;
 
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.util.logging.Logger;
 
@@ -70,7 +70,10 @@ public class XmlRpcConnection {
 						break;
 					case HTTP:
 					case SOCKS:
-						proxy = new Proxy(proxyProfile.getType(),new InetSocketAddress(proxyProfile.getHost(),proxyProfile.getPort()));
+						InetSocketAddress sa = new InetSocketAddress(proxyProfile.getHost(),proxyProfile.getPort());
+						if(sa.isUnresolved())
+							throw new ConnectException("The proxy address could not be resolved!");
+						proxy = new Proxy(proxyProfile.getType(),sa);
 						break;
 					}
 					
@@ -85,7 +88,7 @@ public class XmlRpcConnection {
 					
 					this.client = client;
 					
-				} catch (MalformedURLException e) {
+				} catch (Exception e) {
 					throw new XmlRpcException(e.getMessage(),e);
 				}
 			break;
