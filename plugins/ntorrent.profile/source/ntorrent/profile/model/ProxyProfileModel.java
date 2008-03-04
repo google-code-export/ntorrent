@@ -66,5 +66,13 @@ public class ProxyProfileModel implements Serializable,Cloneable {
             throw new InternalError(e.toString());
         }
     }
+    
+    @Override
+    public String toString() {
+    	if(type.equals(Type.DIRECT))
+    		return type.toString();
+    	else
+    		return type.toString()+" "+host+":"+port;
+    }
 	
 }
