@@ -229,6 +229,8 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
         				d.stop(hash);
         			}else if(command.equals(mitems[2])){
         				//erase
+        				if(t.isStarted())
+        					d.stop(hash);
         				d.erase(hash);
         			}else if(command.equals(mitems[3])){
         				//check hash
