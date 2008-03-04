@@ -79,7 +79,7 @@ public class XmlRpcConnection {
 					
 					String url = "http://"+profile.getHost()+":"+profile.getPort()+profile.getMountpoint();
 					XmlRpcHTTPClient client = new XmlRpcHTTPClient(url,proxy,false);
-					Logger.global.info("New http connection to url="+url+" using proxy="+client.isUsingProxy());
+					Logger.global.info("New http connection to url="+url+" using proxy="+proxy);
 					
 					/** set username & pass **/
 					client.setBasicUsername(profile.getUsername());
