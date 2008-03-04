@@ -127,6 +127,9 @@ public class XmlRpcConnection {
 				client = new XmlRpcSocketClient(
 						"127.0.0.1", // must be 127.0.0.1, dont change this again in your sleep!
 						localPort);
+				
+				Logger.global.info("New ssh connection using proxy="+proxy);
+				
 			}catch(Exception x){
 				throw new XmlRpcException(x.getMessage(),x);
 			}
@@ -138,7 +141,6 @@ public class XmlRpcConnection {
 					profile.getSocketport());
 			break;
 		}
-		
 		
 		/** Set xmlrpc dialect **/
 		getGlobalClient().xmlrpc_dialect("i8");
