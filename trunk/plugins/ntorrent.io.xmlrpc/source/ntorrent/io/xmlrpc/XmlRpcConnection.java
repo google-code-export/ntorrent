@@ -85,6 +85,8 @@ public class XmlRpcConnection {
 					client.setBasicUsername(profile.getUsername());
 					client.setBasicPassword(profile.getPassword());
 					
+					this.client = client;
+					
 				} catch (Exception e) {
 					throw new XmlRpcException(e.getMessage(),e);
 				}
