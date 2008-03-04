@@ -87,7 +87,7 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 			session = new ConnectionSession(connection);
 			sessionView = session.getDisplay();
 			jtab.removeTabAt(tabIndex);
-			jtab.insertTab(profile.getName(), null, sessionView, null, tabIndex);
+			jtab.insertTab(profile.toString(), null, sessionView, null, tabIndex);
 			jtab.setSelectedIndex(tabIndex);
 			jtab.getModel().addChangeListener(this);
 		} catch (Exception e) {
