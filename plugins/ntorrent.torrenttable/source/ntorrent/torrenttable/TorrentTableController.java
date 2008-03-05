@@ -22,6 +22,7 @@ package ntorrent.torrenttable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -47,7 +48,6 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 	private final Thread controllerTread = new Thread(this);
 	
 	private final Vector<String> download_variable = new Vector<String>();
-	private final Vector<String> torrentTableExtensions = new Vector<String>();
 	private final Vector<TorrentSelectionListener > torrentSelectionListeners = new Vector<TorrentSelectionListener>();
 	
 	private SelectionValueInterface selectionMethod = null;
@@ -177,22 +177,23 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 				//System.out.println("updated rows,"+0+","+(rowsRecieved-1));
 				if(ttm.getRowCount() > 0)
 					ttm.fireTableRowsUpdated(0, rowsRecieved-1);
-				
-				
-				
-				try {
-					if(stop)
-						Thread.currentThread().join();
-					else
-						Thread.sleep(500);
-					//ttm.removeRow(ttm.getRowCount()-1);
-					//Thread.sleep(1000);
-					//System.out.println(table.getSelectedRow());
-				} catch (InterruptedException e) {
-					
-				}
-			}
 			
+			
+			
+				if(this.stop){
+					System.out.println("ok, im stopping as stop = "+stop);
+					controllerTread.join();
+				}else
+					Thread.sleep(500);
+				Logger.global.info("Updating torrenttable");
+				//ttm.removeRow(ttm.getRowCount()-1);
+				//Thread.sleep(1000);
+				//System.out.println(table.getSelectedRow());
+			}
+
+		} catch (InterruptedException e) {
+			Logger.global.info("Interrupted torrenttable");
+			System.out.println("stop should be false here as im starting again. stop = "+stop);			
 		} catch (XmlRpcException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
