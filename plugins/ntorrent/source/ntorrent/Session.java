@@ -86,7 +86,13 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 			connection = new XmlRpcConnection(profile);
 			session = new ConnectionSession(connection);
 			sessionView = session.getDisplay();
-			jtab.removeTabAt(tabIndex);
+			
+			if(tabIndex >= 0){
+				jtab.setSelectedIndex(-1);
+				jtab.removeTabAt(tabIndex);
+			}else
+				tabIndex = 0;
+			
 			jtab.insertTab(profile.toString(), null, sessionView, null, tabIndex);
 			jtab.setSelectedIndex(tabIndex);
 			jtab.getModel().addChangeListener(this);

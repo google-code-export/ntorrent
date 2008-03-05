@@ -34,6 +34,7 @@ import javax.swing.JTextField;
 import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.HttpProfileModel;
+import ntorrent.profile.model.ProxyProfileModel;
 
 public class HttpProfileView extends AbstractClientProfileView  {
 	private static final long serialVersionUID = 1L;
@@ -138,6 +139,8 @@ public class HttpProfileView extends AbstractClientProfileView  {
 	@Override
 	public void setModel(ClientProfileInterface model) {
 		this.model = (HttpProfileModel)model;
+		ProxyProfileModel proxyModel = (ProxyProfileModel) this.model.getProxy().clone();
+		this.proxy.setModel(proxyModel);
 		super.setModel(model);
 	}
 

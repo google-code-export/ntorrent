@@ -24,9 +24,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import ntorrent.locale.ResourcePool;
+
 public abstract class AbstractView implements View {
 	public void errorOccured(String error) {
-		JOptionPane.showMessageDialog(null, error,"err",JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, error,ResourcePool.getString("error", "locale", this),JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public void errorOccured(Throwable t) {
