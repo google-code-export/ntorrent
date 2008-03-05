@@ -70,6 +70,8 @@ public class ProxyProfileView extends AbstractView implements ItemListener, Focu
 		host.addFocusListener(this);
 		port.addFocusListener(this);
 		
+		modelChange();
+		
 	}
 	
 	private void add(JLabel label, JComponent c){
@@ -127,6 +129,7 @@ public class ProxyProfileView extends AbstractView implements ItemListener, Focu
 
 	public void setModel(ProxyProfileModel model) {
 		this.model = model;
+		modelChange();
 	}
 	
 	public void modelChange() {

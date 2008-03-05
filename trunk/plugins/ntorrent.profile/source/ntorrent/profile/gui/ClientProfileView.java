@@ -136,26 +136,29 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 			ClientProfileInterface model = (ClientProfileInterface) view.getModel().clone();
 			
 			/**prompt for model name**/
-			String name = JOptionPane.showInputDialog("give it a name");
-			model.setName(name);
+			String name = JOptionPane.showInputDialog(ResourcePool.getString("profile.name", bundle, this));
 			
-			/**add model to list**/
-			listModel.add(model);
+			if(name != null){
+				model.setName(name);
 			
-			/**connect a new model to the gui**/
-			ClientProfileInterface newModel = null;
-			switch(model.getProtocol()){
-				case HTTP:
-					newModel = new HttpProfileModel();
-					break;
-				case LOCAL:
-					newModel = new LocalProfileModel();
-					break;
-				case SSH:
-					newModel = new SshProfileModel();
-					break;
-				}
-			view.setModel(newModel);
+				/**add model to list**/
+				listModel.add(model);
+				
+				/**connect a new model to the gui**/
+				ClientProfileInterface newModel = null;
+				switch(model.getProtocol()){
+					case HTTP:
+						newModel = new HttpProfileModel();
+						break;
+					case LOCAL:
+						newModel = new LocalProfileModel();
+						break;
+					case SSH:
+						newModel = new SshProfileModel();
+						break;
+					}
+				view.setModel(newModel);
+			}
 			
 		}else if(e.getSource().equals(delete)){
 			
@@ -168,11 +171,14 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 	public void valueChanged(ListSelectionEvent e) {
 		try{
 			if(!e.getValueIsAdjusting()){
-				ClientProfileInterface model = listModel.get(profilesList.getSelectedIndex());
-				for(AbstractClientProfileView v : views){
-					if(v.getModel().getClass().equals(model.getClass())){
-						box.setSelectedItem(v);
-						v.setModel((ClientProfileInterface) model.clone());
+				int index = profilesList.getSelectedIndex();
+				if(index >= 0){
+					ClientProfileInterface model = listModel.get(index);
+					for(AbstractClientProfileView v : views){
+						if(v.getModel().getClass().equals(model.getClass())){
+							box.setSelectedItem(v);
+							v.setModel((ClientProfileInterface) model.clone());
+						}
 					}
 				}
 			}

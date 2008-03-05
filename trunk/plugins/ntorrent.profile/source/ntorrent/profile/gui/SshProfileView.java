@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 
 import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
+import ntorrent.profile.model.ProxyProfileModel;
 import ntorrent.profile.model.SshProfileModel;
 
 public class SshProfileView extends AbstractClientProfileView {
@@ -139,6 +140,8 @@ public class SshProfileView extends AbstractClientProfileView {
 	@Override
 	public void setModel(ClientProfileInterface model) {
 		this.model = (SshProfileModel)model;
+		ProxyProfileModel proxyModel = (ProxyProfileModel) this.model.getProxy().clone();
+		this.proxy.setModel(proxyModel);
 		super.setModel(model);
 	}
 
