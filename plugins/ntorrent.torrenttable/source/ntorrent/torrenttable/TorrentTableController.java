@@ -19,6 +19,7 @@
  */
 package ntorrent.torrenttable;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -39,20 +40,21 @@ import redstone.xmlrpc.XmlRpcClient;
 import redstone.xmlrpc.XmlRpcException;
 import redstone.xmlrpc.XmlRpcFault;
 
-public class TorrentTableController implements TorrentTableInterface,Runnable, /*EventListener,*/ ListSelectionListener{
+public class TorrentTableController implements TorrentTableInterface, ListSelectionListener, Runnable{
 	
 	private final TorrentTableModel ttm = new TorrentTableModel();
 	private final TorrentTable table = new TorrentTable(ttm);
 	private final Map<String,Torrent> torrents = new HashMap<String,Torrent>();
 	private final XmlRpcConnection connection;
-	private final Thread controllerTread = new Thread(this);
 	
 	private final Vector<String> download_variable = new Vector<String>();
 	private final Vector<TorrentSelectionListener > torrentSelectionListeners = new Vector<TorrentSelectionListener>();
 	
 	private SelectionValueInterface selectionMethod = null;
-	private boolean stop = false;
+	private boolean pause = false;
 	private boolean shutdown = false;
+	
+	private Thread controllerThread = new Thread(this); 
 
 	
 	public TorrentTableController(XmlRpcConnection connection) {
@@ -83,7 +85,8 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 		addTorrentSelectionListener(table.getTablePopup());
 		table.getSelectionModel().addListSelectionListener(this);
 		
-		controllerTread.start();
+		controllerThread.setDaemon(true);
+		controllerThread.start();
 	}
 	
 	public TorrentTable getTable() {
@@ -98,17 +101,17 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 		return download_variable;
 	}
 	
-	public void stop(){
-		this.stop = true;
+	public void pause(){
+		pause = true;
+	}
+	
+	public void unpause(){
+		pause = false;
+		controllerThread.interrupt();
 	}
 	
 	public void shutdown(){
-		this.shutdown = true;
-	}
-	
-	public void start(){
-		this.stop = false;
-		controllerTread.interrupt();
+		shutdown = true;
 	}
 		
 	public void run() {
@@ -179,18 +182,18 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 					ttm.fireTableRowsUpdated(0, rowsRecieved-1);
 			
 				try{
-					if(this.stop){
-						System.out.println("ok, im stopping as stop = "+stop);
-						controllerTread.join();
+					if(this.pause){
+						//System.out.println(this+":ok, im stopping as stop = "+pause);
+						controllerThread.join();
 					}else
 						Thread.sleep(500);
-					Logger.global.info("Updating torrenttable");
+					//Logger.global.info("Updating torrenttable");
 					//ttm.removeRow(ttm.getRowCount()-1);
 					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
 				} catch (InterruptedException e) {
 					Logger.global.info("Interrupted torrenttable");
-					System.out.println("stop should be false here as im starting again. stop = "+stop);		
+					//System.out.println(this+": stop should be false here as im starting again. stop = "+pause);		
 				}
 			}
 	
@@ -210,7 +213,7 @@ public class TorrentTableController implements TorrentTableInterface,Runnable, /
 		ttm.clear();
 		ttm.fireTableDataChanged();
 		download_variable.setElementAt(view, 0);
-		controllerTread.interrupt();
+		controllerThread.interrupt();
 	}
 
 	public void torrentActionPerformed(final Torrent[] tor, final String command) {

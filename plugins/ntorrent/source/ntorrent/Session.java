@@ -124,7 +124,7 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 			if(c.equals(sessionView))
 				removed = false;
 		
-		if(removed || jtab.getSelectedIndex() == -1)
+		if(removed || jtab.getComponentCount() == 0)
 			session.shutdown();
 		
 		if(jtab.getSelectedIndex() >= 0){

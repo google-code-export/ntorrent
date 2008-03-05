@@ -132,12 +132,12 @@ public class ConnectionSession implements EventListener {
 	
 	public void stop(){
 		Logger.global.info("Stopping: "+connection.getProfile() + " ["+ttc+"]");
-		ttc.stop();
+		ttc.pause();
 	}
 	
 	public void start() {
 		Logger.global.info("Starting: "+connection.getProfile() + " ["+ttc+"]");
-		ttc.start();
+		ttc.unpause();
 	}
 	
 	public void shutdown(){
