@@ -5,6 +5,7 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -175,7 +176,12 @@ public class Main extends ApplicationPlugin implements Application {
 	}
 			
 	public static void clientSoConn(String line){
-		System.out.println(line);
+		File f = new File(line);
+		if(f.isFile())
+			System.out.println("load this as a file: "+line);
+		else
+			System.out.println("load this as a url: "+line);
+		
 	}
 	
 	public static Vector<Session> getSessions() {

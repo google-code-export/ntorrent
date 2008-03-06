@@ -26,9 +26,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
@@ -37,6 +40,7 @@ import javax.swing.WindowConstants;
 import ntorrent.Main;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
+import ntorrent.locale.ResourcePool;
 
 /**
  * The main ntorrent window, consisting of menubar and jtabbedpane, 
@@ -54,17 +58,23 @@ public class MainWindow extends Window implements ActionListener {
 		JPanel frame = new JPanel(new BorderLayout());
 		frame.add(connectionsTab);
 		setContentPane(frame);
-
-		
 	}
 		
 	public void actionPerformed(ActionEvent e) {
 		String c = e.getActionCommand();
 		String[] ids = MainMenuBar.identifiers;
 		if(c.equals(ids[0])){
-			System.out.println("stub "+c);
+			TorrentFileChooser chooser = new TorrentFileChooser();
+			int result = chooser.showOpenDialog(this);
+			if(result == JFileChooser.APPROVE_OPTION){
+				for(File f : chooser.getSelectedFiles()){
+					Main.clientSoConn(f.getAbsolutePath());
+				}
+			}
 		}else if(c.equals(ids[1])){
-			System.out.println("stub "+c);
+			String line = JOptionPane.showInputDialog(ResourcePool.getString("addurl", "locale", this));
+			if (line != null && line.length() > 0)
+				Main.clientSoConn(line);
 		}else if(c.equals(ids[2])){
 			Main.newSession();
 		}else if(c.equals(ids[3])){
