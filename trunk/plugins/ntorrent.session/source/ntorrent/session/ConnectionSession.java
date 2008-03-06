@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
@@ -66,7 +67,7 @@ public class ConnectionSession implements EventListener {
 		vmc = new ViewMenuController(ttc);
 		session = new SessionFrame(
 				new JComponent[] {
-						vmc.getDisplay(),
+						new JScrollPane(vmc.getDisplay()),
 						ttc.getTable().getDisplay(),
 						new JPanel(new GridLayout(0,1)),
 						new JLabel("tab components"),
