@@ -94,7 +94,7 @@ public class TorrentTableSorter extends Plugin implements SessionExtension{
 
 
 	public void init(ConnectionSession session) {
-					
+		
 			if(!init){
 				init = true;
 				sorter = new TableRowSorter<TorrentTableModel>(session.getTorrentTableController().getTable().getModel());

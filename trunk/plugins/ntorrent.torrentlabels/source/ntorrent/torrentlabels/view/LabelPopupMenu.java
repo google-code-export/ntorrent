@@ -17,43 +17,35 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrentlabels.model;
+package ntorrent.torrentlabels.view;
 
-import javax.swing.RowFilter;
+import java.awt.event.ActionListener;
 
-import ntorrent.torrentlabels.LabelInstance;
-import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentTableModel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+
+import ntorrent.locale.ResourcePool;
 
 /**
  * @author Kim Eik
  *
  */
-public class TorrentTableFilter extends RowFilter<TorrentTableModel, Integer> implements
-		TorrentLabelFilterInterface {
-
-	private String label = null;
-
-	public void allLabel() {
-		this.label = null;
+public class LabelPopupMenu extends JMenu {
+	public final static String[] MENU_ITEMS = {
+		"label.none",
+		"label.new"
+		};
+	
+	public LabelPopupMenu(ActionListener listener) {
+		super();
+		setText(ResourcePool.getString("menu", "locale", this));
+		for(String s : MENU_ITEMS){
+			JMenuItem item = new JMenuItem(ResourcePool.getString(s, "locale", this));
+			item.setActionCommand(s);
+			item.addActionListener(listener);
+			add(item);
+		}
+		addSeparator();
 	}
-
-	public void noneLabel() {
-		this.label = "";
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	@Override
-	public boolean include(
-			javax.swing.RowFilter.Entry<? extends TorrentTableModel, ? extends Integer> entry) {
-		if(label == null)
-			return true;
-		
-		Torrent t = entry.getModel().getRow(entry.getIdentifier());
-		return t.getProperty(LabelInstance.PROPERTY).equals(label); 
-	}
-
 }
