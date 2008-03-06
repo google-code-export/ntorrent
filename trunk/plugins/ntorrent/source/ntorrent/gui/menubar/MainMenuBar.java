@@ -36,8 +36,6 @@ public class MainMenuBar extends JMenuBar {
 	public final static String[] identifiers = {
 		"filemenu.addtorrent",
 		"filemenu.addurl",
-		"filemenu.startall",
-		"filemenu.stopall",
 		"filemenu.connect",
 		"filemenu.quit",
 		"helpmenu.settings",
@@ -58,9 +56,6 @@ public class MainMenuBar extends JMenuBar {
 		}
 		
 		int x = 0;
-		file.add(items[x++]);
-		file.add(items[x++]);
-		file.add(new JSeparator());
 		file.add(items[x++]);
 		file.add(items[x++]);
 		file.add(new JSeparator());

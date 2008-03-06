@@ -59,8 +59,10 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 		 */
 		jtab = window.getConnectionsTab();
 		sessionView = new ClientProfileController(this).getDisplay();
-		jtab.addTab(ResourcePool.getString("profile","locale",this), sessionView);
-	
+		
+		int index = jtab.getTabCount();
+		jtab.insertTab(ResourcePool.getString("profile","locale",this), null, sessionView, null, index);
+		jtab.setSelectedIndex(index);
 	}
 	
 	public Session(MainWindow window, ClientProfileInterface p) {
