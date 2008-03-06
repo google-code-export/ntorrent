@@ -51,12 +51,6 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 	private ConnectionTab jtab;
 
 	public Session(MainWindow window) {
-		/**
-		 * 1.Open profile menu
-		 * 2.Start xmlrpc connection
-		 * 3.Open main gui.
-		 * 4.Start session threads.
-		 */
 		jtab = window.getConnectionsTab();
 		sessionView = new ClientProfileController(this).getDisplay();
 		
@@ -66,12 +60,6 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 	}
 	
 	public Session(MainWindow window, ClientProfileInterface p) {
-		/**
-		 * 1.Open profile menu
-		 * 2.Start xmlrpc connection
-		 * 3.Open main gui.
-		 * 4.Start session threads.
-		 */
 		jtab = window.getConnectionsTab();
 		sendProfile(p);
 	}
