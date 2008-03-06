@@ -1,14 +1,15 @@
 package ntorrent.session;
 
-import java.awt.GridLayout;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import ntorrent.Main;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.session.view.SessionFrame;
+import ntorrent.torrenttable.TorrentTableController;
+import ntorrent.torrenttable.TorrentTableInterface;
+import ntorrent.viewmenu.ViewMenuController;
 
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
@@ -18,14 +19,6 @@ import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
-
-import ntorrent.Main;
-import ntorrent.io.xmlrpc.XmlRpcConnection;
-
-import ntorrent.session.view.SessionFrame;
-import ntorrent.torrenttable.TorrentTableController;
-import ntorrent.torrenttable.TorrentTableInterface;
-import ntorrent.viewmenu.ViewMenuController;
 /**
  *   nTorrent - A GUI client to administer a rtorrent process 
  *   over a network connection.
@@ -65,16 +58,7 @@ public class ConnectionSession implements EventListener {
 		connection = c;
 		ttc = new TorrentTableController(connection);
 		vmc = new ViewMenuController(ttc);
-		session = new SessionFrame(
-				new JComponent[] {
-						new JScrollPane(vmc.getDisplay()),
-						ttc.getTable().getDisplay(),
-						new JPanel(new GridLayout(0,1)),
-						new JLabel("tab components"),
-						new JLabel("statusbar")
-						}
-		);
-				
+		session = new SessionFrame(ttc,vmc);				
 		manager.registerListener(this);
 		loadExtensions();
 	}

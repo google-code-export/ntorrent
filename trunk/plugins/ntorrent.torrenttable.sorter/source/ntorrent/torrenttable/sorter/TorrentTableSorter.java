@@ -67,7 +67,7 @@ public class TorrentTableSorter extends Plugin implements SessionExtension{
 				
 				controller.setSelectionMethod(selectionMethod);
 				table.setRowSorter(sorter);
-				p.add(sessions.get(s),BorderLayout.SOUTH);
+				p.add(sessions.get(s),BorderLayout.NORTH);
 				p.revalidate();
 				p.repaint();
 			}
