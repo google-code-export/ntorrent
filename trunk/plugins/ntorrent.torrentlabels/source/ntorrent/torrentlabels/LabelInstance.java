@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -16,6 +17,7 @@ import javax.swing.table.TableRowSorter;
 
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
 import ntorrent.torrentlabels.model.LabelListModel;
 import ntorrent.torrentlabels.model.TorrentTableFilter;
@@ -89,9 +91,10 @@ public class LabelInstance implements  TorrentTableActionListener, TableModelLis
 	public void torrentActionPerformed(Torrent[] tor, String command) {
 		String[] mitems = LabelPopupMenu.MENU_ITEMS;
 		if(command.equals(mitems[0])){
-			
+			setLabel("", tor, connection);
 		}else if(command.equals(mitems[1])){
-			
+			String label = JOptionPane.showInputDialog(ResourcePool.getString("setalabel", "locale", this));
+			setLabel(label, tor, connection);
 		}else{
             if(command.startsWith("label:")){
                 setLabel(command.split(":")[1], tor,connection);
@@ -113,6 +116,7 @@ public class LabelInstance implements  TorrentTableActionListener, TableModelLis
 
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()){
+			table.clearSelection(); //keep this.
 			if(labelList.getSelectedIndex() > 1){
 					String label = (String)labelList.getSelectedValue();
 					labelFilter.setLabel(label);

@@ -43,7 +43,7 @@ import org.java.plugin.Plugin;
 public class TorrentTableSorter extends Plugin implements SessionExtension{
 	
 	private HashMap<ConnectionSession,JComponent> sessions = new HashMap<ConnectionSession,JComponent>();
-	private TableRowSorter<TorrentTableModel> sorter;
+	private TorrentRowSorter sorter;
 	private TorrentRowFilter filter;
 	private final static PlainDocument document = new PlainDocument();
 	private boolean init = false;
@@ -97,7 +97,8 @@ public class TorrentTableSorter extends Plugin implements SessionExtension{
 		
 			if(!init){
 				init = true;
-				sorter = new TableRowSorter<TorrentTableModel>(session.getTorrentTableController().getTable().getModel());
+				sorter = new TorrentRowSorter(session.getTorrentTableController().getTable().getModel());
+				sorter.setSortsOnUpdates(true);
 				filter = new TorrentRowFilter(sorter);
 			}
 			
