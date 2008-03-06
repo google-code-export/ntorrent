@@ -46,7 +46,7 @@ public class LabelListModel implements ListModel,Map<String,JMenuItem> {
 	public LabelListModel() {
 		String[] entries = new String[] {
 				"all",
-				"none",
+				"label.none",
 				};
 		
 		for(String s : entries){

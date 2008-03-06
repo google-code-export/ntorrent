@@ -1,5 +1,6 @@
 package ntorrent.session;
 
+import java.awt.GridLayout;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -67,7 +68,7 @@ public class ConnectionSession implements EventListener {
 				new JComponent[] {
 						vmc.getDisplay(),
 						ttc.getTable().getDisplay(),
-						new JPanel(),
+						new JPanel(new GridLayout(0,1)),
 						new JLabel("tab components"),
 						new JLabel("statusbar")
 						}
