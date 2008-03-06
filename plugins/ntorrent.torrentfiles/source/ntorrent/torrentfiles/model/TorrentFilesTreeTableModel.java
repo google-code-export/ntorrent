@@ -17,34 +17,20 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.sorter.view;
+package ntorrent.torrentfiles.model;
 
-import java.awt.FlowLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-public class TorrentTableFinder extends JPanel {
+/**
+ * @author Kim Eik
+ *
+ */
+public class TorrentFilesTreeTableModel extends DefaultTreeModel {
 	private static final long serialVersionUID = 1L;
-	
-	final JTextField searchBox = new JTextField(10);
-	final static ImageIcon searchIcon = new ImageIcon("plugins/ntorrent.torrenttable.sorter/icons/system-search.png");
-	
-	public TorrentTableFinder(KeyListener k) {
-		super(new FlowLayout(FlowLayout.LEFT));
 		
-		searchBox.addKeyListener(k);
-		
-		add(new JLabel(searchIcon));
-		add(searchBox);
-	}
-	
-	public JTextField getSearchBox() {
-		return searchBox;
+	public TorrentFilesTreeTableModel() {
+		super(new DefaultMutableTreeNode("/"));
 	}
 
 }

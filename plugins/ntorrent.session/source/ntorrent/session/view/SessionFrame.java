@@ -20,41 +20,43 @@
 package ntorrent.session.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.JTabbedPane;
+
+import ntorrent.torrenttable.TorrentTableInterface;
+import ntorrent.viewmenu.ViewMenuController;
 
 /**
  * Main session gui component.
  */
 public class SessionFrame extends JPanel{
+	private static final long serialVersionUID = 1L;
 	
 	final private JSplitPane vsplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	final private JSplitPane hsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 	final private JSplitPane menu = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+	final private JTabbedPane tabbedPane = new JTabbedPane();
+	final private JComponent statusBar = new JLabel("statusbar");
 
 	
-	public SessionFrame(JComponent[] p) {
+	public SessionFrame(TorrentTableInterface ttc, ViewMenuController vmc) {
 		super(new BorderLayout());
 		hsplit.add(vsplit);
 		add(hsplit);
-		
-		menu.add(p[0]);
-		menu.add(p[2]);
+
+		menu.add(new JScrollPane(vmc.getDisplay()));
+		menu.add(new JPanel(new GridLayout(0,1)));
 		
 		vsplit.add(menu);
-		vsplit.add(p[1]);
-		hsplit.add(p[3]);
-		add(p[4], BorderLayout.SOUTH);
+		vsplit.add(ttc.getTable().getDisplay());
+		hsplit.add(tabbedPane);
+		add(statusBar, BorderLayout.SOUTH);
 	}
 	
 	public JSplitPane getHsplit() {
@@ -67,6 +69,14 @@ public class SessionFrame extends JPanel{
 	
 	public JSplitPane getMenu() {
 		return menu;
+	}
+	
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+	
+	public JComponent getStatusBar() {
+		return statusBar;
 	}
 
 }
