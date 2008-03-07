@@ -47,6 +47,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
@@ -55,6 +56,8 @@ import ntorrent.torrentfiles.model.AbstractCellEditor;
 import ntorrent.torrentfiles.model.AbstractTreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModelAdapter;
+import ntorrent.torrenttable.model.Percent;
+import ntorrent.torrenttable.view.PercentRenderer;
 
 /**
  * This example shows how to create a simple JTreeTable component, 
@@ -73,6 +76,15 @@ public class JTreeTable extends JTable {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected TreeTableCellRenderer tree;
+	private final int[] widths = {
+			25,
+			500,
+			33,
+			33,
+			10,
+			10,
+			75
+	};
 
     public JTreeTable(TreeTableModel treeTableModel) {
 	super();
@@ -89,11 +101,25 @@ public class JTreeTable extends JTable {
 	tree.setRowHeight(getRowHeight());
 
 	// Install the tree editor renderer and editor. 
-	setDefaultRenderer(TreeTableModel.class, tree); 
+	setDefaultRenderer(TreeTableModel.class, tree);
+	setDefaultRenderer(Percent.class, new PercentRenderer());
 	setDefaultEditor(TreeTableModel.class, new TreeTableCellEditor());  
 
 	setShowGrid(false);
-	setIntercellSpacing(new Dimension(0, 0)); 	        
+	setIntercellSpacing(new Dimension(0, 0));
+	
+	setWidths();
+	
+    }
+    
+    public void setWidths(){
+    	//setting widths
+    	//setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    	
+    	for(int x = 0; x < widths.length; x++){
+    	    TableColumn col = getColumnModel().getColumn(x);
+    	    col.setPreferredWidth(widths[x]);   
+    	}
     }
     
     public void setModel(TreeTableModel dataModel) {

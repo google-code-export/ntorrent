@@ -1,5 +1,6 @@
 package ntorrent.torrentfiles;
 
+import java.util.Date;
 import java.util.Enumeration;
 
 import javax.swing.JScrollPane;
@@ -89,7 +90,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 						"f.get_last_touched="
 						});
 			
-				System.out.println(result);
+				//System.out.println(result);
 				for(int row = 0 ; row < result.size(); row++){
 				XmlRpcArray rowArray = (XmlRpcArray) result.get(row);
 					XmlRpcArray paths = (XmlRpcArray) rowArray.get(0);
@@ -98,24 +99,27 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 						String name = paths.getString(x);
 						TorrentFile tf = getNode(name,x+1);
 						if(tf == null){
-							System.out.println("make the node where parent="+parent);
+							//System.out.println("make the node where parent="+parent);
 							tf = new TorrentFile(name);
-							//set the priority
-							tf.setPriority(rowArray.getLong(1));
-							//set the precent
-							long complete = rowArray.getLong(2);
-							long done = rowArray.getLong(3);
-							tf.setPercent((int)(complete*100/done));
-							//set size
-							tf.setSize(rowArray.getLong(4));
-							//set created and open
-							tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
-							tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
-							//set last touched
-							tf.setLastTouched(""+rowArray.getLong(7));
+							//filter out directories.
+							if(x+1 == paths.size()){
+								//set the priority
+								tf.setPriority(rowArray.getLong(1));
+								//set the precent
+								long complete = rowArray.getLong(2);
+								long done = rowArray.getLong(3);
+								tf.setPercent((int)(complete*100/done));
+								//set size
+								tf.setSize(rowArray.getLong(4));
+								//set created and open
+								tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
+								tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
+								//set last touched
+								tf.setLastTouched(""+new Date(rowArray.getLong(7)/1000));
+							}
 						}
 						
-						System.out.println("inserting "+tf+" into "+parent);
+						//System.out.println("inserting "+tf+" into "+parent);
 						if(!parent.isNodeChild(tf))
 							parent.insert(tf, parent.getChildCount());
 						parent = tf;
@@ -134,7 +138,8 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 		
 		treeTable.setModel(treeModel);
 		TreeTableModelAdapter model = (TreeTableModelAdapter)treeTable.getModel();
-		model.fireTableStructureChanged();
+		model.fireTableDataChanged();
+		treeTable.setWidths();
 		
 	}
 	
@@ -142,7 +147,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 		Enumeration<TreeNode> children = ((TreeNode)treeModel.getRoot()).children();
 		while(children.hasMoreElements()){
 			TorrentFile tf = (TorrentFile) children.nextElement();
-			System.out.println("name="+name+" tfname="+tf.getName()+" depth="+depth+" tdepth="+tf.getDepth());
+			//System.out.println("name="+name+" tfname="+tf.getName()+" depth="+depth+" tdepth="+tf.getDepth());
 			if(tf.getName().equals(name) && tf.getDepth() == depth)
 				return tf;
 		}
