@@ -47,10 +47,12 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 
 import ntorrent.torrentfiles.model.AbstractCellEditor;
+import ntorrent.torrentfiles.model.AbstractTreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModelAdapter;
 
@@ -74,13 +76,8 @@ public class JTreeTable extends JTable {
 
     public JTreeTable(TreeTableModel treeTableModel) {
 	super();
-
-	// Create the tree. It will be used as a renderer and editor. 
-	tree = new TreeTableCellRenderer(treeTableModel); 
-
-	// Install a tableModel representing the visible rows in the tree. 
-	super.setModel(new TreeTableModelAdapter(treeTableModel, tree));
-
+	tree = new TreeTableCellRenderer(treeTableModel);
+	setModel(treeTableModel);
 	// Force the JTable and JTree to share their row selection models. 
 	tree.setSelectionModel(new DefaultTreeSelectionModel() { 
 	    // Extend the implementation of the constructor, as if: 
@@ -97,6 +94,11 @@ public class JTreeTable extends JTable {
 
 	setShowGrid(false);
 	setIntercellSpacing(new Dimension(0, 0)); 	        
+    }
+    
+    public void setModel(TreeTableModel dataModel) {
+    	tree.setModel(dataModel);
+    	super.setModel(new TreeTableModelAdapter(dataModel, tree));
     }
 
     /* Workaround for BasicTableUI anomaly. Make sure the UI never tries to 
@@ -136,9 +138,9 @@ public class JTreeTable extends JTable {
 						       boolean hasFocus,
 						       int row, int column) {
 	    if(isSelected)
-		setBackground(table.getSelectionBackground());
+	    	setBackground(table.getSelectionBackground());
 	    else
-		setBackground(table.getBackground());
+	    	setBackground(table.getBackground());
        
 	    visibleRow = row;
 	    return this;
@@ -155,6 +157,7 @@ public class JTreeTable extends JTable {
 	    return tree;
 	}
     }
+    
 
 }
 

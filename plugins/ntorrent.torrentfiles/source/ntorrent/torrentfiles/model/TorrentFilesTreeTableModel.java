@@ -53,10 +53,6 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 	
 	public TorrentFilesTreeTableModel() {
 		super(new TorrentFile("/"));
-		TorrentFile tf = new TorrentFile("filename");
-		tf.setPercent(new Percent(50));
-		tf.setPriority(new Priority(2));
-		((TorrentFile)getRoot()).insert(tf, 0);
 	}
 	
 	public int getColumnCount() {
@@ -82,9 +78,13 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 			case 2:
 				return tf.getPercent();
 			case 3:
+				return tf.getSize();
 			case 4:
+				return tf.isCreated();
 			case 5:
+				return tf.isOpen();
 			case 6:
+				return tf.getLastTouched();
 				
 		}
 		return null;
