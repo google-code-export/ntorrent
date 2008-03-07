@@ -1,96 +1,127 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="nTorrent" default="run" basedir=".">
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist" location="releases"/>
-	
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-  </target>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="nTorrent" default="help" basedir=".">
+	<property name="app.name" value="nTorrent" />
+	<property name="app.version" value="0.5-alpha" />
 
-  <target name="compile" depends="init" description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}" srcdir="${src}" source="1.5" target="1.5" encoding="UTF-8" debug="on">
-        <classpath>
-          <pathelement path="./"/>
-            <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
-            <pathelement location="lib/xmlrpc/xmlrpc-client-3.1.jar"/>
-            <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
-            <pathelement location="lib/j2ssh/lib/commons-logging.jar"/>
-            <pathelement location="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
-        	<pathelement location="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
-    	</classpath>
-    </javac>    	
-        	
-  </target>
+	<property name="build.home" value="${basedir}/build" />
 
-	<target name="jar" depends="compile">
-	  	<buildnumber/>
-	  	<echo>Building jar file!</echo>
-	    <jar jarfile="nTorrent.jar" basedir="${build}">
-	    	<zipfileset src="lib/xmlrpc/ws-commons-util-1.0.2.jar" />
-	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-3.1.jar" />
-	    	<zipfileset src="lib/xmlrpc/xmlrpc-common-3.1.jar" />
-	    	<zipfileset src="lib/j2ssh/commons-logging.jar" />
-	    	<zipfileset src="lib/j2ssh/j2ssh-core-0.2.9.jar" />
-	    	<zipfileset src="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
-	    	<manifest>
-				<attribute name="Main-Class" value="org.heldig.ntorrent.NTorrent" />
-	    	</manifest>
-	    </jar>	
-	</target>
-	
-  <target name="dist" depends="jar" description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}"/>
-  	<echo>Building tar file of jar!</echo>
-  	<tar destfile="${dist}/nTorrent-bin-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
-  			<exclude name="*settings/**"/>
-  			<exclude name=".**"/>
-  			<exclude name="build/**"/>
-  			<exclude name="releases/**"/>
-			<exclude name="build.xml"/>
-  			<exclude name="codetemplates.xml"/>
-			<exclude name="lib/**"/>
-			<exclude name="src/**"/>
-  			<exclude name="*.dat"/>
-			<exclude name="svn2cl/**"/>
-  	</tar>
+	<path id="classpath">
+		<fileset dir="lib" includes="*.jar" />
+	</path>
 
-	<delete file="nTorrent.jar"/>
-		
+	<typedef resource="org/java/plugin/tools/ant/jpf-tasks.properties">
+		<classpath refid="classpath" />
+	</typedef>
 
-  	<echo>Building tar file of source!</echo>
-  	<tar destfile="${dist}/nTorrent-src-${DSTAMP}.tar.bz2" basedir="./" compression="bzip2">
-  			<exclude name="*settings/**"/>
-  			<exclude name=".**"/>
-  			<exclude name="build/**"/>
-  			<exclude name="releases/**"/>
-			<exclude name="*.dat"/>
-			<exclude name="svn2cl/**"/>
-
-  	</tar>
-  </target>
-	
-  <target name="run" depends="compile">
-  	<java fork="true" classname="org.heldig.ntorrent.NTorrent">
-    <classpath>
-      <pathelement location="${build}"/>
-        <pathelement location="lib/xmlrpc/xmlrpc-common-3.1.jar"/>
-        <pathelement location="lib/xmlrpc/xmlrpc-client-3.1.jar"/>
-        <pathelement location="lib/xmlrpc/ws-commons-util-1.0.2.jar"/>
-        <pathelement location="lib/j2ssh/lib/commons-logging.jar"/>
-        <pathelement location="lib/j2ssh/j2ssh-core-0.2.9.jar"/>
-    	<pathelement location="lib/xmlrpc/xmlrpc-client-1.1.jar"/>
-    </classpath>
-  	</java>
+	<target name="help">
+		<echo>
+			<![CDATA[
+${app.name} build file:
+clean - cleans up the project build folder
+build - builds entire project
+run   - runs application
+check - checks plug-ins integrity
+docs  - generates plug-ins documentation
+dist  - creates binary and source distribution packages
+test  - runs some tests
+]]>
+		</echo>
 	</target>
 
-  <target name="clean" description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-  </target>
+	<target name="clean" description="Cleans up the project build folder">
+		<tstamp>
+			<format property="dt-stamp" pattern="yyyy-MM-dd-HH-mm" />
+			<format property="d-stamp" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<delete dir="${build.home}" quiet="true" />
+	</target>
+
+	<target name="-init">
+		<mkdir dir="${build.home}" />
+	</target>
+
+	<target name="-build-plugins">
+		<mkdir dir="${build.home}/plugins" />
+		<!--<ant dir="plugins/org.jpf.demo.toolbox.core" target="${target}" />-->
+	</target>
+
+	<target name="build" depends="-init" description="Builds entire project">
+		<antcall target="-build-plugins">
+			<param name="target" value="build" />
+		</antcall>
+		<copy todir="${build.home}/lib">
+			<fileset dir="lib" includes="*.jar" />
+		</copy>
+		<copy todir="${build.home}">
+			<fileset dir="." includes="*.*" />
+		</copy>
+	</target>
+
+	<target name="run" depends="build" description="Runs application">
+		<java jar="${build.home}/lib/jpf-boot.jar"
+		      dir="${build.home}"
+		      fork="true" />
+	</target>
+
+	<target name="check"
+	        depends="build"
+	        description="Checks plug-ins integrity">
+		<jpf-check basedir="${basedir}/plugins"
+		           includes="*/plugin.xml,*/plugin-fragment.xml"
+		           verbose="true"
+		           usepathresolver="true" />
+	</target>
+
+	<!--<target name="docs"
+	        depends="build"
+	        description="Generates plug-ins documentation">
+		<delete dir="${build.home}/docs" />
+		<mkdir dir="${build.home}/docs" />
+		<antcall target="-build-plugins">
+			<param name="target" value="docs" />
+		</antcall>
+		<jpf-doc basedir="${build.home}/plugins"
+		         includes="*/plugin.xml,*/plugin-fragment.xml"
+		         destdir="${build.home}/docs" />
+	</target>-->
+
+	<!--<target name="dist"
+	        depends="clean,build,docs"
+	        description="Prepares distribution packages">
+		<jpf-zip basedir="${build.home}/plugins"
+		         includes="*/plugin.xml,*/plugin-fragment.xml"
+		         destdir="${build.home}/plugins" />
+		<delete includeemptydirs="true">
+			<fileset dir="${build.home}/plugins">
+				<include name="**/*" />
+				<exclude name="*.zip" />
+			</fileset>
+		</delete>
+		<zip destfile="${build.home}/${app.name}-bin-${app.version}.zip"
+		     duplicate="fail"
+		     update="false">
+			<fileset dir="${build.home}" includes="**/*" />
+		</zip>
+		<zip destfile="${build.home}/${app.name}-src-${app.version}.zip"
+		     duplicate="fail"
+		     update="false">
+			<fileset dir="${basedir}"
+			         excludes="build,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,plugins/org.jpf.demo.toolbox.ftpmonitor/**" />
+		</zip>
+		<delete includeemptydirs="true">
+			<fileset dir="${build.home}">
+				<include name="**/*" />
+				<exclude name="${app.name}-???-${app.version}.zip" />
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="test" depends="build" description="Some tests">
+		<jpf-pack basedir="${build.home}/plugins"
+		          includes="*/plugin.xml,*/plugin-fragment.xml"
+		          destfile="${build.home}/all-plugins.jpa" />
+		<mkdir dir="${build.home}/all-plugins-extracted" />
+		<jpf-unpack srcfile="${build.home}/all-plugins.jpa"
+		            destdir="${build.home}/all-plugins-extracted" />
+	</target>-->
 </project>
