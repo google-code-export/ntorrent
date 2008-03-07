@@ -1,7 +1,10 @@
 package ntorrent.torrentfiles;
 
+import java.util.Enumeration;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.tree.TreeNode;
 
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
@@ -14,9 +17,13 @@ import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
 import ntorrent.session.view.SessionFrame;
+import ntorrent.torrentfiles.model.TorrentFile;
 import ntorrent.torrentfiles.model.TorrentFilesTreeTableModel;
+import ntorrent.torrentfiles.model.TreeTableModelAdapter;
 import ntorrent.torrentfiles.view.JTreeTable;
 import ntorrent.torrenttable.TorrentTableInterface;
+import ntorrent.torrenttable.model.Percent;
+import ntorrent.torrenttable.model.Priority;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
 
@@ -26,7 +33,7 @@ import ntorrent.torrenttable.model.TorrentSelectionListener;
  */
 public class TorrentFilesInstance implements TorrentSelectionListener {
 
-	final private TorrentFilesTreeTableModel treeModel = new TorrentFilesTreeTableModel();
+	 private TorrentFilesTreeTableModel treeModel = new TorrentFilesTreeTableModel();
 	final private JTreeTable treeTable = new JTreeTable(treeModel);
 	final private JScrollPane scrollpane = new JScrollPane(treeTable);
 	
@@ -34,7 +41,6 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 	final private TorrentTableInterface tableController;
 	
 	final private XmlRpcClient client;
-	//final private Download d;
 	
 	private boolean started;
 	
@@ -65,6 +71,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 	}
 
 	public void torrentsSelected(Torrent[] tor) {
+		treeModel = new TorrentFilesTreeTableModel();
 		if(tor.length == 1){
 			String hash = tor[0].getHash();
 			try {
@@ -83,6 +90,39 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 						});
 			
 				System.out.println(result);
+				for(int row = 0 ; row < result.size(); row++){
+				XmlRpcArray rowArray = (XmlRpcArray) result.get(row);
+					XmlRpcArray paths = (XmlRpcArray) rowArray.get(0);
+					TorrentFile parent = (TorrentFile) treeModel.getRoot();
+					for(int x = 0; x < paths.size(); x++){
+						String name = paths.getString(x);
+						TorrentFile tf = getNode(name,x+1);
+						if(tf == null){
+							System.out.println("make the node where parent="+parent);
+							tf = new TorrentFile(name);
+							//set the priority
+							tf.setPriority(rowArray.getLong(1));
+							//set the precent
+							long complete = rowArray.getLong(2);
+							long done = rowArray.getLong(3);
+							tf.setPercent((int)(complete*100/done));
+							//set size
+							tf.setSize(rowArray.getLong(4));
+							//set created and open
+							tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
+							tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
+							//set last touched
+							tf.setLastTouched(""+rowArray.getLong(7));
+						}
+						
+						System.out.println("inserting "+tf+" into "+parent);
+						if(!parent.isNodeChild(tf))
+							parent.insert(tf, parent.getChildCount());
+						parent = tf;
+						
+					}
+				}
+
 			} catch (XmlRpcException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -91,6 +131,22 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 				e.printStackTrace();
 			}
 		}
+		
+		treeTable.setModel(treeModel);
+		TreeTableModelAdapter model = (TreeTableModelAdapter)treeTable.getModel();
+		model.fireTableStructureChanged();
+		
+	}
+	
+	private TorrentFile getNode(String name, int depth){
+		Enumeration<TreeNode> children = ((TreeNode)treeModel.getRoot()).children();
+		while(children.hasMoreElements()){
+			TorrentFile tf = (TorrentFile) children.nextElement();
+			System.out.println("name="+name+" tfname="+tf.getName()+" depth="+depth+" tdepth="+tf.getDepth());
+			if(tf.getName().equals(name) && tf.getDepth() == depth)
+				return tf;
+		}
+		return null;
 	}
 	
 	public boolean isStarted() {

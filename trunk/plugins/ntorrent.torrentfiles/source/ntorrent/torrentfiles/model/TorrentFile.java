@@ -23,6 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;
+import ntorrent.torrenttable.model.Byte;
 
 /**
  * @author Kim Eik
@@ -35,6 +36,10 @@ public class TorrentFile extends DefaultMutableTreeNode {
 	
 	private Priority priority;
 	private Percent percent;
+	private Byte size;
+	private Boolean created;
+	private Boolean open;
+	private String lastTouched;
 	
 	public TorrentFile(String filename) {
 		name = filename;
@@ -44,16 +49,16 @@ public class TorrentFile extends DefaultMutableTreeNode {
 		return percent;
 	}
 
-	public void setPercent(Percent percent) {
-		this.percent = percent;
+	public void setPercent(int percent) {
+		this.percent = new Percent(percent);
 	}
 
 	public Priority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(Priority priority) {
-		this.priority = priority;
+	public void setPriority(long priority) {
+		this.priority = new Priority(priority);
 	}
 
 	public String getName() {
@@ -63,6 +68,38 @@ public class TorrentFile extends DefaultMutableTreeNode {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public Boolean isCreated() {
+		return created;
+	}
+
+	public void setCreated(Boolean created) {
+		this.created = created;
+	}
+
+	public String getLastTouched() {
+		return lastTouched;
+	}
+
+	public void setLastTouched(String lastTouched) {
+		this.lastTouched = lastTouched;
+	}
+
+	public Boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(Boolean open) {
+		this.open = open;
+	}
+
+	public Byte getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = new Byte(size);
 	}
 	
 }
