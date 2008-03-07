@@ -72,8 +72,8 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 	}
 
 	public void torrentsSelected(Torrent[] tor) {
-		treeModel = new TorrentFilesTreeTableModel();
 		if(tor.length == 1){
+			treeModel = new TorrentFilesTreeTableModel();
 			String hash = tor[0].getHash();
 			try {
 				XmlRpcArray result = (XmlRpcArray) client.invoke("f.multicall", 
@@ -134,13 +134,12 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		treeTable.setModel(treeModel);
-		TreeTableModelAdapter model = (TreeTableModelAdapter)treeTable.getModel();
-		model.fireTableDataChanged();
-		treeTable.setWidths();
-		
+			
+			treeTable.setModel(treeModel);
+			TreeTableModelAdapter model = (TreeTableModelAdapter)treeTable.getModel();
+			model.fireTableDataChanged();
+			treeTable.setWidths();
+		}	
 	}
 	
 	private TorrentFile getNode(String name, int depth){
