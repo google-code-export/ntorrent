@@ -31,7 +31,7 @@ public interface File {
   	Object get_match_depth_next();
   	Object get_match_depth_prev();
   	Object get_offset();
-  	Object get_path();
+  	Object get_path(String hash, int l);
   	Object get_path_components();
   	Object get_path_depth();
   	Object get_priority();

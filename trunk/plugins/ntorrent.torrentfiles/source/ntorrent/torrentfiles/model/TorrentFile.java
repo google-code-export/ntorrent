@@ -17,17 +17,52 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrentfiles.view;
+package ntorrent.torrentfiles.model;
 
-import javax.swing.JTree;
-import javax.swing.tree.TreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import ntorrent.torrenttable.model.Percent;
+import ntorrent.torrenttable.model.Priority;
 
 /**
  * @author Kim Eik
  *
  */
-public class TorrentFilesTreeTable extends JTree {
-	public TorrentFilesTreeTable(TreeModel model) {
-		super(model);
+public class TorrentFile extends DefaultMutableTreeNode {
+	private static final long serialVersionUID = 1L;
+
+	final private String name;
+	
+	private Priority priority;
+	private Percent percent;
+	
+	public TorrentFile(String filename) {
+		name = filename;
 	}
+
+	public Percent getPercent() {
+		return percent;
+	}
+
+	public void setPercent(Percent percent) {
+		this.percent = percent;
+	}
+
+	public Priority getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Priority priority) {
+		this.priority = priority;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }
