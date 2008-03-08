@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
-<plugin id="skeleton" version="0.1">
+<plugin id="ntorrent.data" version="0.1" class="ntorrent.data.Environment">
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
