@@ -121,14 +121,14 @@ public class XmlRpcConnection {
 				
 				session.setPortForwardingL(
 						localPort,
-						profile.getHost(),
+						"127.0.0.1", // must be 127.0.0.1, dont change this again in your sleep!
 						profile.getSocketport());
 				
 				client = new XmlRpcSocketClient(
 						"127.0.0.1", // must be 127.0.0.1, dont change this again in your sleep!
 						localPort);
 				
-				Logger.global.info("New ssh connection using proxy="+proxy);
+				Logger.global.info("New ssh connection using proxy="+proxy+" localforwarding: "+localPort+" <- "+profile.getHost()+":"+profile.getPort());
 				
 			}catch(Exception x){
 				throw new XmlRpcException(x.getMessage(),x);
