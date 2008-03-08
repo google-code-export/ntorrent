@@ -23,7 +23,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +31,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
-import ntorrent.Main;
+import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
 
 import org.java.plugin.Plugin;
@@ -42,11 +41,10 @@ import org.java.plugin.PluginManager.EventListener;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
-import org.java.plugin.registry.Extension.Parameter;
 
 public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
-	PluginManager manager = Main.getPluginManager();
+	PluginManager manager = Environment.getPluginManager();
 	PluginRegistry reg = manager.getRegistry();
 	
 	Map<String,JCheckBox> extensions = new HashMap<String, JCheckBox>();
@@ -110,5 +108,4 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
-
 }

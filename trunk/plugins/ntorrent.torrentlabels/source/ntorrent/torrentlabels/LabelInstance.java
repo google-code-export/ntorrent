@@ -145,7 +145,9 @@ public class LabelInstance implements  TorrentTableActionListener, TableModelLis
 		tablePopup.add(labelMenu);
 		
 		//set new filter
-		HashSet<RowFilter> filters = new HashSet<RowFilter>();
+		HashSet<RowFilter<? super TorrentTableModel, ? super Integer>> 
+			filters = new HashSet<RowFilter<? super TorrentTableModel, ? super Integer>>();
+		
 		filters.add(labelFilter);
 		filters.add(filter);
 		sorter.setRowFilter(RowFilter.andFilter(filters));

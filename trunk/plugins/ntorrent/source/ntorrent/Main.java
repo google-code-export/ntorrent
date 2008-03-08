@@ -13,7 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
+import ntorrent.data.Environment;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.logging.SystemLog;
 import ntorrent.io.socket.Client;
@@ -22,6 +24,7 @@ import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.ClientProfileListModel;
 
+import org.java.plugin.Plugin;
 import org.java.plugin.PluginManager;
 import org.java.plugin.boot.Application;
 import org.java.plugin.boot.ApplicationPlugin;
@@ -47,31 +50,10 @@ import org.java.plugin.util.ExtendedProperties;
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class Main extends ApplicationPlugin implements Application {
-	
-	/** App name **/
-	private static final String appName = "nTorrent-0.5-alpha";
-	
-	/** Plugin manager **/
-	private static PluginManager pluginManager;
-	
-	/** the users home dir **/
-	private static File home;
-	
-	/** the users ntorrent dir **/
-	private static File ntorrent;
+public class Main extends Plugin {
 	
 	/** Logging system **/
 	private static SystemLog log;
-		
-	/** Locale specification **/
-	private static Locale locale;
-	
-	/** Translations **/
-	private static ResourceBundle messages;
-	
-	/** Internal communication port **/
-	private static int intSocketPort;
 	
 	/** GUI **/
 	public static MainWindow main;
@@ -81,25 +63,15 @@ public class Main extends ApplicationPlugin implements Application {
 	
 	private SystemLog nlog;
 	
-	@Override
-	protected Application initApplication(ExtendedProperties properties, String[] args)
-			throws Exception {
+	public Main(){
 		
-		ntorrent = new File(properties.getProperty("userNtorrentDir"));
-		
-		home = new File(properties.getProperty("userHomeDir"));
-				
-		intSocketPort = Integer.parseInt(properties.getProperty("internalCommPort"));
-			
-		pluginManager = getManager();
-		
-		ResourcePool.setLocale(properties.getProperty("userLanguage"),
-				properties.getProperty("userCountry"));
+		ResourcePool.setLocale(Environment.getUserLanguage(),Environment.getUserCountry());
 		
 		/** License **/
 		System.out.println(ResourcePool.getString("lic","locale",this));
 		
 		/** Loading environment **/
+		File ntorrent = Environment.getNtorrentDir();
 		if(!(ntorrent.isDirectory() || ntorrent.mkdir()))
 			Logger.global.log(Level.WARNING,ResourcePool.getString("ntdir","exceptions",this)+ntorrent);
 		
@@ -119,48 +91,23 @@ public class Main extends ApplicationPlugin implements Application {
 			new Server().start();
 		}catch(IOException e){
 			Logger.global.info(e.getMessage());
-			new Client(args);
+			try {
+				new Client(Environment.getArgs());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			System.exit(0);
 		}
 		
 		/** UImanager, set look and feel **/
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		/** create gui **/
 		main = new MainWindow();
-		
-		return this;
-	}
-
-	@Override
-	protected void doStart() throws Exception {
-		//do nothing
-	}
-
-	@Override
-	protected void doStop() throws Exception {
-		//do nothing
-	}
-
-	public void startApplication() throws Exception {
-
-		/** autoconnect **/
-		try{
-			for(ClientProfileInterface p : ClientProfileListModel.Deserialize())
-				if(p.isAutoConnect())
-					newSession(p);
-		} catch(FileNotFoundException e){
-			new ClientProfileListModel().Serialize();
-		}catch(Exception e){
-			Logger.global.log(Level.WARNING,e.getMessage(),e);
-		}
-		
-		if(!(sessions.size() > 0)){
-			newSession();
-		}
-		
-		/** Draw Gui **/
-		main.drawWindow();
 	}
 	
 	public static Session newSession(){
@@ -192,19 +139,29 @@ public class Main extends ApplicationPlugin implements Application {
 		return main;
 	}
 
-	public static String getAppName() {
-		return appName;
+	@Override
+	protected void doStart() throws Exception {
+		/** autoconnect **/
+		try{
+			for(ClientProfileInterface p : ClientProfileListModel.Deserialize())
+				if(p.isAutoConnect())
+					newSession(p);
+		} catch(FileNotFoundException e){
+			new ClientProfileListModel().Serialize();
+		}catch(Exception e){
+			Logger.global.log(Level.WARNING,e.getMessage(),e);
+		}
+		
+		if(!(sessions.size() > 0)){
+			newSession();
+		}
+		
+		/** Draw Gui **/
+		main.drawWindow();
 	}
 
-	public static File getNtorrentDir() {
-		return ntorrent;
-	}
-
-	public static int getIntSocketPort() {
-		return intSocketPort;
-	}
-
-	public static PluginManager getPluginManager() {
-		return pluginManager;
+	@Override
+	protected void doStop() throws Exception {
+		//do nothing
 	}
 }

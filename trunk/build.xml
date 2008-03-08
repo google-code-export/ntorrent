@@ -42,7 +42,27 @@ test  - runs some tests
 
 	<target name="-build-plugins">
 		<mkdir dir="${build.home}/plugins" />
-		<!--<ant dir="plugins/org.jpf.demo.toolbox.core" target="${target}" />-->
+		<ant dir="plugins/redstone.xmlrpc" target="${target}" />
+		<ant dir="plugins/ntorrent.data" target="${target}" />
+		<ant dir="plugins/ntorrent.locale" target="${target}" />
+		<ant dir="plugins/ntorrent.mvc" target="${target}" />
+		<ant dir="plugins/ntorrent.tools" target="${target}" />
+		<ant dir="plugins/ntorrent.profile" target="${target}" />
+		<ant dir="plugins/ntorrent.io.rtorrent" target="${target}" />
+		<ant dir="plugins/ntorrent.io.xmlrpc" target="${target}" />
+		<ant dir="plugins/ntorrent.torrenttable" target="${target}" />
+		<ant dir="plugins/ntorrent.jpf" target="${target}" />
+		<ant dir="plugins/ntorrent.session" target="${target}" />
+		<ant dir="plugins/ntorrent" target="${target}" />
+		<ant dir="plugins/ntorrent.skins" target="${target}" />
+		<ant dir="plugins/ntorrent.torrentlabels" target="${target}" />
+		<ant dir="plugins/ntorrent.torrenttable.sorter" target="${target}" />
+		<ant dir="plugins/ntorrent.trayicon" target="${target}" />
+		<!--<ant dir="plugins/ntorrent.torrenttrackers" target="${target}" />-->
+		<!--<ant dir="plugins/ntorrent.torrentfiles" target="${target}" />-->
+		<!--<ant dir="plugins/ntorrent.torrentinfo" target="${target}" />-->
+		<!--<ant dir="plugins/ntorrent.protocol.localtools" target="${target}" />-->
+		<!--<ant dir="plugins/ntorrent.protocol.sshtools" target="${target}" />-->
 	</target>
 
 	<target name="build" depends="-init" description="Builds entire project">
@@ -72,7 +92,7 @@ test  - runs some tests
 		           usepathresolver="true" />
 	</target>
 
-	<!--<target name="docs"
+	<target name="docs"
 	        depends="build"
 	        description="Generates plug-ins documentation">
 		<delete dir="${build.home}/docs" />
@@ -83,7 +103,7 @@ test  - runs some tests
 		<jpf-doc basedir="${build.home}/plugins"
 		         includes="*/plugin.xml,*/plugin-fragment.xml"
 		         destdir="${build.home}/docs" />
-	</target>-->
+	</target>
 
 	<!--<target name="dist"
 	        depends="clean,build,docs"
@@ -114,7 +134,7 @@ test  - runs some tests
 				<exclude name="${app.name}-???-${app.version}.zip" />
 			</fileset>
 		</delete>
-	</target>
+	</target>-->
 
 	<target name="test" depends="build" description="Some tests">
 		<jpf-pack basedir="${build.home}/plugins"
@@ -123,5 +143,5 @@ test  - runs some tests
 		<mkdir dir="${build.home}/all-plugins-extracted" />
 		<jpf-unpack srcfile="${build.home}/all-plugins.jpa"
 		            destdir="${build.home}/all-plugins-extracted" />
-	</target>-->
+	</target>
 </project>

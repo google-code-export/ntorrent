@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import ntorrent.Main;
+import ntorrent.data.Environment;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.session.view.SessionFrame;
 import ntorrent.torrenttable.TorrentTableController;
 import ntorrent.torrenttable.TorrentTableInterface;
-import ntorrent.viewmenu.ViewMenuController;
+import ntorrent.torrenttable.viewmenu.ViewMenuController;
 
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
@@ -47,7 +47,7 @@ public class ConnectionSession implements EventListener {
 	
 	private final SessionFrame session;
 	
-	private final PluginManager manager = Main.getPluginManager();
+	private final PluginManager manager = Environment.getPluginManager();
 	private final PluginRegistry registry = manager.getRegistry();
 	private final ExtensionPoint ext = registry.getExtensionPoint("ntorrent.session", "SessionExtension");
 	
