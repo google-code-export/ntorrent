@@ -26,7 +26,7 @@ import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
 import ntorrent.torrenttable.view.TorrentTable;
-import ntorrent.viewmenu.ViewChangeListener;
+import ntorrent.torrenttable.viewmenu.ViewChangeListener;
 
 /**
  * @author Kim Eik

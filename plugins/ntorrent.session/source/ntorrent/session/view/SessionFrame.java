@@ -30,7 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import ntorrent.torrenttable.TorrentTableInterface;
-import ntorrent.viewmenu.ViewMenuController;
+import ntorrent.torrenttable.viewmenu.ViewMenuController;
 
 /**
  * Main session gui component.

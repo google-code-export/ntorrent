@@ -6,7 +6,6 @@
 		<import plugin-id="ntorrent.profile" />
 		<import plugin-id="ntorrent.io.xmlrpc" />
 		<import plugin-id="ntorrent.locale" />
-		<import plugin-id="ntorrent.viewmenu" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">

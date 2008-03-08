@@ -9,8 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import ntorrent.Main;
-
 public abstract class Serializer {
 	private static final long serialVersionUID = 1L;
 	

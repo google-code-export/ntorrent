@@ -19,6 +19,8 @@
  */
 package ntorrent.profile;
 
+import java.io.File;
+
 import javax.swing.JComponent;
 
 import ntorrent.profile.gui.AbstractClientProfileView;
@@ -44,9 +46,10 @@ public class ClientProfileController {
 	ClientProfileView mainView;
 	
 	ProfileRequester req;
-	
+		
 	public ClientProfileController(ProfileRequester r) {
-		req = r;
+		this.req = r;
+		
 		AbstractClientProfileView[] views = {localView,sshView,httpView};
 		mainView = new ClientProfileView(views,this);
 	}
