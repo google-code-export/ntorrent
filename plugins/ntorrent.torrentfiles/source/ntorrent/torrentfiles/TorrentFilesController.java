@@ -28,8 +28,8 @@ import ntorrent.session.SessionExtension;
 import ntorrent.torrenttable.model.Torrent;
 
 /**
+ * This plugin needs some serious cleanup.
  * @author Kim Eik
- *
  */
 public class TorrentFilesController extends Plugin implements SessionExtension {
 
