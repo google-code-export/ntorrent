@@ -1,11 +1,17 @@
 package ntorrent.torrentfiles;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
 
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.tree.TreeNode;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import redstone.xmlrpc.XmlRpcArray;
 import redstone.xmlrpc.XmlRpcClient;
@@ -22,6 +28,7 @@ import ntorrent.torrentfiles.model.TorrentFile;
 import ntorrent.torrentfiles.model.TorrentFilesTreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModelAdapter;
 import ntorrent.torrentfiles.view.JTreeTable;
+import ntorrent.torrentfiles.view.TorrentFilesPopupMenu;
 import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;
@@ -32,16 +39,18 @@ import ntorrent.torrenttable.model.TorrentSelectionListener;
  * @author Kim Eik
  *
  */
-public class TorrentFilesInstance implements TorrentSelectionListener {
+public class TorrentFilesInstance implements TorrentSelectionListener, ActionListener {
 
 	 private TorrentFilesTreeTableModel treeModel = new TorrentFilesTreeTableModel();
 	final private JTreeTable treeTable = new JTreeTable(treeModel);
 	final private JScrollPane scrollpane = new JScrollPane(treeTable);
+	final private TorrentFilesPopupMenu popup = new TorrentFilesPopupMenu(this,treeTable);
 	
 	final private JTabbedPane container;
 	final private TorrentTableInterface tableController;
 	
 	final private XmlRpcClient client;
+	final private File f;
 	
 	private boolean started;
 	
@@ -54,7 +63,10 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 		
 		XmlRpcConnection connection = session.getConnection();
 		client = connection.getClient();
-		//d = connection.getDownloadClient();
+		f = connection.getFileClient();
+		
+		//add mouselistener for popup
+		treeTable.addMouseListener(popup);
 		
 		//add this as a selection listener
 		tableController.addTorrentSelectionListener(this);
@@ -100,7 +112,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 						TorrentFile tf = getNode(name,x+1);
 						if(tf == null){
 							//System.out.println("make the node where parent="+parent);
-							tf = new TorrentFile(name);
+							tf = new TorrentFile(name,hash,x);
 							//filter out directories.
 							if(x+1 == paths.size()){
 								//set the priority
@@ -116,6 +128,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 								tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
 								//set last touched
 								tf.setLastTouched(""+new Date(rowArray.getLong(7)/1000));
+								//set offset
 							}
 						}
 						
@@ -157,4 +170,43 @@ public class TorrentFilesInstance implements TorrentSelectionListener {
 		return started;
 	}
 
+	public void actionPerformed(ActionEvent e) {
+		final String[] pri = TorrentFilesPopupMenu.priority;
+		final String cmd = e.getActionCommand();
+		
+		new Thread(){
+			final HashSet<TorrentFile> hashset = new HashSet<TorrentFile>();
+			
+			public void run(){
+				for(int x = 0; x < pri.length; x++){
+					if(pri[x].equals(cmd)){
+						for(int row : treeTable.getSelectedRows()){
+							TorrentFile tf = (TorrentFile)treeTable.getValueAt(row, 1);
+							setPriority(tf, x);
+						}
+						
+						for(TorrentFile tf : hashset){
+							//System.out.println(tf+" "+tf.getOffset()+" "+x);
+							f.set_priority(tf.getParentHash(), tf.getOffset(), x);
+							((Priority)treeModel.getValueAt(tf, 0)).setPriority(x);
+						}
+						((TreeTableModelAdapter)treeTable.getModel()).fireTableDataChanged();
+						break;
+					}
+
+				}
+				
+			}
+			private final void setPriority(TorrentFile tf, int pri){
+				if(!tf.isLeaf()){
+					Enumeration<TorrentFile> children = tf.children();
+					while(children.hasMoreElements()){
+						setPriority(children.nextElement(), pri);
+					}
+				}else{
+					hashset.add(tf);
+				}
+			}
+		}.start();
+	}
 }

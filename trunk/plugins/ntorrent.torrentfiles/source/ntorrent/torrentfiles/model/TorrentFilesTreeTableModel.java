@@ -52,7 +52,7 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 	};
 	
 	public TorrentFilesTreeTableModel() {
-		super(new TorrentFile("/"));
+		super(new TorrentFile());
 	}
 	
 	public int getColumnCount() {

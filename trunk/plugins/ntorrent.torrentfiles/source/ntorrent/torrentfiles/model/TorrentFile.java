@@ -20,6 +20,7 @@
 package ntorrent.torrentfiles.model;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;
@@ -33,6 +34,8 @@ public class TorrentFile extends DefaultMutableTreeNode {
 	private static final long serialVersionUID = 1L;
 
 	final private String name;
+	final private String parent;
+	final private int offset;
 	
 	private Priority priority;
 	private Percent percent;
@@ -41,8 +44,14 @@ public class TorrentFile extends DefaultMutableTreeNode {
 	private Boolean open;
 	private String lastTouched;
 	
-	public TorrentFile(String filename) {
-		name = filename;
+	public TorrentFile(){
+		this("/",null,0);
+	}
+	
+	public TorrentFile(String filename, String parent, int offset) {
+		this.parent = parent;
+		this.name = filename;
+		this.offset = offset;
 	}
 
 	public Percent getPercent() {
@@ -96,6 +105,14 @@ public class TorrentFile extends DefaultMutableTreeNode {
 
 	public Byte getSize() {
 		return size;
+	}
+	
+	public String getParentHash() {
+		return parent;
+	}
+	
+	public int getOffset(){
+		return offset;
 	}
 
 	public void setSize(long size) {
