@@ -185,7 +185,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 				for(int x = 0; x < pri.length; x++){
 					if(pri[x].equals(cmd)){
 						for(int row : treeTable.getSelectedRows()){
-							TorrentFile tf = (TorrentFile)treeTable.getValueAt(row, 1);
+							TorrentFile tf = (TorrentFile)treeTable.getValueAt(row, 2);
 							setPriority(tf, x);
 						}
 						
