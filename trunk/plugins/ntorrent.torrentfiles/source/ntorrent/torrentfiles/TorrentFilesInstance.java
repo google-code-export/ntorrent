@@ -51,6 +51,8 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 	
 	final private XmlRpcClient client;
 	final private File f;
+	final private Download d;
+	
 	
 	private boolean started;
 	
@@ -64,6 +66,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 		XmlRpcConnection connection = session.getConnection();
 		client = connection.getClient();
 		f = connection.getFileClient();
+		d = connection.getDownloadClient();
 		
 		//add mouselistener for popup
 		treeTable.addMouseListener(popup);
@@ -99,7 +102,8 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 						"f.get_size_bytes=",
 						"f.get_is_created=",
 						"f.get_is_open=",
-						"f.get_last_touched="
+						"f.get_last_touched=",
+						"f.get_offset="
 						});
 			
 				//System.out.println(result);
@@ -112,7 +116,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 						TorrentFile tf = getNode(name,x+1);
 						if(tf == null){
 							//System.out.println("make the node where parent="+parent);
-							tf = new TorrentFile(name,hash,x);
+							tf = new TorrentFile(name,hash);
 							//filter out directories.
 							if(x+1 == paths.size()){
 								//set the priority
@@ -129,6 +133,7 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 								//set last touched
 								tf.setLastTouched(""+new Date(rowArray.getLong(7)/1000));
 								//set offset
+								tf.setOffset(row);
 							}
 						}
 						
@@ -185,12 +190,18 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 							setPriority(tf, x);
 						}
 						
+						String hash = null;
 						for(TorrentFile tf : hashset){
-							//System.out.println(tf+" "+tf.getOffset()+" "+x);
-							f.set_priority(tf.getParentHash(), tf.getOffset(), x);
+							if(hash == null)
+								hash = tf.getParentHash();
+							//System.out.println(hash+" "+x+" "+tf.getOffset());
+							f.set_priority(hash,tf.getOffset(), x);
 							((Priority)treeModel.getValueAt(tf, 0)).setPriority(x);
 						}
+						
+						d.update_priorities(hash);
 						((TreeTableModelAdapter)treeTable.getModel()).fireTableDataChanged();
+						
 						break;
 					}
 

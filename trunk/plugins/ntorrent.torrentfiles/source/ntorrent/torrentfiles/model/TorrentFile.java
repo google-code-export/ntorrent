@@ -35,8 +35,8 @@ public class TorrentFile extends DefaultMutableTreeNode {
 
 	final private String name;
 	final private String parent;
-	final private int offset;
 	
+	private int offset;
 	private Priority priority;
 	private Percent percent;
 	private Byte size;
@@ -45,13 +45,12 @@ public class TorrentFile extends DefaultMutableTreeNode {
 	private String lastTouched;
 	
 	public TorrentFile(){
-		this("/",null,0);
+		this("/",null);
 	}
 	
-	public TorrentFile(String filename, String parent, int offset) {
+	public TorrentFile(String filename, String parent) {
 		this.parent = parent;
 		this.name = filename;
-		this.offset = offset;
 	}
 
 	public Percent getPercent() {
@@ -117,6 +116,10 @@ public class TorrentFile extends DefaultMutableTreeNode {
 
 	public void setSize(long size) {
 		this.size = new Byte(size);
+	}
+
+	public void setOffset(int i) {
+		offset = i;
 	}
 	
 }
