@@ -186,7 +186,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 						//System.out.println(this+":ok, im stopping as stop = "+pause);
 						controllerThread.join();
 					}else
-						Thread.sleep(500);
+						Thread.sleep(2000);
 					//Logger.global.info("Updating torrenttable");
 					//ttm.removeRow(ttm.getRowCount()-1);
 					//Thread.sleep(1000);
