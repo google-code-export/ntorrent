@@ -100,10 +100,9 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 						"f.get_completed_chunks=",
 						"f.get_size_chunks=",
 						"f.get_size_bytes=",
-						"f.get_is_created=",
-						"f.get_is_open=",
-						"f.get_last_touched=",
-						"f.get_offset="
+						/*"f.get_is_created=", this api was changed in 0.8.0, must therefore be removed until a more stable api is out.
+						"f.get_is_open=",*/  
+						"f.get_last_touched="
 						});
 			
 				//System.out.println(result);
@@ -128,10 +127,10 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 								//set size
 								tf.setSize(rowArray.getLong(4));
 								//set created and open
-								tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
-								tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
+								//tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
+								//tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
 								//set last touched
-								tf.setLastTouched(""+new Date(rowArray.getLong(7)/1000));
+								tf.setLastTouched(""+new Date(rowArray.getLong(5)/1000));
 								//set offset
 								tf.setOffset(row);
 							}
