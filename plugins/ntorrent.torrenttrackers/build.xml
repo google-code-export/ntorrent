@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ntorrent.data plug-in build file"
+<project name="ntorrent.torrenttrackers plug-in build file"
          default="help"
          basedir=".">
 	<jpf-info manifest="${basedir}/plugin.xml"

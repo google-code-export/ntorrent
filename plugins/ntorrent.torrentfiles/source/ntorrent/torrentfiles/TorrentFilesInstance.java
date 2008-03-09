@@ -77,7 +77,11 @@ public class TorrentFilesInstance implements TorrentSelectionListener, ActionLis
 	
 	public void start(){
 		started = true;
-		container.addTab(ResourcePool.getString("tabname", "locale", this), scrollpane);
+		int preferredIndex = 1;
+		if (preferredIndex > container.getTabCount())
+			preferredIndex = container.getTabCount();
+		
+		container.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane,null,preferredIndex);
 	}
 	
 	public void stop(){

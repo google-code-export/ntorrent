@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrentfiles;
+package ntorrent.torrenttrackers;
 
 import java.util.HashMap;
 
@@ -27,16 +27,17 @@ import ntorrent.session.ConnectionSession;
 import ntorrent.session.SessionExtension;
 
 /**
- * This plugin needs some serious cleanup.
  * @author Kim Eik
+ *
  */
-public class TorrentFilesController extends Plugin implements SessionExtension {
+public class TorrentTrackersController extends Plugin implements SessionExtension{
 
-	HashMap<ConnectionSession,TorrentFilesInstance> sessions = new HashMap<ConnectionSession, TorrentFilesInstance>();
+	HashMap<ConnectionSession, TorrentTrackersInstance> sessions = 
+		new HashMap<ConnectionSession,TorrentTrackersInstance>();
 	
 	public void init(ConnectionSession session) {
 		if(!sessions.containsKey(session)){
-			sessions.put(session, new TorrentFilesInstance(session));
+			sessions.put(session, new TorrentTrackersInstance(session));
 		}
 		
 		try{
@@ -45,17 +46,17 @@ public class TorrentFilesController extends Plugin implements SessionExtension {
 			x.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	protected void doStart() throws Exception {
-		for(TorrentFilesInstance instance : sessions.values())
+		for(TorrentTrackersInstance instance : sessions.values())
 			if(!instance.isStarted())
 				instance.start();
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		for(TorrentFilesInstance instance : sessions.values())
+		for(TorrentTrackersInstance instance : sessions.values())
 			if(instance.isStarted())
 				instance.stop();
 	}
