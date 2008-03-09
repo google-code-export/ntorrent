@@ -29,6 +29,10 @@ public class Priority implements Comparable<Priority>, Comparator<Priority> {
 		this(p,true);
 	}
 	
+	public void setPriority(Integer pri) {
+		this.pri = pri;
+	}
+	
 	public Priority(long p, boolean torrent){
 		pri = (int)p;
 		
