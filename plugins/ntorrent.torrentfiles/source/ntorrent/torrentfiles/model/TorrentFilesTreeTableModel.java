@@ -34,21 +34,21 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 
 	String[] cols = {
 			"priority",
+			"size",
 			"node",
 			"percent",
-			"size",
-			"created",
-			"open",
+			//"created", see TorrentFilesInstance for details
+			//"open",
 			"lasttouched",
 	};
 	
 	Class[] classes = {
 		Priority.class,
+		Byte.class,
 		TreeTableModel.class,
 		Percent.class,
-		Byte.class,
-		Boolean.class,
-		Boolean.class,
+		//Boolean.class,
+		//Boolean.class,
 		String.class
 	};
 	
@@ -74,17 +74,17 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 		switch(column){
 			case 0:
 				return tf.getPriority();
-			case 1:
-				return tf;
 			case 2:
-				return tf.getPercent();
+				return tf;
 			case 3:
+				return tf.getPercent();
+			case 1:
 				return tf.getSize();
-			case 4:
+			/*case 4:
 				return tf.isCreated();
 			case 5:
-				return tf.isOpen();
-			case 6:
+				return tf.isOpen();*/
+			case 4:
 				return tf.getLastTouched();
 				
 		}

@@ -77,13 +77,13 @@ public class JTreeTable extends JTable {
 	private static final long serialVersionUID = 1L;
 	protected TreeTableCellRenderer tree;
 	private final int[] widths = {
-			25,
+			15,
+			15,
 			500,
-			33,
-			33,
-			10,
-			10,
-			75
+			20,
+			//10, see TorrentFilesInstance for details
+			//10,
+			50
 	};
 
     public JTreeTable(TreeTableModel treeTableModel) {
