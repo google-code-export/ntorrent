@@ -19,103 +19,44 @@
  */
 package ntorrent.torrenttable.sorter;
 
-import java.awt.BorderLayout;
 import java.util.HashMap;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.table.TableRowSorter;
-import javax.swing.text.PlainDocument;
 
 import ntorrent.session.ConnectionSession;
 import ntorrent.session.SessionExtension;
-import ntorrent.torrenttable.SelectionValueInterface;
-import ntorrent.torrenttable.TorrentTableInterface;
-import ntorrent.torrenttable.model.Torrent;
-import ntorrent.torrenttable.model.TorrentTableModel;
-import ntorrent.torrenttable.sorter.model.TorrentRowFilter;
-import ntorrent.torrenttable.sorter.view.TorrentTableFinder;
-import ntorrent.torrenttable.view.TorrentTable;
 
 import org.java.plugin.Plugin;
 
 public class TorrentTableSorter extends Plugin implements SessionExtension{
 	
-	private HashMap<ConnectionSession,JComponent> sessions = new HashMap<ConnectionSession,JComponent>();
-	private TorrentRowSorter sorter;
-	private TorrentRowFilter filter;
-	private final static PlainDocument document = new PlainDocument();
-	private boolean init = false;
+	private HashMap<ConnectionSession,TorrentTableSorterInstance> sessions = 
+		new HashMap<ConnectionSession,TorrentTableSorterInstance>();
 	
 	@Override
 	protected void doStart() throws Exception {
-		if(init){
-			for(ConnectionSession s : sessions.keySet()){
-				final TorrentTableInterface controller = s.getTorrentTableController();
-				final TorrentTable table = controller.getTable();
-				final JPanel p = table.getDisplay();
-				
-				final SelectionValueInterface selectionMethod = new SelectionValueInterface(){
-
-					public Torrent getTorrentFromView(int index) {
-						return table.getModel().getRow(sorter.convertRowIndexToModel(index));
-					}
-					
-					
-				};
-				
-				controller.setSelectionMethod(selectionMethod);
-				table.setRowSorter(sorter);
-				p.add(sessions.get(s),BorderLayout.NORTH);
-				p.revalidate();
-				p.repaint();
-			}
-			
-		}
+		for(TorrentTableSorterInstance instance : sessions.values())
+			if(!instance.isStarted())
+				instance.start();
 	}
-
 	@Override
 	protected void doStop() throws Exception {
-		if(init){
-			for(ConnectionSession s : sessions.keySet()){
-				final TorrentTableInterface controller = s.getTorrentTableController();
-				final TorrentTable table = controller.getTable();
-				final JPanel p = table.getDisplay();
-				
-				controller.setSelectionMethod(null);
-				table.setRowSorter(null);
-				p.remove(sessions.get(s));
-				p.revalidate();
-				p.repaint();
-			}
-		}
+		for(TorrentTableSorterInstance instance : sessions.values())
+			if(instance.isStarted())
+				instance.stop();
 	}
 
 
 	public void init(ConnectionSession session) {
-		
-			if(!init){
-				init = true;
-				sorter = new TorrentRowSorter(session.getTorrentTableController().getTable().getModel());
-				sorter.setSortsOnUpdates(true);
-				filter = new TorrentRowFilter(sorter);
-			}
+		if(!sessions.containsKey(session)){
+			TorrentTableSorterInstance instance = new TorrentTableSorterInstance(session);
+			sessions.put(session,instance);
 			
-			if(!sessions.containsKey(session)){
-				TorrentTableFinder finder = new TorrentTableFinder(filter);
-				JTextField searchBox = finder.getSearchBox();
-				searchBox.setDocument(document);
-				sessions.put(session,finder);
-			}
-			
-			if(getManager().isPluginActivated(getDescriptor()))
-				try {
+			if(!instance.isStarted())
+				try{
 					doStart();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				}catch(Exception x){
+					x.printStackTrace();
 				}
+		}
 	}
 
 

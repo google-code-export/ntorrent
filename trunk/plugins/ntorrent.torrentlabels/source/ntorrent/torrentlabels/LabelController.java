@@ -46,12 +46,14 @@ public class LabelController extends Plugin implements SessionExtension{
 	@Override
 	protected void doStart() throws Exception {
 		for(LabelInstance instance : sessions.values())
-			instance.start();
+			if(!instance.isStarted())
+				instance.start();
 	}
 	@Override
 	protected void doStop() throws Exception {
 		for(LabelInstance instance : sessions.values())
-			instance.stop();
+			if(instance.isStarted())
+				instance.stop();
 	}
 
 }
