@@ -21,6 +21,7 @@ package ntorrent.torrentfiles.model;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import ntorrent.locale.ResourcePool;
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;
 
@@ -60,7 +61,7 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 	}
 
 	public String getColumnName(int column) {
-		return cols[column];
+		return ResourcePool.getString(cols[column], "locale", this);
 	}
 	
 	@Override
