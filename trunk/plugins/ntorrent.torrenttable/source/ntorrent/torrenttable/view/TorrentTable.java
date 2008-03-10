@@ -50,8 +50,6 @@ public class TorrentTable extends JTable implements MouseListener{
 		setColumnSelectionAllowed(false);
 		setRowHeight(20);
 		
-		setDoubleBuffered(true);
-		
 		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
 		setDefaultRenderer(Percent.class, new PercentRenderer());
 		

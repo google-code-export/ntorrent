@@ -41,13 +41,17 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 	private static final ImageIcon downIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downloading.png");
 	private static final ImageIcon dandupIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downandup.png");
 	
-	JLabel name = new JLabel();
-	JLabel message = new JLabel();
+	private static final int selectedRowHeight = 40;
+	private static final int standardRowHeight = 20;
+	
+	private final JLabel name = new JLabel();
+	private final JLabel message = new JLabel();
+	private final GridLayout layout = new GridLayout(0,1);
 	
 	boolean firstrun = true;
 	
 	public TorrentClassRenderer() {
-		setLayout(new GridLayout(0,1));
+		setLayout(layout);
 		
 		add(name);
 		add(message);
@@ -56,6 +60,7 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		
 		if(firstrun){
+			firstrun = false;
 			name.setFont(table.getFont());
 			message.setFont(table.getFont());
 		}
@@ -85,15 +90,13 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
 			setForeground(table.getSelectionForeground());
-			//if(System.getProperty("java.specification.version") == "1.6"){
-				name.setForeground(table.getSelectionForeground());
-				//name.setBackground(table.getSelectionBackground());
-				message.setForeground(table.getSelectionForeground());
-				//message.setBackground(table.getSelectionBackground());
-			//}
+			name.setForeground(table.getSelectionForeground());
+			message.setForeground(table.getSelectionForeground());
+			
 			if(tor.hasMessage() && tor.isStarted()){
 				add(message);
-				table.setRowHeight(row, 40);
+				if(table.getRowHeight(row) == standardRowHeight)
+					table.setRowHeight(row, selectedRowHeight); //eats cpu as its revalidates and repaints
 				message.setText(ResourcePool.getString("message","locale",this)+": "+tor.getMessage());
 			}else{
 				remove(message);
@@ -104,7 +107,8 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			setForeground(table.getForeground());
 			name.setForeground(table.getForeground());
 			message.setForeground(table.getForeground());
-			table.setRowHeight(row,20);
+			if(table.getRowHeight(row) == selectedRowHeight)
+				table.setRowHeight(row,standardRowHeight); //eats cpu as its revalidates and repaints
 			remove(message);
 		}
 		
