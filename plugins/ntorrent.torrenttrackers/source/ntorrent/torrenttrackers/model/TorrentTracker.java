@@ -19,6 +19,9 @@
  */
 package ntorrent.torrenttrackers.model;
 
+import java.util.Date;
+import ntorrent.torrenttable.model.Byte;
+
 /**
  * @author Kim Eik
  *
@@ -31,10 +34,10 @@ public class TorrentTracker {
 	private String id;
 	private int minIntervall;
 	private int normalIntervall;
-	private int scrapeComplete;
-	private int scrapeDownloaded;
-	private int scrapeIncomplete;
-	private int scrapeTimeLast;
+	private Byte scrapeComplete;
+	private Byte scrapeDownloaded;
+	private Byte scrapeIncomplete;
+	private Date scrapeTimeLast;
 	
 	private boolean enabled;
 	private boolean open;
@@ -91,36 +94,42 @@ public class TorrentTracker {
 		this.open = open;
 	}
 
-	public int getScrapeComplete() {
+	public Byte getScrapeComplete() {
 		return scrapeComplete;
 	}
 
-	public void setScrapeComplete(int scrapeComplete) {
-		this.scrapeComplete = scrapeComplete;
+	public void setScrapeComplete(long scrapeComplete) {
+		this.scrapeComplete = new Byte(scrapeComplete);
 	}
 
-	public int getScrapeDownloaded() {
+	public Byte getScrapeDownloaded() {
 		return scrapeDownloaded;
 	}
 
-	public void setScrapeDownloaded(int scrapeDownloaded) {
-		this.scrapeDownloaded = scrapeDownloaded;
+	public void setScrapeDownloaded(long scrapeDownloaded) {
+		this.scrapeDownloaded = new Byte(scrapeDownloaded);
 	}
 
-	public int getScrapeIncomplete() {
+	public Byte getScrapeIncomplete() {
 		return scrapeIncomplete;
 	}
 
-	public void setScrapeIncomplete(int scrapeIncomplete) {
-		this.scrapeIncomplete = scrapeIncomplete;
+	public void setScrapeIncomplete(long scrapeIncomplete) {
+		this.scrapeIncomplete = new Byte(scrapeIncomplete);
 	}
 
-	public int getScrapeTimeLast() {
+	public Date getScrapeTimeLast() {
 		return scrapeTimeLast;
 	}
 
-	public void setScrapeTimeLast(int scrapeTimeLast) {
-		this.scrapeTimeLast = scrapeTimeLast;
+	public void setScrapeTimeLast(long scrapeTimeLast) {
+		if(scrapeTimeLast > 0){
+			if(this.scrapeTimeLast != null){
+				this.scrapeTimeLast.setTime(scrapeTimeLast);
+			}else{
+				this.scrapeTimeLast = new Date(scrapeTimeLast);
+			}
+		}
 	}
 
 	public String getUrl() {

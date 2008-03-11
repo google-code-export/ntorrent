@@ -25,12 +25,15 @@ import java.awt.Dimension;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
+import ntorrent.locale.ResourcePool;
 import ntorrent.torrenttrackers.model.TorrentTracker;
 import ntorrent.torrenttrackers.model.TorrentTrackersListModel;
 
@@ -44,9 +47,10 @@ public class TorrentTrackerList extends JList {
 	
 	public TorrentTrackerList(TorrentTrackersListModel model) {
 		super(model);
-		setFixedCellHeight(40);
 		setCellRenderer(new ListCellRenderer(){
-
+			
+			public final static String bundle = "locale";
+			
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 				TorrentTracker tt = (TorrentTracker) value;
 				String iconUrl = null;
@@ -59,30 +63,37 @@ public class TorrentTrackerList extends JList {
 				}else{
 					iconUrl = "plugins/ntorrent.torrenttable/icons/stopped.png";
 				}
-					
-				ImageIcon icon = new ImageIcon(iconUrl);
-				JLabel label = new JLabel(tt.toString(),icon,SwingConstants.LEFT);
-				JLabel data = new JLabel(
-						" Min-int: "+tt.getMinIntervall()+
-						" Normal-int: "+tt.getNormalIntervall()+
-						" Scrape-done: "+tt.getScrapeComplete()+
-						" Scrape-down: "+tt.getScrapeDownloaded()+
-						" Scrape-undone: "+tt.getScrapeIncomplete()+
-						" Scrape-lasttime: "+tt.getScrapeTimeLast()
-						
-						);
 				
 				JPanel panel = new JPanel(new BorderLayout());
 				
-				panel.add(label,BorderLayout.NORTH);
-				panel.add(data, BorderLayout.CENTER);
+				ImageIcon icon = new ImageIcon(iconUrl);
+				JLabel iconHolder = new JLabel(icon);
+				
+				JTextPane tracker = new JTextPane();
+				tracker.setText(tt.toString()+"\n" +
+						ResourcePool.getString("scrape-done", bundle, this)+": "+tt.getScrapeComplete()+" "+
+						ResourcePool.getString("scrape-down", bundle, this)+": "+tt.getScrapeDownloaded()+" "+
+						ResourcePool.getString("scrape-undone", bundle, this)+": "+tt.getScrapeIncomplete()+" "+
+						ResourcePool.getString("scrape-time", bundle, this)+": "+tt.getScrapeTimeLast()+"\n"+
+						ResourcePool.getString("min-int", bundle, this)+": "+tt.getMinIntervall()+" "+
+						ResourcePool.getString("nom-int", bundle, this)+": "+tt.getNormalIntervall());
+				
+				tracker.setOpaque(false);
+				
+				panel.add(iconHolder,BorderLayout.WEST);
+				panel.add(tracker,BorderLayout.CENTER);
+
 				
 				if(isSelected){
 					panel.setBackground(list.getSelectionBackground());
 					panel.setForeground(list.getSelectionForeground());
+					tracker.setBackground(list.getSelectionBackground());
+					tracker.setForeground(list.getSelectionForeground());
 				}else{
 					panel.setBackground(list.getBackground());
 					panel.setForeground(list.getForeground());
+					tracker.setBackground(list.getBackground());
+					tracker.setForeground(list.getForeground());
 				}
 				
 				return panel;
