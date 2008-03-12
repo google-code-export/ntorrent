@@ -1,23 +1,21 @@
 package ntorrent;
 
 
-import java.awt.Frame;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import ntorrent.data.Environment;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.logging.SystemLog;
+import ntorrent.io.rtorrent.Global;
 import ntorrent.io.socket.Client;
 import ntorrent.io.socket.Server;
 import ntorrent.locale.ResourcePool;
@@ -25,10 +23,6 @@ import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.ClientProfileListModel;
 
 import org.java.plugin.Plugin;
-import org.java.plugin.PluginManager;
-import org.java.plugin.boot.Application;
-import org.java.plugin.boot.ApplicationPlugin;
-import org.java.plugin.util.ExtendedProperties;
 
 /**
  *   nTorrent - A GUI client to administer a rtorrent process 
@@ -124,10 +118,44 @@ public class Main extends Plugin {
 			
 	public static void clientSoConn(String line){
 		File f = new File(line);
-		if(f.isFile())
-			System.out.println("load this as a file: "+line);
-		else
-			System.out.println("load this as a url: "+line);
+		Vector<Session> sessionList = new Vector<Session>();
+			for(Session s : sessions){
+				if(s.isConnected())
+					sessionList.add(s);
+			}
+		
+		Session target = null;
+		if(sessionList.size() > 1){
+			target = (Session) JOptionPane.showInputDialog(
+					main,
+					null, 
+					null, 
+					JOptionPane.PLAIN_MESSAGE,
+					null, 
+					sessionList.toArray(),
+					null
+					);
+		}else
+			target = sessionList.get(0);
+		
+		if(target != null){
+			Global global = target.getConnection().getGlobalClient();
+			if(f.isFile()){
+				try {
+					byte[] source = new byte[(int)f.length()];
+					FileInputStream reader = new FileInputStream(f);
+					reader.read(source, 0, source.length);					
+					global.load_raw_start(source);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else
+				global.load_start(line);
+		}
 		
 	}
 	

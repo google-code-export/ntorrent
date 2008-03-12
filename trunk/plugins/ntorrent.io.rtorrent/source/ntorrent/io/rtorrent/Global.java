@@ -82,13 +82,13 @@ public interface Global {
 	//reserved keywords.
 	//Object if();
 	//Object import();
-	Object load();
-	Object load_raw();
-	Object load_raw_start();
-	Object load_raw_verbose();
-	Object load_start();
-	Object load_start_verbose();
-	Object load_verbose();
+	Object load(String url);
+	Object load_raw(Object data);
+	Object load_raw_start(Object data);
+	Object load_raw_verbose(Object data);
+	Object load_start(String url);
+	Object load_start_verbose(String url);
+	Object load_verbose(String url);
 	Object on_close();
 	Object on_erase();
 	Object on_finished();
