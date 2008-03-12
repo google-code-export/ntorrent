@@ -126,6 +126,9 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 		}
 	}
 	
-
+	@Override
+	public String toString() {
+		return profile.toString();
+	}
 
 }

@@ -28,9 +28,9 @@ import ntorrent.data.Environment;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
-	Toolkit toolkit = Toolkit.getDefaultToolkit();
-	Dimension screenSize = toolkit.getScreenSize();
-	Image icon = toolkit.getImage("plugins/ntorrent/icons/ntorrent48.png");
+	private Toolkit toolkit = Toolkit.getDefaultToolkit();
+	private Dimension screenSize = toolkit.getScreenSize();
+	private Image icon = toolkit.getImage("plugins/ntorrent/icons/ntorrent48.png");
 	
 	public Window(){
 		this(Environment.appName);
