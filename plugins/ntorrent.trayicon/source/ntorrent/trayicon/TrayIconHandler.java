@@ -64,6 +64,7 @@ public class TrayIconHandler extends Plugin implements WindowListener, MouseList
 	public void windowOpened(WindowEvent e) {}
 
 	public void mouseClicked(MouseEvent e) {
+		window.setVisible(true);
 		window.setExtendedState(JFrame.NORMAL);
 		window.requestFocus();
 	}
