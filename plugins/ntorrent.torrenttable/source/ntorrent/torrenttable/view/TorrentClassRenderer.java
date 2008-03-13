@@ -93,13 +93,15 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 			name.setForeground(table.getSelectionForeground());
 			message.setForeground(table.getSelectionForeground());
 			
-			if(tor.hasMessage() && tor.isStarted()){
-				add(message);
+			if(tor.hasMessage() && tor.isStarted() && table.getSelectedRowCount() == 1){
 				if(table.getRowHeight(row) == standardRowHeight)
 					table.setRowHeight(row, selectedRowHeight); //eats cpu as its revalidates and repaints
+				add(message);
 				message.setText(ResourcePool.getString("message","locale",this)+": "+tor.getMessage());
 			}else{
 				remove(message);
+				if(table.getRowHeight(row) == selectedRowHeight)
+					table.setRowHeight(row, standardRowHeight); //eats cpu as its revalidates and repaints
 			}
 			
 		}else{
