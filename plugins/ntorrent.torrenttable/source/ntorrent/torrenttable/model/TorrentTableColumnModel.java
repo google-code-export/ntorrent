@@ -19,16 +19,22 @@
  */
 package ntorrent.torrenttable.model;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.util.Vector;
+
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
+import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
+import ntorrent.tools.Serializer;
 
 
-public class TorrentTableColumnModel extends DefaultTableColumnModel {
+public class TorrentTableColumnModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	public final static String[] cols = {
+	public static transient final String[] cols = {
 		"name",
 		"size",
 		"down",
@@ -43,7 +49,7 @@ public class TorrentTableColumnModel extends DefaultTableColumnModel {
 		"priority"
 	};
 	
-	public final static int[] widths = {
+	public static transient final int[] widths = {
 		300,
 		50,
 		50,
@@ -58,15 +64,83 @@ public class TorrentTableColumnModel extends DefaultTableColumnModel {
 		50
 	};
 	
+	private transient DefaultTableColumnModel model = new DefaultTableColumnModel();
+	private Vector<ColumnModel> columnModel = new Vector<ColumnModel>();
+	
 	public TorrentTableColumnModel() {
 		for(int x = 0; x < cols.length; x++){
+			columnModel.add(new ColumnModel(cols[x],widths[x]));
+		}
+		createTableColumnModel();
+		
+		try{
+			TorrentTableColumnModel obj = (TorrentTableColumnModel)Serializer.deserialize(TorrentTableColumnModel.class, Environment.getNtorrentDir());
+			Vector<ColumnModel> columnModel = obj.columnModel;
+			Vector<TableColumn> tableColumns = new Vector<TableColumn>();
+			for(ColumnModel c : columnModel){
+				int index = model.getColumnIndex(c.name);
+				TableColumn tc = model.getColumn(index);
+				tableColumns.add(tc);
+				model.removeColumn(tc);
+				tc.setPreferredWidth(c.width);
+			}
+			
+			clearTableColumnModel();
+			
+			for(TableColumn t : tableColumns)
+				model.addColumn(t);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	
+	}
+	
+	private void createTableColumnModel(){
+		for(int x = 0; x < columnModel.size(); x++){
 			TableColumn t = new TableColumn(x);
-			t.setHeaderValue(ResourcePool.getString(cols[x],"locale",this));
-			t.setIdentifier(cols[x]);
-			t.setPreferredWidth(widths[x]);
-			addColumn(t);
+			ColumnModel c = columnModel.get(x);
+			t.setHeaderValue(ResourcePool.getString(c.name,"locale",this));
+			t.setIdentifier(c.name);
+			t.setPreferredWidth(c.width);
+			model.addColumn(t);
 		}
 	}
 	
+	private void clearTableColumnModel(){
+		int num = model.getColumnCount();
+		while(num > 0){
+			model.removeColumn(model.getColumn(--num));
+		}
+	}
+	
+	public DefaultTableColumnModel getModel() {
+		return model;
+	}
+	
+	private Object writeReplace() throws ObjectStreamException{
+		columnModel.clear();
+		for(int x = 0; x < model.getColumnCount(); x++){
+			TableColumn c = model.getColumn(x);
+			columnModel.add(x, new ColumnModel((String)c.getIdentifier(),c.getWidth()));
+		}
+		return this;
+	}
+	
+	private class ColumnModel implements Serializable{
+		private static final long serialVersionUID = 1L;
+		private final String name;
+		private final int width;
+
+		public ColumnModel(String name,int width) {
+			this.name = name;
+			this.width = width;
+		}
+		
+		@Override
+		public String toString() {
+			return "["+name+" width="+width+"]";
+		}
+	}
 	
 }
