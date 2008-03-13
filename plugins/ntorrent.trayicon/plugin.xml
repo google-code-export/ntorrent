@@ -3,6 +3,7 @@
 <plugin id="ntorrent.trayicon" version="0.1" class="ntorrent.trayicon.TrayIconHandler">
 	<requires>
 		<import plugin-id="ntorrent.jpf" />
+		<import plugin-id="ntorrent" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
