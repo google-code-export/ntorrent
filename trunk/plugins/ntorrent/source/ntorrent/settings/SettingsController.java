@@ -17,19 +17,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.io.settings;
+package ntorrent.settings;
 
-import java.io.Serializable;
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+/**
+ * @author Kim Eik
+ *
+ */
+public class SettingsController {
 
-public class Settings implements Serializable{
-	private static final long serialVersionUID = 1L;
-
-	@Documented
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Description {
-		String value();
-	}
 }
