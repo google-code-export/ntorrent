@@ -37,7 +37,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
+import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
@@ -46,17 +48,17 @@ import ntorrent.torrenttable.model.TorrentTableModel;
 public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener{
 	private static final long serialVersionUID = 1L;
 	private static final String bundle = "locale";
-	final TableColumnModel model;
+	private final TorrentTableColumnModel model;
 	
-	public TorrentTableHeaderPopupMenu(TableColumnModel cmodel) {
-		model = cmodel;
+	public TorrentTableHeaderPopupMenu(final TorrentTableColumnModel model) {
+		this.model = model;
 		
 		for(String c : TorrentTableColumnModel.cols){
 			String name = ResourcePool.getString(c,bundle,this);
 			JCheckBox check = new JCheckBox(name);
 			check.setName(c);
 			try{
-				model.getColumnIndex(c);
+				model.getModel().getColumnIndex(c);
 				check.setSelected(true);
 			}catch(IllegalArgumentException x){
 				check.setSelected(false);
@@ -70,13 +72,13 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 
 			public void actionPerformed(ActionEvent e) {
 				//doesnt work.
-				/*try {
+				try {
 					if(model instanceof Serializable){
-						Serializer.serialize((TorrentTableColumnModel)model, Environment.getNtorrentDir());
+						Serializer.serialize(model, Environment.getNtorrentDir());
 					}
 				} catch (IOException x) {
 					Logger.global.log(Level.WARNING,x.getMessage(),x);
-				}*/
+				}
 			}
 			
 		});
@@ -89,6 +91,7 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 
 	public void itemStateChanged(ItemEvent e) {
 		JCheckBox src = ((JCheckBox) e.getItem());
+		TableColumnModel model = this.model.getModel();
 		if(e.getStateChange() == ItemEvent.SELECTED){
 			try{
 				model.getColumnIndex(src.getName());
