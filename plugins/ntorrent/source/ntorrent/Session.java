@@ -72,13 +72,15 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 	@Override
 	public void run() {
 		try {
-			int tabIndex = jtab.getSelectedIndex();
+			int tabIndex = jtab.indexOfComponent(sessionView);
 			connection = new XmlRpcConnection(profile);
 			session = new ConnectionSession(connection);
 			sessionView = session.getDisplay();
 			
-			if(tabIndex == -1)
-				tabIndex = 0;
+			if(tabIndex == -1){
+				tabIndex = jtab.getTabCount();
+				jtab.insertTab("---", null, null, null,tabIndex);
+			}
 			
 			jtab.setComponentAt(tabIndex, sessionView);
 			jtab.setTitleAt(tabIndex, profile.toString());
