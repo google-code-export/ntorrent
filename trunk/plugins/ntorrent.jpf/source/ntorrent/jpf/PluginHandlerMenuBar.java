@@ -19,8 +19,10 @@
  */
 package ntorrent.jpf;
 
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,6 +35,8 @@ import javax.swing.JOptionPane;
 
 import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
+import ntorrent.settings.model.SettingsExtension;
+import ntorrent.tools.Serializer;
 
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
@@ -42,12 +46,13 @@ import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-public class PluginHandlerMenuBar implements ItemListener,EventListener {
+public class PluginHandlerMenuBar implements ItemListener,EventListener, SettingsExtension {
 	
-	PluginManager manager = Environment.getPluginManager();
-	PluginRegistry reg = manager.getRegistry();
+	private static final PluginManager manager = Environment.getPluginManager();
+	private static final PluginRegistry reg = manager.getRegistry();
 	
-	Map<String,JCheckBox> extensions = new HashMap<String, JCheckBox>();
+	private final Map<String,JCheckBox> extensions = new HashMap<String, JCheckBox>();
+	private final PluginSet set = new PluginSet();
 	
 	public PluginHandlerMenuBar(JMenuBar menuBar){
 		manager.registerListener(this);
@@ -71,8 +76,8 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 				c.addItemListener(this);
 				plugin.add(c);
 			}
-
-		
+			//restore the plugins
+			restorePlugins();
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -88,6 +93,13 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 			}
 		else
 			manager.deactivatePlugin(id);
+		
+		try {
+			saveActionPerformed();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public void pluginActivated(Plugin plugin) {
@@ -108,4 +120,30 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
+
+	public void restorePlugins(){
+		try {
+			PluginSet set = (PluginSet)Serializer.deserialize(PluginSet.class, Environment.getNtorrentDir());
+			for(String s : set){
+				manager.activatePlugin(s);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Component getDisplay() {
+		//dont have a display for now.
+		return null;
+	}
+
+	public void saveActionPerformed() throws IOException {
+		set.clear();
+		for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
+			PluginDescriptor p = e.getDeclaringPluginDescriptor();
+			if(manager.isPluginActivated(p))
+				set.add(p.getId());
+		}
+		Serializer.serialize(set,Environment.getNtorrentDir());
+	}
 }

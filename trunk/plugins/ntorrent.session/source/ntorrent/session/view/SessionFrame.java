@@ -57,6 +57,8 @@ public class SessionFrame extends JPanel{
 		vsplit.add(ttc.getTable().getDisplay());
 		hsplit.add(tabbedPane);
 		add(statusBar, BorderLayout.SOUTH);
+		
+		hsplit.setDividerLocation(400);
 	}
 	
 	public JSplitPane getHsplit() {
