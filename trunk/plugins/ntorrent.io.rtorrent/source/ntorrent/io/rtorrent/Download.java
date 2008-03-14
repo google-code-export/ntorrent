@@ -32,8 +32,8 @@ public interface Download {
 	Object delete_link();
 	Object delete_tied();
 	Object erase(String string);
-	Object get_base_filename();
-	Object get_base_path();
+	String get_base_filename(String hash);
+	String get_base_path(String hash);
 	Object get_bytes_done();
 	long get_chunk_size(String hash);
 	long get_chunks_hashed(String hash);
@@ -50,7 +50,7 @@ public interface Download {
 	String get_custom4(String hash);
 	String get_custom5(String hash);
 	String get_directory(String hash);
-	String get_directory_base(String hash);
+	//String get_directory_base(String hash); not defined?
 	long get_down_rate(String hash);
 	long get_down_total(String hash);
 	long get_free_diskspace(String hash);
@@ -83,7 +83,7 @@ public interface Download {
 	long get_skip_total(String hash);
 	long get_state(String hash);
 	long get_state_changed(String hash);
-	Object get_tied_to_file(String hash);
+	String get_tied_to_file(String hash);
 	Object get_tracker_focus(String hash);
 	Object get_tracker_numwant(String hash);
 	Object get_tracker_size(String hash);
@@ -94,7 +94,7 @@ public interface Download {
 	Object is_hash_checked(String hash);
 	Object is_hash_checking(String hash);
 	Object is_multi_file(String hash);
-	Object is_open(String hash);
+	long is_open(String hash);
 	Object is_pex_active(String hash);
 	Object is_private(String hash);
 	//XmlRpcArray multicall(XmlRpcArray args); doesnt work, return wrong object type.
