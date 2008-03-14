@@ -6,23 +6,16 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.tree.TreeNode;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import redstone.xmlrpc.XmlRpcArray;
-import redstone.xmlrpc.XmlRpcClient;
-import redstone.xmlrpc.XmlRpcException;
-import redstone.xmlrpc.XmlRpcFault;
 
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.rtorrent.File;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
+import ntorrent.session.SessionInstance;
 import ntorrent.session.view.SessionFrame;
 import ntorrent.torrentfiles.model.TorrentFile;
 import ntorrent.torrentfiles.model.TorrentFilesTreeTableModel;
@@ -30,16 +23,19 @@ import ntorrent.torrentfiles.model.TreeTableModelAdapter;
 import ntorrent.torrentfiles.view.JTreeTable;
 import ntorrent.torrentfiles.view.TorrentFilesPopupMenu;
 import ntorrent.torrenttable.TorrentTableInterface;
-import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
+import redstone.xmlrpc.XmlRpcArray;
+import redstone.xmlrpc.XmlRpcClient;
+import redstone.xmlrpc.XmlRpcException;
+import redstone.xmlrpc.XmlRpcFault;
 
 /**
  * @author Kim Eik
  *
  */
-public class TorrentFilesInstance implements TorrentSelectionListener, ActionListener {
+public class TorrentFilesInstance implements SessionInstance,TorrentSelectionListener, ActionListener {
 
 	 private TorrentFilesTreeTableModel treeModel = new TorrentFilesTreeTableModel();
 	final private JTreeTable treeTable = new JTreeTable(treeModel);

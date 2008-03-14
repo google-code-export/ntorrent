@@ -29,6 +29,7 @@ import ntorrent.io.rtorrent.Tracker;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
+import ntorrent.session.SessionInstance;
 import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
@@ -40,7 +41,7 @@ import ntorrent.torrenttrackers.view.TorrentTrackerList;
  * @author Kim Eik
  *
  */
-public class TorrentTrackersInstance implements TorrentSelectionListener {
+public class TorrentTrackersInstance implements SessionInstance, TorrentSelectionListener {
 	private final TorrentTableInterface tc;
 	private final JTabbedPane tab;
 	
@@ -104,7 +105,7 @@ public class TorrentTrackersInstance implements TorrentSelectionListener {
 						tt.setOpen(row.getLong(9) == 1);
 						tt.setEnabled(row.getLong(10) == 1);
 						
-						System.out.println(row);
+						//System.out.println(row);
 						
 						trackerListModel.add(tt);
 					}

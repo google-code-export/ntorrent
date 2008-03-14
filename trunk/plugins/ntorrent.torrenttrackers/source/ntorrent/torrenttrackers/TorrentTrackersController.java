@@ -19,46 +19,16 @@
  */
 package ntorrent.torrenttrackers;
 
-import java.util.HashMap;
-
-import org.java.plugin.Plugin;
-
 import ntorrent.session.ConnectionSession;
-import ntorrent.session.SessionExtension;
+import ntorrent.session.DefaultSessionExtension;
 
 /**
  * @author Kim Eik
  *
  */
-public class TorrentTrackersController extends Plugin implements SessionExtension{
-
-	HashMap<ConnectionSession, TorrentTrackersInstance> sessions = 
-		new HashMap<ConnectionSession,TorrentTrackersInstance>();
-	
-	public void init(ConnectionSession session) {
-		if(!sessions.containsKey(session)){
-			sessions.put(session, new TorrentTrackersInstance(session));
-		}
-		
-		try{
-			doStart();
-		}catch(Exception x){
-			x.printStackTrace();
-		}
-	}
-	
+public class TorrentTrackersController extends DefaultSessionExtension<TorrentTrackersInstance>{
 	@Override
-	protected void doStart() throws Exception {
-		for(TorrentTrackersInstance instance : sessions.values())
-			if(!instance.isStarted())
-				instance.start();
+	protected TorrentTrackersInstance getNewSessionInstance(ConnectionSession session) {
+		return new TorrentTrackersInstance(session);
 	}
-
-	@Override
-	protected void doStop() throws Exception {
-		for(TorrentTrackersInstance instance : sessions.values())
-			if(instance.isStarted())
-				instance.stop();
-	}
-
 }

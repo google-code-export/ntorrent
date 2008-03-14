@@ -17,16 +17,34 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.sorter;
+package ntorrent.torrentinfo;
 
 import ntorrent.session.ConnectionSession;
-import ntorrent.session.DefaultSessionExtension;
+import ntorrent.session.SessionInstance;
 
-public class TorrentTableSorter extends DefaultSessionExtension<TorrentTableSorterInstance>{
+/**
+ * @author Kim Eik
+ *
+ */
+public class TorrentInfoInstance implements SessionInstance {
 
-	@Override
-	protected TorrentTableSorterInstance getNewSessionInstance(ConnectionSession session) {
-		return new TorrentTableSorterInstance(session);
+	public TorrentInfoInstance(ConnectionSession session) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public boolean isStarted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void stop() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

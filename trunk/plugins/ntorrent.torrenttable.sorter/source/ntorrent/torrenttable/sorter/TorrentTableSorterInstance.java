@@ -22,9 +22,9 @@ package ntorrent.torrenttable.sorter;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
-import javax.swing.text.PlainDocument;
 
 import ntorrent.session.ConnectionSession;
+import ntorrent.session.SessionInstance;
 import ntorrent.torrenttable.SelectionValueInterface;
 import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.model.Torrent;
@@ -36,7 +36,7 @@ import ntorrent.torrenttable.view.TorrentTable;
  * @author Kim Eik
  *
  */
-public class TorrentTableSorterInstance {
+public class TorrentTableSorterInstance implements SessionInstance {
 	private final TorrentTableInterface tc;
 	private final TorrentTable table;
 	private final JPanel panel;
