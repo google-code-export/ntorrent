@@ -19,7 +19,6 @@
  */
 package ntorrent.jpf;
 
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
@@ -35,7 +34,6 @@ import javax.swing.JOptionPane;
 
 import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
-import ntorrent.settings.model.SettingsExtension;
 import ntorrent.tools.Serializer;
 
 import org.java.plugin.Plugin;
@@ -46,7 +44,7 @@ import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-public class PluginHandlerMenuBar implements ItemListener,EventListener, SettingsExtension {
+public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
 	private static final PluginManager manager = Environment.getPluginManager();
 	private static final PluginRegistry reg = manager.getRegistry();
@@ -77,7 +75,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener, Setting
 				plugin.add(c);
 			}
 			//restore the plugins
-			restorePlugins();
+			restore();
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -95,7 +93,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener, Setting
 			manager.deactivatePlugin(id);
 		
 		try {
-			saveActionPerformed();
+			save();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -121,7 +119,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener, Setting
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
 
-	public void restorePlugins(){
+	private void restore(){
 		try {
 			PluginSet set = (PluginSet)Serializer.deserialize(PluginSet.class, Environment.getNtorrentDir());
 			for(String s : set){
@@ -131,13 +129,8 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener, Setting
 			e.printStackTrace();
 		}
 	}
-	
-	public Component getDisplay() {
-		//dont have a display for now.
-		return null;
-	}
 
-	public void saveActionPerformed() throws IOException {
+	private void save() throws IOException {
 		set.clear();
 		for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
 			PluginDescriptor p = e.getDeclaringPluginDescriptor();

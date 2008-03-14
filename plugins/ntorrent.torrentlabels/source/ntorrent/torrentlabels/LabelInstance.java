@@ -19,6 +19,7 @@ import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
+import ntorrent.session.SessionInstance;
 import ntorrent.torrentlabels.model.LabelListModel;
 import ntorrent.torrentlabels.model.TorrentTableFilter;
 import ntorrent.torrentlabels.view.LabelList;
@@ -35,7 +36,7 @@ import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
  *
  */
 @SuppressWarnings("unchecked")
-public class LabelInstance implements  TorrentTableActionListener, TableModelListener, ListSelectionListener {
+public class LabelInstance implements  SessionInstance, TorrentTableActionListener, TableModelListener, ListSelectionListener {
 	
 	public final static String PROPERTY = "d.get_custom1=";
 	

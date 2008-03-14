@@ -19,41 +19,15 @@
  */
 package ntorrent.torrentlabels;
 
-import java.util.HashMap;
-
 import ntorrent.session.ConnectionSession;
-import ntorrent.session.SessionExtension;
+import ntorrent.session.DefaultSessionExtension;
 
-import org.java.plugin.Plugin;
+public class LabelController extends DefaultSessionExtension<LabelInstance>{
 
-public class LabelController extends Plugin implements SessionExtension{
-	private final HashMap<ConnectionSession,LabelInstance> sessions = new HashMap<ConnectionSession, LabelInstance>();
-	
-	public void init(ConnectionSession session) {
-		if(!sessions.containsKey(session)){
-			LabelInstance instance = new LabelInstance(session);
-			sessions.put(session,instance);
-			
-			if(!instance.isStarted())
-				try{
-					doStart();
-				}catch(Exception x){
-					x.printStackTrace();
-				}
-		}
-	}
-	
 	@Override
-	protected void doStart() throws Exception {
-		for(LabelInstance instance : sessions.values())
-			if(!instance.isStarted())
-				instance.start();
+	protected LabelInstance getNewSessionInstance(ConnectionSession session) {
+		return new LabelInstance(session);
 	}
-	@Override
-	protected void doStop() throws Exception {
-		for(LabelInstance instance : sessions.values())
-			if(instance.isStarted())
-				instance.stop();
-	}
+
 
 }

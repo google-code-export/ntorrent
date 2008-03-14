@@ -17,16 +17,19 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.sorter;
+package ntorrent.torrentinfo;
 
 import ntorrent.session.ConnectionSession;
 import ntorrent.session.DefaultSessionExtension;
 
-public class TorrentTableSorter extends DefaultSessionExtension<TorrentTableSorterInstance>{
-
+/**
+ * @author Kim Eik
+ *
+ */
+public class TorrentInfoController extends DefaultSessionExtension<TorrentInfoInstance> {
 	@Override
-	protected TorrentTableSorterInstance getNewSessionInstance(ConnectionSession session) {
-		return new TorrentTableSorterInstance(session);
+	protected TorrentInfoInstance getNewSessionInstance(ConnectionSession session) {
+		return new TorrentInfoInstance(session);
 	}
-
+	
 }
