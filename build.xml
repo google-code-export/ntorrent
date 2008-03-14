@@ -61,6 +61,7 @@ test  - runs some tests
 		<ant dir="plugins/ntorrent.torrentfiles" target="${target}" />
 		<ant dir="plugins/ntorrent.torrenttrackers" target="${target}" />
 		<ant dir="plugins/ntorrent.torrentinfo" target="${target}" />
+		<ant dir="plugins/ntorrent.statusbar.throttle" target="${target}" />
 		<!--<ant dir="plugins/ntorrent.settings" target="${target}" />-->
 		<!--<ant dir="plugins/ntorrent.protocol.localtools" target="${target}" />-->
 		<!--<ant dir="plugins/ntorrent.protocol.sshtools" target="${target}" />-->

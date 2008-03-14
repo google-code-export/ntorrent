@@ -27,7 +27,7 @@ public interface Global {
 	Object get_connection_leech();
 	Object get_connection_seed();
 	Object get_directory();
-	Object get_download_rate();
+	Long get_download_rate();
 	Object get_handshake_log();
 	Object get_hash_interval();
 	Object get_hash_max_tries();
@@ -77,7 +77,7 @@ public interface Global {
 	Object get_timeout_sync();
 	Object get_tracker_dump();
 	Object get_tracker_numwant();
-	Object get_upload_rate();
+	Long get_upload_rate();
 	Object get_use_udp_trackers();
 	//reserved keywords.
 	//Object if();
@@ -157,7 +157,7 @@ public interface Global {
 	Object set_timeout_sync();
 	Object set_tracker_dump();
 	Object set_tracker_numwant();
-	Object set_upload_rate();
+	Object set_upload_rate(int i);
 	Object set_use_udp_trackers();
 	Object start_tied();
 	Object stop_on_ratio();
@@ -178,4 +178,5 @@ public interface Global {
 	Object view_sort_current();
 	Object view_sort_new();
 	int xmlrpc_dialect(String string);
+	void set_download_rate(int i);
 }

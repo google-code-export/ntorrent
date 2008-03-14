@@ -2,6 +2,7 @@ package ntorrent.session;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import ntorrent.data.Environment;
@@ -53,6 +54,11 @@ public class ConnectionSession implements EventListener {
 	
 	private final HashMap<PluginDescriptor,Collection<PluginDescriptor>> dependencies = 
 		new HashMap<PluginDescriptor, Collection<PluginDescriptor>>();
+	
+	private final Vector<SessionStateListener> sessionStateListener = new Vector<SessionStateListener>();
+	
+	private boolean started = true;
+	private boolean shutdown = false;
 	
 	public ConnectionSession(final XmlRpcConnection c) {
 		connection = c;
@@ -116,19 +122,42 @@ public class ConnectionSession implements EventListener {
 		return ttc;
 	}
 	
+	public boolean isStarted() {
+		return started;
+	}
+	
+	public boolean isShutdown() {
+		return shutdown;
+	}
+	
 	public void stop(){
+		started = false;
 		Logger.global.info("Stopping: "+connection.getProfile() + " ["+ttc+"]");
 		ttc.pause();
+		notifySessionStateListeners();
 	}
 	
 	public void start() {
+		started = true;
 		Logger.global.info("Starting: "+connection.getProfile() + " ["+ttc+"]");
 		ttc.unpause();
+		notifySessionStateListeners();
 	}
 	
 	public void shutdown(){
+		shutdown = true;
+		stop();
 		Logger.global.info("Shutting down: "+connection.getProfile() + " ["+ttc+"]");
 		ttc.shutdown();
+	}
+	
+	private void notifySessionStateListeners(){
+		for(SessionStateListener l : sessionStateListener)
+			l.sessionStateChanged();
+	}
+	
+	public void addSessionStateListener(SessionStateListener l){
+		sessionStateListener.add(l);
 	}
 
 	public void pluginActivated(Plugin plugin) {

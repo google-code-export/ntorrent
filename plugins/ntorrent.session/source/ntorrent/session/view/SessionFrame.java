@@ -20,10 +20,9 @@
 package ntorrent.session.view;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -42,7 +41,7 @@ public class SessionFrame extends JPanel{
 	final private JSplitPane hsplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 	final private JSplitPane menu = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 	final private JTabbedPane tabbedPane = new JTabbedPane();
-	final private JComponent statusBar = new JLabel("statusbar");
+	final private JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 	
 	public SessionFrame(TorrentTableInterface ttc, ViewMenuController vmc) {
@@ -78,7 +77,7 @@ public class SessionFrame extends JPanel{
 		return tabbedPane;
 	}
 	
-	public JComponent getStatusBar() {
+	public JPanel getStatusBar() {
 		return statusBar;
 	}
 
