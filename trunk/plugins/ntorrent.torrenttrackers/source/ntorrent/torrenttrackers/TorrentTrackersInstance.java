@@ -22,10 +22,6 @@ package ntorrent.torrenttrackers;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import redstone.xmlrpc.XmlRpcArray;
-import redstone.xmlrpc.XmlRpcClient;
-
-import ntorrent.io.rtorrent.Tracker;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
@@ -36,6 +32,8 @@ import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttrackers.model.TorrentTracker;
 import ntorrent.torrenttrackers.model.TorrentTrackersListModel;
 import ntorrent.torrenttrackers.view.TorrentTrackerList;
+import redstone.xmlrpc.XmlRpcArray;
+import redstone.xmlrpc.XmlRpcClient;
 
 /**
  * @author Kim Eik
@@ -51,8 +49,7 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 	
 	//Xmlrpc constants.
 	private final XmlRpcConnection connection;
-	private final XmlRpcClient client; 
-	private final Tracker t;
+	private final XmlRpcClient client;
 	
 	private boolean started = false;
 	
@@ -61,7 +58,6 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		tab = session.getDisplay().getTabbedPane();
 		connection = session.getConnection();
 		client = connection.getClient();
-		t = connection.getTrackerClient();
 		
 		//add this as a listener
 		tc.addTorrentSelectionListener(this);

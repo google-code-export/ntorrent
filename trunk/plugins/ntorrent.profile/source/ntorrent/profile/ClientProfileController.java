@@ -19,8 +19,6 @@
  */
 package ntorrent.profile;
 
-import java.io.File;
-
 import javax.swing.JComponent;
 
 import ntorrent.profile.gui.AbstractClientProfileView;

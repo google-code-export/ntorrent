@@ -200,7 +200,7 @@ public class LabelInstance implements  SessionInstance, TorrentTableActionListen
                 public void run(){
                         Download d = connection.getDownloadClient();
                         for(Torrent t : tor){
-                                System.out.println("setting label to "+label+" on "+t.getHash()+" ("+t.getName()+")");
+                                //System.out.println("setting label to "+label+" on "+t.getHash()+" ("+t.getName()+")");
                                 d.set_custom1(t.getHash(),label);
                         }
                  sorter.sort();

@@ -25,6 +25,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 
 public class ViewList extends JList {
+	private static final long serialVersionUID = 1L;
 
 	public ViewList(ListModel model,ListSelectionListener listener) {
 		super(model);

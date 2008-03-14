@@ -19,8 +19,6 @@
  */
 package ntorrent.torrentfiles.model;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import ntorrent.locale.ResourcePool;
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;

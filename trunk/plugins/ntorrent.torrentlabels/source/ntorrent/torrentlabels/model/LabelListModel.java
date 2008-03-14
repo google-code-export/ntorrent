@@ -31,7 +31,6 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import ntorrent.locale.ResourcePool;
-import ntorrent.torrentlabels.LabelController;
 
 /**
  * @author Kim Eik

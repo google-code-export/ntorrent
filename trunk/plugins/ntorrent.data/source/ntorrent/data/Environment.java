@@ -50,15 +50,18 @@ public class Environment extends ApplicationPlugin implements Application {
 	
 	private static PluginManager pluginManager;
 
+	private static boolean logging;
+
 
 	@Override
 	protected Application initApplication(ExtendedProperties config, String[] args) throws Exception {
-		this.args = args;
-		this.pluginManager = super.getManager();
+		Environment.args = args;
+		Environment.pluginManager = super.getManager();
 		ntorrent = new File(config.getProperty("userNtorrentDir"));
 		intSocketPort = Integer.parseInt(config.getProperty("internalCommPort"));
 		userLanguage = config.getProperty("userLanguage");
 		userCountry = config.getProperty("userCountry");
+		logging = config.getProperty("log").equals("1");
 		return this;
 	}
 	
@@ -98,5 +101,9 @@ public class Environment extends ApplicationPlugin implements Application {
 
 	public static PluginManager getPluginManager() {
 		return pluginManager;
+	}
+
+	public static boolean isLogging() {
+		return logging;
 	}
 }

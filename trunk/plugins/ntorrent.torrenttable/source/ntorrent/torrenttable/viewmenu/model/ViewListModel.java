@@ -22,7 +22,8 @@ package ntorrent.torrenttable.viewmenu.model;
 import javax.swing.AbstractListModel;
 
 public class ViewListModel extends AbstractListModel {
-
+	private static final long serialVersionUID = 1L;
+	
 	private final View[] elements = {
 			new ViewModel("main","main"),
 			new ViewModel("started","started"),

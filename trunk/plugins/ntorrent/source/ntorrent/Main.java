@@ -45,17 +45,14 @@ import org.java.plugin.Plugin;
  */
 
 public class Main extends Plugin {
-	
-	/** Logging system **/
-	private static SystemLog log;
-	
+		
 	/** GUI **/
 	public static MainWindow main;
 	
 	/** Sessions **/
 	public static Vector<Session> sessions = new Vector<Session>();
 	
-	private SystemLog nlog;
+	//private SystemLog nlog;
 	
 	public Main(){
 		
@@ -69,16 +66,13 @@ public class Main extends Plugin {
 		if(!(ntorrent.isDirectory() || ntorrent.mkdir()))
 			Logger.global.log(Level.WARNING,ResourcePool.getString("ntdir","exceptions",this)+ntorrent);
 		
-		/** Load logging **/
-		//nlog = new SystemLog();
-
-		/** Load settings**/
-		//try{
-			//settings = (LocalSettings)Serializer.deserialize(LocalSettings.class,ntorrent);
-		//} catch(FileNotFoundException e){
-			//Logger.global.log(Level.WARNING,messages.getString("F404")+e.getMessage());
-			//Serializer.serialize(settings,ntorrent);
-		//}
+		try{
+			/** Load logging **/
+			if(Environment.isLogging())
+				/*nlog = */new SystemLog();
+		}catch(Exception x){
+			x.printStackTrace();
+		}
 		
 		/** Start socket server **/
 		try{

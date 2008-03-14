@@ -32,7 +32,6 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import ntorrent.data.Environment;
-import ntorrent.profile.ClientProfileController;
 import ntorrent.tools.Serializer;
 
 public class ClientProfileListModel extends Vector<ClientProfileInterface> implements ListModel, Serializable  {

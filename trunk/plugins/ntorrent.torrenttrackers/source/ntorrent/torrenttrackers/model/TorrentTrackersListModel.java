@@ -19,18 +19,14 @@
  */
 package ntorrent.torrenttrackers.model;
 
-import java.util.AbstractList;
-import java.util.Vector;
-
 import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
 
 /**
  * @author Kim Eik
  *
  */
 public class TorrentTrackersListModel extends DefaultListModel {
+	private static final long serialVersionUID = 1L;
 
 	public void add(TorrentTracker tt) {
 		super.addElement(tt);

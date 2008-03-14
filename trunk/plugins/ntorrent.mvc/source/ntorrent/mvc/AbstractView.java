@@ -21,7 +21,6 @@ package ntorrent.mvc;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import ntorrent.locale.ResourcePool;
