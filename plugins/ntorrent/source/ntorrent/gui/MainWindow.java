@@ -40,6 +40,7 @@ import javax.swing.WindowConstants;
 import ntorrent.Main;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
+import ntorrent.jpf.PluginHandlerMenuBar;
 import ntorrent.locale.ResourcePool;
 
 /**
@@ -49,12 +50,13 @@ import ntorrent.locale.ResourcePool;
 public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
+	private final MainMenuBar menuBar = new MainMenuBar(this);
 	
 	public MainWindow() {
 		super();
 		setPreferredSize(new Dimension(768,640));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setJMenuBar(new MainMenuBar(this));
+		setJMenuBar(menuBar);
 		JPanel frame = new JPanel(new BorderLayout());
 		frame.add(connectionsTab);
 		setContentPane(frame);

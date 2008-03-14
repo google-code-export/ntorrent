@@ -183,6 +183,7 @@ public class Main extends Plugin {
 		if(!(sessions.size() > 0)){
 			newSession();
 		}
+
 		
 		/** Draw Gui **/
 		main.drawWindow();
