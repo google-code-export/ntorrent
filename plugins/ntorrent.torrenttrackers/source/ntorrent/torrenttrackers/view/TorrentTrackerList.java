@@ -21,17 +21,13 @@ package ntorrent.torrenttrackers.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
 
 import ntorrent.locale.ResourcePool;
 import ntorrent.torrenttrackers.model.TorrentTracker;

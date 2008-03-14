@@ -20,7 +20,6 @@
 package ntorrent.profile.model;
 
 import java.io.Serializable;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 

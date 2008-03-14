@@ -20,7 +20,6 @@
 package ntorrent.settings.model;
 
 import java.awt.Component;
-import java.io.Serializable;
 
 /**
  * @author Kim Eik

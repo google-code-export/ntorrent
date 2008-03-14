@@ -25,7 +25,6 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import ntorrent.torrenttable.TorrentTableController;
 import ntorrent.torrenttable.viewmenu.model.View;
 import ntorrent.torrenttable.viewmenu.model.ViewListModel;
 import ntorrent.torrenttable.viewmenu.view.ViewList;

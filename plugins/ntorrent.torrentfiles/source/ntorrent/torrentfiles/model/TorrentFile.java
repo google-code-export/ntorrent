@@ -20,11 +20,10 @@
 package ntorrent.torrentfiles.model;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 
+import ntorrent.torrenttable.model.Byte;
 import ntorrent.torrenttable.model.Percent;
 import ntorrent.torrenttable.model.Priority;
-import ntorrent.torrenttable.model.Byte;
 
 /**
  * @author Kim Eik

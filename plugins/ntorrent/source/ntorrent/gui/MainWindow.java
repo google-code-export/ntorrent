@@ -24,23 +24,17 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ntorrent.Main;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
-import ntorrent.jpf.PluginHandlerMenuBar;
 import ntorrent.locale.ResourcePool;
 
 /**
@@ -82,7 +76,7 @@ public class MainWindow extends Window implements ActionListener {
 		}else if(c.equals(ids[3])){
 			System.exit(0);
 		}else if(c.equals(ids[4])){
-			System.out.println("stub "+c);
+			JOptionPane.showMessageDialog(this, "This feature is still a stub");
 		}else if(c.equals(ids[5])){
 			new AboutWindow().drawWindow();
 		}

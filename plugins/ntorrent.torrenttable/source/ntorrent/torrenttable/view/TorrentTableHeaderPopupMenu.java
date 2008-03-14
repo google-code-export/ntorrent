@@ -104,12 +104,12 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 						col.setModelIndex(i);
 				}
 				model.addColumn(col);
-				System.out.println("adding col"+src.getName());
+				//System.out.println("adding col"+src.getName());
 			}
 		}else{
 			if(model.getColumnCount() > 1){
 				int index = model.getColumnIndex(src.getName());
-				System.out.println("removing column "+src.getName());
+				//System.out.println("removing column "+src.getName());
 				model.removeColumn(model.getColumn(index));
 			}else
 				src.setSelected(true);

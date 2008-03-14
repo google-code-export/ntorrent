@@ -19,8 +19,6 @@
  */
 package ntorrent.mvc;
 
-import java.beans.PropertyChangeListener;
-import java.io.Serializable;
 
 public interface Controller {
 

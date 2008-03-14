@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
 
 import ntorrent.locale.ResourcePool;
 
@@ -32,6 +31,7 @@ import ntorrent.locale.ResourcePool;
  *
  */
 public class LabelPopupMenu extends JMenu {
+	private static final long serialVersionUID = 1L;
 	public final static String[] MENU_ITEMS = {
 		"label.none",
 		"label.new"

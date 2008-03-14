@@ -19,8 +19,6 @@
  */
 package ntorrent.io.rtorrent;
 
-import redstone.xmlrpc.XmlRpcArray;
-import redstone.xmlrpc.XmlRpcStruct;
 
 /**
  * d.

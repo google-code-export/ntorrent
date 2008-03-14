@@ -21,10 +21,7 @@ package ntorrent.torrenttable.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
@@ -32,7 +29,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 
 import ntorrent.torrenttable.model.Percent;
-import ntorrent.torrenttable.model.Torrent;
 
 public class PercentRenderer extends JPanel implements TableCellRenderer {
 	private static final long serialVersionUID = 1L;

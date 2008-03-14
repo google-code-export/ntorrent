@@ -36,6 +36,7 @@ import ntorrent.locale.ResourcePool;
  *
  */
 public class ConnectionTab extends JTabbedPane implements MouseListener, ActionListener {
+	private static final long serialVersionUID = 1L;
 	private final static JPopupMenu popup = new JPopupMenu();
 	public final static String[] actions = {
 		"tab.new",
