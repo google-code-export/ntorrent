@@ -58,6 +58,7 @@ public class SessionFrame extends JPanel{
 		hsplit.add(tabbedPane);
 		add(statusBar, BorderLayout.SOUTH);
 		
+		//quickfix
 		hsplit.setDividerLocation(400);
 	}
 	
