@@ -21,6 +21,7 @@ package ntorrent.torrentinfo;
 
 import java.util.Date;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -43,6 +44,7 @@ import ntorrent.torrenttable.model.TorrentSelectionListener;
 public class TorrentInfoInstance implements SessionInstance,TorrentSelectionListener {
 	private final JTabbedPane tab;
 	private final JTextPane textPane = new JTextPane();
+	private final JScrollPane scrollpane = new JScrollPane(textPane);
 	
 	private final Download d;
 	
@@ -79,12 +81,12 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		if (preferredIndex > tab.getTabCount())
 			preferredIndex = tab.getTabCount();
 
-		tab.insertTab(ResourcePool.getString("tabname", "locale", this), null, textPane, null,preferredIndex);
+		tab.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane, null,preferredIndex);
 	}
 
 	public void stop() {
 		started = false;
-		tab.removeTabAt(tab.indexOfComponent(textPane));
+		tab.removeTabAt(tab.indexOfComponent(scrollpane));
 	}
 
 	public void torrentsSelected(Torrent[] tor) {
