@@ -8,7 +8,7 @@ nTorrent is growing, and it could use your help!
 
 = Project support =
 
-Coming...
+If you are more of a people person, we could use some help on wiki pages,project documentation, howto's/guides and such and also discussion group moderators/managers.Contact me and/or request for project membership.
 
 = Application tester =
 
