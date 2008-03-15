@@ -1,5 +1,5 @@
 #labels Featured,Phase-Deploy
-= Starting nTorrent =
+= Starting nTorrent <= 0.4 =
 
 ==Prerequisites==
  * [http://java.sun.com/ java] 
