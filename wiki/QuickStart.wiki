@@ -7,6 +7,10 @@ This guide expects that your system has all the installed dependencies for compi
 
 = Downloading =
 
+{{{
+Please note that you need a xmlrpc-c version greater than 1.07
+}}}
+
 Open up your favorite internet browser and point it to:
  * http://libtorrent.rakshasa.no/
  * http://sourceforge.net/project/showfiles.php?group_id=16847
