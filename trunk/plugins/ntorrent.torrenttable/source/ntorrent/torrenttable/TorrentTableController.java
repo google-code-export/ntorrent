@@ -54,7 +54,8 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 	private boolean pause = false;
 	private boolean shutdown = false;
 	
-	private Thread controllerThread = new Thread(this); 
+	private Thread controllerThread = new Thread(this);
+	private Thread torrentSelectionThread = new Thread();
 
 	
 	public TorrentTableController(XmlRpcConnection connection) {
@@ -273,8 +274,9 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()){
-			int[] rows = table.getSelectedRows();
-			Torrent[] tor = new Torrent[rows.length];
+			final int[] rows = table.getSelectedRows();
+			final Torrent[] tor = new Torrent[rows.length];
+			
 			for(int i = 0; i < rows.length; i++){
 				if(selectionMethod == null){
 					tor[i] = ttm.getRow(rows[i]);
@@ -283,9 +285,27 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 				}
 			}
 			
-			for(TorrentSelectionListener tsl : torrentSelectionListeners){
-				tsl.torrentsSelected(tor);
-			}
+			//fire torrent selection event.
+			final Thread oldThread = torrentSelectionThread;
+			oldThread.interrupt();
+			torrentSelectionThread = new Thread(){
+				boolean stop = false;
+				public void run(){
+					try {
+						oldThread.join();
+						for(TorrentSelectionListener tsl : torrentSelectionListeners){
+							if(interrupted())
+								break;
+							tsl.torrentsSelected(tor);
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+					}
+				}
+				
+			};
+			torrentSelectionThread.start();
 		}
 		
 	}

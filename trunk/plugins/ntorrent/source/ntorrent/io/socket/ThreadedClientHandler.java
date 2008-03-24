@@ -30,7 +30,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ntorrent.Main;
-import ntorrent.locale.ResourcePool;
 
 
 
@@ -70,7 +69,6 @@ class ThreadedClientHandler extends Thread {
 		} finally {
 			try {
 				if (client != null) {
-					Logger.global.info(ResourcePool.getString("soclose","exceptions",this));
 					client.close();
 				}
 			} catch (IOException e) {
