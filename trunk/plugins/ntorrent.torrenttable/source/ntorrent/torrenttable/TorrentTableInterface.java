@@ -22,6 +22,7 @@ package ntorrent.torrenttable;
 import java.util.Map;
 import java.util.Vector;
 
+import ntorrent.torrentinfo.TorrentInfoInstance;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
@@ -39,4 +40,5 @@ public interface TorrentTableInterface extends ViewChangeListener,TorrentTableAc
 	public Vector<String> getDownloadVariable();
 	public void addTorrentSelectionListener(TorrentSelectionListener listener);
 	public void setSelectionMethod(SelectionValueInterface i);
+	public void removeTorrentSelectionListener(TorrentSelectionListener listener);
 }

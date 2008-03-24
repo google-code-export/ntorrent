@@ -95,7 +95,8 @@ public class LabelInstance implements  SessionInstance, TorrentTableActionListen
 			setLabel("", tor, connection);
 		}else if(command.equals(mitems[1])){
 			String label = JOptionPane.showInputDialog(ResourcePool.getString("setalabel", "locale", this));
-			setLabel(label, tor, connection);
+			if(label != null && label.length() > 0)
+				setLabel(label, tor, connection);
 		}else{
             if(command.startsWith("label:")){
                 setLabel(command.split(":")[1], tor,connection);
