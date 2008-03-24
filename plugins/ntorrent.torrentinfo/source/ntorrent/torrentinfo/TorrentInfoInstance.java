@@ -46,6 +46,8 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 	private final JTextPane textPane = new JTextPane();
 	private final JScrollPane scrollpane = new JScrollPane(textPane);
 	
+	private final TorrentTableInterface tc;
+	
 	private final Download d;
 	
 	private final static String bundle = "locale";
@@ -59,16 +61,13 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 	
 	public TorrentInfoInstance(ConnectionSession session) {
 		//get the torrenttable
-		TorrentTableInterface tc = session.getTorrentTableController();
+		tc = session.getTorrentTableController();
 		
 		//tabbedpane
 		tab = session.getDisplay().getTabbedPane();
 		
 		//get the xmlrpc client for this session
 		d = session.getConnection().getDownloadClient();
-		
-		//add this as a torrent selection listener
-		tc.addTorrentSelectionListener(this);
 	}
 
 	public boolean isStarted() {
@@ -82,10 +81,14 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 			preferredIndex = tab.getTabCount();
 
 		tab.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane, null,preferredIndex);
+		
+		//add this as a torrent selection listener
+		tc.addTorrentSelectionListener(this);
 	}
 
 	public void stop() {
 		started = false;
+		tc.removeTorrentSelectionListener(this);
 		tab.removeTabAt(tab.indexOfComponent(scrollpane));
 	}
 

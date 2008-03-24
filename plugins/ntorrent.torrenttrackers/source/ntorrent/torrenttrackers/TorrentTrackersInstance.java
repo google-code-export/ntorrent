@@ -58,9 +58,6 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		tab = session.getDisplay().getTabbedPane();
 		connection = session.getConnection();
 		client = connection.getClient();
-		
-		//add this as a listener
-		tc.addTorrentSelectionListener(this);
 	}
 	
 	public void torrentsSelected(Torrent[] tor) {
@@ -125,10 +122,16 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 			preferredIndex = tab.getTabCount();
 
 		tab.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane, null,preferredIndex);
+		
+		
+		//add this as a listener
+		tc.addTorrentSelectionListener(this);
 	}
 
 	public void stop() {
 		started = false;
+		//remove this as a listener
+		tc.removeTorrentSelectionListener(this);
 		tab.removeTabAt(tab.indexOfComponent(scrollpane));
 	}
 

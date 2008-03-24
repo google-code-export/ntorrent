@@ -318,4 +318,8 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 	public void setSelectionMethod(SelectionValueInterface selectionMethod) {
 		this.selectionMethod = selectionMethod;
 	}
+
+	public void removeTorrentSelectionListener(TorrentSelectionListener listener) {
+		torrentSelectionListeners.remove(listener);
+	}
 }

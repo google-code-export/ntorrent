@@ -66,9 +66,6 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 		
 		//add mouselistener for popup
 		treeTable.addMouseListener(popup);
-		
-		//add this as a selection listener
-		tableController.addTorrentSelectionListener(this);
 	}
 	
 	public void start(){
@@ -78,12 +75,18 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 			preferredIndex = container.getTabCount();
 		
 		container.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane,null,preferredIndex);
+		
+		//add this as a selection listener
+		tableController.addTorrentSelectionListener(this);
 	}
 	
 	public void stop(){
 		started = false;
 		int index = container.indexOfComponent(scrollpane);
 		container.removeTabAt(index);
+		
+		//remove this as a selection listener
+		tableController.removeTorrentSelectionListener(this);
 	}
 
 	public void torrentsSelected(Torrent[] tor) {
