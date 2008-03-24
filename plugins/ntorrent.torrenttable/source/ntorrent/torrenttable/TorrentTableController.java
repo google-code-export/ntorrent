@@ -218,25 +218,35 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 
 	public void torrentActionPerformed(final Torrent[] tor, final String command) {
 		//invoking the commands asynchronously so the gui won't be blocked
+		final Download d = connection.getDownloadClient();
+    	final String[] mitems = TorrentTableJPopupMenu.mitems;
+    	final String[] priorityMenu = TorrentTableJPopupMenu.priorityMenu;
         new Thread(){
-        	String[] mitems = TorrentTableJPopupMenu.mitems;
-        	String[] priorityMenu = TorrentTableJPopupMenu.priorityMenu;
             public void run(){
-        		Download d = connection.getDownloadClient();
         		for(Torrent t : tor){
             		String hash = t.getHash();
-        			if(command.equals(mitems[0])){
+            		if(command.equals(mitems[0])){
+            			//open
+            			if(!t.isStarted())
+            				d.open(hash);
+            		}else if(command.equals(mitems[1])){
         				//start
-        				d.start(hash);
-        			}else if(command.equals(mitems[1])){
+            			if(!t.isStarted())
+            				d.start(hash);
+        			}else if(command.equals(mitems[3]) || command.equals(mitems[4])){
+        				boolean close = command.equals(mitems[4]);
         				//stop
-        				d.stop(hash);
-        			}else if(command.equals(mitems[2])){
+        				if(t.isStarted())
+        					d.stop(hash);
+        				//stop and close
+        				if(close);
+        					d.close(hash);
+        			}else if(command.equals(mitems[6])){
         				//erase
         				if(t.isStarted())
         					d.stop(hash);
         				d.erase(hash);
-        			}else if(command.equals(mitems[3])){
+        			}else if(command.equals(mitems[7])){
         				//check hash
         				d.check_hash(hash);
         			}else if(command.equals(priorityMenu[1])){

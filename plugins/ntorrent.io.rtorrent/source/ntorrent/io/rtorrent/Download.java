@@ -25,7 +25,7 @@ package ntorrent.io.rtorrent;
  */
 public interface Download {
 	Object check_hash(String string);
-	Object close();
+	Object close(String hash);
 	Object create_link();
 	Object delete_link();
 	Object delete_tied();
