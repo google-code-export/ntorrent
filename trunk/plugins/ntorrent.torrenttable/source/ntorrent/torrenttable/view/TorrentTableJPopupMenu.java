@@ -48,8 +48,12 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	private Torrent[] selection = new Torrent[]{};
 	
 	public final static String[] mitems = {
+		"open",
 		"start",
+		null,
 		"stop",
+		"close",
+		null,
 		"remove",
 		"checkhash"
 		};
@@ -64,11 +68,17 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 	
 	public TorrentTableJPopupMenu() {
 		for(String s : mitems){
-			JMenuItem item = new JMenuItem(ResourcePool.getString(s,bundle,this));
-			item.setActionCommand(s);
-			item.addActionListener(this);
-			super.add(item);
+			if(s == null){
+				super.addSeparator();
+			}else{
+				JMenuItem item = new JMenuItem(ResourcePool.getString(s,bundle,this));
+				item.setActionCommand(s);
+				item.addActionListener(this);
+				super.add(item);
+			}
 		}
+		
+		super.addSeparator();
 		
 		JMenu priority = new JMenu(ResourcePool.getString(priorityMenu[0],bundle,this));
 		super.add(priority);
