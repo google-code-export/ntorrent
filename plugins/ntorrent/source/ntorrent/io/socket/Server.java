@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ntorrent.data.Environment;
-import ntorrent.locale.ResourcePool;
 
 
 /**
@@ -19,7 +18,7 @@ public class Server extends Thread{
 	
 	public Server() throws IOException {
 		servSocket = new ServerSocket(Environment.getIntSocketPort());
-		Logger.global.info(ResourcePool.getString("soopen","exceptions",this));
+		//Logger.global.info(ResourcePool.getString("soopen","exceptions",this));
 	}
 
 	public void run() {

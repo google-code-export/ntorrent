@@ -64,7 +64,7 @@ public class Main extends Plugin {
 		/** Loading environment **/
 		File ntorrent = Environment.getNtorrentDir();
 		if(!(ntorrent.isDirectory() || ntorrent.mkdir()))
-			Logger.global.log(Level.WARNING,ResourcePool.getString("ntdir","exceptions",this)+ntorrent);
+			Logger.global.log(Level.WARNING,"Could not create directory:"+ntorrent);
 		
 		try{
 			/** Load logging **/

@@ -89,7 +89,8 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		tab.removeTabAt(tab.indexOfComponent(scrollpane));
 	}
 
-	public void torrentsSelected(Torrent[] tor) {
+	public synchronized void torrentsSelected(Torrent[] tor) {
+		//NO LONGER THREAD SAFE!
 		if(tor.length == 1){
 			textPane.setText("");
 			String hash = tor[0].getHash();
