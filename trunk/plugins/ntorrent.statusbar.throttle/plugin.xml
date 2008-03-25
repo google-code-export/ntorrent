@@ -12,6 +12,7 @@
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
+		<library id="locale" path="locale/" type="resources" />
 	</runtime>
 	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="HandledPlugin">
 		<parameter id="java-spec" value="1.5" />
