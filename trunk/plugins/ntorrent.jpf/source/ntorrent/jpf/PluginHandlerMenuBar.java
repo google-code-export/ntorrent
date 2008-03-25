@@ -74,8 +74,6 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 				c.addItemListener(this);
 				plugin.add(c);
 			}
-			//restore the plugins
-			restore();
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -119,7 +117,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	public void pluginDisabled(PluginDescriptor descriptor) {}
 	public void pluginEnabled(PluginDescriptor descriptor) {}
 
-	private void restore(){
+	public void restore(){
 		try {
 			PluginSet set = (PluginSet)Serializer.deserialize(PluginSet.class, Environment.getNtorrentDir());
 			for(String s : set){
@@ -130,7 +128,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 		}
 	}
 
-	private void save() throws IOException {
+	public void save() throws IOException {
 		set.clear();
 		for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
 			PluginDescriptor p = e.getDeclaringPluginDescriptor();

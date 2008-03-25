@@ -66,7 +66,5 @@ public class MainMenuBar extends JMenuBar {
 		help.add(items[x++]);
 		add(file);
 		add(help);
-		
-		new PluginHandlerMenuBar(this);
 	}
 }
