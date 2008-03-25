@@ -22,7 +22,6 @@ package ntorrent.torrenttable;
 import java.util.Map;
 import java.util.Vector;
 
-import ntorrent.torrentinfo.TorrentInfoInstance;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
 import ntorrent.torrenttable.model.TorrentTableActionListener;
