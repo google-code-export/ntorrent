@@ -114,12 +114,17 @@ public class TorrentTrackerList extends JList implements ActionListener,MouseLis
 
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		String[] M = TorrentTrackerPopupMenu.MENU_ITEMS;
-		if(cmd.equals(M[0])){
-			listener.setEnabled(true, (TorrentTracker)getSelectedValue());
-		}else if(cmd.equals(M[1])){
-			listener.setEnabled(false, (TorrentTracker)getSelectedValue());
-		}
+		final boolean enable = cmd.equals(TorrentTrackerPopupMenu.MENU_ITEMS[0]);
+		
+		new Thread(){
+			public void run(){
+				for(Object o : getSelectedValues()){
+					TorrentTracker t = (TorrentTracker)o;
+					listener.setEnabled(enable, t);
+				}
+			}
+		}.start();
+		
 	}
 
 	public void mouseClicked(MouseEvent e) {}

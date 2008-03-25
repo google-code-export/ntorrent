@@ -140,16 +140,13 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 
 	public void setEnabled(final boolean b, final TorrentTracker tracker) {
 		final Tracker t = connection.getTrackerClient();
-		new Thread(){
-			public void run(){
-				//send the command
-				t.set_enabled(tracker.getHash(),tracker.getLocalId(),b ? 1 : 0);
-				
-				//update the list.
-				tracker.setEnabled(b);
-				trackerListModel.fireContentsChanged(this);
-			}
-		}.start();
+		
+		//send the command
+		t.set_enabled(tracker.getHash(),tracker.getLocalId(),b ? 1 : 0);
+		
+		//update the list.
+		tracker.setEnabled(b);
+		trackerListModel.fireContentsChanged(this);
 	}
 
 }
