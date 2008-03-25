@@ -35,6 +35,7 @@ import javax.swing.WindowConstants;
 import ntorrent.Main;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
+import ntorrent.jpf.PluginHandlerMenuBar;
 import ntorrent.locale.ResourcePool;
 
 /**
@@ -45,6 +46,7 @@ public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	private final MainMenuBar menuBar = new MainMenuBar(this);
+	private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
 	
 	public MainWindow() {
 		super();
@@ -84,6 +86,10 @@ public class MainWindow extends Window implements ActionListener {
 	
 	public ConnectionTab getConnectionsTab() {
 		return connectionsTab;
+	}
+	
+	public PluginHandlerMenuBar getJpf() {
+		return jpf;
 	}
 
 }

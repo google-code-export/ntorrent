@@ -23,6 +23,11 @@ import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.ClientProfileListModel;
 
 import org.java.plugin.Plugin;
+import org.java.plugin.PluginManager;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
+import org.java.plugin.registry.PluginRegistry;
 
 /**
  *   nTorrent - A GUI client to administer a rtorrent process 
@@ -177,7 +182,14 @@ public class Main extends Plugin {
 		if(!(sessions.size() > 0)){
 			newSession();
 		}
-
+		
+		/** restore plugins **/
+		//errors with plugin framework if this isn't threaded
+		new Thread(){
+			public void run(){
+				main.getJpf().restore();
+			}
+		}.start();
 		
 		/** Draw Gui **/
 		main.drawWindow();
