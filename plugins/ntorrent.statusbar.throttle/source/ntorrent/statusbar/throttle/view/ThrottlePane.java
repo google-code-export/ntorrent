@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import ntorrent.locale.ResourcePool;
+
 /**
  * @author Kim Eik
  *
@@ -39,6 +41,9 @@ public class ThrottlePane extends JPanel {
 		
 		up.setPreferredSize(new Dimension(60,20));
 		down.setPreferredSize(new Dimension(60,20));
+		
+		up.setToolTipText(ResourcePool.getString("upload", "locale", this));
+		down.setToolTipText(ResourcePool.getString("download", "locale", this));
 		
 		upModel.setMinimum(0);
 		downModel.setMinimum(0);
