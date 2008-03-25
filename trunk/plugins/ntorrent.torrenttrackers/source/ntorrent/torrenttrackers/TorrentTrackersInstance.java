@@ -22,6 +22,7 @@ package ntorrent.torrenttrackers;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import ntorrent.io.rtorrent.Tracker;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.session.ConnectionSession;
@@ -73,8 +74,8 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 							hash,
 							"", //dummy arg
 							"t.get_url=",
-							"t.get_group=",
-							"t.get_id=",
+							"t.get_group=", //unused?
+							"t.get_id=", //unused?
 							"t.get_min_interval=",
 							"t.get_normal_interval=",
 							"t.get_scrape_complete=",
@@ -86,9 +87,9 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 						}
 					);
 					
-					for(Object obj : result){
-						XmlRpcArray row = (XmlRpcArray)obj;
-						TorrentTracker tt = new TorrentTracker(row.getString(0));
+					for(int x = 0; x < result.size(); x++){
+						XmlRpcArray row = (XmlRpcArray)result.get(x);
+						TorrentTracker tt = new TorrentTracker(hash,row.getString(0),x);
 						tt.setGroup(row.getLong(1).intValue());
 						tt.setId(row.getString(2));
 						tt.setMinIntervall(row.getLong(3).intValue());
@@ -137,8 +138,18 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		tab.removeTabAt(tab.indexOfComponent(scrollpane));
 	}
 
-	public void setEnabled(boolean b, TorrentTracker tracker) {
-		System.out.println(b+" "+tracker);
+	public void setEnabled(final boolean b, final TorrentTracker tracker) {
+		final Tracker t = connection.getTrackerClient();
+		new Thread(){
+			public void run(){
+				//send the command
+				t.set_enabled(tracker.getHash(),tracker.getLocalId(),b ? 1 : 0);
+				
+				//update the list.
+				tracker.setEnabled(b);
+				trackerListModel.fireContentsChanged(this);
+			}
+		}.start();
 	}
 
 }
