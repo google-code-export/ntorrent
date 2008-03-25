@@ -17,12 +17,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrentinfo.view;
+package ntorrent.torrenttrackers;
+
+import ntorrent.torrenttrackers.model.TorrentTracker;
 
 /**
  * @author Kim Eik
  *
  */
-public class TorrentInfo {
-
+public interface TorrentTrackerActionListener {
+	public void setEnabled(boolean b, TorrentTracker tracker);
 }

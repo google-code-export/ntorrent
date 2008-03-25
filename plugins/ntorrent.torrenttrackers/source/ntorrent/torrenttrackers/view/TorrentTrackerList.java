@@ -21,6 +21,10 @@ package ntorrent.torrenttrackers.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -30,6 +34,7 @@ import javax.swing.JTextPane;
 import javax.swing.ListCellRenderer;
 
 import ntorrent.locale.ResourcePool;
+import ntorrent.torrenttrackers.TorrentTrackerActionListener;
 import ntorrent.torrenttrackers.model.TorrentTracker;
 import ntorrent.torrenttrackers.model.TorrentTrackersListModel;
 
@@ -38,11 +43,14 @@ import ntorrent.torrenttrackers.model.TorrentTrackersListModel;
  * @author Kim Eik
  *
  */
-public class TorrentTrackerList extends JList {
+public class TorrentTrackerList extends JList implements ActionListener,MouseListener {
 	private static final long serialVersionUID = 1L;
+	private final TorrentTrackerPopupMenu popup = new TorrentTrackerPopupMenu(this);
+	private TorrentTrackerActionListener listener = null;
 	
 	public TorrentTrackerList(TorrentTrackersListModel model) {
 		super(model);
+		addMouseListener(this);
 		setCellRenderer(new ListCellRenderer(){
 			
 			public final static String bundle = "locale";
@@ -95,7 +103,41 @@ public class TorrentTrackerList extends JList {
 				return panel;
 			}			
 		});
+		
+		
+		
 	}
 	
+	public void setTorrentTrackerActionListener(TorrentTrackerActionListener listener){
+		this.listener = listener;
+	}
 
+	public void actionPerformed(ActionEvent e) {
+		String cmd = e.getActionCommand();
+		String[] M = TorrentTrackerPopupMenu.MENU_ITEMS;
+		if(cmd.equals(M[0])){
+			listener.setEnabled(true, (TorrentTracker)getSelectedValue());
+		}else if(cmd.equals(M[1])){
+			listener.setEnabled(false, (TorrentTracker)getSelectedValue());
+		}
+	}
+
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {
+		if(e.isPopupTrigger()){
+			showPopup(e);
+		}
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		if(e.isPopupTrigger()){
+			showPopup(e);
+		}
+	}
+	
+	private void showPopup(MouseEvent e){
+		popup.show(this, e.getX(), e.getY());
+	}
 }

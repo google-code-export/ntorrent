@@ -39,7 +39,7 @@ import redstone.xmlrpc.XmlRpcClient;
  * @author Kim Eik
  *
  */
-public class TorrentTrackersInstance implements SessionInstance, TorrentSelectionListener {
+public class TorrentTrackersInstance implements SessionInstance, TorrentSelectionListener,TorrentTrackerActionListener {
 	private final TorrentTableInterface tc;
 	private final JTabbedPane tab;
 	
@@ -58,6 +58,8 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		tab = session.getDisplay().getTabbedPane();
 		connection = session.getConnection();
 		client = connection.getClient();
+		
+		trackerList.setTorrentTrackerActionListener(this);
 	}
 	
 	public void torrentsSelected(Torrent[] tor) {
@@ -133,6 +135,10 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		//remove this as a listener
 		tc.removeTorrentSelectionListener(this);
 		tab.removeTabAt(tab.indexOfComponent(scrollpane));
+	}
+
+	public void setEnabled(boolean b, TorrentTracker tracker) {
+		System.out.println(b+" "+tracker);
 	}
 
 }
