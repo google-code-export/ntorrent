@@ -27,8 +27,10 @@ import ntorrent.torrenttable.model.Byte;
  *
  */
 public class TorrentTracker {
-		
+	
 	private final String url;
+	private final String hash;
+	private final int localId;
 	
 	private int group;
 	private String id;
@@ -42,8 +44,10 @@ public class TorrentTracker {
 	private boolean enabled;
 	private boolean open;
 	
-	public TorrentTracker(String url) {
+	public TorrentTracker(String hash, String url, int localId) {
 		this.url = url;
+		this.hash = hash;
+		this.localId = localId;
 	}
 
 	public boolean isEnabled() {
@@ -134,6 +138,22 @@ public class TorrentTracker {
 
 	public String getUrl() {
 		return url;
+	}
+	
+	/**
+	 * Returns the info hash this tracker belongs to.
+	 * @return
+	 */
+	public String getHash() {
+		return hash;
+	}
+	
+	/**
+	 * Returns the tracker number from which it was recieved from rtorrent.
+	 * @return
+	 */
+	public int getLocalId() {
+		return localId;
 	}
 	
 	@Override

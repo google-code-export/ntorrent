@@ -36,5 +36,5 @@ public interface Tracker {
 	Object is_enabled();
 	Object is_open();
 	Object multicall();
-	Object set_enabled();	
+	Object set_enabled(String hash, int i, int b);	
 }
