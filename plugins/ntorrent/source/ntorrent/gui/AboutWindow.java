@@ -45,7 +45,7 @@ public class AboutWindow extends Window  {
 	private static final String data = 
 			"Copyright (C) 2007  Kim Eik\n" +
 			"This program comes with ABSOLUTELY NO WARRANTY\n" +
-			"This is free software, and you are welcome to " +
+			"This is free software, and you are welcome to\n" +
 			"redistribute it under certain conditions.";
 	private static final String links = 
 			"Project webpage:\nhttp://ntorrent.googlecode.com\n\n" +
