@@ -48,10 +48,10 @@ import com.jcraft.jsch.ProxySOCKS5;
 import com.jcraft.jsch.Session;
 
 public class XmlRpcConnection {
-	XmlRpcClient client;
-	JSch jsch;
-	Session session;
-	ClientProfileInterface profile;
+	private final ClientProfileInterface profile;
+	private XmlRpcClient client;
+	private JSch jsch;
+	private Session session;
 	
 	public XmlRpcConnection(ClientProfileInterface p) throws XmlRpcException {
 		profile = p;
