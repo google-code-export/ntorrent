@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -114,6 +115,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 	public void shutdown(){
 		shutdown = true;
 	}
+
 		
 	public void run() {
 	   XmlRpcClient client = connection.getClient();
@@ -188,7 +190,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 						controllerThread.join();
 					}else
 						Thread.sleep(2000);
-					//Logger.global.info("Updating torrenttable");
+					//System.out.println("updating");
 					//ttm.removeRow(ttm.getRowCount()-1);
 					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
@@ -199,8 +201,11 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 			}
 	
 		} catch (XmlRpcException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//im pretty sure we need to add a global listener for theese exceptions, and not just in this table.
+			int i = JOptionPane.showConfirmDialog(table, "Disconnected! reconnect?\n("+e.getMessage()+")",e.toString(),JOptionPane.YES_NO_OPTION);
+			if(i == JOptionPane.YES_OPTION){
+				run();
+			}
 		} catch (XmlRpcFault e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
