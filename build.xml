@@ -85,6 +85,7 @@ test  - runs some tests
 		<copy todir="${build.home}">
 			<fileset dir="." includes="README,LICENSE,*.*" />
 		</copy>
+		<chmod perm="+x" file="${build.home}/nTorrent.sh" />
 	</target>
 
 	<target name="run" depends="build" description="Runs application">
