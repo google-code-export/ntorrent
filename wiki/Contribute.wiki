@@ -5,6 +5,10 @@ _How can you help nTorrent?_
 
 nTorrent is growing, and it could use your help!
 
+= Developer =
+
+If you like to fiddle around with and improving code, then maybe this is your calling.
+Contact me if you like to be my co-worker.
 
 = Project support =
 
