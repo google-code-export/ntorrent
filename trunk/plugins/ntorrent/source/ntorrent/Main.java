@@ -120,6 +120,7 @@ public class Main extends Plugin {
 			
 	public static void clientSoConn(String line){
 		File f = new File(line);
+		System.out.println(line);
 		Vector<Session> sessionList = new Vector<Session>();
 			for(Session s : sessions){
 				if(s.isConnected())
@@ -137,12 +138,16 @@ public class Main extends Plugin {
 					sessionList.toArray(),
 					null
 					);
-		}else
+		}else if(sessionList.size() == 1){
 			target = sessionList.get(0);
+		}else{
+			//fix this in the future, so instead of just a message. show a dialogue on where to connect and add torrent.
+			JOptionPane.showMessageDialog(main, "You need to be connected before adding torrents!");
+		}
 		
 		if(target != null){
 			Global global = target.getConnection().getGlobalClient();
-			if(f.isFile()){
+			if(f.exists() && f.isFile()){
 				try {
 					byte[] source = new byte[(int)f.length()];
 					FileInputStream reader = new FileInputStream(f);

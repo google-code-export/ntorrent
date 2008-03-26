@@ -65,6 +65,7 @@ class ThreadedClientHandler extends Thread {
 				}
 			} while (in.ready());
 		} catch (IOException e) {
+			System.out.println("here");
 			Logger.global.log(Level.WARNING, e.getMessage());
 		} finally {
 			try {

@@ -1,7 +1,6 @@
 package ntorrent.io.socket;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -18,9 +17,7 @@ public class Client {
 		Socket link = new Socket(InetAddress.getLocalHost(), Environment.getIntSocketPort());
 		PrintWriter out = new PrintWriter(link.getOutputStream(), true);
 		for(String s : args){
-			File f = new File(s);
-			if(f.exists() && f.isFile())
-				out.println(s);
+			out.println(s);
 		}
 		try {
 			if (link != null) {
