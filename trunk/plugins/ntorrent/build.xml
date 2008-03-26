@@ -45,7 +45,7 @@ Use top-level project build file to build application.
 		</copy>
 		<copy todir="${plugin.home}" includeemptydirs="false">
 			<fileset dir="${basedir}"
-			         excludes="classes/,nbproject/,.*,*build*,source/" />
+			         excludes="classes/,nbproject/,.*,*build*,source/,splash.xcf" />
 		</copy>
 	</target>
 

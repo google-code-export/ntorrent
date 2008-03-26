@@ -4,6 +4,9 @@
 	<property name="app.version" value="0.5-alpha" />
 
 	<property name="build.home" value="${basedir}/build" />
+	
+	<property name="launch4j.dir" value="lib/launch4j" />
+	<property name="launch4j.config" value="${basedir}/launch4j.xml" />
 
 	<path id="classpath">
 		<fileset dir="lib" includes="*.jar" />
@@ -12,6 +15,11 @@
 	<typedef resource="org/java/plugin/tools/ant/jpf-tasks.properties">
 		<classpath refid="classpath" />
 	</typedef>
+	
+	<taskdef name="launch4j"
+	    classname="net.sf.launch4j.ant.Launch4jTask"
+	    classpath="${launch4j.dir}/launch4j.jar
+	        :${launch4j.dir}/lib/xstream.jar" />
 
 	<target name="help">
 		<echo>
@@ -75,7 +83,7 @@ test  - runs some tests
 			<fileset dir="lib" includes="*.jar" />
 		</copy>
 		<copy todir="${build.home}">
-			<fileset dir="." includes="*.*" />
+			<fileset dir="." includes="README,LICENSE,*.*" />
 		</copy>
 	</target>
 
@@ -106,29 +114,25 @@ test  - runs some tests
 		         includes="*/plugin.xml,*/plugin-fragment.xml"
 		         destdir="${build.home}/docs" />
 	</target>
-
-	<!--<target name="dist"
-	        depends="clean,build,docs"
+	
+	<target name="dist"
+	        depends="clean,build"
 	        description="Prepares distribution packages">
-		<jpf-zip basedir="${build.home}/plugins"
-		         includes="*/plugin.xml,*/plugin-fragment.xml"
-		         destdir="${build.home}/plugins" />
-		<delete includeemptydirs="true">
-			<fileset dir="${build.home}/plugins">
-				<include name="**/*" />
-				<exclude name="*.zip" />
-			</fileset>
-		</delete>
+		
+		<!-- create exe file for the poor windows users -->
+		<launch4j configFile="${launch4j.config}" 
+			outfile="${build.home}/${app.name}.exe"/>
+		
 		<zip destfile="${build.home}/${app.name}-bin-${app.version}.zip"
 		     duplicate="fail"
 		     update="false">
-			<fileset dir="${build.home}" includes="**/*" />
+			<fileset dir="${build.home}" includes="**/*" excludes="codetemplates.xml,${launch4j.config},build.xml,.*"/>
 		</zip>
 		<zip destfile="${build.home}/${app.name}-src-${app.version}.zip"
 		     duplicate="fail"
 		     update="false">
 			<fileset dir="${basedir}"
-			         excludes="build,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,plugins/org.jpf.demo.toolbox.ftpmonitor/**" />
+			         excludes="build,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,.settings/**" />
 		</zip>
 		<delete includeemptydirs="true">
 			<fileset dir="${build.home}">
@@ -136,7 +140,7 @@ test  - runs some tests
 				<exclude name="${app.name}-???-${app.version}.zip" />
 			</fileset>
 		</delete>
-	</target>-->
+	</target>
 
 	<target name="test" depends="build" description="Some tests">
 		<jpf-pack basedir="${build.home}/plugins"

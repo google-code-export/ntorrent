@@ -1,0 +1,20 @@
+== Prerequisites ==
+ * Java 1.5 or greater (the greater the better)
+
+== nTorrent data files ==
+data files are located in $HOME/.ntorrent/. nTorrent will startup with boot.properties file if
+$HOME/.ntorrent/.ntorrent.properties does not exist (check nTorrent.sh for more details).
+
+== Starting nTorrent ==
+cd ntorrent_dir
+java -jar lib/jpf-boot.jar
+
+where jpf-boot.jar takes the arguments [/path/to/file.torrent | http://url/file.torrent]
+
+=== Linux/(Mac?) ===
+cd ntorrent_dir
+chmod +x nTorrent.sh
+./nTorrent.sh [file.torrent]|[http://url/file.torrent]
+
+=== Windows ===
+doubleclick nTorrent.exe created by launch4j java utility.
