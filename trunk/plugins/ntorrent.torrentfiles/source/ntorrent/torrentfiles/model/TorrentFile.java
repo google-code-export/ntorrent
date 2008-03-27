@@ -43,12 +43,12 @@ public class TorrentFile extends DefaultMutableTreeNode {
 	private Boolean open;
 	private String lastTouched;
 	
-	public TorrentFile(){
-		this("/",null);
+	public TorrentFile(String filename){
+		this(filename,null);
 	}
 	
 	public TorrentFile(String filename, String parent) {
-		this.parent = parent;
+		this.parent = parent; //info_hash of the parent torrent.
 		this.name = filename;
 	}
 
@@ -119,6 +119,18 @@ public class TorrentFile extends DefaultMutableTreeNode {
 
 	public void setOffset(int i) {
 		offset = i;
+	}
+
+	public TorrentFile contains(String name){
+		TorrentFile child = null;
+		for(int x = 0; x < getChildCount(); x++){
+			TorrentFile c = (TorrentFile)getChildAt(x);
+			if(c.name.equals(name)){
+				child = c;
+				break;
+			}
+		}
+		return child;
 	}
 	
 }

@@ -8,7 +8,6 @@ import java.util.HashSet;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.tree.TreeNode;
 
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.rtorrent.File;
@@ -105,51 +104,51 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 						"f.get_size_bytes=",
 						/*"f.get_is_created=", this api was changed in 0.8.0, must therefore be removed until a more stable api is out.
 						"f.get_is_open=",*/  
-						"f.get_last_touched="
+						"f.get_last_touched=",
 						});
 			
 				//System.out.println(result);
 				for(int row = 0 ; row < result.size(); row++){
-				XmlRpcArray rowArray = (XmlRpcArray) result.get(row);
+					XmlRpcArray rowArray = (XmlRpcArray) result.get(row);
 					XmlRpcArray paths = (XmlRpcArray) rowArray.get(0);
-					TorrentFile parent = (TorrentFile) treeModel.getRoot();
-					for(int x = 0; x < paths.size(); x++){
-						String name = paths.getString(x);
-						TorrentFile tf = getNode(name,x+1);
-						if(tf == null){
-							//System.out.println("make the node where parent="+parent);
+					TorrentFile root = (TorrentFile) treeModel.getRoot();
+					TorrentFile tf = null;
+					
+					System.out.println(paths);
+					for(Object o : paths){
+						String name = (String)o;
+						tf = root.contains(name);
+						if(tf != null){
+							root = tf;
+							//System.out.println("setting "+tf+" as new root");
+						}else{
 							tf = new TorrentFile(name,hash);
-							//filter out directories.
-							if(x+1 == paths.size()){
-								//set the priority
-								tf.setPriority(rowArray.getLong(1));
-								//set the precent
-								long complete = rowArray.getLong(2);
-								long done = rowArray.getLong(3);
-								tf.setPercent((int)(complete*100/done));
-								//set size
-								tf.setSize(rowArray.getLong(4));
-								//set created and open
-								//tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
-								//tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
-								//set last touched
-								tf.setLastTouched(""+new Date(rowArray.getLong(5)/1000));
-								//set offset
-								tf.setOffset(row);
-							}
+							root.insert(tf, root.getChildCount());
+							//System.out.println("adding new child "+tf+" to leaf "+root);
+							root = tf;
 						}
-						
-						//System.out.println("inserting "+tf+" into "+parent);
-						if(!parent.isNodeChild(tf))
-							parent.insert(tf, parent.getChildCount());
-						parent = tf;
-						
 					}
+					
+					//set the priority
+					tf.setPriority(rowArray.getLong(1));
+					//set the precent
+					long complete = rowArray.getLong(2);
+					long done = rowArray.getLong(3);
+					tf.setPercent((int)(complete*100/done));
+					//set size
+					tf.setSize(rowArray.getLong(4));
+					//set created and open
+					//tf.setCreated(rowArray.getLong(5) == 1 ? true : false);
+					//tf.setOpen(rowArray.getLong(6) == 1 ? true : false);
+					//set last touched
+					tf.setLastTouched(""+new Date(rowArray.getLong(5)/1000));
+					//set offset
+					tf.setOffset(row);
 				}
 
 			} catch (XmlRpcException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			} catch (XmlRpcFault e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -160,17 +159,6 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 			model.fireTableDataChanged();
 			treeTable.setWidths();
 		}	
-	}
-	
-	private TorrentFile getNode(String name, int depth){
-		Enumeration<TreeNode> children = ((TreeNode)treeModel.getRoot()).children();
-		while(children.hasMoreElements()){
-			TorrentFile tf = (TorrentFile) children.nextElement();
-			//System.out.println("name="+name+" tfname="+tf.getName()+" depth="+depth+" tdepth="+tf.getDepth());
-			if(tf.getName().equals(name) && tf.getDepth() == depth)
-				return tf;
-		}
-		return null;
 	}
 	
 	public boolean isStarted() {
