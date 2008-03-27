@@ -94,8 +94,8 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 
 	public synchronized void torrentsSelected(Torrent[] tor) {
 		//NO LONGER THREAD SAFE!
+		textPane.setText("");
 		if(tor.length == 1){
-			textPane.setText("");
 			String hash = tor[0].getHash();
 			
 			insertText(ResourcePool.getString("name", bundle, this)+":\n", BOLD);
@@ -109,8 +109,12 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 			insertText(d.get_directory(hash), null);
 			insertText("\n\n"+ResourcePool.getString("date-created", bundle, this)+":\n", BOLD);
 			insertText(new Date(d.get_creation_date(hash)*1000).toString(), null);
-			insertText("\n\n"+ResourcePool.getString("tied", bundle, this)+":\n", BOLD);
-			insertText(d.get_tied_to_file(hash), null);
+			
+			String tiedToFile = d.get_tied_to_file(hash);
+			if(tiedToFile.length() > 0){
+				insertText("\n\n"+ResourcePool.getString("tied", bundle, this)+":\n", BOLD);
+				insertText(tiedToFile, null);
+			}
 
 		}
 	}

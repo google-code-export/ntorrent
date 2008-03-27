@@ -158,7 +158,11 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 			TreeTableModelAdapter model = (TreeTableModelAdapter)treeTable.getModel();
 			model.fireTableDataChanged();
 			treeTable.setWidths();
-		}	
+			treeTable.setVisible(true);
+		}else{
+			treeTable.setVisible(false);
+		}
+				
 	}
 	
 	public boolean isStarted() {
