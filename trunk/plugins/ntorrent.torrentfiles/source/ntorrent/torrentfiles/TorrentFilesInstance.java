@@ -114,7 +114,7 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 					TorrentFile root = (TorrentFile) treeModel.getRoot();
 					TorrentFile tf = null;
 					
-					System.out.println(paths);
+					//System.out.println(paths);
 					for(Object o : paths){
 						String name = (String)o;
 						tf = root.contains(name);
