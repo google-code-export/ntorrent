@@ -252,6 +252,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
         				if(t.isStarted())
         					d.stop(hash);
         				d.erase(hash);
+        				table.getSelectionModel().clearSelection();
         			}else if(command.equals(mitems[7])){
         				//check hash
         				d.check_hash(hash);
@@ -277,7 +278,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
         }.start();
 	}
 
-	public void valueChanged(ListSelectionEvent e) {
+	public final void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()){
 			final int[] rows = table.getSelectedRows();
 			final Torrent[] tor = new Torrent[rows.length];
