@@ -36,9 +36,9 @@ public class TorrentTracker {
 	private String id;
 	private int minIntervall;
 	private int normalIntervall;
-	private Byte scrapeComplete;
-	private Byte scrapeDownloaded;
-	private Byte scrapeIncomplete;
+	private int scrapeComplete; //seeders
+	private long scrapeDownloaded; //num downloads
+	private int scrapeIncomplete; //leechers
 	private Date scrapeTimeLast;
 	
 	private boolean enabled;
@@ -98,28 +98,28 @@ public class TorrentTracker {
 		this.open = open;
 	}
 
-	public Byte getScrapeComplete() {
+	public int getScrapeComplete() {
 		return scrapeComplete;
 	}
 
-	public void setScrapeComplete(long scrapeComplete) {
-		this.scrapeComplete = new Byte(scrapeComplete);
+	public void setScrapeComplete(int scrapeComplete) {
+		this.scrapeComplete = scrapeComplete;
 	}
 
-	public Byte getScrapeDownloaded() {
+	public long getScrapeDownloaded() {
 		return scrapeDownloaded;
 	}
 
 	public void setScrapeDownloaded(long scrapeDownloaded) {
-		this.scrapeDownloaded = new Byte(scrapeDownloaded);
+		this.scrapeDownloaded = scrapeDownloaded;
 	}
 
-	public Byte getScrapeIncomplete() {
+	public int getScrapeIncomplete() {
 		return scrapeIncomplete;
 	}
 
-	public void setScrapeIncomplete(long scrapeIncomplete) {
-		this.scrapeIncomplete = new Byte(scrapeIncomplete);
+	public void setScrapeIncomplete(int scrapeIncomplete) {
+		this.scrapeIncomplete = scrapeIncomplete;
 	}
 
 	public Date getScrapeTimeLast() {

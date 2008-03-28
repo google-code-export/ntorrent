@@ -94,9 +94,9 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 						tt.setId(row.getString(2));
 						tt.setMinIntervall(row.getLong(3).intValue());
 						tt.setNormalIntervall(row.getLong(4).intValue());
-						tt.setScrapeComplete(row.getLong(5));
+						tt.setScrapeComplete(row.getLong(5).intValue());
 						tt.setScrapeDownloaded(row.getLong(6));
-						tt.setScrapeIncomplete(row.getLong(7));
+						tt.setScrapeIncomplete(row.getLong(7).intValue());
 						tt.setScrapeTimeLast(row.getLong(8)/1000);
 						tt.setOpen(row.getLong(9) == 1);
 						tt.setEnabled(row.getLong(10) == 1);
