@@ -2,11 +2,16 @@
 <project name="nTorrent" default="help" basedir=".">
 	<property name="app.name" value="nTorrent" />
 	<property name="app.version" value="0.5-alpha" />
+	<property name="app.jar" value="lib/jpf-boot.jar" />
+	<property name="app.mainclass" value="org.java.plugin.boot.Boot" />
 
 	<property name="build.home" value="${basedir}/build" />
+	<property name="release.home" value="${basedir}/release" />
 	
-	<property name="launch4j.dir" value="lib/launch4j" />
+	<property name="launch4j.dir" value="${basedir}/lib/launch4j" />
 	<property name="launch4j.config" value="${basedir}/launch4j.xml" />
+	
+	<property name="jarbundler.jar" value="${basedir}/lib/jarbundler/jarbundler-1.9.jar" />
 
 	<path id="classpath">
 		<fileset dir="lib" includes="*.jar" />
@@ -20,18 +25,26 @@
 	    classname="net.sf.launch4j.ant.Launch4jTask"
 	    classpath="${launch4j.dir}/launch4j.jar
 	        :${launch4j.dir}/lib/xstream.jar" />
+	
+	<taskdef name="jarbundler" 
+	         classname="net.sourceforge.jarbundler.JarBundler"
+			 classpath="${jarbundler.jar}"/>
 
 	<target name="help">
 		<echo>
 			<![CDATA[
 ${app.name} build file:
-clean - cleans up the project build folder
-build - builds entire project
-run   - runs application
-check - checks plug-ins integrity
-docs  - generates plug-ins documentation
-dist  - creates binary and source distribution packages
-test  - runs some tests
+clean     - cleans up the project build & release folder
+build     - builds entire project
+run       - runs application
+check     - checks plug-ins integrity
+docs      - generates plug-ins documentation
+dist      - generates the generic distribution package.
+dist-win  - builds and generates windows distribution package.
+dist-mac  - builds and generates mac distribution package.
+dist-src  - creates source distribution package.
+dist-all  - calls, dist, dist-mac, dist-win.
+test      - runs some tests
 ]]>
 		</echo>
 	</target>
@@ -42,10 +55,15 @@ test  - runs some tests
 			<format property="d-stamp" pattern="yyyy-MM-dd" />
 		</tstamp>
 		<delete dir="${build.home}" quiet="true" />
+		<delete dir="${release.home}" quiet="true" />
 	</target>
 
 	<target name="-init">
 		<mkdir dir="${build.home}" />
+	</target>
+	
+	<target name="-rinit">
+		<mkdir dir="${release.home}" />
 	</target>
 
 	<target name="-build-plugins">
@@ -83,13 +101,13 @@ test  - runs some tests
 			<fileset dir="lib" includes="*.jar" />
 		</copy>
 		<copy todir="${build.home}">
-			<fileset dir="." includes="README,LICENSE,*.*" />
+			<fileset dir="." includes="README,LICENSE,*.*" excludes="launch4j.xml,codetemplates.xml,build.xml,.*" />
 		</copy>
 		<chmod perm="+x" file="${build.home}/nTorrent.sh" />
 	</target>
 
 	<target name="run" depends="build" description="Runs application">
-		<java jar="${build.home}/lib/jpf-boot.jar"
+		<java jar="${app.jar}"
 		      dir="${build.home}"
 		      fork="true" />
 	</target>
@@ -116,32 +134,84 @@ test  - runs some tests
 		         destdir="${build.home}/docs" />
 	</target>
 	
-	<target name="dist"
-	        depends="clean,build"
-	        description="Prepares distribution packages">
-		
+	
+	<target name="dist-win" depends="-rinit,build">
 		<!-- create exe file for the poor windows users -->
 		<launch4j configFile="${launch4j.config}" 
-			outfile="${build.home}/${app.name}.exe"/>
-		
-		<zip destfile="${build.home}/${app.name}-bin-${app.version}.zip"
+			outfile="${build.home}/${app.name}.exe"/>	
+				
+		<zip destfile="${release.home}/${app.name}-bin-${app.version}-win.zip"
 		     duplicate="fail"
 		     update="false">
-			<fileset dir="${build.home}" includes="**/*" excludes="codetemplates.xml,${launch4j.config},build.xml,.*"/>
+			<fileset dir="${build.home}" includes="**/*" excludes="nTorrent.sh"/>
 		</zip>
-		<zip destfile="${build.home}/${app.name}-src-${app.version}.zip"
+	</target>
+	
+	<target name="dist" depends="-rinit,build">
+		<zip destfile="${release.home}/${app.name}-bin-${app.version}.zip"
+		     duplicate="fail"
+		     update="false">
+			<fileset dir="${build.home}" includes="**/*" excludes="nTorrent.exe"/>
+		</zip>
+	</target>
+	
+	<target name="dist-mac" depends="-rinit,build">
+		<!--create an app file for mac users-->
+		<jarbundler dir="${release.home}"
+		            name="${app.name}"
+		            mainclass="${app.mainclass}"
+					icon="plugins/ntorrent/icons/ntorrent48.png"
+					version="${app.version}"
+					stubfile="LICENSE"
+					jvmversion="1.5+"
+					workingdirectory=""
+					verbose="true">
+			<jarfileset dir="${build.home}/lib"/>
+			<javafileset dir="${build.home}" includes="plugins/**" />
+			<resourcefilelist dir="${basedir}" files="LICENSE,README"/>
+		    
+			<!-- Associate document types with this application -->
+		      <documenttype name="torrent file"
+		                    extensions="torrent"
+		      				role="Viewer"/>
+		</jarbundler>
+		
+		
+		
+		<!-- stubfile is a dummy file -->
+		<move file="${release.home}/${app.name}.app/Contents/MacOS/LICENSE" 
+			tofile="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub" />
+		
+		  <!-- Delete the JavaApplicationStub and replace it with a symbolic link -->
+		  <!--   which should work on older and future versions of OS X           -->
+		       
+		  <delete file="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub"/>
+		  <exec executable="ln">
+		    <arg line="-s /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub"/>
+		    <arg value="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub"/>
+		  </exec>
+		
+		<!-- create zip file (should create dmg file here....) -->
+		<zip destfile="${release.home}/${app.name}-bin-${app.version}-mac.zip"
+		     duplicate="fail"
+		     update="false">
+			<fileset dir="${release.home}" excludes="*.zip" />
+		</zip>
+		<delete dir="${release.home}/${app.name}.app" />
+	</target>
+	
+	<target name="dist-src"
+	        depends="-rinit,build">
+	
+		<zip destfile="${release.home}/${app.name}-src-${app.version}.zip"
 		     duplicate="fail"
 		     update="false">
 			<fileset dir="${basedir}"
-			         excludes="build,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,.settings/**" />
+			         excludes="nTorrent.exe,build,release/**,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,.settings/**" />
 		</zip>
-		<delete includeemptydirs="true">
-			<fileset dir="${build.home}">
-				<include name="**/*" />
-				<exclude name="${app.name}-???-${app.version}.zip" />
-			</fileset>
-		</delete>
 	</target>
+	
+	<target name="dist-all" depends="clean,dist,dist-mac,dist-win,dist-src" />
 
 	<target name="test" depends="build" description="Some tests">
 		<jpf-pack basedir="${build.home}/plugins"
