@@ -148,11 +148,11 @@ test      - runs some tests
 	</target>
 	
 	<target name="dist" depends="-rinit,build">
-		<zip destfile="${release.home}/${app.name}-bin-${app.version}.zip"
-		     duplicate="fail"
-		     update="false">
+		<tar destfile="${release.home}/${app.name}-bin-${app.version}.tar.bz2"
+			compression="bzip2"
+			longfile="gnu">
 			<fileset dir="${build.home}" includes="**/*" excludes="nTorrent.exe"/>
-		</zip>
+		</tar>
 	</target>
 	
 	<target name="dist-mac" depends="-rinit,build">
@@ -160,13 +160,19 @@ test      - runs some tests
 		<jarbundler dir="${release.home}"
 		            name="${app.name}"
 		            mainclass="${app.mainclass}"
-					icon="plugins/ntorrent/icons/ntorrent48.png"
 					version="${app.version}"
 					stubfile="LICENSE"
 					jvmversion="1.5+"
 					workingdirectory=""
 					verbose="true">
-			<jarfileset dir="${build.home}/lib"/>
+			
+			<!-- native skin -->
+		      <javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
+		      <javaproperty name="apple.awt.brushMetal" value="true"/>
+		      <javaproperty name="apple.awt.showGrowBox" value="false"/>
+			
+			<jarfilelist dir="${build.home}" files="lib/jpf-boot.jar"/>
+			<jarfileset dir="${build.home}" includes="lib/**" excludes="lib/jpf-boot.jar"/>
 			<javafileset dir="${build.home}" includes="plugins/**" />
 			<resourcefilelist dir="${basedir}" files="LICENSE,README"/>
 		    
@@ -191,24 +197,23 @@ test      - runs some tests
 		    <arg value="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub"/>
 		  </exec>
 		
-		<!-- create zip file (should create dmg file here....) -->
-		<zip destfile="${release.home}/${app.name}-bin-${app.version}-mac.zip"
-		     duplicate="fail"
-		     update="false">
-			<fileset dir="${release.home}" excludes="*.zip" />
-		</zip>
+		<exec executable="tar" dir="${release.home}" >
+			<arg line="-cjf"/>
+			<arg line="${app.name}-bin-${app.version}-mac.tar.bz2"/>
+			<arg line="${app.name}.app"/>
+		</exec>
 		<delete dir="${release.home}/${app.name}.app" />
 	</target>
 	
 	<target name="dist-src"
 	        depends="-rinit,build">
 	
-		<zip destfile="${release.home}/${app.name}-src-${app.version}.zip"
-		     duplicate="fail"
-		     update="false">
+		<tar destfile="${release.home}/${app.name}-src-${app.version}.tar.bz2"
+			longfile="gnu"
+			compression="bzip2">
 			<fileset dir="${basedir}"
 			         excludes="nTorrent.exe,build,release/**,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,.settings/**" />
-		</zip>
+		</tar>
 	</target>
 	
 	<target name="dist-all" depends="clean,dist,dist-mac,dist-win,dist-src" />
