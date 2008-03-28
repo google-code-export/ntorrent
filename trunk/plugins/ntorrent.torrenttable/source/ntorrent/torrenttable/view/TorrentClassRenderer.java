@@ -40,6 +40,7 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 	private static final ImageIcon upIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/uploading.png");
 	private static final ImageIcon downIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downloading.png");
 	private static final ImageIcon dandupIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downandup.png");
+	private static final ImageIcon hashing = new ImageIcon("plugins/ntorrent.torrenttable/icons/hashing.png");
 	
 	private static final int selectedRowHeight = 40;
 	private static final int standardRowHeight = 20;
@@ -71,8 +72,9 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 		Torrent tor = (Torrent) value;
 		name.setText(tor.toString());
 		
-
-		if(tor.isStarted()){
+		if(tor.isHashChecking())
+			name.setIcon(hashing);
+		else if(tor.isStarted()){
 			if(tor.hasMessage()){
 				name.setIcon(messageIcon);
 			}else if(tor.isDownloading() && tor.isUploading()){

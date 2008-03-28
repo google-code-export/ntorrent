@@ -28,6 +28,7 @@ public class Torrent implements Comparable<Torrent>, Comparator<Torrent> {
 
 	private String hash,name,message;
 	private Boolean started;
+	private Boolean hashChecking;
 	private Byte completedBytes,upTotal,sizeBytes;
 	private Long peersComplete,peersAccounted;
 	private Bit downRate,upRate;
@@ -251,6 +252,14 @@ public class Torrent implements Comparable<Torrent>, Comparator<Torrent> {
 
 	public int compare(Torrent o1, Torrent o2) {
 		return o1.compareTo(o2);
+	}
+
+	public void setHashChecking(boolean b) {
+		this.hashChecking = b;
+	}
+	
+	public Boolean isHashChecking() {
+		return hashChecking;
 	}
 
 }
