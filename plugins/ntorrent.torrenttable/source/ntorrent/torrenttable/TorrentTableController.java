@@ -76,7 +76,8 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
                 "d.get_up_rate=", //variable
                 "d.get_message=", //relative
                 "d.get_priority=", //relative
-                "d.get_size_bytes="
+                "d.get_size_bytes=",
+                "d.is_hash_checking="
 	    };
 	    
 	    for(String i : download_variable){
@@ -155,6 +156,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 					tor.setMessage(data.getString(++dataCell));
 					tor.setPriority(data.getLong(++dataCell));
 					tor.setSizeBytes(data.getLong(++dataCell));
+					tor.setHashChecking(data.getLong(++dataCell) == 1);
 					
 					//get additional data
 					while(++dataCell < data.size()){
