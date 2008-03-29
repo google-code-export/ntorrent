@@ -53,7 +53,7 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 			return null;
 		
 		DataUnit d = (DataUnit) value;
-		dta.setText(d.toString() + " ");
+		dta.setText(d.toString());
 						
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
