@@ -156,15 +156,17 @@ test      - runs some tests
 	</target>
 	
 	<target name="dist-mac" depends="-rinit,build">
+		<!-- create fake application stub -->
+		<touch file="${build.home}/JavaApplicationStub"/>
 		<!--create an app file for mac users-->
 		<jarbundler dir="${release.home}"
 		            name="${app.name}"
 		            mainclass="${app.mainclass}"
 					version="${app.version}"
-					stubfile="LICENSE"
+					stubfile="${build.home}/JavaApplicationStub"
 					jvmversion="1.5+"
 					workingdirectory=""
-					verbose="true">
+					verbose="false">
 			
 			<!-- native skin -->
 		      <javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
@@ -182,20 +184,14 @@ test      - runs some tests
 		      				role="Viewer"/>
 		</jarbundler>
 		
+		<!-- delete fake stub-->
+		<delete file="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub" />
+		<delete file="${build.home}/JavaApplicationStub" />
 		
-		
-		<!-- stubfile is a dummy file -->
-		<move file="${release.home}/${app.name}.app/Contents/MacOS/LICENSE" 
-			tofile="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub" />
-		
-		  <!-- Delete the JavaApplicationStub and replace it with a symbolic link -->
-		  <!--   which should work on older and future versions of OS X           -->
-		       
-		  <delete file="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub"/>
-		  <exec executable="ln">
-		    <arg line="-s /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub"/>
-		    <arg value="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub"/>
-		  </exec>
+		<exec executable="ln">
+			<arg line="-s /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub"/>
+			<arg file="${release.home}/${app.name}.app/Contents/MacOS/"/>
+		</exec>
 		
 		<exec executable="tar" dir="${release.home}" >
 			<arg line="-cjf"/>
