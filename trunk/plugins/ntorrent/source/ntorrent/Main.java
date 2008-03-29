@@ -77,6 +77,10 @@ public class Main extends Plugin {
 		/** Start socket server **/
 		try{
 			new Server().start();
+			for(String line : Environment.getArgs()){
+				clientSoConn(line);
+				break; //break since its not possible to add torrent without being connected, just show message.
+			}
 		}catch(IOException e){
 			Logger.global.info(e.getMessage());
 			try {
