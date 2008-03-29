@@ -58,10 +58,10 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 		s2 = d.toString();
 		s1 = s2.split(" ",2);
 		
-		if ((int)(s1[1].length()) == 3)
-		    	dta.setText(s1[0]+"   "+s1[1]+" ");
-		  else 
-		      dta.setText(s1[0]+" "+s1[1]+" ");
+		if (s1[1].length() >= 3 )
+		  dta.setText(String.format("%5s %4s ", s1[0],s1[1]));
+		else 
+			dta.setText(String.format("%5s %2s ", s1[0],s1[1]));
 		
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
