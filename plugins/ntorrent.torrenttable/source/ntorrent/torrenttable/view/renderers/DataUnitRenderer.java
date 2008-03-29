@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.view;
+package ntorrent.torrenttable.view.renderers;
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -27,42 +27,50 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import ntorrent.torrenttable.model.Eta;
+import ntorrent.torrenttable.model.DataUnit;
 
-public class EtaRenderer extends JPanel implements TableCellRenderer {
+public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 	private static final long serialVersionUID = 1L;
-	private final JLabel eta = new JLabel();
+	private final JLabel dta = new JLabel();
 	private final GridLayout layout = new GridLayout(0,1);
 	
 	boolean firstrun = true;
-	
-	public EtaRenderer() {
+	String[] s1 = new String[20];
+	String s2 = new String();
+		
+	public DataUnitRenderer() {
 		setLayout(layout);
-		add(eta);
+		add(dta);
 	}
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		
 		if(firstrun){
 			firstrun = false;
-			eta.setFont(table.getFont());
-			eta.setHorizontalAlignment(JLabel.RIGHT);
+			dta.setFont(table.getFont());
+			dta.setHorizontalAlignment(JLabel.RIGHT);
 		}
 		
 		if (value == null)
 			return null;
 		
-		Eta e = (Eta) value;
-		eta.setText(e.toString()+" ");
-						
+		DataUnit d = (DataUnit) value;
+		s2 = d.toString();
+		s1 = s2.split(" ",2);
+		
+		if (s1[1].length() >= 3 )
+		  dta.setText(String.format("%5s %4s ", s1[0],s1[1]));
+		else 
+			dta.setText(String.format("%5s %2s ", s1[0],s1[1]));
+		
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
 			setForeground(table.getSelectionForeground());
-			eta.setForeground(table.getSelectionForeground());
+			dta.setForeground(table.getSelectionForeground());
 		}else{
 			setBackground(table.getBackground());
 			setForeground(table.getForeground());
-			eta.setForeground(table.getForeground());
+			dta.setForeground(table.getForeground());
 		}
 		return this;
 	}

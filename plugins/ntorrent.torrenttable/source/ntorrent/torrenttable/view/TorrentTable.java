@@ -36,6 +36,12 @@ import ntorrent.torrenttable.model.Ratio;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
+import ntorrent.torrenttable.view.renderers.DataUnitRenderer;
+import ntorrent.torrenttable.view.renderers.EtaRenderer;
+import ntorrent.torrenttable.view.renderers.PercentRenderer;
+import ntorrent.torrenttable.view.renderers.PriorityRenderer;
+import ntorrent.torrenttable.view.renderers.RatioRenderer;
+import ntorrent.torrenttable.view.renderers.TorrentClassRenderer;
 
 
 public class TorrentTable extends JTable implements MouseListener{

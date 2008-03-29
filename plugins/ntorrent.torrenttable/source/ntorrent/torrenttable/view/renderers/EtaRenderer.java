@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.torrenttable.view;
+package ntorrent.torrenttable.view.renderers;
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -27,42 +27,42 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import ntorrent.torrenttable.model.Priority;
+import ntorrent.torrenttable.model.Eta;
 
-public class PriorityRenderer extends JPanel implements TableCellRenderer {
+public class EtaRenderer extends JPanel implements TableCellRenderer {
 	private static final long serialVersionUID = 1L;
-	private final JLabel prio = new JLabel();
+	private final JLabel eta = new JLabel();
 	private final GridLayout layout = new GridLayout(0,1);
 	
 	boolean firstrun = true;
 	
-	public PriorityRenderer() {
+	public EtaRenderer() {
 		setLayout(layout);
-		add(prio);
+		add(eta);
 	}
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		
 		if(firstrun){
 			firstrun = false;
-			prio.setFont(table.getFont());
-			prio.setHorizontalAlignment(JLabel.CENTER);
+			eta.setFont(table.getFont());
+			eta.setHorizontalAlignment(JLabel.RIGHT);
 		}
 		
 		if (value == null)
 			return null;
 		
-		Priority p = (Priority) value;
-		prio.setText(p.toString()+" ");
+		Eta e = (Eta) value;
+		eta.setText(e.toString()+" ");
 						
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
 			setForeground(table.getSelectionForeground());
-			prio.setForeground(table.getSelectionForeground());
+			eta.setForeground(table.getSelectionForeground());
 		}else{
 			setBackground(table.getBackground());
 			setForeground(table.getForeground());
-			prio.setForeground(table.getForeground());
+			eta.setForeground(table.getForeground());
 		}
 		return this;
 	}
