@@ -27,7 +27,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import ntorrent.torrenttable.model.DataUnit;
+import ntorrent.torrenttable.model.Eta;
 import ntorrent.torrenttable.model.Percent;
+import ntorrent.torrenttable.model.Priority;
+import ntorrent.torrenttable.model.Ratio;
 import ntorrent.torrenttable.model.Torrent;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
 import ntorrent.torrenttable.model.TorrentTableModel;
@@ -52,7 +56,10 @@ public class TorrentTable extends JTable implements MouseListener{
 		
 		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
 		setDefaultRenderer(Percent.class, new PercentRenderer());
-		
+		setDefaultRenderer(Eta.class, new EtaRenderer());
+		setDefaultRenderer(Priority.class, new PriorityRenderer());
+		setDefaultRenderer(Ratio.class, new RatioRenderer());
+		setDefaultRenderer(DataUnit.class, new DataUnitRenderer());
 		panel.add(new JScrollPane(this));
 		
 		add(tablePopup);
