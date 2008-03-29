@@ -48,16 +48,14 @@ import javax.swing.JTree;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 
 import ntorrent.torrentfiles.model.AbstractCellEditor;
-import ntorrent.torrentfiles.model.AbstractTreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModel;
 import ntorrent.torrentfiles.model.TreeTableModelAdapter;
 import ntorrent.torrenttable.model.Percent;
-import ntorrent.torrenttable.view.PercentRenderer;
+import ntorrent.torrenttable.view.renderers.PercentRenderer;
 
 /**
  * This example shows how to create a simple JTreeTable component, 
