@@ -79,7 +79,7 @@ public class TorrentTrackerList extends JList implements ActionListener,MouseLis
 						ResourcePool.getString("scrape-down", bundle, this)+": "+tt.getScrapeDownloaded()+" "+
 						ResourcePool.getString("scrape-undone", bundle, this)+": "+tt.getScrapeIncomplete()+" "+
 						ResourcePool.getString("scrape-time", bundle, this)+": "+tt.getScrapeTimeLast()+"\n"+
-						ResourcePool.getString("intervall", bundle, this)+" - "+
+						ResourcePool.getString("interval", bundle, this)+" - "+
 						ResourcePool.getString("min-int", bundle, this)+": "+tt.getMinIntervall()+" "+
 						ResourcePool.getString("nom-int", bundle, this)+": "+tt.getNormalIntervall());
 				
