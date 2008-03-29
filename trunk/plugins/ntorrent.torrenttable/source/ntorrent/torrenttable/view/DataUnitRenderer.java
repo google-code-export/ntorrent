@@ -35,7 +35,9 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 	private final GridLayout layout = new GridLayout(0,1);
 	
 	boolean firstrun = true;
-	
+	String[] s1 = new String[20];
+	String s2 = new String();
+		
 	public DataUnitRenderer() {
 		setLayout(layout);
 		add(dta);
@@ -43,6 +45,7 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		
+		int i;
 		if(firstrun){
 			firstrun = false;
 			dta.setFont(table.getFont());
@@ -53,8 +56,14 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 			return null;
 		
 		DataUnit d = (DataUnit) value;
-		dta.setText(d.toString());
-						
+		s2 = d.toString();
+		s1 = s2.split(" ",2);
+		
+		if ((int)(s1[1].length()) == 3)
+		    	dta.setText(s1[0]+"   "+s1[1]);
+		  else 
+		      dta.setText(s1[0]+" "+s1[1]);
+		
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
 			setForeground(table.getSelectionForeground());
