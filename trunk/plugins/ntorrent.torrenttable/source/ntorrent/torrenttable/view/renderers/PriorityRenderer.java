@@ -2,7 +2,7 @@
  *   nTorrent - A GUI client to administer a rtorrent process 
  *   over a network connection.
  *   
- *   Copyright (C) 2007  Hans Hasert
+ *   Copyright (C) 2007  Kim Eik
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,7 +28,11 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 import ntorrent.torrenttable.model.Priority;
-
+/**
+ * 
+ * @author Hans Hasert
+ *
+ */
 public class PriorityRenderer extends JPanel implements TableCellRenderer {
 	private static final long serialVersionUID = 1L;
 	private final JLabel prio = new JLabel();

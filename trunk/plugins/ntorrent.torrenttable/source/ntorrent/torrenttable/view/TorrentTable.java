@@ -22,7 +22,6 @@ package ntorrent.torrenttable.view;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,7 +43,12 @@ import ntorrent.torrenttable.view.renderers.PriorityRenderer;
 import ntorrent.torrenttable.view.renderers.RatioRenderer;
 import ntorrent.torrenttable.view.renderers.TorrentClassRenderer;
 
-
+/**
+ * 
+ * @author Kim Eik
+ * @author Hans Hasert
+ *
+ */
 public class TorrentTable extends JTable implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	
