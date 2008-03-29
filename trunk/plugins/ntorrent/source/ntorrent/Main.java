@@ -74,22 +74,6 @@ public class Main extends Plugin {
 			x.printStackTrace();
 		}
 		
-		/** Start socket server **/
-		try{
-			new Server().start();
-			for(String line : Environment.getArgs()){
-				clientSoConn(line);
-				break; //break since its not possible to add torrent without being connected, just show message.
-			}
-		}catch(IOException e){
-			Logger.global.info(e.getMessage());
-			try {
-				new Client(Environment.getArgs());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			System.exit(0);
-		}
 		
 		/** UImanager, set look and feel **/
 		try {
@@ -180,6 +164,7 @@ public class Main extends Plugin {
 
 	@Override
 	protected void doStart() throws Exception {
+				
 		/** autoconnect **/
 		try{
 			for(ClientProfileInterface p : ClientProfileListModel.Deserialize())
@@ -193,6 +178,27 @@ public class Main extends Plugin {
 		
 		if(!(sessions.size() > 0)){
 			newSession();
+		}
+		
+		/** Start socket server **/
+		try{
+			new Server().start();
+			new Thread(){
+				public void run(){
+					for(String line : Environment.getArgs()){
+						clientSoConn(line);
+						break; //break since its not possible to add torrent without being connected, just show message.
+					}
+				}
+			}.start();
+		}catch(IOException e){
+			Logger.global.info(e.getMessage());
+			try {
+				new Client(Environment.getArgs());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			System.exit(0);
 		}
 		
 		/** Draw Gui **/
