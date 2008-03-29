@@ -53,7 +53,7 @@ public class PriorityRenderer extends JPanel implements TableCellRenderer {
 			return null;
 		
 		Priority p = (Priority) value;
-		prio.setText(p.toString());
+		prio.setText(p.toString()+" ");
 						
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
