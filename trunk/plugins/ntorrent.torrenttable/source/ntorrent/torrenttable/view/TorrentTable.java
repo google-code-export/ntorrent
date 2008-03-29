@@ -46,7 +46,6 @@ public class TorrentTable extends JTable implements MouseListener{
 	final TorrentTableHeaderPopupMenu headerPopup;
 	final TorrentTableJPopupMenu tablePopup = new TorrentTableJPopupMenu();
 	JPanel panel = new JPanel(new BorderLayout());
-    Dimension d = new Dimension (8,1);
 
 	public TorrentTable(TorrentTableModel tmodel) {
 		super(tmodel,cmodel.getModel());
@@ -54,7 +53,6 @@ public class TorrentTable extends JTable implements MouseListener{
 		getTableHeader().addMouseListener(this);
 		setColumnSelectionAllowed(false);
 		setRowHeight(20);
-		setIntercellSpacing(d);
 		setDefaultRenderer(Torrent.class, new TorrentClassRenderer());
 		setDefaultRenderer(Percent.class, new PercentRenderer());
 		setDefaultRenderer(Eta.class, new EtaRenderer());

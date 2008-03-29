@@ -53,7 +53,7 @@ public class EtaRenderer extends JPanel implements TableCellRenderer {
 			return null;
 		
 		Eta e = (Eta) value;
-		eta.setText(e.toString());
+		eta.setText(e.toString()+" ");
 						
 		if(isSelected){
 			setBackground(table.getSelectionBackground());

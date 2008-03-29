@@ -59,9 +59,9 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 		s1 = s2.split(" ",2);
 		
 		if ((int)(s1[1].length()) == 3)
-		    	dta.setText(s1[0]+"   "+s1[1]);
+		    	dta.setText(s1[0]+"   "+s1[1]+" ");
 		  else 
-		      dta.setText(s1[0]+" "+s1[1]);
+		      dta.setText(s1[0]+" "+s1[1]+" ");
 		
 		if(isSelected){
 			setBackground(table.getSelectionBackground());

@@ -53,7 +53,7 @@ public class RatioRenderer extends JPanel implements TableCellRenderer {
 			return null;
 		
 		Ratio r = (Ratio) value;
-		rat.setText(r.toString());
+		rat.setText(r.toString()+" ");
 						
 		if(isSelected){
 			setBackground(table.getSelectionBackground());
