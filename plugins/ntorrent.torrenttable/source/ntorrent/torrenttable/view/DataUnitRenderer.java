@@ -45,7 +45,6 @@ public class DataUnitRenderer extends JPanel implements TableCellRenderer {
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		
-		int i;
 		if(firstrun){
 			firstrun = false;
 			dta.setFont(table.getFont());
