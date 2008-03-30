@@ -168,10 +168,10 @@ test      - runs some tests
 					verbose="false"
 			 		workingdirectory="$JAVAROOT">
 			
-			<!-- native skin -->
-		    <javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
+			<!-- native skin (apparently buggy) -->
+		    <!--<javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
 		    <javaproperty name="apple.awt.brushMetal" value="true"/>
-		    <javaproperty name="apple.awt.showGrowBox" value="false"/>
+		    <javaproperty name="apple.awt.showGrowBox" value="false"/>-->
 			<!-- -->
 			<jarfileset dir="${build.home}" includes="lib/**"/>
 			<javafileset dir="${build.home}" includes="plugins/**"/>
