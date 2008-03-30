@@ -164,18 +164,19 @@ test      - runs some tests
 		            mainclass="${app.mainclass}"
 					version="${app.version}"
 					stubfile="${build.home}/JavaApplicationStub"
-					jvmversion="1.5+"
+					jvmversion="1.5*"
 					workingdirectory="$JAVAROOT"
 					verbose="false">
 			
 			<!-- native skin -->
-		      <javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
-		      <javaproperty name="apple.awt.brushMetal" value="true"/>
-		      <javaproperty name="apple.awt.showGrowBox" value="false"/>
-			
-			<jarfilelist dir="${build.home}" files="lib/jpf-boot.jar"/>
-			<jarfileset dir="${build.home}" includes="lib/**" excludes="lib/jpf-boot.jar"/>
-			<javafileset dir="${build.home}" includes="plugins/**" />
+		    <javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
+		    <javaproperty name="apple.awt.brushMetal" value="true"/>
+		    <javaproperty name="apple.awt.showGrowBox" value="false"/>
+			<!-- -->
+			<javaproperty name="user.dir" value="$JAVAROOT"/>
+			<!-- -->
+			<jarfileset dir="${build.home}" includes="lib/jpf-boot.jar"/>
+			<javafileset dir="${build.home}" includes="lib/**,plugins/**" excludes="${app.jar}"/>
 			<resourcefilelist dir="${basedir}" files="LICENSE,README"/>
 		    
 			<!-- Associate document types with this application -->
