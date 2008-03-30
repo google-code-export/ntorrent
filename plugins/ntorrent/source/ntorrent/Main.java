@@ -108,7 +108,7 @@ public class Main extends Plugin {
 			
 	public static void clientSoConn(String line){
 		File f = new File(line);
-		System.out.println(line);
+		Logger.global.info("[clientSoConn] - "+line);
 		Vector<Session> sessionList = new Vector<Session>();
 			for(Session s : sessions){
 				if(s.isConnected())

@@ -29,6 +29,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 import ntorrent.Main;
+import ntorrent.Session;
 import ntorrent.locale.ResourcePool;
 
 /**
@@ -78,7 +79,12 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 			 * This only removes the contents of the tab,
 			 * not the processes behind it!!!
 			 */
+			Session remove = null;
+			for(Session s : Main.sessions)
+				if(getComponentAt(getSelectedIndex()).equals(s.getSession().getDisplay()))
+					remove = s;
 			removeTabAt(getSelectedIndex());
+			Main.getSessions().remove(remove);
 		}
 	}
 }
