@@ -165,7 +165,6 @@ test      - runs some tests
 					version="${app.version}"
 					stubfile="${build.home}/JavaApplicationStub"
 					jvmversion="1.5*"
-					workingdirectory="$JAVAROOT"
 					verbose="false">
 			
 			<!-- native skin -->
@@ -173,10 +172,8 @@ test      - runs some tests
 		    <javaproperty name="apple.awt.brushMetal" value="true"/>
 		    <javaproperty name="apple.awt.showGrowBox" value="false"/>
 			<!-- -->
-			<javaproperty name="user.dir" value="$JAVAROOT"/>
-			<!-- -->
-			<jarfileset dir="${build.home}" includes="lib/jpf-boot.jar"/>
-			<javafileset dir="${build.home}" includes="lib/**,plugins/**" excludes="${app.jar}"/>
+			<jarfileset dir="${build.home}" includes="lib/**"/>
+			<javafileset dir="${build.home}" includes="plugins/**"/>
 			<resourcefilelist dir="${basedir}" files="LICENSE,README"/>
 		    
 			<!-- Associate document types with this application -->
