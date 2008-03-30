@@ -164,7 +164,7 @@ test      - runs some tests
 		            mainclass="${app.mainclass}"
 					version="${app.version}"
 					stubfile="${build.home}/JavaApplicationStub"
-					jvmversion="1.5*"
+					jvmversion="1.5+"
 					verbose="false"
 			 		workingdirectory="$JAVAROOT">
 			
