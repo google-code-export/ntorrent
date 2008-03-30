@@ -40,4 +40,5 @@ public interface TorrentTableInterface extends ViewChangeListener,TorrentTableAc
 	public void addTorrentSelectionListener(TorrentSelectionListener listener);
 	public void setSelectionMethod(SelectionValueInterface i);
 	public void removeTorrentSelectionListener(TorrentSelectionListener listener);
+	public Torrent[] getSelectedTorrents();
 }
