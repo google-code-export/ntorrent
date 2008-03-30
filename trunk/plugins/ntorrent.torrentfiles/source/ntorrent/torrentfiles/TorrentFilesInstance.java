@@ -42,7 +42,7 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 	final private TorrentFilesPopupMenu popup = new TorrentFilesPopupMenu(this,treeTable);
 	
 	final private JTabbedPane container;
-	final private TorrentTableInterface tableController;
+	final private TorrentTableInterface tc;
 	
 	final private XmlRpcClient client;
 	final private File f;
@@ -56,7 +56,7 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 		
 		//init needed variables
 		container = frame.getTabbedPane();
-		tableController = session.getTorrentTableController();
+		tc = session.getTorrentTableController();
 		
 		XmlRpcConnection connection = session.getConnection();
 		client = connection.getClient();
@@ -65,6 +65,9 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 		
 		//add mouselistener for popup
 		treeTable.addMouseListener(popup);
+		
+		//get and fire selection
+		torrentsSelected(tc.getSelectedTorrents());
 	}
 	
 	public void start(){
@@ -76,7 +79,7 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 		container.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane,null,preferredIndex);
 		
 		//add this as a selection listener
-		tableController.addTorrentSelectionListener(this);
+		tc.addTorrentSelectionListener(this);
 	}
 	
 	public void stop(){
@@ -85,7 +88,7 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 		container.removeTabAt(index);
 		
 		//remove this as a selection listener
-		tableController.removeTorrentSelectionListener(this);
+		tc.removeTorrentSelectionListener(this);
 	}
 
 	public void torrentsSelected(Torrent[] tor) {

@@ -68,6 +68,9 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		
 		//get the xmlrpc client for this session
 		d = session.getConnection().getDownloadClient();
+		
+		//get and fire selection
+		torrentsSelected(tc.getSelectedTorrents());
 	}
 
 	public boolean isStarted() {

@@ -61,6 +61,9 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		client = connection.getClient();
 		
 		trackerList.setTorrentTrackerActionListener(this);
+		
+		//get and fire selection
+		torrentsSelected(tc.getSelectedTorrents());
 	}
 	
 	public void torrentsSelected(Torrent[] tor) {
