@@ -166,7 +166,8 @@ test      - runs some tests
 					stubfile="${build.home}/JavaApplicationStub"
 					jvmversion="1.5+"
 					verbose="false"
-			 		workingdirectory="$JAVAROOT">
+			 		workingdirectory="$JAVAROOT"
+					icon="${build.home}/plugins/ntorrent/icons/ntorrent.icns">
 			
 			<!-- native skin (apparently buggy) -->
 		    <!--<javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
