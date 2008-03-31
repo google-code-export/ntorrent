@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="nTorrent" default="help" basedir=".">
 	<property name="app.name" value="nTorrent" />
-	<property name="app.version" value="0.5-alpha" />
+	<property name="app.version" value="0.5-beta" />
 	<property name="app.jar" value="lib/jpf-boot.jar" />
 	<property name="app.mainclass" value="org.java.plugin.boot.Boot" />
 
