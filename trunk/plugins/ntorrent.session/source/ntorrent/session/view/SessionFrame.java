@@ -33,6 +33,7 @@ import ntorrent.torrenttable.viewmenu.ViewMenuController;
 
 /**
  * Main session gui component.
+ * @author Kim Eik
  */
 public class SessionFrame extends JPanel{
 	private static final long serialVersionUID = 1L;

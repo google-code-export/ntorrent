@@ -47,12 +47,22 @@ import com.jcraft.jsch.ProxyHTTP;
 import com.jcraft.jsch.ProxySOCKS5;
 import com.jcraft.jsch.Session;
 
+
+/**
+ * This class handles an xmlrpc connection.
+ * @author Kim Eik
+ */
 public class XmlRpcConnection {
 	private final ClientProfileInterface profile;
 	private XmlRpcClient client;
 	private JSch jsch;
 	private Session session;
 	
+	/**
+	 * Takes data from a ClientProfileInterface and creates a XmlRpcClient class from it.
+	 * @param p
+	 * @throws XmlRpcException
+	 */
 	public XmlRpcConnection(ClientProfileInterface p) throws XmlRpcException {
 		profile = p;
 		switch (p.getProtocol()) {
@@ -154,34 +164,66 @@ public class XmlRpcConnection {
 		
 	}
 	
+	/**
+	 * Returns the raw XmlRpcClient
+	 * @return
+	 */
 	public XmlRpcClient getClient() {
 		return client;
 	}
 	
+	/**
+	 * Proxies the client to the System interface.
+	 * @return System
+	 */
 	public System getSystemClient(){
 		return (System)XmlRpcProxy.createProxy("system",new Class[] { System.class }, client);
 	}
 	
+	/**
+	 * Proxies the client to the Download interface.
+	 * @return Download
+	 */
 	public Download getDownloadClient(){
 		return (Download)XmlRpcProxy.createProxy("d",new Class[] { Download.class }, client);
 	}
 	
+	/**
+	 * Proxies the client to the Global interface.
+	 * @return Global
+	 */
 	public Global getGlobalClient(){
 		return (Global)XmlRpcProxy.createProxy("",new Class[] { Global.class }, client);
 	}
 	
+	/**
+	 * Proxies the client to the PeerConnection interface.
+	 * @return PeerConnection
+	 */
 	public PeerConnection getPeerConnectionClient(){
 		return (PeerConnection)XmlRpcProxy.createProxy("p",new Class[] { PeerConnection.class }, client);
 	}
 	
+	/**
+	 * Proxies the client to the File interface.
+	 * @return File
+	 */
 	public File getFileClient(){
 		return (File)XmlRpcProxy.createProxy("f",new Class[] { File.class }, client);
 	}
 	
+	/**
+	 * Proxies the client to the Tracker interface.
+	 * @return Tracker
+	 */
 	public Tracker getTrackerClient(){
 		return (Tracker)XmlRpcProxy.createProxy("t",new Class[] { Tracker.class }, client);
 	}
 	
+	/**
+	 * Returns the profile submitted to this XmlRpcConnection instance.
+	 * @return ClientProfileInterface
+	 */
 	public ClientProfileInterface getProfile() {
 		return profile;
 	}

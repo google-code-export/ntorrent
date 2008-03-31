@@ -23,7 +23,6 @@ import ntorrent.session.ConnectionSession;
 import ntorrent.session.DefaultSessionExtension;
 
 /**
- * This plugin needs some serious cleanup.
  * @author Kim Eik
  */
 public class TorrentFilesController extends DefaultSessionExtension<TorrentFilesInstance> {

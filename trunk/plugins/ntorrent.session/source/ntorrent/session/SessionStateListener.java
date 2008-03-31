@@ -20,6 +20,7 @@
 package ntorrent.session;
 
 /**
+ * The SessionStateListener interface.
  * @author Kim Eik
  *
  */

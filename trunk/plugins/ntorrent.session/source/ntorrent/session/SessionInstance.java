@@ -20,6 +20,7 @@
 package ntorrent.session;
 
 /**
+ * A session instance interface.
  * @author Kim Eik
  *
  */

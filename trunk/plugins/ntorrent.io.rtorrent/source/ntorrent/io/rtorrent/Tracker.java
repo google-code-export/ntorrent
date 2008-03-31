@@ -20,7 +20,9 @@
 package ntorrent.io.rtorrent;
 
 /**
- * t.
+ * This interface governs the t.* commands as written in rtorrent.
+ * @author Kim Eik
+ *
  */
 public interface Tracker {
 	Object get_group();

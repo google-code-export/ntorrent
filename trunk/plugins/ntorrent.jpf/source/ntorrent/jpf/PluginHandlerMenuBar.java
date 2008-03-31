@@ -44,6 +44,11 @@ import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
+/**
+ * This class handles the plugins.
+ * @author Kim Eik
+ *
+ */
 public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
 	private static final PluginManager manager = Environment.getPluginManager();

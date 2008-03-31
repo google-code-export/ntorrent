@@ -22,6 +22,7 @@ package ntorrent.jpf;
 import java.util.HashSet;
 
 /**
+ * Empty shell, just to give the serializer tool a more describing name when serializing this object.
  * @author Kim Eik
  *
  */

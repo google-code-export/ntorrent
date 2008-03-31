@@ -20,7 +20,9 @@
 package ntorrent.io.rtorrent;
 
 /**
- * p.
+ * This interface governs the p.* commands as written in rtorrent.
+ * @author Kim Eik
+ *
  */
 public interface PeerConnection {
 	Object get_address();

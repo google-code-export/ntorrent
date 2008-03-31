@@ -20,6 +20,7 @@
 package ntorrent.session;
 
 /**
+ * Interface that a SessionExtension has to implement in order to be called on startup.
  * @author Kim Eik
  *
  */

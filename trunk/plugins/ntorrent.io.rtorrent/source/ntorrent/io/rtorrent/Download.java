@@ -21,7 +21,9 @@ package ntorrent.io.rtorrent;
 
 
 /**
- * d.
+ * This interface governs the d.* commands as written in rtorrent.
+ * @author Kim Eik
+ *
  */
 public interface Download {
 	Object check_hash(String string);

@@ -20,7 +20,9 @@
 package ntorrent.io.rtorrent;
 
 /**
- * f.
+ * This interface governs the f.* commands as written in rtorrent.
+ * @author Kim Eik
+ *
  */
 public interface File {
 	Object get_completed_chunks();	 

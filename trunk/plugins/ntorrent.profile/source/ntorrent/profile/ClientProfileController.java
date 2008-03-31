@@ -31,8 +31,6 @@ import ntorrent.profile.model.HttpProfileModel;
 import ntorrent.profile.model.LocalProfileModel;
 import ntorrent.profile.model.SshProfileModel;
 
-
-
 public class ClientProfileController {
 	LocalProfileModel localModel = new LocalProfileModel();
 	SshProfileModel sshModel = new SshProfileModel();
