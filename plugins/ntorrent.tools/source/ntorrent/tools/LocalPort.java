@@ -22,7 +22,17 @@ package ntorrent.tools;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * This static class is a helper class to find a free socket port on the running machine.
+ * @author Kim Eik
+ *
+ */
 public abstract class LocalPort {
+	/**
+	 * Finds a free, unused local port.
+	 * @return int, free port
+	 * @throws IOException
+	 */
 	public static int findFreePort() throws IOException {
 		ServerSocket server = new ServerSocket(0);
 		int port = server.getLocalPort();

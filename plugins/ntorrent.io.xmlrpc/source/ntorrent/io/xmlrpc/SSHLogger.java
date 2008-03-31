@@ -21,6 +21,12 @@ package ntorrent.io.xmlrpc;
 
 import com.jcraft.jsch.Logger;
 
+/**
+ * This class governs the logging of ssh connections.
+ * (however, might be unecessary)
+ * @author Kim Eik
+ *
+ */
 public class SSHLogger implements Logger {
 
 	public boolean isEnabled(int level) {

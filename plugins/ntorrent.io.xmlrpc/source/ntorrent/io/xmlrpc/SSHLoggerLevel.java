@@ -21,6 +21,12 @@ package ntorrent.io.xmlrpc;
 
 import java.util.logging.Level;
 
+/**
+ * This class is creates a logging level to SSHLogger.
+ * (is however maybe unecessary)
+ * @author Kim Eik
+ *
+ */
 public class SSHLoggerLevel extends Level {
 
 	private static final long serialVersionUID = 1L;

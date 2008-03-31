@@ -3,7 +3,9 @@ package ntorrent.io.rtorrent;
 import redstone.xmlrpc.XmlRpcArray;
 
 /**
- * ""
+ * This interface governs the global commands as written in rtorrent.
+ * @author Kim Eik
+ *
  */
 public interface Global {
 	Object call_download();

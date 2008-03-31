@@ -22,7 +22,9 @@ package ntorrent.io.rtorrent;
 import redstone.xmlrpc.XmlRpcArray;
 
 /**
- * system.
+ * This interface governs the system.* commands as written in rtorrent.
+ * @author Kim Eik
+ *
  */
 public interface System {
 	XmlRpcArray listMethods();

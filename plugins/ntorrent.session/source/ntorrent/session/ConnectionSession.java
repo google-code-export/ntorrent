@@ -40,6 +40,10 @@ import org.java.plugin.registry.PluginRegistry;
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * This class handles a the gui and model of all elements within one connected session of nTorrent.
+ * @author Kim Eik
+ */
 public class ConnectionSession implements EventListener {
 	
 	private final XmlRpcConnection connection;
@@ -69,6 +73,10 @@ public class ConnectionSession implements EventListener {
 		loadExtensions();
 	}
 	
+	/**
+	 * Loads the plugins that is connected to this extension point in a correct order, where
+	 * no plugins with dependencies are loaded after the depended plugins.
+	 */
 	private void loadExtensions(){
 		for(Extension e : ext.getConnectedExtensions()){
 			PluginDescriptor owner = e.getDeclaringPluginDescriptor();
@@ -88,6 +96,11 @@ public class ConnectionSession implements EventListener {
 			}
 	}
 	
+	/**
+	 * Checks to see if a plugin is safe to load.
+	 * @param p
+	 * @return true if it is, false if not.
+	 */
 	private boolean isExtensionSafeToLoad(PluginDescriptor p){
 		boolean safe = true;
 		for(PluginDescriptor owner : dependencies.keySet()){
@@ -99,6 +112,10 @@ public class ConnectionSession implements EventListener {
 		return safe;
 	}
 	
+	/**
+	 * Load the plugin
+	 * @param p
+	 */
 	private void loadExtension(PluginDescriptor p){
 		if (manager.isPluginActivated(p)){
 			try {
@@ -110,26 +127,49 @@ public class ConnectionSession implements EventListener {
 		}
 	}
 	
+	/**
+	 * Returns the gui of this session.
+	 * @return SessionFrame
+	 */
 	public SessionFrame getDisplay(){
 		return session;
 	}
 	
+	/**
+	 * Returns the xmlrpc connection controller of this session.
+	 * @return XmlRpcConnection
+	 */
 	public XmlRpcConnection getConnection() {
 		return connection;
 	}
 	
+	/**
+	 * Returns the TorrentTableController in this session.
+	 * @return
+	 */
 	public TorrentTableInterface getTorrentTableController() {
 		return ttc;
 	}
 	
+	/**
+	 * This session is started if it is the selected pane.
+	 * @return
+	 */
 	public boolean isStarted() {
 		return started;
 	}
 	
+	/**
+	 * Returns boolean value on whether this session has been closed.
+	 * @return
+	 */
 	public boolean isShutdown() {
 		return shutdown;
 	}
 	
+	/**
+	 * Stops this session, causing background processes to pause.
+	 */
 	public void stop(){
 		started = false;
 		Logger.global.info("Stopping: "+connection.getProfile() + " ["+ttc+"]");
@@ -137,6 +177,9 @@ public class ConnectionSession implements EventListener {
 		notifySessionStateListeners();
 	}
 	
+	/**
+	 * Starts this session, causing background processes to unpause.
+	 */
 	public void start() {
 		started = true;
 		Logger.global.info("Starting: "+connection.getProfile() + " ["+ttc+"]");
@@ -144,6 +187,9 @@ public class ConnectionSession implements EventListener {
 		notifySessionStateListeners();
 	}
 	
+	/**
+	 * Closes this session, freeing and unloading resources, stopping processes and so forth.
+	 */
 	public void shutdown(){
 		shutdown = true;
 		stop();
@@ -151,11 +197,18 @@ public class ConnectionSession implements EventListener {
 		ttc.shutdown();
 	}
 	
+	/**
+	 * Notifies SessionStateListener's to changes in this sessions state. (started,stopped,shutdown)
+	 */
 	private void notifySessionStateListeners(){
 		for(SessionStateListener l : sessionStateListener)
 			l.sessionStateChanged();
 	}
 	
+	/**
+	 * Adds a SessionStateListener.
+	 * @param l
+	 */
 	public void addSessionStateListener(SessionStateListener l){
 		sessionStateListener.add(l);
 	}
