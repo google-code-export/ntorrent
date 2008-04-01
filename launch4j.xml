@@ -1,4 +1,5 @@
 <launch4jConfig>
+  <chdir>.</chdir>
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar>lib/jpf-boot.jar</jar>
