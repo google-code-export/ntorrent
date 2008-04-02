@@ -80,11 +80,19 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 			 * not the processes behind it!!!
 			 */
 			Session remove = null;
-			for(Session s : Main.sessions)
-				if(getComponentAt(getSelectedIndex()).equals(s.getSession().getDisplay()))
+			for(Session s : Main.sessions){
+				try{
+				Object session = getComponentAt(getSelectedIndex());
+				Object session2 = s.getSession().getDisplay();
+				if(session != null && session.equals(session2))
 					remove = s;
+				}catch(NullPointerException x ){
+					//session2 throws nullpointer if not initialized.
+				}
+			}
 			removeTabAt(getSelectedIndex());
-			Main.getSessions().remove(remove);
+			if(remove != null)
+				Main.getSessions().remove(remove);
 		}
 	}
 }
