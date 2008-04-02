@@ -179,9 +179,9 @@ test      - runs some tests
 			<javafilelist dir="${basedir}" files="boot.properties,LICENSE,README"/>
 		    
 			<!-- Associate document types with this application -->
-		      <documenttype name="torrent file"
+		    <!--  <documenttype name="torrent file"
 		                    extensions="torrent"
-		      				role="Viewer"/>
+		      				role="Viewer"/>-->
 		</jarbundler>
 		
 		<!-- delete fake stub-->
