@@ -1,5 +1,4 @@
 <launch4jConfig>
-  <chdir>.</chdir>
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar>lib/jpf-boot.jar</jar>
@@ -13,4 +12,5 @@
     <minVersion>1.5.0</minVersion>
     <jdkPreference>preferJre</jdkPreference>
   </jre>
+  <chdir>.</chdir>
 </launch4jConfig>
