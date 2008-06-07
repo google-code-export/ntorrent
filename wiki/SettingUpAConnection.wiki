@@ -15,3 +15,15 @@ You will need the following things.
   # corrent rtorrent settings
   # apache (or an other webserver) with scgi support
 You can read about these in separate sections below.
+
+== installing rTorrent ==
+You can read more about this at: QuickStart
+
+== rTorrent settings ==
+You will need an .rtorrent.rc file in you home dir.
+The following has to be set:
+  scgi_port = localhost:5000
+But if you want to access it from an other mashine than localhost,
+then the following is nedded:
+  scgi_port = :5000
+Note: I think the port can be other than 5000, but I'm not sure.
