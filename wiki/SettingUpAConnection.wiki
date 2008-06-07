@@ -1,0 +1,17 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+For being able to connect to a _rTorrent_ on an other mashine
+
+there are a quite few thinks that has to work.
+
+This guide should help a bit.
+
+= Details =
+
+You will need the following things.
+  # one rtorrent with XMLRPC support
+  # corrent rtorrent settings
+  # apache (or an other webserver) with scgi support
+You can read about these in separate sections below.
