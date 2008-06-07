@@ -17,7 +17,7 @@ You will need the following things.
 You can read about these in separate sections below.
 
 == installing rTorrent ==
-You can read more about this at: QuickStart
+You can read more about this at: [QuickStart]
 
 == rTorrent settings ==
 You will need an .rtorrent.rc file in you home dir.
@@ -27,3 +27,45 @@ But if you want to access it from an other mashine than localhost,
 then the following is nedded:
   scgi_port = :5000
 Note: I think the port can be other than 5000, but I'm not sure.
+
+== setting up apache with SCGI ==
+1. You will need the packages:
+libapache2-mod-scgi python-scgi
+
+2. After installing these packages,
+you will need to enable this module.
+You have to create a link in the dir
+  _/etc/apache2/mods-enabled_ named _scgi.load_
+pointing to
+  _/etc/apache2/mods-available/scgi.load_ 
+
+3.
+Add the following line to _/etc/apache/sites-available/default_ inside the _VirtualHost_:
+  SCGIMount /RPC2 127.0.0.1:5000
+
+4. restart apache for the changes to take effect
+  /etc/init.d/apache2 restart
+
+You should be now ready to connect with ntorrent.
+
+You can check the listening ports with:
+  netstat -l
+You should see something like this:
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 *:6666                  *:*                     LISTEN     
+tcp        0      0 localhost.localdo:mysql *:*                     LISTEN     
+tcp        0      0 *:www                   *:*                     LISTEN     
+tcp        0      0 *:rplay                 *:*                     LISTEN     
+tcp        0      0 *:ssh                   *:*                     LISTEN     
+tcp        0      0 localhost.localdom:smtp *:*                     LISTEN     
+
+== setting up an nTorrent connection ==
+{{{
+protocol: HTTP
+host: the IP address of the PC where _rTorrent_ is running (can be DNS name too?)
+port: 5000 (or 80) ???
+user: ???
+pass: ???
+
+}}}
