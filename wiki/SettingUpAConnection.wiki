@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Setting up a connection in nTorrent.
 
 = Introduction =
 
@@ -7,6 +7,8 @@ For being able to connect to a _rTorrent_ on an other mashine
 there are a quite few thinks that has to work.
 
 This guide should help a bit.
+
+*Note: this guide is yet incomplete!*
 
 = Details =
 
@@ -68,7 +70,7 @@ In this example 6666 is where rtorrent communicates with other torrent clients.
 protocol: HTTP
 host: the IP address of the PC where _rTorrent_ is running (can be DNS name too?)
 port: 5000 (or 80) ???
+mount point: /RPC2 (the same as in apache config)
 user: ???
 pass: ???
-
 }}}
