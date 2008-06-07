@@ -51,14 +51,17 @@ You should be now ready to connect with ntorrent.
 You can check the listening ports with:
   netstat -l
 You should see something like this:
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 *:6666                  *:*                     LISTEN     
-tcp        0      0 localhost.localdo:mysql *:*                     LISTEN     
-tcp        0      0 *:www                   *:*                     LISTEN     
-tcp        0      0 *:rplay                 *:*                     LISTEN     
-tcp        0      0 *:ssh                   *:*                     LISTEN     
-tcp        0      0 localhost.localdom:smtp *:*                     LISTEN     
+{{{
+  Active Internet connections (only servers)
+  Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+  tcp        0      0 *:6666                  *:*                     LISTEN     
+  tcp        0      0 localhost.localdo:mysql *:*                     LISTEN     
+  tcp        0      0 *:www                   *:*                     LISTEN     
+  tcp        0      0 *:rplay                 *:*                     LISTEN     
+  tcp        0      0 *:ssh                   *:*                     LISTEN     
+  tcp        0      0 localhost.localdom:smtp *:*                     LISTEN     
+}}}
+In this example 6666 is where rtorrent communicates with other torrent clients.
 
 == setting up an nTorrent connection ==
 {{{
