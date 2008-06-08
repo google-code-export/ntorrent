@@ -13,9 +13,13 @@ This guide should help a bit.
 = Details =
 
 You will need the following things.
-  # one rtorrent with XMLRPC support
-  # corrent rtorrent settings
-  # apache (or an other webserver) with scgi support
+  # one rtorrent installation with XMLRPC support
+  # correct rtorrent configuration (~/.rtorrent.rc)
+  # Enviromnent to support either the HTTP, SSH or Local protocol of nTorrent.
+  * HTTP, demands a webserver with scgi support (ex. apache)
+  * SSH, demands an installed SSH server configured to support text passwords and port forwarding
+  * Local, only demands the scgi socket to be created by rtorrent.
+
 You can read about these in separate sections below.
 
 == installing rTorrent ==
@@ -64,6 +68,17 @@ You should see something like this:
   tcp        0      0 localhost.localdom:smtp *:*                     LISTEN     
 }}}
 In this example 6666 is where rtorrent communicates with other torrent clients.
+
+== Setting up ssh server ==
+Use your package manager to download openssh-server, this example uses a debian distro.
+{{{
+  apt-get install openssh-server
+}}}
+If connection through ssh doesn't work on first try then there most likely is something misconfigured in /etc/ssh/sshd_config.
+
+make sure PasswordAuthentication is set to yes in sshd_config.
+"PasswordAuthentication yes"
+
 
 == setting up an nTorrent connection ==
 {{{
