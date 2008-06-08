@@ -84,8 +84,8 @@ make sure PasswordAuthentication is set to yes in sshd_config.
 == setting up an nTorrent connection ==
 {{{
 protocol: HTTP
-host: the IP address of the PC where _rTorrent_ is running (can be DNS name too?)
-port: 5000 (or 80) ???
+host: IP to rtorrent server (or FQDN of the host, given you have a dns server that resolves the correct ip.)
+port: 80 (not port 5000 as apache points to port 5000 from port 80)
 mount point: /RPC2 (the same as in apache config)
 user: ???
 pass: ???
