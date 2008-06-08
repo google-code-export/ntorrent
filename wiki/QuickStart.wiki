@@ -3,6 +3,8 @@
 
 A quick howto on compiling and installing rtorrent, libtorrent and xmlrpc-c.
 
+if you already have a working and configured rTorrent installation, continue to [SettingUpAConnection] or/and [StartingnTorrent]
+
 This guide expects that your system has all the installed dependencies for compiling theese sources, therefore i have not included such installation steps.
 
 _Please note that you need a xmlrpc-c version greater than 1.07_
@@ -69,6 +71,8 @@ scgi_port = 127.0.0.1:5000
 }}}
 
 Looks like we made it!
+
+Now you can continue to [SettingUpAConnection] or/and [StartingnTorrent].
 
 = Final notes =
 
