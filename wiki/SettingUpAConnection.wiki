@@ -1,5 +1,4 @@
 #summary Setting up a connection in nTorrent.
-#labels Featured
 
 = Introduction =
 
