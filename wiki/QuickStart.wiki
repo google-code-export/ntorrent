@@ -74,6 +74,17 @@ Looks like we made it!
 
 Now you can continue to [SettingUpAConnection] or/and [StartingnTorrent].
 
+= Checking if xmlrpc works =
+At cmd line enter:
+{{{
+xmlrpc localhost system.listMethods
+}}}
+if it outputs a list, then xmlrcp works.
+
+If you get an error like: libxmlrpc.so.3 not found
+then add the line: `/usr/local/lib` to the file `/etc/ld.so.conf`,
+and run `sudo ldconfig`.
+
 = Final notes =
 
 For more information on configuring rtorrent with xmlrpc take a look at http://libtorrent.rakshasa.no/wiki/RTorrentXMLRPCGuide
