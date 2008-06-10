@@ -1,0 +1,15 @@
+#summary nTorrent translations.
+
+= Introduction =
+
+This page deals with nTorrents language files.
+
+
+= nTorrent-0.5 languages =
+  * *EN*: english
+  * *DE*: german (partial)
+  * *IT*: italian
+  * *NO*: norvegian (partial)
+
+= nTorrent SVN languages =
+  * *EN*: english
