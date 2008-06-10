@@ -6,15 +6,25 @@ This page deals with nTorrents language files.
 
 
 = nTorrent-0.5 languages =
-|| lang code || english name || native name ||
-|| *EN* || english || english ||
-|| *DE* || german* || deutsch ||
-|| *IT* || italian || ??? ||
-|| *NO* || norvegian* || ||
-*: partial, some files are missing
+|| *lang code* || *english name* || *native name* ||
+|| DE || german^1^ || deutsch ||
+|| EN || english || english ||
+|| IT || italian || ? ||
+|| NO || norvegian^1^ || ? ||
+
+1: partial, some files are missing
 
 = nTorrent SVN languages =
-  * *EN*: english
+|| *lang code* || *english name* || *native name* ||
+|| DE || german^1^ || deutsch ||
+|| EN || english || english ||
+|| ES || spaniard || ? ||
+|| FR || french^1^ || ? ||
+|| HU || hungarian || magyar ||
+|| IT || italian || ? ||
+|| NO || norvegian^1^ || ? ||
+
+1: partial, some files are missing
 
 = Adding a new language =
   # Join the translators group.
