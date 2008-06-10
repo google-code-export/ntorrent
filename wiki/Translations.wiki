@@ -6,10 +6,25 @@ This page deals with nTorrents language files.
 
 
 = nTorrent-0.5 languages =
-  * *EN*: english
-  * *DE*: german (partial)
-  * *IT*: italian
-  * *NO*: norvegian (partial)
+|| lang code || english name || native name ||
+|| *EN* || english || english ||
+|| *DE* || german* || deutsch ||
+|| *IT* || italian || ??? ||
+|| *NO* || norvegian* || ||
+*: partial, some files are missing
 
 = nTorrent SVN languages =
   * *EN*: english
+
+= Adding a new language =
+  # Join the translators group.
+  # Ask kei060 to add you as a member.
+  # svn checkout https://ntorrent.googlecode.com/svn/trunk/ ntorrent --username ...
+  # where ... is the first part of you gmail address (before the @)
+  # When prompted, enter your [http://code.google.com/hosting/settings generated googlecode.com] password.
+  # tranlate all locale.properties files, by creating new copies of them
+  # use the native2ascii tool to code non-ascii chars to \uxxxx format.
+  # svn add ntorrent/plugins/.../locale/locale_xx_XX.properties (for all new files)
+  # svn ci -m "<your language> translation files"
+
+That is all ;-)
