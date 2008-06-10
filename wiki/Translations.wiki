@@ -16,15 +16,15 @@ This page deals with nTorrents language files.
 
 = nTorrent SVN languages =
 || *lang code* || *english name* || *native name* ||
-|| DE || german^1^ || deutsch ||
+|| DE || german^2^ || deutsch ||
 || EN || english || english ||
 || ES || spaniard || ? ||
-|| FR || french^1^ || ? ||
+|| FR || french^2^ || ? ||
 || HU || hungarian || magyar ||
 || IT || italian || ? ||
-|| NO || norvegian^1^ || ? ||
+|| NO || norvegian^2^ || ? ||
 
-1: partial, some files are missing
+2: partial, some files are missing (2008-06-10)
 
 = Adding a new language =
   # Join the translators group.
