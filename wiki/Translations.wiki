@@ -10,7 +10,7 @@ This page deals with nTorrents language files.
 || DE || german^1^ || deutsch ||
 || EN || english || english ||
 || IT || italian || ? ||
-|| NO || norvegian^1^ || ? ||
+|| NO || norwegian^1^ || norsk ||
 
 1: partial, some files are missing
 
@@ -22,12 +22,13 @@ This page deals with nTorrents language files.
 || FR || french^2^ || ? ||
 || HU || hungarian || magyar ||
 || IT || italian || ? ||
-|| NO || norvegian^2^ || ? ||
+|| NO || norwegian^2^ || norsk ||
 
 2: partial, some files are missing (2008-06-10)
 
 = Adding a new language =
   # Join the translators group.
+  # Read the documentation in the group.
   # Ask kei060 to add you as a member.
   # svn checkout https://ntorrent.googlecode.com/svn/trunk/ ntorrent --username ...
   # where ... is the first part of you gmail address (before the @)
