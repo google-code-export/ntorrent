@@ -7,8 +7,6 @@ if you already have a working and configured rTorrent installation, continue to 
 
 This guide expects that your system has all the installed dependencies for compiling theese sources, therefore i have not included such installation steps.
 
-_Please note that you need a xmlrpc-c version greater than 1.07_
-
 = Downloading =
 
 download the source files, like so.
@@ -36,6 +34,7 @@ root@netbox:/usr/src# tar xzvf rtorrent*
 = Compiling and installing =
 
 ==xmlrpc-c==
+_Please note that you need a xmlrpc-c version greater than 1.07_
 {{{
 root@netbox:/usr/src/libtorrent-0.11.8# cd ../xmlrpc-c
 root@netbox:/usr/src/xmlrpc-c-1.11.00# ./configure
