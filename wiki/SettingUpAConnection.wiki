@@ -32,7 +32,8 @@ The following has to be set:
 But if you want to access it from an other mashine than localhost,
 then the following is nedded:
   scgi_port = :5000
-Note: I think the port can be other than 5000, but I'm not sure.
+
+Note: The port don't have to be :5000, any other unused port number can be used instead.
 
 == setting up apache with SCGI ==
 1. You will need the packages:
