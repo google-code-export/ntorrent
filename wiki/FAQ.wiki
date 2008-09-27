@@ -1,0 +1,8 @@
+#labels Phase-Support,Featured
+= FAQ nTorrent 0.5 =
+ # *I can't save profile (Mac OSX)*
+  * The apple laf isn't implemented correctly in java, causing notSerializableException when trying to save a profile. Try changing the skin to say metal and save profile.
+ # *I get a blank error message dialogue window when trying to connect.*
+  * Check the log files and see what error message was thrown further down in the exception stack. Usually this is because you have an old version of xmlrpc-c. read the installation guide on this.
+
+more to come...
