@@ -34,7 +34,7 @@ import org.java.plugin.util.ExtendedProperties;
 public class Environment extends ApplicationPlugin implements Application {
 	
 	/** App name **/
-	public final static String appName = "nTorrent-0.5-beta";
+	public final static String appName = "nTorrent-0.5";
 	
 	/** the users ntorrent dir **/
 	private static File ntorrent;
