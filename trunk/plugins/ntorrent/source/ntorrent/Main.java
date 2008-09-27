@@ -105,8 +105,52 @@ public class Main extends Plugin {
 		sessions.add(s);
 		return s;
 	}
-			
-	public static void clientSoConn(String line){
+	
+	/**
+	 * Sends a raw byte for byte torrent file to a session and starts the torrent.
+	 * @param torrent
+	 * @param target
+	 */
+	private static void sendTorrentFileToSession(File torrent,Session target){
+		if(target != null && torrent.exists() && torrent.isFile()){
+			Global global = target.getConnection().getGlobalClient();
+			try {
+				byte[] source = new byte[(int)torrent.length()];
+				FileInputStream reader = new FileInputStream(torrent);
+				reader.read(source, 0, source.length);					
+				global.load_raw_start(source);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Sends a string representing a torrent url to a session and calls the load_start method.
+	 * @param url
+	 * @param target
+	 */
+	private static void sendTorrentUrlToSession(String url, Session target){
+		if(url != null && target != null){
+			Global global = target.getConnection().getGlobalClient();
+			global.load_start(url);
+		}
+	}
+	
+	/**
+	 * Handles the dialogue between the user when adding a torrent.
+	 * Three outcomes are possible. there is only one session, therefore
+	 * automatically loaded to that session. There can be several sessions,
+	 * then the user must choose which to add the torrent to.
+	 * and third, no sessions are connected, in that case return false.
+	 * @param line
+	 * @return
+	 */
+	public static boolean addTorrentToSession(final String line){
 		File f = new File(line);
 		Logger.global.info("[clientSoConn] - "+line);
 		Vector<Session> sessionList = new Vector<Session>();
@@ -128,29 +172,42 @@ public class Main extends Plugin {
 					);
 		}else if(sessionList.size() == 1){
 			target = sessionList.get(0);
-		}else{
-			//fix this in the future, so instead of just a message. show a dialogue on where to connect and add torrent.
-			JOptionPane.showMessageDialog(main, "You need to be connected before adding torrents!");
 		}
 		
-		if(target != null){
-			Global global = target.getConnection().getGlobalClient();
-			if(f.exists() && f.isFile()){
-				try {
-					byte[] source = new byte[(int)f.length()];
-					FileInputStream reader = new FileInputStream(f);
-					reader.read(source, 0, source.length);					
-					global.load_raw_start(source);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else
-				global.load_start(line);
+		if(f.exists() && f.isFile()){
+			sendTorrentFileToSession(f, target);
+		}else{
+			sendTorrentUrlToSession(line, target);
 		}
+		
+		return target != null;
+	}
+			
+	/**
+	 * The first method being called when adding a torrent to the session.
+	 * The string parameter can be either an torrent url, or a file path to a torrent.
+	 * @param line
+	 */
+	public static void clientSoConn(final String line){
+		if(!addTorrentToSession(line)){
+			JOptionPane.showMessageDialog(main, "The torrent "+line+" will be added once you connect.");
+			//TODO redo this to instead checking every few seconds. listen for session list changes.
+			new Thread(){
+				@Override
+				public void run() {
+					while(!addTorrentToSession(line)){
+						try {
+							sleep(5000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}.start();
+		}
+		
+
 		
 	}
 	
