@@ -1,0 +1,9 @@
+#labels Featured
+= Project plan =
+
+ # Implement user settings functionality
+ # Create a nTorrent protocol to allow richer functionality when communicating with rTorrent.
+ # Implement a more advanced add torrent functionality, which files to download, what label to set the torrent to, priorities etc etc.
+ # Enable file- transfer/deletion/execution from nTorrent with ssh/local protocol.
+
+More to come..
