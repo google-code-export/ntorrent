@@ -1,0 +1,104 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2007 Dmitry Olshansky
+// $Id$
+// Updated by Michael Dawson 20/02/2006
+%>
+<%
+include("/functions.ijxp");
+
+printHeader("Success Stories");
+printMenu("stories");
+%>
+<div class="content">
+    <h1>Success Stories</h1>
+    <p>JPF is quite mature project that demonstrates great flexibility when being used as base for a Java application. We have prepared a short list of projects built around the JPF plug-in architecture.</p>
+	<p>If your application uses JPF, let us know and we'll add it to the list.</p>
+	<hr />
+	<h4>Emersion Platform</h4>
+	<p>
+		<strong>Home page:</strong>
+		<a href="http://emersion.sourceforge.net" target="_new">http://emersion.sourceforge.net</a>
+	</p>
+	<p>
+		<strong>Status:</strong>
+		alpha development, source code is available from the project CVS
+	</p>
+	<p>
+		<strong>Description:</strong>
+		Emersion is a Java based web applications integration platform. This is a set of tightly integrated components (plug-ins) that can be used to build, deploy and maintain web sites quickly and easily.
+	</p>
+	<hr />
+	<h4>openQRM</h4>
+	<p>
+		<strong>Home page:</strong>
+		<a href="http://www.openqrm.org" target="_new">http://www.openqrm.org</a>
+	</p>
+	<p>
+		<strong>Status:</strong>
+		Production/Stable
+	</p>
+	<p>
+		<strong>Description:</strong>
+		openQRM is an open source systems management platform that automates enterprise data centers and keeps them running.
+	</p>
+	<hr />
+	<h4>Salom&eacute;-TMF</h4>
+	<p>
+		<strong>Home page:</strong>
+		<a href="https://wiki.objectweb.org/salome-tmf/" target="_new">https://wiki.objectweb.org/salome-tmf/</a>
+	</p>
+	<p>
+		<strong>Status:</strong>
+		Production/Stable
+	</p>
+	<p>
+		<strong>Description:</strong>
+		Salom&eacute;-TMF is an open source Test Management Tool, which helps you to manage your entire testing process - by creating tests, executing manual or automatic tests, tracking results, managing requirements and defects and producing HTML documentation. Salom&eacute;-TMF is compatible with Junit, Abbot and Beanshell to define your automatic tests, and with Bugzilla and Mantis to manage your defects. Salom&eacute;-TMF can also be extended by plug-ins according to your requirements.
+	</p>
+	<hr />
+	<h4>JRubik</h4>
+	<p>
+		<strong>Home page:</strong>
+		<a href="http://sourceforge.net/projects/rubik" target="_new">http://sourceforge.net/projects/rubik</a>
+	</p>
+	<p>
+		<strong>Status:</strong>
+		Beta
+	</p>
+	<p>
+		<strong>Description:</strong>
+		JRubik is an Olap client developed in Java/Swing and based on JPivot project components.
+	</p>
+	<hr />
+	<h4>Samooha</h4>
+	<p>
+		<strong>Home page:</strong>
+		<a href="http://www.samooha.com" target="_new">http://www.samooha.com</a>, <a href="http://samooha.sourceforge.net" target="_new">http://samooha.sourceforge.net</a>
+	</p>
+	<p>
+		<strong>Status:</strong>
+		Production/Stable
+	</p>
+	<p>
+		<strong>Description:</strong>
+		Samooha is World's first Integrated Peer-to-Peer Business Environment that simplifies the complex process of connecting your business with that of your customers, partners and vendors. Samooha provides a platform to establish Enterprise Resource Management infrastructure for small businesses while additionally enabling them in marketing their products and services, sourcing prospective vendors (suppliers) from anywhere in their region or from all over the world. The platform offers Enterprise Resource Management modules such as Sales, Purchase, Inventory, Basic Production and Accounts.
+	</p>
+	<hr />
+	<h4>MedImageSuite</h4>
+	<p>
+		<strong>Home page:</strong>
+		<a href="http://sourceforge.net/projects/medimagesuite" target="_new">http://sourceforge.net/projects/medimagesuite</a>
+	</p>
+	<p>
+		<strong>Status:</strong>
+		Pre-Alpha
+	</p>
+	<p>
+		<strong>Description:</strong>
+		MedImageSuite is a tool suite that aims in visualization and manipulation of medical images (DICOM format). MedImageSuite is a desktop application with an plugin-based architecture permitting easy addition of new functions.
+	</p>
+</div>
+<%
+printFooter();
+%>

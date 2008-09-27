@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="nTorrent" default="help" basedir=".">
+	<property name="app.name" value="nTorrent" />
+	<property name="app.version" value="0.5" />
+	<property name="app.jar" value="lib/jpf-boot.jar" />
+	<property name="app.mainclass" value="org.java.plugin.boot.Boot" />
+
+	<property name="build.home" value="${basedir}/build" />
+	<property name="release.home" value="${basedir}/release" />
+	
+	<property name="launch4j.dir" value="${basedir}/lib/launch4j" />
+	<property name="launch4j.config" value="${basedir}/launch4j.xml" />
+	
+	<property name="jarbundler.jar" value="${basedir}/lib/jarbundler/jarbundler-1.9.jar" />
+
+	<path id="classpath">
+		<fileset dir="lib" includes="*.jar" />
+	</path>
+
+	<typedef resource="org/java/plugin/tools/ant/jpf-tasks.properties">
+		<classpath refid="classpath" />
+	</typedef>
+	
+	<taskdef name="launch4j"
+	    classname="net.sf.launch4j.ant.Launch4jTask"
+	    classpath="${launch4j.dir}/launch4j.jar
+	        :${launch4j.dir}/lib/xstream.jar" />
+	
+	<taskdef name="jarbundler" 
+	         classname="net.sourceforge.jarbundler.JarBundler"
+			 classpath="${jarbundler.jar}"/>
+
+	<target name="help">
+		<echo>
+			<![CDATA[
+${app.name} build file:
+clean     - cleans up the project build & release folder
+build     - builds entire project
+run       - runs application
+check     - checks plug-ins integrity
+docs      - generates plug-ins documentation
+dist      - generates the generic distribution package.
+dist-win  - builds and generates windows distribution package.
+dist-mac  - builds and generates mac distribution package.
+dist-src  - creates source distribution package.
+dist-all  - calls, dist, dist-mac, dist-win.
+test      - runs some tests
+]]>
+		</echo>
+	</target>
+
+	<target name="clean" description="Cleans up the project build folder">
+		<tstamp>
+			<format property="dt-stamp" pattern="yyyy-MM-dd-HH-mm" />
+			<format property="d-stamp" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<delete dir="${build.home}" quiet="true" />
+		<delete dir="${release.home}" quiet="true" />
+	</target>
+
+	<target name="-init">
+		<mkdir dir="${build.home}" />
+	</target>
+	
+	<target name="-rinit">
+		<mkdir dir="${release.home}" />
+	</target>
+
+	<target name="-build-plugins">
+		<mkdir dir="${build.home}/plugins" />
+		<ant dir="plugins/redstone.xmlrpc" target="${target}" />
+		<ant dir="plugins/ntorrent.data" target="${target}" />
+		<ant dir="plugins/ntorrent.locale" target="${target}" />
+		<ant dir="plugins/ntorrent.mvc" target="${target}" />
+		<ant dir="plugins/ntorrent.tools" target="${target}" />
+		<ant dir="plugins/ntorrent.profile" target="${target}" />
+		<ant dir="plugins/ntorrent.io.rtorrent" target="${target}" />
+		<ant dir="plugins/ntorrent.io.xmlrpc" target="${target}" />
+		<ant dir="plugins/ntorrent.torrenttable" target="${target}" />
+		<ant dir="plugins/ntorrent.jpf" target="${target}" />
+		<ant dir="plugins/ntorrent.session" target="${target}" />
+		<ant dir="plugins/ntorrent" target="${target}" />
+		<ant dir="plugins/ntorrent.skins" target="${target}" />
+		<ant dir="plugins/ntorrent.torrentlabels" target="${target}" />
+		<ant dir="plugins/ntorrent.torrenttable.sorter" target="${target}" />
+		<ant dir="plugins/ntorrent.trayicon" target="${target}" />
+		<ant dir="plugins/ntorrent.torrentfiles" target="${target}" />
+		<ant dir="plugins/ntorrent.torrenttrackers" target="${target}" />
+		<ant dir="plugins/ntorrent.torrentinfo" target="${target}" />
+		<ant dir="plugins/ntorrent.statusbar.throttle" target="${target}" />
+		<!--<ant dir="plugins/ntorrent.settings" target="${target}" />-->
+		<!--<ant dir="plugins/ntorrent.protocol.localtools" target="${target}" />-->
+		<!--<ant dir="plugins/ntorrent.protocol.sshtools" target="${target}" />-->
+	</target>
+
+	<target name="build" depends="-init" description="Builds entire project">
+		<antcall target="-build-plugins">
+			<param name="target" value="build" />
+		</antcall>
+		<copy todir="${build.home}/lib">
+			<fileset dir="lib" includes="*.jar" />
+		</copy>
+		<copy todir="${build.home}">
+			<fileset dir="." includes="README,LICENSE,*.*" excludes="launch4j.xml,codetemplates.xml,build.xml,.*" />
+		</copy>
+		<chmod perm="+x" file="${build.home}/nTorrent.sh" />
+	</target>
+
+	<target name="run" depends="build" description="Runs application">
+		<java jar="${app.jar}"
+		      dir="${build.home}"
+		      fork="true" />
+	</target>
+
+	<target name="check"
+	        depends="build"
+	        description="Checks plug-ins integrity">
+		<jpf-check basedir="${basedir}/plugins"
+		           includes="*/plugin.xml,*/plugin-fragment.xml"
+		           verbose="true"
+		           usepathresolver="true" />
+	</target>
+
+	<target name="docs"
+	        depends="build"
+	        description="Generates plug-ins documentation">
+		<delete dir="${build.home}/docs" />
+		<mkdir dir="${build.home}/docs" />
+		<antcall target="-build-plugins">
+			<param name="target" value="docs" />
+		</antcall>
+		<jpf-doc basedir="${build.home}/plugins"
+		         includes="*/plugin.xml,*/plugin-fragment.xml"
+		         destdir="${build.home}/docs" />
+	</target>
+	
+	
+	<target name="dist-win" depends="-rinit,build">
+		<!-- create exe file for the poor windows users -->
+		<launch4j configFile="${launch4j.config}" 
+			outfile="${build.home}/${app.name}.exe"/>	
+				
+		<zip destfile="${release.home}/${app.name}-bin-${app.version}-win.zip"
+		     duplicate="fail"
+		     update="false">
+			<fileset dir="${build.home}" includes="**/*" excludes="nTorrent.sh"/>
+		</zip>
+	</target>
+	
+	<target name="dist" depends="-rinit,build">
+		<tar destfile="${release.home}/${app.name}-bin-${app.version}.tar.bz2"
+			compression="bzip2"
+			longfile="gnu">
+			<fileset dir="${build.home}" includes="**/*" excludes="nTorrent.exe"/>
+		</tar>
+	</target>
+	
+	<target name="dist-mac" depends="-rinit,build">
+		<!-- create fake application stub -->
+		<touch file="${build.home}/JavaApplicationStub"/>
+		<!--create an app file for mac users-->
+		<jarbundler dir="${release.home}"
+		            name="${app.name}"
+		            mainclass="${app.mainclass}"
+					version="${app.version}"
+					stubfile="${build.home}/JavaApplicationStub"
+					jvmversion="1.5+"
+					verbose="false"
+			 		workingdirectory="$JAVAROOT"
+					icon="${build.home}/plugins/ntorrent/icons/ntorrent.icns">
+			
+			<!-- native skin (apparently buggy) -->
+		    <!--<javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
+		    <javaproperty name="apple.awt.brushMetal" value="true"/>
+		    <javaproperty name="apple.awt.showGrowBox" value="false"/>-->
+			<!-- -->
+			<jarfileset dir="${build.home}" includes="lib/**"/>
+			<javafileset dir="${build.home}" includes="plugins/**"/>
+			<javafilelist dir="${basedir}" files="boot.properties,LICENSE,README"/>
+		    
+			<!-- Associate document types with this application -->
+		    <!--  <documenttype name="torrent file"
+		                    extensions="torrent"
+		      				role="Viewer"/>-->
+		</jarbundler>
+		
+		<!-- delete fake stub-->
+		<delete file="${release.home}/${app.name}.app/Contents/MacOS/JavaApplicationStub" />
+		<delete file="${build.home}/JavaApplicationStub" />
+		
+		<exec executable="ln">
+			<arg line="-s /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub"/>
+			<arg file="${release.home}/${app.name}.app/Contents/MacOS/"/>
+		</exec>
+		
+		<exec executable="tar" dir="${release.home}" >
+			<arg line="-cjf"/>
+			<arg line="${app.name}-bin-${app.version}-mac.tar.bz2"/>
+			<arg line="${app.name}.app"/>
+		</exec>
+		<delete dir="${release.home}/${app.name}.app" />
+	</target>
+	
+	<target name="dist-src"
+	        depends="-rinit,build">
+	
+		<tar destfile="${release.home}/${app.name}-src-${app.version}.tar.bz2"
+			longfile="gnu"
+			compression="bzip2">
+			<fileset dir="${basedir}"
+			         excludes="nTorrent.exe,build,release/**,**/classes/**,.check*,.fb*,nbproject/private/**,build/**,logs/**,data/**,temp/**,*.zip,todo.txt,.settings/**" />
+		</tar>
+	</target>
+	
+	<target name="dist-all" depends="clean,dist,dist-mac,dist-win,dist-src" />
+
+	<target name="test" depends="build" description="Some tests">
+		<jpf-pack basedir="${build.home}/plugins"
+		          includes="*/plugin.xml,*/plugin-fragment.xml"
+		          destfile="${build.home}/all-plugins.jpa" />
+		<mkdir dir="${build.home}/all-plugins-extracted" />
+		<jpf-unpack srcfile="${build.home}/all-plugins.jpa"
+		            destdir="${build.home}/all-plugins-extracted" />
+	</target>
+</project>

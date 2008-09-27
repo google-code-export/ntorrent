@@ -1,0 +1,34 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2005 Dmitry Olshansky
+// $Id$
+%>
+<%
+import org.java.plugin.*;
+include("functions.ijxp");
+%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<title>Plug-in fragment - <%= fragment.getId() %></title>
+	<link rel ="stylesheet" type="text/css" href="<%= relativePath %>/stylesheet.css" title="Style">
+</head>
+
+<body onload="if (parent != null) {parent.document.title = document.title}">
+
+<h1>Plug-in fragment details</h1>
+
+<p>
+	ID: <b><%= fragment.getId() %></b><br>
+	Version: <b><%= fragment.getVersion() %></b><br>
+	Vendor: <b><%= fragment.getVendor() %></b><br>
+	Contributes to plug-in:  <a href="<%= relativePath %>/<%= fragment.getPluginId() %>/index.html"><%= fragment.getPluginId() %><% if (fragment.getPluginVersion() != null) { %> version <%= fragment.getPluginVersion() %><% } else { %> of any version<% } %></a>
+</p>
+
+<% printDoc(tool, fragment); %>
+
+<% printFooter(); %>
+
+</body>
+</html>

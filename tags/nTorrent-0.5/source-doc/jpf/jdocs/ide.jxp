@@ -1,0 +1,34 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2006 Dmitry Olshansky
+// $Id$
+%>
+<%
+include("/functions.ijxp");
+
+printHeader("Java IDE Configuration");
+printMenu("ide");
+%>
+<div class="content">
+	<h1>Java IDE configuration for JPF Based Project</h1>
+	<h3>General Notes</h3>
+	<p>There are several common principles may be formulated to describe differences of JPF based application from usual "monolithic" one. These differences affect on how JPF based java project should be configured in a Java IDE.</p>
+	<dl>
+		<dt>Plug-in classes</dt>
+		<dd>JPF based application consists of some "host" part (that runs first when application starts up) and plug-ins (that activated "on demand"). From the developer point of view, plug-ins may contain source code that should be compiled to the very specific place, each unique for the every plug-in. This place is described in plug-in manifest file and usually plug-in classes are compiled into "classes" folder within plug-in folder. So, the Java project in IDE should be configured so that it puts plug-in classes into the right places during compilation phase.</dd>
+		<dt>Application classpath</dt>
+		<dd>To run JPF based application correctly, only "host" part related libraries should be available in the classpath. All other libraries and resources that belong to different plug-ins are managed by JPF itself and shouldn't be included into startup classpath. This runtime behavior of JPF based application should be taken into account when configuring "run/debug" settings in a Java IDE.</dd>
+	</dl>
+	<p>Described principles are quite general and based on the JPF nature - manage plug-ins in runtime. Understanding of the JPF runtime behavior allow you to use your favorite Java IDE building JPF based project without any problem.</p>
+	<h3>Concrete Instructions</h3>
+	<p>Currently detailed instructions available for the following Java IDE:</p>
+	<ul>
+		<li><a href="ide-eclipse.html">Eclipse IDE</a> (<a href="http://www.eclipse.org" target="_new">www.eclipse.org</a>)</li>
+		<li><a href="ide-netbeans.html">Netbeans IDE</a> (<a href="http://www.netbeans.org" target="_new">www.netbeans.org</a>)</li>
+	</ul>
+	<p>Contributions with instructions for other Java IDE are greatly appreciated.</p>
+	<br /><br />
+</div>
+<%
+printFooter();
+%>
