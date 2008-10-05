@@ -1,9 +1,14 @@
 #labels Featured
 = Project plan =
 
+ # 100% support for all functionality in rTorrent
  # Implement user settings functionality
- # Create a nTorrent protocol to allow richer functionality when communicating with rTorrent.
+ # a new slim and fast "nTorrent protocol" to give richer functionality to the end user whilst still having flexibility.
  # Implement a more advanced add torrent functionality, which files to download, what label to set the torrent to, priorities etc etc.
- # Enable file- transfer/deletion/execution from nTorrent with ssh/local protocol.
+ # Enable file- transfer/deletion/execution from nTorrent with ssh, local and the new nTorrent protocol.
+ # Implement download manager.
+ # A greater level of module based application structure, giving easy flexibility in what the end user want out of the program, what features to be included/excluded.
+ # it's a secret, but the keyword is, JavaFX :)
+* and more.....
 
 More to come..
