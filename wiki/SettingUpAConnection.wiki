@@ -29,11 +29,8 @@ You can read more about this at: [QuickStart]
 You will need an .rtorrent.rc file in you home dir.
 The following has to be set:
   scgi_port = localhost:5000
-But if you want to access it from an other mashine than localhost,
-then the following is nedded:
-  scgi_port = :5000
 
-Note: The port don't have to be :5000, any other unused port number can be used instead.
+Note: The port don't have to be 5000, any other unused port number can be used instead.
 
 == setting up apache with SCGI ==
 1. You will need the packages:
