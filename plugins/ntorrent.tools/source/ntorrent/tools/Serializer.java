@@ -3,6 +3,7 @@ package ntorrent.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,6 +18,8 @@ import java.io.Serializable;
 @SuppressWarnings("unchecked")
 public abstract class Serializer {
 	private static final long serialVersionUID = 1L;
+	private static final String prefix = "data/";
+	private static final String postfix = ".dat";
 	
 	/**
 	 * Saves a serializable object to the parent directory/data/$[getClassName(Class obj)]
@@ -25,8 +28,12 @@ public abstract class Serializer {
 	 * @throws IOException
 	 */
 	public static void serialize(Serializable obj, File parent) throws IOException{
-		File file = new File(parent,"data/"+(getClassName(obj.getClass())));
-		file.getParentFile().mkdirs();
+		File file = new File(parent,prefix+(getClassName(obj.getClass())));
+		if(!file.exists()){
+			if(!file.getParentFile().exists())
+				file.getParentFile().mkdirs();
+			file.createNewFile();
+		}
 		FileOutputStream out = new FileOutputStream(file);
 		ObjectOutputStream objectout = new ObjectOutputStream(out);
 		objectout.writeObject(obj);
@@ -43,11 +50,13 @@ public abstract class Serializer {
 	 * @throws ClassNotFoundException
 	 */
 	public static Object deserialize(Class obj, File parent) throws IOException, ClassNotFoundException{
-		File file = new File(parent,"data/"+(getClassName(obj)));
-		file.getParentFile().mkdirs();
-		FileInputStream stream = new FileInputStream(file);
-		ObjectInputStream objectstream = new ObjectInputStream(stream);			
-		return objectstream.readObject();
+		File file = new File(parent,prefix+(getClassName(obj)));
+		if(file.exists()){
+			FileInputStream stream = new FileInputStream(file);
+			ObjectInputStream objectstream = new ObjectInputStream(stream);			
+			return objectstream.readObject();
+		}
+		throw new FileNotFoundException("Can't deserialize a nonexistant file!");
 		
 	}
 	
@@ -57,7 +66,7 @@ public abstract class Serializer {
 	 * @return
 	 */
 	protected static String getClassName(Class obj){
-		return obj.getName().toLowerCase()+".dat";
+		return obj.getName().toLowerCase()+postfix;
 	}
 
 	
