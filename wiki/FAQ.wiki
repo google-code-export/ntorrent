@@ -6,4 +6,6 @@
   * Check the log files and see what error message was thrown further down in the exception stack. Usually this is because you have an old version of xmlrpc-c. read the installation guide on this.
  # *Problem with large .torrent files? (XML-RPC request too large).*
   * look at Issue 25
+ # *Suddenly have no torrents listed in nTorrent even though they exist in rTorrent.*
+  * You have a torrent file that isn't using UTF-8 encoding, you should add this too your .rtorrent.rc config file: encoding_list = UTF-8, this will force UTF-8 communcation over XMLRPC
 more to come...
