@@ -67,6 +67,8 @@ Put this in your ~/.rtorrent.rc:
 {{{
 # This will set rtorrent/scgi to listen on localhost, port 5000.
 scgi_port = 127.0.0.1:5000
+#force UTF-8, as xmlrpc-c only transfers in UTF-8
+encoding_list = UTF-8
 }}}
 
 Looks like we made it!
