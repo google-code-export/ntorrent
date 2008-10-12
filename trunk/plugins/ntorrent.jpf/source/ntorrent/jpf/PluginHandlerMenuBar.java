@@ -124,7 +124,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 
 	public void restore(){
 		try {
-			PluginSet set = (PluginSet)Serializer.deserialize(PluginSet.class, Environment.getNtorrentDir());
+			PluginSet set = Serializer.deserialize(PluginSet.class, Environment.getNtorrentDir());
 			for(String s : set){
 				manager.activatePlugin(s);
 			}

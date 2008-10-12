@@ -21,6 +21,7 @@ import ntorrent.io.socket.Server;
 import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.profile.model.ClientProfileListModel;
+import ntorrent.tools.Serializer;
 
 import org.java.plugin.Plugin;
 
@@ -224,11 +225,11 @@ public class Main extends Plugin {
 				
 		/** autoconnect **/
 		try{
-			for(ClientProfileInterface p : ClientProfileListModel.Deserialize())
+			for(ClientProfileInterface p : Serializer.deserialize(ClientProfileListModel.class, Environment.getNtorrentDir()))
 				if(p.isAutoConnect())
 					newSession(p);
 		} catch(FileNotFoundException e){
-			new ClientProfileListModel().Serialize();
+			Serializer.serialize(new ClientProfileListModel(),Environment.getNtorrentDir());
 		}catch(Exception e){
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
 		}
