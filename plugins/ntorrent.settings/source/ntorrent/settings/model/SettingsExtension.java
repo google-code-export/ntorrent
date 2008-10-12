@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ntorrent.settings.model;
-
+import java.lang.annotation.*; 
 import java.awt.Component;
 
 /**
@@ -27,8 +27,22 @@ import java.awt.Component;
  */
 public interface SettingsExtension {
 	
+	@Retention(RetentionPolicy.RUNTIME)
+	public @interface UserSetting{
+		String label() default "";
+	}
+	
+	/**
+	 * returns a string that gives a human understandable name of this plugin.
+	 * This string will be shown in the settings menu.
+	 * @return String
+	 */
+	public String toString();
+	
 	/**
 	 * Fetch the user interface for user customizable values.
+	 * if this returns null, then SettingsElement will autogenerate a display
+	 * based on reflection data
 	 * @return Component
 	 */
 	public Component getDisplay();

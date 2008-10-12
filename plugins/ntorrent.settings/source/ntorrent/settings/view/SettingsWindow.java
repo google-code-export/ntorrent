@@ -28,15 +28,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import ntorrent.locale.ResourcePool;
-import ntorrent.settings.model.SettingsElement;
 import ntorrent.settings.model.SettingsExtension;
+import ntorrent.settings.model.TestModel;
 
 /**
  * @author Kim Eik
@@ -44,7 +44,7 @@ import ntorrent.settings.model.SettingsExtension;
  */
 public class SettingsWindow extends JFrame implements ListSelectionListener, ActionListener {
 	private static final long serialVersionUID = 1L;
-	private final SettingsElement[] elements;
+	private final SettingsExtension[] elements;
 	private final JPanel content = new JPanel(new BorderLayout());
 	private final JPanel buttons = new JPanel();
 	private final JButton save,close;
@@ -52,7 +52,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	private final JScrollPane rightComponent = new JScrollPane();
 	private final JList pluginList;
 	
-	public SettingsWindow(final SettingsElement[] plugins) {
+	public SettingsWindow(final SettingsExtension[] plugins) {
 		this.elements = plugins;
 		
 		//init jlist
@@ -63,8 +63,8 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(pluginList),rightComponent);
 		
 		//init buttons
-		save = new JButton(ResourcePool.getString("save", "locale", this));
-		close = new JButton(ResourcePool.getString("close", "locale", this));
+		save = new JButton("1");
+		close = new JButton("2");
 		save.addActionListener(this);
 		close.addActionListener(this);
 		buttons.add(save);
@@ -84,22 +84,30 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()){
-			SettingsElement element = (SettingsElement)pluginList.getSelectedValue();
+			SettingsExtension element = (SettingsExtension)pluginList.getSelectedValue();
 			rightComponent.setViewportView(element.getDisplay());
 		}
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(save)){
-			for(SettingsElement element: elements)
-				element.saveActionPerformed();
+			for(SettingsExtension element: elements)
+				try {
+					element.saveActionPerformed();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(
+							this, 
+							//ResourcePool.getString("error-on-save", "locale", this)+
+							" ("+element+")"+
+							" : "+ex.getMessage());
+				}
 		}
 		setVisible(false);
 		dispose();
 	}
 	
 	public static void main(String[] args){
-		JFrame window = new SettingsWindow(new SettingsElement[]{new SettingsElement("plugin",new SettingsExtension(){
+		JFrame window = new SettingsWindow(new SettingsExtension[]{new SettingsExtension(){
 
 			public Component getDisplay() {
 				return new JLabel("halloen");
@@ -109,20 +117,39 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 				System.out.println("save this state");
 			}
 			
-		}),
-		new SettingsElement("asd",new SettingsExtension(){
+			@Override
+			public String toString() {
+				return "plugin1";
+			}
+			
+		},
+		new SettingsExtension(){
 
 			public Component getDisplay() {
-				return new JLabel("hello");
+				try {
+					return SettingsComponentFactory.generateDisplayFromReflection(new TestModel());
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
 			}
 
-			public void saveActionPerformed() {
-				System.out.println("save this state2");
+			public void saveActionPerformed() throws Exception {
+				throw new Exception("err");
 			}
 			
-		}){
+			@Override
+			public String toString() {
+				return "plugin2";
+			}
 			
-		}});
+		}
+			
+		});
 		window.pack();
 		window.validate();
 		window.setVisible(true);
