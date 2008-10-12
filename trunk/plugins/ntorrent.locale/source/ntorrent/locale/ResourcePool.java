@@ -25,6 +25,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import ntorrent.data.Environment;
+
 /**
  * This class gives access to locale sensitive data.
  * @author Kim Eik
@@ -32,7 +34,7 @@ import java.util.logging.Logger;
  */
 public class ResourcePool {
 	/** Locale specification **/
-	private static Locale locale;
+	private static Locale locale = Locale.getDefault();
 	
 	/** Translations **/
 	private final static HashMap<Integer,ResourceBundle> messages = new HashMap<Integer, ResourceBundle>();	

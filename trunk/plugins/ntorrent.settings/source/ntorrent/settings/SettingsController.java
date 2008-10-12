@@ -19,10 +19,17 @@
  */
 package ntorrent.settings;
 
+import java.awt.Component;
+import java.lang.reflect.Field;
+
+import sun.reflect.Reflection;
+import sun.reflect.ReflectionFactory;
+
 /**
  * @author Kim Eik
  *
  */
 public class SettingsController {
+	
 
 }
