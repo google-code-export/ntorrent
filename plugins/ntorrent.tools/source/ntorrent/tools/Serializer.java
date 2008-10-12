@@ -45,19 +45,19 @@ public abstract class Serializer {
 	 * see also serialize()
 	 * @param obj
 	 * @param parent
+	 * @return 
 	 * @return Object
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static Object deserialize(Class obj, File parent) throws IOException, ClassNotFoundException{
+	public static <T> T deserialize(Class<T> obj, File parent) throws IOException, ClassNotFoundException{
 		File file = new File(parent,prefix+(getClassName(obj)));
 		if(file.exists()){
 			FileInputStream stream = new FileInputStream(file);
 			ObjectInputStream objectstream = new ObjectInputStream(stream);			
-			return objectstream.readObject();
+			return (T) objectstream.readObject();
 		}
 		throw new FileNotFoundException("Can't deserialize a nonexistant file!");
-		
 	}
 	
 	/**

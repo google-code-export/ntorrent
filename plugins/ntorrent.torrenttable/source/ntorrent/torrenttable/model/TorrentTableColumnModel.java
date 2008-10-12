@@ -74,7 +74,7 @@ public class TorrentTableColumnModel implements Serializable{
 		createTableColumnModel();
 		
 		try{
-			TorrentTableColumnModel obj = (TorrentTableColumnModel)Serializer.deserialize(TorrentTableColumnModel.class, Environment.getNtorrentDir());
+			TorrentTableColumnModel obj = Serializer.deserialize(TorrentTableColumnModel.class, Environment.getNtorrentDir());
 			Vector<ColumnModel> columnModel = obj.columnModel;
 			Vector<TableColumn> tableColumns = new Vector<TableColumn>();
 			for(ColumnModel c : columnModel){

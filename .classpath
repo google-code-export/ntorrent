@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/jpf-tools.jar"/>
 	<classpathentry kind="lib" path="lib/jxp.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.5/junit-4.5.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

@@ -42,7 +42,7 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 	@SuppressWarnings("unchecked")
 	public ClientProfileListModel(){
 		try {
-			ClientProfileListModel list = (ClientProfileListModel)Serializer.deserialize(this.getClass(),dataDir);
+			ClientProfileListModel list = Serializer.deserialize(ClientProfileListModel.class,dataDir);
 			addAll(list);
 		} catch (Exception e) {
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
@@ -51,7 +51,12 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 		
 	public boolean add(ClientProfileInterface o){
 		boolean ret = super.add(o);
-		Serialize();
+		try {
+			Serializer.serialize(this, dataDir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(ListDataListener l : listener)
 			l.intervalAdded(new ListDataEvent(this,ListDataEvent.INTERVAL_ADDED,getSize(),getSize()));
 		return ret; 
@@ -59,18 +64,15 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 
 	public boolean remove(ClientProfileInterface o){
 		boolean ret = super.remove(o);
-		Serialize();
+		try {
+			Serializer.serialize(this, dataDir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(ListDataListener l : listener)
 			l.intervalRemoved(new ListDataEvent(this,ListDataEvent.INTERVAL_REMOVED,getSize(),getSize()));
 		return ret; 
-	}
-	
-	public void Serialize(){
-		try {
-			Serializer.serialize(this,dataDir);
-		} catch (IOException e) {
-			Logger.global.log(Level.WARNING,e.getMessage(),e);
-		}
 	}
 
 	public void addListDataListener(ListDataListener l) {
@@ -87,9 +89,5 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 
 	public void removeListDataListener(ListDataListener l) {
 		listener.remove(l);
-	}
-	
-	public static ClientProfileListModel Deserialize() throws IOException, ClassNotFoundException{
-		return (ClientProfileListModel) Serializer.deserialize(ClientProfileListModel.class, dataDir);
 	}
 }
