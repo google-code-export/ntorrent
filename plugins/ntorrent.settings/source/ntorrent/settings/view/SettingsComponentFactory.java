@@ -2,8 +2,8 @@ package ntorrent.settings.view;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 
@@ -29,11 +30,14 @@ public class SettingsComponentFactory {
 	 */
 	public final static Component generateDisplayFromReflection(final Object object) throws IllegalArgumentException, IllegalAccessException{
 		Class c = object.getClass();
-		GridLayout layout = new GridLayout(0,2);
-		layout.setHgap(30);
-		JPanel panel = new JPanel(layout);
+		GridBagConstraints constraint = new GridBagConstraints();
+		constraint.fill = GridBagConstraints.HORIZONTAL;
+		constraint.weightx = 1;
+		JPanel panel = new JPanel(new GridBagLayout());
 		JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		wrapper.add(panel);
+		int x = 0;
+		int y = 0;
 		for(Field f : c.getDeclaredFields()){
 			try {
 				Method[] methods = getMethods(f.getName(), object);
@@ -44,8 +48,16 @@ public class SettingsComponentFactory {
 						if (label == null || label.equals("")){
 							label = f.getName();
 						}
-						panel.add(new JLabel(label+":"));
-						panel.add(getJComponentFromClass(f,methods[0],object));
+						JComponent jcomponent = getJComponentFromClass(f,methods[0],object);
+						constraint.gridy = y++;
+						JLabel jlabel = new JLabel(label+":");
+						constraint.gridx = x++;
+						constraint.gridwidth=1;
+						panel.add(jlabel,constraint);
+						constraint.gridx = x++;
+						panel.add(jcomponent,constraint);
+						x=0;
+					
 					}
 				}
 			} catch (Exception e) {
@@ -54,7 +66,7 @@ public class SettingsComponentFactory {
 			}
 		}
 		
-		return wrapper;
+		return panel;
 		
 	}
 	
@@ -113,6 +125,7 @@ public class SettingsComponentFactory {
 		
 		if(fieldClass.equals(Byte.TYPE)){
 			JCheckBox c = new JCheckBox();
+			c.setHorizontalTextPosition(SwingConstants.LEFT);
 			c.setName(f.getName());
 			c.setSelected((Byte)rawField == 1);
 			component = c;
@@ -136,6 +149,7 @@ public class SettingsComponentFactory {
 			component = c;
 		}else if(fieldClass.equals(Boolean.TYPE)){
 			JCheckBox c = new JCheckBox();
+			c.setHorizontalTextPosition(SwingConstants.LEFT);
 			c.setName(f.getName());
 			c.setSelected((Boolean) rawField);
 			component = c;
@@ -148,10 +162,7 @@ public class SettingsComponentFactory {
 		if(component == null){
 			return new JLabel("UNSUPPORTED FIELDTYPE:"+fieldClass);
 		}else{
-			LayoutManager layout = new FlowLayout(FlowLayout.LEFT);
-			JPanel wrapper = new JPanel(layout);
-			wrapper.add(component);
-			return wrapper;
+			return component;
 		}
 	}
 }

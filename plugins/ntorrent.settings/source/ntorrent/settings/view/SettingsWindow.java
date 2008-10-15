@@ -35,6 +35,7 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.TestModel;
 
@@ -63,8 +64,8 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(pluginList),rightComponent);
 		
 		//init buttons
-		save = new JButton("1");
-		close = new JButton("2");
+		save = new JButton(ResourcePool.getString("save", "locale", this));
+		close = new JButton(ResourcePool.getString("close", "locale", this));
 		save.addActionListener(this);
 		close.addActionListener(this);
 		buttons.add(save);
@@ -97,7 +98,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(
 							this, 
-							//ResourcePool.getString("error-on-save", "locale", this)+
+							ResourcePool.getString("error-on-save", "locale", this)+
 							" ("+element+")"+
 							" : "+ex.getMessage());
 				}
