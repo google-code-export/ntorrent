@@ -35,9 +35,10 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import tests.TestModel;
+
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension;
-import ntorrent.settings.model.TestModel;
 
 /**
  * @author Kim Eik
@@ -107,7 +108,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 		dispose();
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException{
 		JFrame window = new SettingsWindow(new SettingsExtension[]{new SettingsExtension(){
 
 			public Component getDisplay() {
@@ -125,14 +126,13 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 			
 		},
 		new SettingsExtension(){
-
+			final TestModel t = new TestModel();
+			final SettingsComponentFactory s = new SettingsComponentFactory(t);
 			public Component getDisplay() {
 				try {
-					return SettingsComponentFactory.generateDisplayFromReflection(new TestModel());
+					
+					return s.getDisplay();
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -140,7 +140,16 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 			}
 
 			public void saveActionPerformed() throws Exception {
-				throw new Exception("err");
+				s.restoreToModel();
+				System.out.println(t.getCharacter()+"\n" +
+						t.getDuble()+"\n" +
+						t.getFl0at()+"\n" +
+						t.getIint()+"\n" +
+						t.getL0ng()+"\n" +
+						t.getSh0rt()+"\n" +
+						t.getString()+"\n" +
+						t.getByt3()+"\n" +
+						t.getE()+"\n");
 			}
 			
 			@Override

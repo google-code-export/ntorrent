@@ -1,5 +1,6 @@
-package ntorrent.settings.model;
+package tests;
 
+import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 
 public class TestModel {
@@ -113,6 +114,19 @@ public class TestModel {
 		this.byt3 = byt3;
 	}
 	
+	public void changeValues(){
+		this.bool = !this.bool;
+		this.character = 'B';
+		this.byt3 = 1;
+		this.sh0rt = 1;
+		this.iint = 0;
+		this.l0ng = 311;
+		this.fl0at = 1;
+		this.duble = 1.11;
+		this.e = null;
+		this.string = null;
+	}
+	
 	public enum EnumTest {
 		YES,
 		NO;
@@ -126,5 +140,9 @@ public class TestModel {
 			}
 			return null;
 		}
+	}
+	
+	public Object getValueFromName(String name) throws IllegalArgumentException, SecurityException, IllegalAccessException, NoSuchFieldException{
+		return this.getClass().getDeclaredField(name).get(this);
 	}
 }
