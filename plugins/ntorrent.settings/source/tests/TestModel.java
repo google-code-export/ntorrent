@@ -1,6 +1,5 @@
 package tests;
 
-import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 
 public class TestModel {

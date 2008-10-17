@@ -1,10 +1,6 @@
 package ntorrent.settings.view;
 
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.io.CharConversionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -119,7 +115,7 @@ public class SettingsComponentFactory {
 	 * @return
 	 */
 	private final static String firstCharUpper(final String s){
-		final String end = s.toLowerCase().substring(1);
+		final String end = s.substring(1);
 		final String result = s.substring(0, 1).toUpperCase().concat(end);
 		return result;
 	}

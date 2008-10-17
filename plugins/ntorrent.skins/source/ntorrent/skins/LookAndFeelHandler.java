@@ -19,6 +19,7 @@
  */
 package ntorrent.skins;
 
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.logging.Logger;
@@ -32,20 +33,36 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import ntorrent.Main;
+import ntorrent.data.Environment;
 import ntorrent.gui.MainWindow;
 import ntorrent.locale.ResourcePool;
+import ntorrent.settings.model.SettingsExtension;
+import ntorrent.settings.view.SettingsComponentFactory;
+import ntorrent.skins.model.SkinModel;
+import ntorrent.tools.Serializer;
 
 import org.java.plugin.Plugin;
 
-public class LookAndFeelHandler extends Plugin implements ItemListener {
+public class LookAndFeelHandler extends Plugin implements SettingsExtension,ItemListener {
 
-	JMenuBar bar = Main.getMainWindow().getJMenuBar();
-	JMenu skins = new JMenu(ResourcePool.getString("skins","locale",this));
-	ButtonGroup bgroup = new ButtonGroup();
+	private JMenuBar bar = Main.getMainWindow().getJMenuBar();
+	private JMenu skins = new JMenu(ResourcePool.getString("skins","locale",this));
+	private ButtonGroup bgroup = new ButtonGroup();
+	private SkinModel model = new SkinModel();
+	private SettingsComponentFactory settingsComponent;
+	
+	public LookAndFeelHandler() {
+		try {
+			settingsComponent = new SettingsComponentFactory(model);
+			if(model.getLafClass() != null)
+				setWindowSkin();
+		} catch (Exception x){
+			x.printStackTrace();
+		}
+	}
 	
 	@Override
 	protected void doStart() throws Exception {
-		
 		for(LookAndFeelInfo lafi : UIManager.getInstalledLookAndFeels()){
 			JRadioButtonMenuItem radio = new JRadioButtonMenuItem(lafi.getName());
 			String currentLF = UIManager.getLookAndFeel().getClass().getName();
@@ -71,15 +88,33 @@ public class LookAndFeelHandler extends Plugin implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		if(e.getStateChange() == ItemEvent.SELECTED){
 			JRadioButtonMenuItem radio = ((JRadioButtonMenuItem)e.getItem());
-			MainWindow w = Main.getMainWindow();
-			try {
-				UIManager.setLookAndFeel(radio.getName());
-				SwingUtilities.updateComponentTreeUI(w);
-				w.pack();
-			} catch (Exception x){
-				Logger.global.warning(x.getMessage());
-			}
+			model.setLafClass(radio.getName());
+			setWindowSkin();
 		}
+	}
+	
+	private void setWindowSkin(){
+		MainWindow w = Main.getMainWindow();
+		try {
+			UIManager.setLookAndFeel(model.getLafClass());
+			SwingUtilities.updateComponentTreeUI(w);
+			w.pack();
+		} catch (Exception x){
+			Logger.global.warning(x.getMessage());
+		}
+	}
+
+	public Component getDisplay() {
+		return settingsComponent.getDisplay();
+	}
+
+	public void saveActionPerformed() throws Exception {
+		settingsComponent.restoreToModel();
+		Serializer.serialize(model, Environment.getNtorrentDir());
+	}
+
+	public String toString() {
+		return ResourcePool.getString("skins", "locale", this);
 	}
 
 }

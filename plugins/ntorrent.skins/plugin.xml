@@ -5,6 +5,8 @@
 		<import plugin-id="ntorrent" />
 		<import plugin-id="ntorrent.jpf" />
 		<import plugin-id="ntorrent.locale" />
+		<import plugin-id="ntorrent.settings" />
+		<import plugin-id="ntorrent.tools" reverse-lookup="true" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
@@ -16,4 +18,5 @@
 		<parameter id="java-spec" value="1.5" />
 		<parameter id="name" value="Skins" />
 	</extension>
+	<extension plugin-id="ntorrent.settings" point-id="SettingsExtension" id="SettingsExtension" />
 </plugin>

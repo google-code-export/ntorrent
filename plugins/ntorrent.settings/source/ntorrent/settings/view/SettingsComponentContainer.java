@@ -1,11 +1,11 @@
 package ntorrent.settings.view;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashMap;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
