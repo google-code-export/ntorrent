@@ -37,6 +37,7 @@ import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
 import ntorrent.jpf.PluginHandlerMenuBar;
 import ntorrent.locale.ResourcePool;
+import ntorrent.settings.SettingsController;
 
 /**
  * The main ntorrent window, consisting of menubar and jtabbedpane, 
@@ -47,6 +48,7 @@ public class MainWindow extends Window implements ActionListener {
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	private final MainMenuBar menuBar = new MainMenuBar(this);
 	private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
+	private final SettingsController settings = new SettingsController();
 	
 	public MainWindow() {
 		super();
@@ -78,7 +80,7 @@ public class MainWindow extends Window implements ActionListener {
 		}else if(c.equals(ids[3])){
 			System.exit(0);
 		}else if(c.equals(ids[4])){
-			JOptionPane.showMessageDialog(this, "This feature is still a stub");
+			settings.drawWindow();
 		}else if(c.equals(ids[5])){
 			new AboutWindow().drawWindow();
 		}

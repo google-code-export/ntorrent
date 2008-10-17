@@ -21,6 +21,20 @@ package ntorrent.settings;
 
 import java.awt.Component;
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Vector;
+
+import org.java.plugin.Plugin;
+import org.java.plugin.PluginLifecycleException;
+import org.java.plugin.PluginManager;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
+import org.java.plugin.registry.PluginRegistry;
+
+import ntorrent.data.Environment;
+import ntorrent.settings.model.SettingsExtension;
+import ntorrent.settings.view.SettingsWindow;
 
 import sun.reflect.Reflection;
 import sun.reflect.ReflectionFactory;
@@ -30,6 +44,28 @@ import sun.reflect.ReflectionFactory;
  *
  */
 public class SettingsController {
+	private final static PluginManager manager = Environment.getPluginManager();
+	private final static PluginRegistry registry = manager.getRegistry();
+	private final static ExtensionPoint ext = registry.getExtensionPoint("ntorrent.settings", "SettingsExtension");
 	
-
+	public void drawWindow(){
+		HashSet<SettingsExtension> set = new HashSet<SettingsExtension>();
+		try {
+			for(Extension e : ext.getAvailableExtensions()){
+				PluginDescriptor pd = e.getDeclaringPluginDescriptor();
+				Plugin plugin = manager.getPlugin(pd.getId());
+				if(plugin instanceof SettingsExtension){
+					set.add((SettingsExtension) plugin);
+				}
+			}
+		} catch (PluginLifecycleException x) {
+			x.printStackTrace();
+		}
+		SettingsExtension[] array = new SettingsExtension[set.size()];
+		set.toArray(array);
+		SettingsWindow window = new SettingsWindow(array);
+		window.validate();
+		window.pack();
+		window.setVisible(true);
+	}
 }

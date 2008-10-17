@@ -10,6 +10,7 @@
 		<import plugin-id="ntorrent.jpf" />
 		<import plugin-id="ntorrent.tools" />
 		<import plugin-id="ntorrent.session" />
+		<import plugin-id="ntorrent.settings" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
