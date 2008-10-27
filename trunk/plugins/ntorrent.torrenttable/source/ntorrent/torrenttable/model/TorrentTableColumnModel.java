@@ -19,6 +19,7 @@
  */
 package ntorrent.torrenttable.model;
 
+import java.io.FileNotFoundException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Vector;
@@ -89,7 +90,8 @@ public class TorrentTableColumnModel implements Serializable{
 			
 			for(TableColumn t : tableColumns)
 				model.addColumn(t);
-			
+		}catch(FileNotFoundException e){
+			//Do nothing, maybe log the event?
 		}catch(Exception e){
 			e.printStackTrace();
 		}
