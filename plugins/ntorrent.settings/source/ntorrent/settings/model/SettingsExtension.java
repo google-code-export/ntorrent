@@ -30,6 +30,7 @@ public interface SettingsExtension {
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface UserSetting{
 		String label() default "";
+		String oneOf() default "";
 	}
 	
 	/**

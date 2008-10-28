@@ -43,60 +43,37 @@ import ntorrent.tools.Serializer;
 
 import org.java.plugin.Plugin;
 
-public class LookAndFeelHandler extends Plugin implements SettingsExtension,ItemListener {
-
-	private JMenuBar bar = Main.getMainWindow().getJMenuBar();
-	private JMenu skins = new JMenu(ResourcePool.getString("skins","locale",this));
-	private ButtonGroup bgroup = new ButtonGroup();
+public class LookAndFeelHandler extends Plugin implements SettingsExtension {
 	private SkinModel model = new SkinModel();
 	private SettingsComponentFactory settingsComponent;
 	
 	public LookAndFeelHandler() {
 		try {
-			settingsComponent = new SettingsComponentFactory(model);
+			model = Serializer.deserialize(SkinModel.class, Environment.getNtorrentDir());
 			if(model.getLafClass() != null)
 				setWindowSkin();
+				
 		} catch (Exception x){
 			x.printStackTrace();
 		}
+		settingsComponent = new SettingsComponentFactory(model);
 	}
 	
 	@Override
 	protected void doStart() throws Exception {
-		for(LookAndFeelInfo lafi : UIManager.getInstalledLookAndFeels()){
-			JRadioButtonMenuItem radio = new JRadioButtonMenuItem(lafi.getName());
-			String currentLF = UIManager.getLookAndFeel().getClass().getName();
-			radio.setName(lafi.getClassName());
-			if(currentLF.equals(lafi.getClassName()))
-				radio.setSelected(true);
-			radio.addItemListener(this);
-			bgroup.add(radio);
-			skins.add(radio);
-		}
-		bar.add(skins);
-		bar.revalidate();
-		bar.repaint();
+		
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		bar.remove(skins);
-		bar.revalidate();
-		bar.repaint();
+		
 	}
 
-	public void itemStateChanged(ItemEvent e) {
-		if(e.getStateChange() == ItemEvent.SELECTED){
-			JRadioButtonMenuItem radio = ((JRadioButtonMenuItem)e.getItem());
-			model.setLafClass(radio.getName());
-			setWindowSkin();
-		}
-	}
 	
 	private void setWindowSkin(){
 		MainWindow w = Main.getMainWindow();
 		try {
-			UIManager.setLookAndFeel(model.getLafClass());
+			UIManager.setLookAndFeel(model.getLafClass().getClassName());
 			SwingUtilities.updateComponentTreeUI(w);
 			w.pack();
 		} catch (Exception x){
@@ -105,11 +82,12 @@ public class LookAndFeelHandler extends Plugin implements SettingsExtension,Item
 	}
 
 	public Component getDisplay() {
-		return settingsComponent.getDisplay();
+		return settingsComponent == null ? null : settingsComponent.getDisplay();
 	}
 
 	public void saveActionPerformed() throws Exception {
 		settingsComponent.restoreToModel();
+		setWindowSkin();
 		Serializer.serialize(model, Environment.getNtorrentDir());
 	}
 
