@@ -55,6 +55,9 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	private final JList pluginList;
 	
 	public SettingsWindow(final SettingsExtension[] plugins) {
+		setTitle(ResourcePool.getString("title","locale",this));
+		
+		//set variables
 		this.elements = plugins;
 		
 		//init jlist
@@ -101,7 +104,8 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 							this, 
 							ResourcePool.getString("error-on-save", "locale", this)+
 							" ("+element+")"+
-							" : "+ex.getMessage());
+							" : "+ex.toString());
+					ex.printStackTrace();
 				}
 		}
 		setVisible(false);

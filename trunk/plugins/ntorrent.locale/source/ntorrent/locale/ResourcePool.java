@@ -53,7 +53,7 @@ public class ResourcePool {
 			x.printStackTrace();
 			//Logger.global.warning("Resource bundle "+bundle+" is missing from "+obj.getClass().getName()+"!");
 		}
-		return key;
+		return "??"+key+"??";
 	}
 	
 	public static Locale getLocale() {

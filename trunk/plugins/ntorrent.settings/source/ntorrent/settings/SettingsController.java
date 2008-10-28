@@ -53,9 +53,11 @@ public class SettingsController {
 		try {
 			for(Extension e : ext.getAvailableExtensions()){
 				PluginDescriptor pd = e.getDeclaringPluginDescriptor();
-				Plugin plugin = manager.getPlugin(pd.getId());
-				if(plugin instanceof SettingsExtension){
-					set.add((SettingsExtension) plugin);
+				if(manager.isPluginActivated(pd)){
+					Plugin plugin = manager.getPlugin(pd.getId());
+					if(plugin instanceof SettingsExtension){
+						set.add((SettingsExtension) plugin);
+					}
 				}
 			}
 		} catch (PluginLifecycleException x) {
@@ -66,6 +68,7 @@ public class SettingsController {
 		SettingsWindow window = new SettingsWindow(array);
 		window.validate();
 		window.pack();
+		window.setSize(640, 480);
 		window.setVisible(true);
 	}
 }

@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -22,7 +23,7 @@ public class SettingsComponentFactory {
 	private final Class clazz;
 	private final SettingsComponentContainer container = new SettingsComponentContainer();
 
-	public SettingsComponentFactory(final Object model) throws IllegalArgumentException, IllegalAccessException {
+	public SettingsComponentFactory(final Object model) throws IllegalArgumentException {
 		this.model = model;
 		this.clazz = model.getClass();
 		generateDisplayFromReflection();
@@ -38,9 +39,8 @@ public class SettingsComponentFactory {
 	 * @param object
 	 * @return
 	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
 	 */
-	private final void generateDisplayFromReflection() throws IllegalArgumentException, IllegalAccessException{
+	private final void generateDisplayFromReflection() throws IllegalArgumentException{
 
 		for(Field f : clazz.getDeclaredFields()){
 			try {
@@ -51,7 +51,14 @@ public class SettingsComponentFactory {
 					if (label.equals("")){
 						label = null;
 					}
-					container.addSettingsComponent(f.getName(),label, getJComponentFromClass(f,getMethod));
+					
+					String oneOf = userSetting.oneOf();
+					if(!oneOf.equals("")){
+						Class c = Class.forName(oneOf);
+						JComboBox box = new JComboBox((ComboBoxModel) c.newInstance());
+						container.addSettingsComponent(f.getName(), label,box);
+					}else
+						container.addSettingsComponent(f.getName(),label, getJComponentFromClass(f,getMethod));
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

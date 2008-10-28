@@ -7,14 +7,14 @@ import ntorrent.settings.model.SettingsExtension.UserSetting;
 public class SkinModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@UserSetting
-	private String lafClass = null;
+	@UserSetting(oneOf="ntorrent.skins.model.ComboBoxSkinModel")
+	private PrettyLookAndFeelInfo lafClass = null;
 	
-	public void setLafClass(String lafClass) {
-		this.lafClass = lafClass;
+	public PrettyLookAndFeelInfo getLafClass() {
+		return lafClass;
 	}
 	
-	public String getLafClass() {
-		return lafClass;
+	public void setLafClass(PrettyLookAndFeelInfo lafClass) {
+		this.lafClass = lafClass;
 	}
 }
