@@ -36,44 +36,40 @@ import ntorrent.Main;
 import ntorrent.data.Environment;
 import ntorrent.gui.MainWindow;
 import ntorrent.locale.ResourcePool;
+import ntorrent.settings.DefaultSettingsImpl;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsComponentFactory;
+import ntorrent.skins.model.PrettyLookAndFeelInfo;
 import ntorrent.skins.model.SkinModel;
 import ntorrent.tools.Serializer;
 
 import org.java.plugin.Plugin;
 
-public class LookAndFeelHandler extends Plugin implements SettingsExtension {
-	private SkinModel model = new SkinModel();
-	private SettingsComponentFactory settingsComponent;
-	
+public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	public LookAndFeelHandler() {
-		try {
-			model = Serializer.deserialize(SkinModel.class, Environment.getNtorrentDir());
-			if(model.getLafClass() != null)
-				setWindowSkin();
-				
-		} catch (Exception x){
-			x.printStackTrace();
-		}
-		settingsComponent = new SettingsComponentFactory(model);
+		super(Serializer.deserialize(SkinModel.class, Environment.getNtorrentDir()));
 	}
 	
 	@Override
 	protected void doStart() throws Exception {
-		
+		setWindowSkin();
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		
+		setDefaultWindowSkin();
+	}
+	
+	private void setDefaultWindowSkin(){
+		getModel().setLafClass(new PrettyLookAndFeelInfo(null,UIManager.getSystemLookAndFeelClassName()));
+		setWindowSkin();
 	}
 
 	
 	private void setWindowSkin(){
 		MainWindow w = Main.getMainWindow();
 		try {
-			UIManager.setLookAndFeel(model.getLafClass().getClassName());
+			UIManager.setLookAndFeel(getModel().getLafClass().getClassName());
 			SwingUtilities.updateComponentTreeUI(w);
 			w.pack();
 		} catch (Exception x){
@@ -81,18 +77,11 @@ public class LookAndFeelHandler extends Plugin implements SettingsExtension {
 		}
 	}
 
-	public Component getDisplay() {
-		return settingsComponent == null ? null : settingsComponent.getDisplay();
-	}
 
 	public void saveActionPerformed() throws Exception {
-		settingsComponent.restoreToModel();
+		super.saveActionPerformed();
 		setWindowSkin();
-		Serializer.serialize(model, Environment.getNtorrentDir());
-	}
-
-	public String toString() {
-		return ResourcePool.getString("skins", "locale", this);
+		Serializer.serialize(getModel(), Environment.getNtorrentDir());
 	}
 
 }

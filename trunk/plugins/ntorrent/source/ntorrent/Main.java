@@ -228,8 +228,6 @@ public class Main extends Plugin {
 			for(ClientProfileInterface p : Serializer.deserialize(ClientProfileListModel.class, Environment.getNtorrentDir()))
 				if(p.isAutoConnect())
 					newSession(p);
-		} catch(FileNotFoundException e){
-			Serializer.serialize(new ClientProfileListModel(),Environment.getNtorrentDir());
 		}catch(Exception e){
 			Logger.global.log(Level.WARNING,e.getMessage(),e);
 		}

@@ -90,8 +90,6 @@ public class TorrentTableColumnModel implements Serializable{
 			
 			for(TableColumn t : tableColumns)
 				model.addColumn(t);
-		}catch(FileNotFoundException e){
-			//Do nothing, maybe log the event?
 		}catch(Exception e){
 			e.printStackTrace();
 		}
