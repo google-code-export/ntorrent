@@ -50,14 +50,22 @@ public abstract class Serializer {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static <T> T deserialize(Class<T> obj, File parent) throws IOException, ClassNotFoundException{
-		File file = new File(parent,prefix+(getClassName(obj)));
-		if(file.exists()){
-			FileInputStream stream = new FileInputStream(file);
-			ObjectInputStream objectstream = new ObjectInputStream(stream);			
-			return (T) objectstream.readObject();
+	public static <T> T deserialize(Class<T> obj, File parent){
+		try {
+			File file = new File(parent,prefix+(getClassName(obj)));
+			if(file.exists()){
+				FileInputStream stream = new FileInputStream(file);
+				ObjectInputStream objectstream = new ObjectInputStream(stream);			
+				return (T) objectstream.readObject();
+			}
+			return null;
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException("Cant deserialize nonexistant file",e);
+		} catch (IOException e) {
+			throw new RuntimeException("Error on reading serialized class",e);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException(e);
 		}
-		throw new FileNotFoundException("Can't deserialize a nonexistant file!");
 	}
 	
 	/**
