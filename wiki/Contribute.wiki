@@ -1,9 +1,4 @@
-#labels Featured
 _How can you help nTorrent?_
-
-= Introduction =
-
-nTorrent is growing, and it could use your help!
 
 = Developer =
 
