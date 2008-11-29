@@ -99,7 +99,7 @@ public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 				if(table.getRowHeight(row) == standardRowHeight)
 					table.setRowHeight(row, selectedRowHeight); //eats cpu as its revalidates and repaints
 				add(message);
-				message.setText(ResourcePool.getString("message","locale",this)+": "+tor.getMessage());
+				message.setText(ResourcePool.getString("message",this)+": "+tor.getMessage());
 			}else{
 				remove(message);
 				if(table.getRowHeight(row) == selectedRowHeight)

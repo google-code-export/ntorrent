@@ -47,14 +47,13 @@ import ntorrent.torrenttable.model.TorrentTableModel;
 
 public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener{
 	private static final long serialVersionUID = 1L;
-	private static final String bundle = "locale";
 	private final TorrentTableColumnModel model;
 	
 	public TorrentTableHeaderPopupMenu(final TorrentTableColumnModel model) {
 		this.model = model;
 		
 		for(String c : TorrentTableColumnModel.cols){
-			String name = ResourcePool.getString(c,bundle,this);
+			String name = ResourcePool.getString(c,this);
 			JCheckBox check = new JCheckBox(name);
 			check.setName(c);
 			try{
@@ -67,7 +66,7 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 			add(check);
 		}
 		add(new JSeparator());
-		JMenuItem save = add(ResourcePool.getString("savestate",bundle,this));
+		JMenuItem save = add(ResourcePool.getString("savestate",this));
 		save.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {

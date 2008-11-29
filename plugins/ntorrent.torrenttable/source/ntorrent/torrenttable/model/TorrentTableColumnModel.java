@@ -100,7 +100,7 @@ public class TorrentTableColumnModel implements Serializable{
 		for(int x = 0; x < columnModel.size(); x++){
 			TableColumn t = new TableColumn(x);
 			ColumnModel c = columnModel.get(x);
-			t.setHeaderValue(ResourcePool.getString(c.name,"locale",this));
+			t.setHeaderValue(ResourcePool.getString(c.name,this));
 			t.setIdentifier(c.name);
 			t.setPreferredWidth(c.width);
 			model.addColumn(t);

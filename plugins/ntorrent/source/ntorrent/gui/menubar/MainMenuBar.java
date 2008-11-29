@@ -31,7 +31,6 @@ import ntorrent.locale.ResourcePool;
 
 public class MainMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1L;
-	private static final String bundle = "locale";
 	
 	public final static String[] identifiers = {
 		"filemenu.addtorrent",
@@ -43,13 +42,13 @@ public class MainMenuBar extends JMenuBar {
 	};
 		
 	public MainMenuBar(ActionListener listener) {
-		JMenu file = new JMenu(ResourcePool.getString("filemenu", bundle, this));
-		JMenu help = new JMenu(ResourcePool.getString("helpmenu", bundle, this));
+		JMenu file = new JMenu(ResourcePool.getString("filemenu", this));
+		JMenu help = new JMenu(ResourcePool.getString("helpmenu", this));
 		
 		JMenuItem[] items = new JMenuItem[identifiers.length];
 		for(int x = 0; x < items.length; x++){
 			String id = identifiers[x];
-			JMenuItem item = new JMenuItem(ResourcePool.getString(id, bundle, this));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(id,this));
 			item.setActionCommand(id);
 			item.addActionListener(listener);
 			items[x] = item;

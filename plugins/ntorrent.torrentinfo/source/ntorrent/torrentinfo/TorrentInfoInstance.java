@@ -50,7 +50,6 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 	
 	private final Download d;
 	
-	private final static String bundle = "locale";
 	private boolean started = false;
 	
 	private final static SimpleAttributeSet BOLD = new SimpleAttributeSet();
@@ -83,7 +82,7 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		if (preferredIndex > tab.getTabCount())
 			preferredIndex = tab.getTabCount();
 
-		tab.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane, null,preferredIndex);
+		tab.insertTab(ResourcePool.getString("tabname", this), null, scrollpane, null,preferredIndex);
 		
 		//add this as a torrent selection listener
 		tc.addTorrentSelectionListener(this);
@@ -101,21 +100,21 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		if(tor.length == 1){
 			String hash = tor[0].getHash();
 			
-			insertText(ResourcePool.getString("name", bundle, this)+":\n", BOLD);
+			insertText(ResourcePool.getString("name", this)+":\n", BOLD);
 			insertText("["+(d.is_open(hash) == 1 ? 
-						ResourcePool.getString("open", bundle, this) : 
-						ResourcePool.getString("closed", bundle, this))
+						ResourcePool.getString("open", this) : 
+						ResourcePool.getString("closed", this))
 				+"] - "+d.get_name(hash),null);
-			insertText("\n\n"+ResourcePool.getString("hash", bundle, this)+":\n", BOLD);
+			insertText("\n\n"+ResourcePool.getString("hash", this)+":\n", BOLD);
 			insertText(hash, null);
-			insertText("\n\n"+ResourcePool.getString("directory", bundle, this)+":\n", BOLD);
+			insertText("\n\n"+ResourcePool.getString("directory", this)+":\n", BOLD);
 			insertText(d.get_directory(hash), null);
-			insertText("\n\n"+ResourcePool.getString("date-created", bundle, this)+":\n", BOLD);
+			insertText("\n\n"+ResourcePool.getString("date-created", this)+":\n", BOLD);
 			insertText(new Date(d.get_creation_date(hash)*1000).toString(), null);
 			
 			String tiedToFile = d.get_tied_to_file(hash);
 			if(tiedToFile.length() > 0){
-				insertText("\n\n"+ResourcePool.getString("tied", bundle, this)+":\n", BOLD);
+				insertText("\n\n"+ResourcePool.getString("tied", this)+":\n", BOLD);
 				insertText(tiedToFile, null);
 			}
 

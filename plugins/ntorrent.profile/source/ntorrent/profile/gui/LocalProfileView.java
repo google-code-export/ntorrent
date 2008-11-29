@@ -51,8 +51,8 @@ public class LocalProfileView extends AbstractClientProfileView {
 	}
 
 	private void initDisplay(){
-		socketLabel = new JLabel(ResourcePool.getString("socketport",guiBundle,this));
-		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",guiBundle,this));
+		socketLabel = new JLabel(ResourcePool.getString("socketport",this));
+		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",this));
 		socket = new JTextField(10);
 		autoConn = new JCheckBox();
 		

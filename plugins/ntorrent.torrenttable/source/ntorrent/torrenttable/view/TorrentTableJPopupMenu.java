@@ -39,7 +39,6 @@ import org.java.plugin.registry.PluginDescriptor;
 
 public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener, TorrentSelectionListener{
 	private static final long serialVersionUID = 1L;
-	private static final String bundle = "locale";
 	
 	Vector<TorrentTableActionListener> listeners = new Vector<TorrentTableActionListener>();
 	Vector<String> extensions = new Vector<String>();
@@ -71,7 +70,7 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 			if(s == null){
 				super.addSeparator();
 			}else{
-				JMenuItem item = new JMenuItem(ResourcePool.getString(s,bundle,this));
+				JMenuItem item = new JMenuItem(ResourcePool.getString(s,this));
 				item.setActionCommand(s);
 				item.addActionListener(this);
 				super.add(item);
@@ -80,11 +79,11 @@ public class TorrentTableJPopupMenu extends JPopupMenu implements ActionListener
 		
 		super.addSeparator();
 		
-		JMenu priority = new JMenu(ResourcePool.getString(priorityMenu[0],bundle,this));
+		JMenu priority = new JMenu(ResourcePool.getString(priorityMenu[0],this));
 		super.add(priority);
 		
 		for(int x = 1; x < priorityMenu.length; x++){
-			JMenuItem item = priority.add(ResourcePool.getString(priorityMenu[x],bundle,this));
+			JMenuItem item = priority.add(ResourcePool.getString(priorityMenu[x],this));
 			item.setActionCommand(priorityMenu[x]);
 			item.addActionListener(this);
 		}

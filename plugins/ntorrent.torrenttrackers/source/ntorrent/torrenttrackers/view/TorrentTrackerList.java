@@ -53,8 +53,6 @@ public class TorrentTrackerList extends JList implements ActionListener,MouseLis
 		addMouseListener(this);
 		setCellRenderer(new ListCellRenderer(){
 			
-			public final static String bundle = "locale";
-			
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 				TorrentTracker tt = (TorrentTracker) value;
 				String iconUrl = null;
@@ -75,13 +73,13 @@ public class TorrentTrackerList extends JList implements ActionListener,MouseLis
 				
 				JTextPane tracker = new JTextPane();
 				tracker.setText(tt.toString()+"\n" +
-						ResourcePool.getString("scrape-done", bundle, this)+": "+tt.getScrapeComplete()+" "+
-						ResourcePool.getString("scrape-down", bundle, this)+": "+tt.getScrapeDownloaded()+" "+
-						ResourcePool.getString("scrape-undone", bundle, this)+": "+tt.getScrapeIncomplete()+" "+
-						ResourcePool.getString("scrape-time", bundle, this)+": "+tt.getScrapeTimeLast()+"\n"+
-						ResourcePool.getString("interval", bundle, this)+" - "+
-						ResourcePool.getString("min-int", bundle, this)+": "+tt.getMinIntervall()+" "+
-						ResourcePool.getString("nom-int", bundle, this)+": "+tt.getNormalIntervall());
+						ResourcePool.getString("scrape-done", this)+": "+tt.getScrapeComplete()+" "+
+						ResourcePool.getString("scrape-down", this)+": "+tt.getScrapeDownloaded()+" "+
+						ResourcePool.getString("scrape-undone", this)+": "+tt.getScrapeIncomplete()+" "+
+						ResourcePool.getString("scrape-time", this)+": "+tt.getScrapeTimeLast()+"\n"+
+						ResourcePool.getString("interval", this)+" - "+
+						ResourcePool.getString("min-int", this)+": "+tt.getMinIntervall()+" "+
+						ResourcePool.getString("nom-int", this)+": "+tt.getNormalIntervall());
 				
 				tracker.setOpaque(false);
 				

@@ -47,7 +47,7 @@ public class TorrentFilesPopupMenu extends JPopupMenu implements MouseListener {
 	public TorrentFilesPopupMenu(ActionListener listener, Component invoker) {
 		this.invoker = invoker;
 		for(String s : priority){
-			JMenuItem item = new JMenuItem(ResourcePool.getString(s, "locale", this));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(s, this));
 			item.setActionCommand(s);
 			item.addActionListener(listener);
 			add(item);

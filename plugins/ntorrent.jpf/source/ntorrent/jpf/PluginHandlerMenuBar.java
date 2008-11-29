@@ -59,7 +59,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
 	public PluginHandlerMenuBar(JMenuBar menuBar){
 		manager.registerListener(this);
-		JMenu plugin = new JMenu(ResourcePool.getString("plugin","locale",this));
+		JMenu plugin = new JMenu(ResourcePool.getString("plugin",this));
 		menuBar.add(plugin);			
 			for(Extension e : reg.getExtensionPoint("ntorrent.jpf","HandledPlugin").getConnectedExtensions()){
 				String id = e.getDeclaringPluginDescriptor().getId();

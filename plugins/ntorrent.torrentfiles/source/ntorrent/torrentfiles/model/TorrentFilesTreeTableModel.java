@@ -59,7 +59,7 @@ public class TorrentFilesTreeTableModel extends AbstractTreeTableModel implement
 	}
 
 	public String getColumnName(int column) {
-		return ResourcePool.getString(cols[column], "locale", this);
+		return ResourcePool.getString(cols[column], this);
 	}
 	
 	@Override

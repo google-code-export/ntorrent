@@ -39,9 +39,9 @@ public class LabelPopupMenu extends JMenu {
 	
 	public LabelPopupMenu(ActionListener listener) {
 		super();
-		setText(ResourcePool.getString("menu", "locale", this));
+		setText(ResourcePool.getString("menu", this));
 		for(String s : MENU_ITEMS){
-			JMenuItem item = new JMenuItem(ResourcePool.getString(s, "locale", this));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(s, this));
 			item.setActionCommand(s);
 			item.addActionListener(listener);
 			add(item);

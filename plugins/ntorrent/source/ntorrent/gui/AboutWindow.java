@@ -54,7 +54,7 @@ public class AboutWindow extends Window  {
 	
 	public AboutWindow(){
 		super();
-		setTitle(ResourcePool.getString("about", "locale", this));
+		setTitle(ResourcePool.getString("about", this));
 		setResizable(false);
 		//init image
 		ImageIcon aboutImg = new ImageIcon("plugins/ntorrent/about.png");
@@ -92,7 +92,7 @@ public class AboutWindow extends Window  {
 		//set close button
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
-		JButton close = new JButton(ResourcePool.getString("close", "locale", this));
+		JButton close = new JButton(ResourcePool.getString("close", this));
 		close.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {

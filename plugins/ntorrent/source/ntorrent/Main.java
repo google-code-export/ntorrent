@@ -60,7 +60,7 @@ public class Main extends Plugin {
 		ResourcePool.setLocale(Environment.getUserLanguage(),Environment.getUserCountry());
 		
 		/** License **/
-		System.out.println(ResourcePool.getString("lic","locale",this));
+		System.out.println(ResourcePool.getString("lic",this));
 		
 		/** Loading environment **/
 		File ntorrent = Environment.getNtorrentDir();

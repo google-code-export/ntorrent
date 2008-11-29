@@ -39,7 +39,13 @@ public class ResourcePool {
 	/** Translations **/
 	private final static HashMap<Integer,ResourceBundle> messages = new HashMap<Integer, ResourceBundle>();	
 	public static String getString(String key, String bundle,Object obj) {
-		ClassLoader loader = obj.getClass().getClassLoader();
+		Class<?> classObj;
+		if(!(obj instanceof Class))
+			classObj = obj.getClass();
+		else
+			classObj = (Class<?>) obj;
+		
+		ClassLoader loader = classObj.getClassLoader();
 		int id = loader.hashCode();
 		try{
 			if(!messages.containsKey(id)){
@@ -48,12 +54,16 @@ public class ResourcePool {
 			}
 			return messages.get(id).getString(key);	
 		}catch(MissingResourceException x){
-			Logger.global.info("Unknown key ["+key+"] requested from class "+obj.getClass().getName()+" in resource pool with bundle="+bundle);
+			Logger.global.info("Unknown key ["+key+"] requested from class "+classObj.getName()+" in resource pool with bundle="+bundle);
 		}catch(Exception x){
 			x.printStackTrace();
 			//Logger.global.warning("Resource bundle "+bundle+" is missing from "+obj.getClass().getName()+"!");
 		}
 		return "??"+key+"??";
+	}
+	
+	public static String getString(String key, Object obj){
+		return getString(key,"locale",obj);
 	}
 	
 	public static Locale getLocale() {

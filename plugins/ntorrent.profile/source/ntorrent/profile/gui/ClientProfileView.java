@@ -52,7 +52,6 @@ import ntorrent.profile.model.SshProfileModel;
 
 public class ClientProfileView extends AbstractView implements ItemListener, ActionListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
-	private static final String bundle = "locale";
 	
 	CardLayout layout = new CardLayout();
 	JComboBox box;
@@ -90,9 +89,9 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 			cards.add(panel,v.toString());
 		}
 		
-		connect = new JButton(ResourcePool.getString("connect",bundle,this));
-		save = new JButton(ResourcePool.getString("save",bundle,this));
-		delete = new JButton(ResourcePool.getString("delete",bundle,this));
+		connect = new JButton(ResourcePool.getString("connect",this));
+		save = new JButton(ResourcePool.getString("save",this));
+		delete = new JButton(ResourcePool.getString("delete",this));
 		
 		connect.addActionListener(this);
 		save.addActionListener(this);
@@ -136,7 +135,7 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 			ClientProfileInterface model = (ClientProfileInterface) view.getModel().clone();
 			
 			/**prompt for model name**/
-			String name = JOptionPane.showInputDialog(ResourcePool.getString("profile.name", bundle, this));
+			String name = JOptionPane.showInputDialog(ResourcePool.getString("profile.name", this));
 			
 			if(name != null){
 				model.setName(name);

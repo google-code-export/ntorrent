@@ -63,13 +63,13 @@ public class SshProfileView extends AbstractClientProfileView {
 	}
 
 	private void initDisplay(){
-		hostLabel = new JLabel(ResourcePool.getString("host",guiBundle,this));
-		portLabel = new JLabel(ResourcePool.getString("connectionport",guiBundle,this));
-		usernameLabel = new JLabel(ResourcePool.getString("username",guiBundle,this));
-		passwordLabel = new JLabel(ResourcePool.getString("password",guiBundle,this));
-		rememberPwdLabel = new JLabel(ResourcePool.getString("rememberpwd",guiBundle,this));
-		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",guiBundle,this));
-		socketLabel = new JLabel(ResourcePool.getString("socketport",guiBundle,this));
+		hostLabel = new JLabel(ResourcePool.getString("host",this));
+		portLabel = new JLabel(ResourcePool.getString("connectionport",this));
+		usernameLabel = new JLabel(ResourcePool.getString("username",this));
+		passwordLabel = new JLabel(ResourcePool.getString("password",this));
+		rememberPwdLabel = new JLabel(ResourcePool.getString("rememberpwd",this));
+		autoConnLabel = new JLabel(ResourcePool.getString("autoconnect",this));
+		socketLabel = new JLabel(ResourcePool.getString("socketport",this));
 		
 		socket = new JTextField(10);
 		host = new JTextField(10);

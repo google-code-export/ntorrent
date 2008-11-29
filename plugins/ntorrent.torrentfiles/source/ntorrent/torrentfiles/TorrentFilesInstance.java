@@ -76,7 +76,7 @@ public class TorrentFilesInstance implements SessionInstance,TorrentSelectionLis
 		if (preferredIndex > container.getTabCount())
 			preferredIndex = container.getTabCount();
 		
-		container.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane,null,preferredIndex);
+		container.insertTab(ResourcePool.getString("tabname", this), null, scrollpane,null,preferredIndex);
 		
 		//add this as a selection listener
 		tc.addTorrentSelectionListener(this);

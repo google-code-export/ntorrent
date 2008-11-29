@@ -49,7 +49,7 @@ public class LabelListModel implements ListModel,Map<String,JMenuItem> {
 				};
 		
 		for(String s : entries){
-			put(ResourcePool.getString(s,"locale",this), null);
+			put(ResourcePool.getString(s,this), null);
 		}
 	}
 	

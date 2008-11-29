@@ -41,7 +41,6 @@ import ntorrent.profile.model.ProxyProfileModel;
 
 public class ProxyProfileView extends AbstractView implements ItemListener, FocusListener {
 	private static final long serialVersionUID = 1L;
-	private static final String bundle = "locale";
 	
 	JPanel p = new JPanel(new GridLayout(3,2));
 	ProxyProfileModel model;
@@ -52,9 +51,9 @@ public class ProxyProfileView extends AbstractView implements ItemListener, Focu
 	
 	public ProxyProfileView(ProxyProfileModel model) {
 		this.model = model;
-		JLabel proxyLabel = new JLabel(ResourcePool.getString("proxy",bundle,this));
-		JLabel hostLabel = new JLabel(ResourcePool.getString("proxy.host",bundle,this));
-		JLabel portLabel = new JLabel(ResourcePool.getString("proxy.port",bundle,this));
+		JLabel proxyLabel = new JLabel(ResourcePool.getString("proxy",this));
+		JLabel hostLabel = new JLabel(ResourcePool.getString("proxy.host",this));
+		JLabel portLabel = new JLabel(ResourcePool.getString("proxy.port",this));
 		
 		host = new JTextField(10);
 		port = new JTextField(10);
