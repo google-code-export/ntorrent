@@ -127,7 +127,7 @@ public class TorrentTrackersInstance implements SessionInstance, TorrentSelectio
 		if (preferredIndex > tab.getTabCount())
 			preferredIndex = tab.getTabCount();
 
-		tab.insertTab(ResourcePool.getString("tabname", "locale", this), null, scrollpane, null,preferredIndex);
+		tab.insertTab(ResourcePool.getString("tabname", this), null, scrollpane, null,preferredIndex);
 		
 		
 		//add this as a listener

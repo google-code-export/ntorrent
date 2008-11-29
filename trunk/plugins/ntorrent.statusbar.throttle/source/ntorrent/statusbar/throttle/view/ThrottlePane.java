@@ -42,8 +42,8 @@ public class ThrottlePane extends JPanel {
 		up.setPreferredSize(new Dimension(60,20));
 		down.setPreferredSize(new Dimension(60,20));
 		
-		up.setToolTipText(ResourcePool.getString("upload", "locale", this));
-		down.setToolTipText(ResourcePool.getString("download", "locale", this));
+		up.setToolTipText(ResourcePool.getString("upload", this));
+		down.setToolTipText(ResourcePool.getString("download", this));
 		
 		upModel.setMinimum(0);
 		downModel.setMinimum(0);

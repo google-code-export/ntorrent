@@ -41,7 +41,7 @@ public class ViewModel implements View {
 	
 	@Override
 	public String toString() {
-		return ResourcePool.getString(id,"locale",this);
+		return ResourcePool.getString(id,this);
 	}
 
 }

@@ -55,7 +55,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	private final JList pluginList;
 	
 	public SettingsWindow(final SettingsExtension[] plugins) {
-		setTitle(ResourcePool.getString("title","locale",this));
+		setTitle(ResourcePool.getString("title",this));
 		
 		//set variables
 		this.elements = plugins;
@@ -68,8 +68,8 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(pluginList),rightComponent);
 		
 		//init buttons
-		save = new JButton(ResourcePool.getString("save", "locale", this));
-		close = new JButton(ResourcePool.getString("close", "locale", this));
+		save = new JButton(ResourcePool.getString("save", this));
+		close = new JButton(ResourcePool.getString("close", this));
 		save.addActionListener(this);
 		close.addActionListener(this);
 		buttons.add(save);
@@ -102,7 +102,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(
 							this, 
-							ResourcePool.getString("error-on-save", "locale", this)+
+							ResourcePool.getString("error-on-save", this)+
 							" ("+element+")"+
 							" : "+ex.toString());
 					ex.printStackTrace();

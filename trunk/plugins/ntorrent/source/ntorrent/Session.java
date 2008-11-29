@@ -54,7 +54,7 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 		sessionView = new ClientProfileController(this).getDisplay();
 		
 		int index = jtab.getTabCount();
-		jtab.insertTab(ResourcePool.getString("profile","locale",this), null, sessionView, null, index);
+		jtab.insertTab(ResourcePool.getString("profile",this), null, sessionView, null, index);
 		jtab.setSelectedIndex(index);
 	}
 	

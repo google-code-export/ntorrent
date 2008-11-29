@@ -72,7 +72,7 @@ public class MainWindow extends Window implements ActionListener {
 				}
 			}
 		}else if(c.equals(ids[1])){
-			String line = JOptionPane.showInputDialog(ResourcePool.getString("addurl", "locale", this));
+			String line = JOptionPane.showInputDialog(ResourcePool.getString("addurl", this));
 			if (line != null && line.length() > 0)
 				Main.clientSoConn(line);
 		}else if(c.equals(ids[2])){

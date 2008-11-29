@@ -40,7 +40,7 @@ public abstract class DefaultSettingsImpl<T> extends Plugin implements SettingsE
 	}
 	
 	public String toString() {
-		return ResourcePool.getString("settings.name", "locale", this);
+		return ResourcePool.getString("settings.name", this);
 	}
 
 }

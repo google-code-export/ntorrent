@@ -50,7 +50,7 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 		addMouseListener(this);
 		
 		for(String s : actions){
-			JMenuItem item = new JMenuItem(ResourcePool.getString(s, "locale", this));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(s, this));
 			item.setActionCommand(s);
 			item.addActionListener(this);
 			popup.add(item);

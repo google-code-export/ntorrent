@@ -35,7 +35,6 @@ import ntorrent.mvc.AbstractView;
 import ntorrent.profile.model.ClientProfileInterface;
 
 public abstract class AbstractClientProfileView extends AbstractView implements FocusListener, ItemListener{
-	protected static final String guiBundle = "locale";
 	protected ClientProfileInterface model;
 	
 	JPanel p = new JPanel(new GridLayout(0,2));
