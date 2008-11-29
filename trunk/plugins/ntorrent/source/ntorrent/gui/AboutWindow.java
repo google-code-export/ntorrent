@@ -57,7 +57,7 @@ public class AboutWindow extends Window  {
 		setTitle(ResourcePool.getString("about", this));
 		setResizable(false);
 		//init image
-		ImageIcon aboutImg = new ImageIcon("plugins/ntorrent/about.png");
+		ImageIcon aboutImg = new ImageIcon("plugins/ntorrent/banner.png");
 		
 		//init label containing image
 		JLabel imgHolder = new JLabel();
