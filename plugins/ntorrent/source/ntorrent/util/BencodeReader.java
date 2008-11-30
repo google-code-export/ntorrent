@@ -1,12 +1,7 @@
 package ntorrent.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +22,23 @@ public class BencodeReader {
 			stream.mark(0);
 		}
 		this.stream = stream;
+		
+		//DEBUG
+		/*int read;
+		try {
+			while((read = stream.read()) != -1){
+				System.out.print((char)read);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			System.out.println();
+			try {
+				this.stream.reset();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}*/
 	}
 	
 	/**
@@ -67,12 +79,12 @@ public class BencodeReader {
 	 * @return Object
 	 * @throws IOException
 	 */
-	private Object decode() throws IOException {
+	public Object decode() throws IOException {
 		stream.reset();
 		char charBuf = (char)stream.read();
+		stream.reset();
 		if(Character.isDigit(charBuf)){
 			//STRING
-			stream.reset();
 			return readString();
 		}else if(charBuf == 'i'){
 			//INTEGER
@@ -89,12 +101,14 @@ public class BencodeReader {
 	}
 
 	/**
+	 * Reads a dictionary in the format d<key><value>...e
 	 * @return
 	 * @throws IOException
 	 */
-	private Map<Object,Object> readDictionary() throws IOException {
+	public Map<String,Object> readDictionary() throws IOException {
+		stream.skip(1); // skips d
 		/** dictionary value **/
-		HashMap<Object,Object> dictionary = new HashMap<Object, Object>();
+		HashMap<String,Object> dictionary = new HashMap<String, Object>();
 		//read stream until e encountered.
 		stream.mark(1);
 		while((stream.read()) != 'e'){
@@ -102,16 +116,20 @@ public class BencodeReader {
 			stream.mark(1);
 			Object value = decode();
 			stream.mark(1);
-			dictionary.put(key,value);
+			if(key == null)
+				throw new IOException("key in dictionary was decoded to null!");
+			dictionary.put(key.toString(),value);
 		}
 		return dictionary;
 	}
 
 	/**
+	 * Reads a list in the format l<list-item>...e
 	 * @return
 	 * @throws IOException
 	 */
-	private List<Object> readList() throws IOException {
+	public List<Object> readList() throws IOException {
+		stream.skip(1); // skips l
 		/** list value **/
 		ArrayList<Object> list = new ArrayList<Object>();
 		//read stream until e encountered.
@@ -124,18 +142,20 @@ public class BencodeReader {
 	}
 
 	/**
-	 * @return
+	 * Reads an integer in the format i<integer>e
+	 * @return long
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-	private int readInteger() throws NumberFormatException, IOException {
+	public long readInteger() throws NumberFormatException, IOException {
+		stream.skip(1); // skips i
 		/** integer value **/
-		int value = 0;
+		long value = 0;
 		char charBuf;
 		//read stream until e encountered.
 		while((charBuf = (char)stream.read()) != 'e') {
 			value *= 10;
-			value += Integer.parseInt(""+charBuf);
+			value += Long.parseLong(""+charBuf);
 		};
 		//add integer to list
 		return value;
@@ -143,19 +163,20 @@ public class BencodeReader {
 
 
 	/**
-	 * @return
+	 * Reads a string of the format <length>:<string>
+	 * @return String
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-	private String readString() throws NumberFormatException, IOException{
+	public String readString() throws NumberFormatException, IOException{
 		/** String value **/
 		char charBuf;
 		//Get the string length
-		int length = 0;
+		long length = 0;
 		//read stream until : encountered.
 		while((charBuf = (char)stream.read()) != ':'){
 			length *= 10;
-			length += Integer.parseInt(""+charBuf);
+			length += Long.parseLong(""+charBuf);
 		}
 		//read up to <length> chars from stream
 		String value = new String();
@@ -165,27 +186,5 @@ public class BencodeReader {
 		}
 		//return
 		return value;
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		StringBufferInputStream s1 = new StringBufferInputStream("10:hallohallo");
-		StringBufferInputStream s2 = new StringBufferInputStream("i536e");
-		StringBufferInputStream s3 = new StringBufferInputStream("5:halloi5e");
-		StringBufferInputStream s4 = new StringBufferInputStream("li66e4:spam4:eggse");
-		StringBufferInputStream s5 = new StringBufferInputStream("d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee");
-		StringBufferInputStream s6 = new StringBufferInputStream("d4:spaml1:a1:bee");
-		StringBufferInputStream s7 = new StringBufferInputStream("d3:cow3:moo4:spam4:eggse");
-		StringBufferInputStream s8 = new StringBufferInputStream("l4:spam4:eggse");
-		
-		
-		System.out.println(new BencodeReader(new BufferedInputStream(s1)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s2)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s3)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s4)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s5)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s6)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s7)).read());
-		System.out.println(new BencodeReader(new BufferedInputStream(s8)).read());
-		
 	}
 }

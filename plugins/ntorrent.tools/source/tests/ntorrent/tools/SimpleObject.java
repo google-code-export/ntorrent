@@ -1,4 +1,4 @@
-package tests;
+package tests.ntorrent.tools;
 
 import java.io.Serializable;
 
