@@ -28,8 +28,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
@@ -38,6 +36,8 @@ import javax.swing.JSeparator;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+
+import org.apache.log4j.Logger;
 
 import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
@@ -48,6 +48,11 @@ import ntorrent.torrenttable.model.TorrentTableModel;
 public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener{
 	private static final long serialVersionUID = 1L;
 	private final TorrentTableColumnModel model;
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(TorrentTableHeaderPopupMenu.class);
 	
 	public TorrentTableHeaderPopupMenu(final TorrentTableColumnModel model) {
 		this.model = model;
@@ -76,7 +81,7 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 						Serializer.serialize(model, Environment.getNtorrentDir());
 					}
 				} catch (IOException x) {
-					Logger.global.log(Level.WARNING,x.getMessage(),x);
+					log.warn(x.getMessage(),x);
 				}
 			}
 			

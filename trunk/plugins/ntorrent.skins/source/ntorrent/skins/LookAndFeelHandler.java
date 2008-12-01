@@ -19,33 +19,28 @@
  */
 package ntorrent.skins;
 
-import java.awt.Component;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.logging.Logger;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
-import ntorrent.Main;
+import org.apache.log4j.Logger;
+
+import ntorrent.NtorrentApplication;
 import ntorrent.data.Environment;
 import ntorrent.gui.MainWindow;
-import ntorrent.locale.ResourcePool;
+import ntorrent.session.ConnectionSession;
 import ntorrent.settings.DefaultSettingsImpl;
-import ntorrent.settings.model.SettingsExtension;
-import ntorrent.settings.view.SettingsComponentFactory;
 import ntorrent.skins.model.PrettyLookAndFeelInfo;
 import ntorrent.skins.model.SkinModel;
 import ntorrent.tools.Serializer;
 
-import org.java.plugin.Plugin;
-
 public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(LookAndFeelHandler.class);
+	
 	public LookAndFeelHandler() {
 		super(Serializer.deserialize(SkinModel.class, Environment.getNtorrentDir()));
 	}
@@ -67,13 +62,13 @@ public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 
 	
 	private void setWindowSkin(){
-		MainWindow w = Main.getMainWindow();
+		MainWindow w = NtorrentApplication.MAIN_WINDOW;
 		try {
 			UIManager.setLookAndFeel(getModel().getLafClass().getClassName());
 			SwingUtilities.updateComponentTreeUI(w);
 			w.pack();
 		} catch (Exception x){
-			Logger.global.warning(x.getMessage());
+			log.warn(x.getMessage(),x);
 		}
 	}
 

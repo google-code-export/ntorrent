@@ -24,18 +24,18 @@ import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JCheckBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
+import ntorrent.NtorrentApplication;
 import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 
+import org.apache.log4j.Logger;
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
 import org.java.plugin.PluginManager;
@@ -56,6 +56,11 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 	
 	private final Map<String,JCheckBox> extensions = new HashMap<String, JCheckBox>();
 	private final PluginSet set = new PluginSet();
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(PluginHandlerMenuBar.class);
 	
 	public PluginHandlerMenuBar(JMenuBar menuBar){
 		manager.registerListener(this);
@@ -89,7 +94,7 @@ public class PluginHandlerMenuBar implements ItemListener,EventListener {
 			try {
 				manager.activatePlugin(id);
 			} catch (PluginLifecycleException e1) {
-				Logger.global.log(Level.WARNING,e1.getMessage(),e1);
+				log.fatal(e1.getMessage(),e1);
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Plugin error", JOptionPane.ERROR_MESSAGE);
 			}
 		else

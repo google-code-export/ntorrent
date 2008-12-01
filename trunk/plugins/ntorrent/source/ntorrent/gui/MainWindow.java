@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
-import ntorrent.Main;
+import ntorrent.NtorrentApplication;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
 import ntorrent.jpf.PluginHandlerMenuBar;
@@ -47,7 +47,7 @@ public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	private final MainMenuBar menuBar = new MainMenuBar(this);
-	private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
+	//private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
 	private final SettingsController settings = new SettingsController();
 	
 	public MainWindow() {
@@ -68,15 +68,16 @@ public class MainWindow extends Window implements ActionListener {
 			int result = chooser.showOpenDialog(this);
 			if(result == JFileChooser.APPROVE_OPTION){
 				for(File f : chooser.getSelectedFiles()){
-					Main.clientSoConn(f.getAbsolutePath());
+					NtorrentApplication.clientSoConn(f.getAbsolutePath());
 				}
 			}
 		}else if(c.equals(ids[1])){
 			String line = JOptionPane.showInputDialog(ResourcePool.getString("addurl", this));
-			if (line != null && line.length() > 0)
-				Main.clientSoConn(line);
+			if (line != null && line.length() > 0){
+				NtorrentApplication.clientSoConn(line);
+			}
 		}else if(c.equals(ids[2])){
-			Main.newSession();
+			NtorrentApplication.newSession();
 		}else if(c.equals(ids[3])){
 			System.exit(0);
 		}else if(c.equals(ids[4])){
@@ -91,7 +92,8 @@ public class MainWindow extends Window implements ActionListener {
 	}
 	
 	public PluginHandlerMenuBar getJpf() {
-		return jpf;
+		//return jpf;
+		return null;
 	}
 
 }

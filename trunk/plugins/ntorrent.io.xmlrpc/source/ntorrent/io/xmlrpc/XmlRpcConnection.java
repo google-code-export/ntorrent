@@ -22,7 +22,8 @@ package ntorrent.io.xmlrpc;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.rtorrent.File;
@@ -59,6 +60,11 @@ public class XmlRpcConnection {
 	private Session session;
 	
 	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(XmlRpcConnection.class);
+	
+	/**
 	 * Takes data from a ClientProfileInterface and creates a XmlRpcClient class from it.
 	 * @param p
 	 * @throws XmlRpcException
@@ -89,7 +95,7 @@ public class XmlRpcConnection {
 					
 					String url = "http://"+profile.getHost()+":"+profile.getPort()+profile.getMountpoint();
 					XmlRpcHTTPClient client = new XmlRpcHTTPClient(url,proxy,false);
-					Logger.global.info("New http connection to url="+url+" using proxy="+proxy);
+					log.info("New http connection to url="+url+" using proxy="+proxy);
 					
 					/** set username & pass **/
 					client.setBasicUsername(profile.getUsername());
@@ -138,7 +144,7 @@ public class XmlRpcConnection {
 						"127.0.0.1", // must be 127.0.0.1, dont change this again in your sleep!
 						localPort);
 				
-				Logger.global.info("New ssh connection using proxy="+proxy+" localforwarding: "+localPort+" <- "+profile.getHost()+":"+profile.getPort());
+				log.info("New ssh connection using proxy="+proxy+" localforwarding: "+localPort+" <- "+profile.getHost()+":"+profile.getPort());
 				
 			}catch(Exception x){
 				throw new XmlRpcException(x.getMessage(),x);
@@ -157,7 +163,7 @@ public class XmlRpcConnection {
 		
 		System system = getSystemClient();
 		
-		Logger.global.info("Connected to: Host "+
+		log.info("Connected to: Host "+
 				system.hostname()+" Running: client "+
 				system.client_version()+", library "+
 				system.library_version()+", pid="+system.pid());

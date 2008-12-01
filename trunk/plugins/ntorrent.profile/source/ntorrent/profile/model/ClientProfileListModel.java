@@ -24,12 +24,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
+import org.apache.log4j.Logger;
 
 import ntorrent.data.Environment;
 import ntorrent.tools.Serializer;
@@ -39,13 +39,17 @@ public class ClientProfileListModel extends Vector<ClientProfileInterface> imple
 	private static final File dataDir = Environment.getNtorrentDir();
 	private transient Vector<ListDataListener> listener = new Vector<ListDataListener>();
 	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(ClientProfileListModel.class);
 	@SuppressWarnings("unchecked")
 	public ClientProfileListModel(){
 		try {
 			ClientProfileListModel list = Serializer.deserialize(ClientProfileListModel.class,dataDir);
 			addAll(list);
 		} catch (Exception e) {
-			Logger.global.log(Level.WARNING,e.getMessage(),e);
+			log.warn(e.getMessage(),e);
 		}
 	}
 		

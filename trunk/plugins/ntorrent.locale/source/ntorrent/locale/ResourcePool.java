@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
-import ntorrent.data.Environment;
+import org.apache.log4j.Logger;
+
 
 /**
  * This class gives access to locale sensitive data.
@@ -37,7 +37,13 @@ public class ResourcePool {
 	private static Locale locale = Locale.getDefault();
 	
 	/** Translations **/
-	private final static HashMap<Integer,ResourceBundle> messages = new HashMap<Integer, ResourceBundle>();	
+	private final static HashMap<Integer,ResourceBundle> messages = new HashMap<Integer, ResourceBundle>();
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(ResourcePool.class);
+	
 	public static String getString(String key, String bundle,Object obj) {
 		Class<?> classObj;
 		if(!(obj instanceof Class))
@@ -50,14 +56,13 @@ public class ResourcePool {
 		try{
 			if(!messages.containsKey(id)){
 				messages.put(id, ResourceBundle.getBundle(bundle,locale,loader));
-				Logger.global.info("Added new resource bundle to resource pool. ("+id+")");
+				log.debug("Added new resource bundle to resource pool. ("+id+")");
 			}
 			return messages.get(id).getString(key);	
 		}catch(MissingResourceException x){
-			Logger.global.info("Unknown key ["+key+"] requested from class "+classObj.getName()+" in resource pool with bundle="+bundle);
+			log.trace("Unknown key ["+key+"] requested from class "+classObj.getName()+" in resource pool with bundle="+bundle);
 		}catch(Exception x){
-			x.printStackTrace();
-			//Logger.global.warning("Resource bundle "+bundle+" is missing from "+obj.getClass().getName()+"!");
+			log.warn("Resource bundle "+bundle+" is missing from "+obj.getClass().getName()+"!",x);
 		}
 		return "??"+key+"??";
 	}

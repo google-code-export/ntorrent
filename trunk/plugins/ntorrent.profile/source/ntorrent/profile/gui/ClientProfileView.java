@@ -27,8 +27,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,6 +38,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.apache.log4j.Logger;
 
 import ntorrent.locale.ResourcePool;
 import ntorrent.mvc.AbstractView;
@@ -62,6 +62,11 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 	ClientProfileListModel listModel;
 	ClientProfileController controller;
 	AbstractClientProfileView[] views;
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(ClientProfileView.class);
 	
 	public ClientProfileView(AbstractClientProfileView[] views, ClientProfileController c) {
 		
@@ -182,7 +187,7 @@ public class ClientProfileView extends AbstractView implements ItemListener, Act
 				}
 			}
 		}catch(ArrayIndexOutOfBoundsException x){
-			Logger.global.log(Level.WARNING, x.getMessage(),x);
+			log.warn(x.getMessage(),x);
 		}
 	}
 
