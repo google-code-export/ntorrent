@@ -1,0 +1,70 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2005 Dmitry Olshansky
+// $Id$
+%>
+<%
+import org.java.plugin.*;
+include("functions.ijxp");
+%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<title>Extension Point - <%= extPoint.getId() %></title>
+	<link rel ="stylesheet" type="text/css" href="<%= relativePath %>/stylesheet.css" title="Style">
+</head>
+
+<body onload="if (parent != null) {parent.document.title = document.title}">
+
+<h1>Extension point details</h1>
+
+<p>
+	<strong>Plugin:</strong> <a href="<%= relativePath %>/<%= extPoint.getDeclaringPluginDescriptor().getId() %>/index.html"><%= extPoint.getDeclaringPluginDescriptor().getId() %> version <%= extPoint.getDeclaringPluginDescriptor().getVersion() %></a><br>
+	<strong>Extension point ID:</strong> <%= extPoint.getId() %><br>
+	<strong>Multiplicity:</strong> <%= extPoint.getMultiplicity() %><br>
+	<% if (extPoint.getParentExtensionPointId() != null) { %>
+	<strong>Parent extension point:</strong> <a href="<%= relativePath %>/<%= extPoint.getParentPluginId() %>/extp/<%= extPoint.getParentExtensionPointId() %>/index.html"><%= extPoint.getParentExtensionPointId() %></a> in <a href="<%= relativePath %>/<%= extPoint.getParentPluginId() %>/index.html"><%= extPoint.getParentPluginId() %></a><br>
+	<% } %>
+</p>
+
+<% printDoc(tool, extPoint); %>
+
+<h5>Parameter definitions</h5>
+<table class="parameters" cellspacing="2">
+<tr><th align="left">Name</th><th align="left">Type</th><th align="left">Multiplicity</th><th align="left">Documentation</th></tr>
+<% boolean isOdd = true; %>
+<% 
+  for (ExtensionPoint.ParameterDefinition def : extPoint.getParameterDefinitions()) {
+     printParamTableRow(tool, def, 1, isOdd);
+     isOdd = !isOdd;
+  }
+%>
+</table>
+
+<h5>Connected extensions</h5>
+<ul>
+<% for (Extension ext : extPoint.getConnectedExtensions()) { %>
+	<li>
+		<a href="<%= relativePath %>/<%= ext.getDeclaringPluginDescriptor().getId() %>/ext/<%= ext.getId() %>/index.html"><%= ext.getId() %></a>
+		in
+		<a href="<%= relativePath %>/<%= ext.getDeclaringPluginDescriptor().getId() %>/index.html"><%= ext.getDeclaringPluginDescriptor().getId() %></a>
+	</li>
+<% } %>
+</ul>
+
+<h5>Descended extension points</h5>
+<ul>
+<% for (ExtensionPoint extp : extPoint.getDescendants()) { %>
+	<li>
+		<a href="<%= relativePath %>/<%= extp.getDeclaringPluginDescriptor().getId() %>/extp/<%= extp.getId() %>/index.html"><%= extp.getId() %></a>
+		in
+		<a href="<%= relativePath %>/<%= extp.getDeclaringPluginDescriptor().getId() %>/index.html"><%= extp.getDeclaringPluginDescriptor().getId() %></a>
+	</li>
+<% } %>
+</ul>
+
+<% printFooter(); %>
+
+</body>
+</html>
