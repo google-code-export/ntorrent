@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="lib/jxp.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5/junit-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/apache-log4j-1.2.15/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
