@@ -23,11 +23,12 @@ package ntorrent.torrenttable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.apache.log4j.Logger;
 
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
@@ -57,6 +58,11 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 	
 	private Thread controllerThread = new Thread(this);
 	private Thread torrentSelectionThread = new Thread();
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(TorrentTableController.class);
 
 	
 	public TorrentTableController(XmlRpcConnection connection) {
@@ -197,7 +203,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 					//Thread.sleep(1000);
 					//System.out.println(table.getSelectedRow());
 				} catch (InterruptedException e) {
-					Logger.global.info("Interrupted torrenttable");
+					log.debug("Interrupted torrenttable");
 					//System.out.println(this+": stop should be false here as im starting again. stop = "+pause);		
 				}
 			}

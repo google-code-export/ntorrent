@@ -11,6 +11,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+import ntorrent.NtorrentApplication;
 import ntorrent.data.Environment;
 
 import org.java.plugin.Plugin;
@@ -24,7 +25,7 @@ public class TrayIconHandler extends Plugin implements WindowListener, MouseList
 	@Override
 	protected void doStart() throws Exception {
 		if (java.awt.SystemTray.isSupported()) {
-		    window = ntorrent.Main.getMainWindow();
+		    window = NtorrentApplication.MAIN_WINDOW;
 		    Image image = Toolkit.getDefaultToolkit().getImage("plugins/ntorrent/icons/ntorrent48.png");
 
 		    trayIcon = new TrayIcon(image, Environment.appName);

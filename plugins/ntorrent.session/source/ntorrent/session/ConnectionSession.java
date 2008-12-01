@@ -3,15 +3,16 @@ package ntorrent.session;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 import ntorrent.data.Environment;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.profile.gui.ClientProfileView;
 import ntorrent.session.view.SessionFrame;
 import ntorrent.torrenttable.TorrentTableController;
 import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.viewmenu.ViewMenuController;
 
+import org.apache.log4j.Logger;
 import org.java.plugin.Plugin;
 import org.java.plugin.PluginLifecycleException;
 import org.java.plugin.PluginManager;
@@ -64,6 +65,11 @@ public class ConnectionSession implements EventListener {
 	private boolean started = true;
 	private boolean shutdown = false;
 	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(ConnectionSession.class);
+	
 	public ConnectionSession(final XmlRpcConnection c) {
 		connection = c;
 		ttc = new TorrentTableController(connection);
@@ -86,12 +92,12 @@ public class ConnectionSession implements EventListener {
 		while(!dependencies.isEmpty())
 			for(PluginDescriptor owner : dependencies.keySet()){
 				if(isExtensionSafeToLoad(owner)){
-					Logger.global.info(owner+" this extension is safe to load");
+					log.debug(owner+" this extension is safe to load");
 					loadExtension(owner);
 					dependencies.remove(owner);
 					break;
 				}else{
-					Logger.global.info(owner+" this extension is not safe to load at the moment");
+					log.debug(owner+" this extension is not safe to load at the moment");
 				}
 			}
 	}
@@ -172,7 +178,7 @@ public class ConnectionSession implements EventListener {
 	 */
 	public void stop(){
 		started = false;
-		Logger.global.info("Stopping: "+connection.getProfile() + " ["+ttc+"]");
+		log.info("Stopping: "+connection.getProfile() + " ["+ttc+"]");
 		ttc.pause();
 		notifySessionStateListeners();
 	}
@@ -182,7 +188,7 @@ public class ConnectionSession implements EventListener {
 	 */
 	public void start() {
 		started = true;
-		Logger.global.info("Starting: "+connection.getProfile() + " ["+ttc+"]");
+		log.info("Starting: "+connection.getProfile() + " ["+ttc+"]");
 		ttc.unpause();
 		notifySessionStateListeners();
 	}
@@ -193,7 +199,7 @@ public class ConnectionSession implements EventListener {
 	public void shutdown(){
 		shutdown = true;
 		stop();
-		Logger.global.info("Shutting down: "+connection.getProfile() + " ["+ttc+"]");
+		log.info("Shutting down: "+connection.getProfile() + " ["+ttc+"]");
 		ttc.shutdown();
 	}
 	

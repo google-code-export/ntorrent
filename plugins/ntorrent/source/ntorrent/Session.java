@@ -21,16 +21,17 @@
 package ntorrent;
 
 import java.awt.Component;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.apache.log4j.Logger;
+
 import ntorrent.gui.ConnectionTab;
 import ntorrent.gui.MainWindow;
+import ntorrent.io.socket.Client;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.profile.ClientProfileController;
@@ -48,6 +49,11 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 	private XmlRpcConnection connection = null;
 	private ClientProfileInterface profile;
 	private ConnectionTab jtab;
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(Session.class);
 
 	public Session(MainWindow window) {
 		jtab = window.getConnectionsTab();
@@ -85,7 +91,7 @@ public class Session extends Thread implements ProfileRequester, ChangeListener{
 			jtab.setTitleAt(tabIndex, profile.toString());
 			jtab.getModel().addChangeListener(this);
 		} catch (Exception e) {
-			Logger.global.log(Level.WARNING, e.getMessage(), e);
+			log.warn(e.getMessage(),e);
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}

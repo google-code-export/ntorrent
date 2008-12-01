@@ -28,7 +28,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
-import ntorrent.Main;
+import ntorrent.NtorrentApplication;
 import ntorrent.Session;
 import ntorrent.locale.ResourcePool;
 
@@ -73,14 +73,14 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if(action.equals(actions[0])){
-			Main.newSession();
+			NtorrentApplication.newSession();
 		}else if(action.equals(actions[1])){
 			/**
 			 * This only removes the contents of the tab,
 			 * not the processes behind it!!!
 			 */
 			Session remove = null;
-			for(Session s : Main.sessions){
+			for(Session s : NtorrentApplication.SESSIONS){
 				try{
 				Object session = getComponentAt(getSelectedIndex());
 				Object session2 = s.getSession().getDisplay();
@@ -92,7 +92,7 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 			}
 			removeTabAt(getSelectedIndex());
 			if(remove != null)
-				Main.getSessions().remove(remove);
+				NtorrentApplication.SESSIONS.remove(remove);
 		}
 	}
 }

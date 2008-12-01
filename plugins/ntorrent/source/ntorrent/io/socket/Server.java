@@ -4,8 +4,8 @@ package ntorrent.io.socket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import ntorrent.data.Environment;
 
@@ -15,6 +15,11 @@ import ntorrent.data.Environment;
  */
 public class Server extends Thread{
 	private static ServerSocket servSocket;
+	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(Server.class);
 	
 	public Server() throws IOException {
 		servSocket = new ServerSocket(Environment.getIntSocketPort());
@@ -34,7 +39,7 @@ public class Server extends Thread{
 				ThreadedClientHandler clienthandler = new ThreadedClientHandler(client);
 				clienthandler.start();
 			} catch (IOException e) {
-				Logger.global.log(Level.WARNING, e.getMessage());
+				log.warn(e.getMessage(),e);
 			}
 		} while (true);
 	}

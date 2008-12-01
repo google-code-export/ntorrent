@@ -19,15 +19,14 @@
 	<classpathentry kind="src" output="plugins/ntorrent/classes" path="plugins/ntorrent/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.locale/classes" path="plugins/ntorrent.locale/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.data/classes" path="plugins/ntorrent.data/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.settings/classes" path="plugins/ntorrent.settings/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.statusbar.throttle/classes" path="plugins/ntorrent.statusbar.throttle/source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
 	<classpathentry kind="lib" path="plugins/ntorrent.io.xmlrpc/lib/jsch-0.1.37.jar" sourcepath="source-doc/jsch"/>
-	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/jpf-tools.jar"/>
 	<classpathentry kind="lib" path="lib/jxp.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5/junit-4.5.jar"/>
+	<classpathentry kind="lib" path="lib/apache-log4j-1.2.15/log4j-1.2.15.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
