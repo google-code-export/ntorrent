@@ -33,6 +33,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.NtorrentApplication;
 import ntorrent.gui.menubar.MainMenuBar;
 import ntorrent.gui.window.Window;
 import ntorrent.jpf.PluginHandlerMenuBar;
@@ -48,7 +49,7 @@ public class MainWindow extends Window implements ActionListener {
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	private final MainMenuBar menuBar = new MainMenuBar(this);
 	//private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
-	private final SettingsController settings = new SettingsController();
+	private final SettingsController settings;
 	
 	public MainWindow() {
 		super();
@@ -58,6 +59,7 @@ public class MainWindow extends Window implements ActionListener {
 		JPanel frame = new JPanel(new BorderLayout());
 		frame.add(connectionsTab);
 		setContentPane(frame);
+		this.settings = new SettingsController();
 	}
 		
 	public void actionPerformed(ActionEvent e) {

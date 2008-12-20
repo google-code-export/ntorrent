@@ -35,10 +35,15 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.log4j.Logger;
+
 import tests.ntorrent.settings.TestModel;
 
+import ntorrent.NtorrentApplication;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension;
+import ntorrent.settings.model.SettingsPluginListItem;
+import ntorrent.settings.model.SettingsPluginListModel;
 
 /**
  * @author Kim Eik
@@ -54,6 +59,11 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	private final JScrollPane rightComponent = new JScrollPane();
 	private final JList pluginList;
 	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(NtorrentApplication.class);
+	
 	public SettingsWindow(final SettingsExtension[] plugins) {
 		setTitle(ResourcePool.getString("title",this));
 		
@@ -61,7 +71,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 		this.elements = plugins;
 		
 		//init jlist
-		pluginList = new JList(plugins);
+		pluginList = new JList(new SettingsPluginListModel(plugins));
 		pluginList.addListSelectionListener(this);
 		
 		//init splitpane
@@ -89,16 +99,17 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()){
-			SettingsExtension element = (SettingsExtension)pluginList.getSelectedValue();
-			rightComponent.setViewportView(element.getDisplay());
+			SettingsExtension element = ((SettingsPluginListItem)pluginList.getSelectedValue()).getPlugin();
+			rightComponent.setViewportView(element.getSettingsDisplay());
 		}
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(save)){
+			log.info("Save event caught");
 			for(SettingsExtension element: elements)
 				try {
-					element.saveActionPerformed();
+					element.saveActionPerformedOnSettings();
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(
 							this, 
@@ -115,16 +126,16 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException{
 		JFrame window = new SettingsWindow(new SettingsExtension[]{new SettingsExtension(){
 
-			public Component getDisplay() {
+			public Component getSettingsDisplay() {
 				return new JLabel("halloen");
 			}
 
-			public void saveActionPerformed() {
+			public void saveActionPerformedOnSettings() {
 				System.out.println("save this state");
 			}
-			
+
 			@Override
-			public String toString() {
+			public String getSettingsDisplayName() {
 				return "plugin1";
 			}
 			
@@ -132,7 +143,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 		new SettingsExtension(){
 			final TestModel t = new TestModel();
 			final SettingsComponentFactory s = new SettingsComponentFactory(t);
-			public Component getDisplay() {
+			public Component getSettingsDisplay() {
 				try {
 					
 					return s.getDisplay();
@@ -143,7 +154,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 				return null;
 			}
 
-			public void saveActionPerformed() throws Exception {
+			public void saveActionPerformedOnSettings() throws Exception {
 				s.restoreToModel();
 				System.out.println(t.getCharacter()+"\n" +
 						t.getDuble()+"\n" +
@@ -157,7 +168,7 @@ public class SettingsWindow extends JFrame implements ListSelectionListener, Act
 			}
 			
 			@Override
-			public String toString() {
+			public String getSettingsDisplayName() {
 				return "plugin2";
 			}
 			

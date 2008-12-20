@@ -13,7 +13,7 @@ public class NtorrentSettingsModel implements Serializable {
 	
 	/** Internal communication port **/
 	@UserSetting
-	private int intSocketPort;
+	private int intSocketPort = 4050;
 
 	@UserSetting
 	private String userLanguage = Locale.getDefault().getLanguage();
@@ -21,4 +21,32 @@ public class NtorrentSettingsModel implements Serializable {
 	@UserSetting
 	private String userCountry = Locale.getDefault().getCountry();
 
+	public int getIntSocketPort() {
+		return intSocketPort;
+	}
+	
+	public File getNtorrent() {
+		return ntorrent;
+	}
+	
+	public String getUserCountry() {
+		return userCountry;
+	}
+	
+	public String getUserLanguage() {
+		return userLanguage;
+	}
+	
+	public void setIntSocketPort(int intSocketPort) {
+		this.intSocketPort = intSocketPort;
+	}
+	
+	public void setUserCountry(String userCountry) {
+		this.userCountry = userCountry;
+	}
+	
+	public void setUserLanguage(String userLanguage) {
+		this.userLanguage = userLanguage;
+	}
+	
 }

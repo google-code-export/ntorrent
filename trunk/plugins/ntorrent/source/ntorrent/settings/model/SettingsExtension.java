@@ -38,7 +38,7 @@ public interface SettingsExtension {
 	 * This string will be shown in the settings menu.
 	 * @return String
 	 */
-	public String toString();
+	public String getSettingsDisplayName();
 	
 	/**
 	 * Fetch the user interface for user customizable values.
@@ -46,12 +46,12 @@ public interface SettingsExtension {
 	 * based on reflection data
 	 * @return Component
 	 */
-	public Component getDisplay();
+	public Component getSettingsDisplay();
 	
 	/**
 	 * this method is called when the save button has been pressed.
 	 * Signals that the plugin should serialize the model connected to
 	 * the display.
 	 */
-	public void saveActionPerformed() throws Exception;
+	public void saveActionPerformedOnSettings() throws Exception;
 }

@@ -13,6 +13,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ntorrent.NtorrentApplication;
+
+import org.apache.log4j.Logger;
 import org.java.plugin.boot.SplashHandler;
 import org.java.plugin.util.ExtendedProperties;
 
@@ -20,6 +23,7 @@ public class NtorrentSplashHandler implements SplashHandler {
 
 	private final static Frame frame = new Frame();
 	private URL imageUrl;
+	
 
 	public NtorrentSplashHandler() {
 		frame.setAlwaysOnTop(true);
@@ -81,7 +85,6 @@ public class NtorrentSplashHandler implements SplashHandler {
 
 	@Override
 	public void setVisible(boolean value) {
-		System.out.println(value);
 		frame.setVisible(value);
 	}
 

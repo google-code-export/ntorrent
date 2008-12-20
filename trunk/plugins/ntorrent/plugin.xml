@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
-<plugin id="ntorrent" version="0.1" class="ntorrent.NtorrentApplicationPlugin">
+<plugin id="ntorrent" version="0.1" class="ntorrent.NtorrentApplication">
 	<requires>
 		<import plugin-id="redstone.xmlrpc" />
 		<import plugin-id="ntorrent.io.xmlrpc" />
@@ -21,4 +21,5 @@
 		</library>
 	</runtime>
 	<extension-point id="SettingsExtension" />
+	<extension plugin-id="ntorrent" point-id="SettingsExtension" id="SettingsExtension" />
 </plugin>
