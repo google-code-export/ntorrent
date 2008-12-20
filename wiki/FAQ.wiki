@@ -8,4 +8,6 @@
   * look at Issue 25
  # *Suddenly have no torrents listed in nTorrent even though they exist in rTorrent.*
   * You have a torrent file that isn't using UTF-8 encoding, you should add this too your .rtorrent.rc config file: encoding_list = UTF-8, this will force UTF-8 communcation over XMLRPC
+ # *nTorrent 0.5 fails to open in OSX 10.5.5 (Java 1.6 update installed)*
+  * look at Issue 107
 more to come...
