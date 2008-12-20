@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import ntorrent.data.Environment;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
-import ntorrent.profile.gui.ClientProfileView;
 import ntorrent.session.view.SessionFrame;
 import ntorrent.torrenttable.TorrentTableController;
 import ntorrent.torrenttable.TorrentTableInterface;
@@ -21,25 +20,6 @@ import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
-/**
- *   nTorrent - A GUI client to administer a rtorrent process 
- *   over a network connection.
- *   
- *   Copyright (C) 2007  Kim Eik
- *
- *   This program is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /**
  * This class handles a the gui and model of all elements within one connected session of nTorrent.

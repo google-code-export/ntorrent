@@ -33,11 +33,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ntorrent.NtorrentApplication;
-import ntorrent.NtorrentApplication;
-import ntorrent.gui.menubar.MainMenuBar;
-import ntorrent.gui.window.Window;
-import ntorrent.jpf.PluginHandlerMenuBar;
 import ntorrent.locale.ResourcePool;
+import ntorrent.profile.view.ConnectionProfileView;
 import ntorrent.settings.SettingsController;
 
 /**
@@ -48,7 +45,6 @@ public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	private final MainMenuBar menuBar = new MainMenuBar(this);
-	//private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
 	private final SettingsController settings;
 	
 	public MainWindow() {
@@ -79,7 +75,7 @@ public class MainWindow extends Window implements ActionListener {
 				NtorrentApplication.clientSoConn(line);
 			}
 		}else if(c.equals(ids[2])){
-			NtorrentApplication.newSession();
+			newSession();
 		}else if(c.equals(ids[3])){
 			System.exit(0);
 		}else if(c.equals(ids[4])){
@@ -89,13 +85,9 @@ public class MainWindow extends Window implements ActionListener {
 		}
 	}
 	
-	public ConnectionTab getConnectionsTab() {
-		return connectionsTab;
+	public void newSession() {
+		int index = connectionsTab.getTabCount();
+		connectionsTab.addTab(""+connectionsTab.getTabCount(),new ConnectionProfileView());
+		connectionsTab.setSelectedIndex(index);
 	}
-	
-	public PluginHandlerMenuBar getJpf() {
-		//return jpf;
-		return null;
-	}
-
 }

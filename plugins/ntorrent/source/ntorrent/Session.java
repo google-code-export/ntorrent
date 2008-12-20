@@ -20,119 +20,31 @@
 
 package ntorrent;
 
-import java.awt.Component;
-
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
-
-import ntorrent.gui.ConnectionTab;
-import ntorrent.gui.MainWindow;
-import ntorrent.io.socket.Client;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
-import ntorrent.locale.ResourcePool;
-import ntorrent.profile.ClientProfileController;
-import ntorrent.profile.ProfileRequester;
-import ntorrent.profile.model.ClientProfileInterface;
-import ntorrent.session.ConnectionSession;
 
 /**
  * A ntorrent session
  */
-public class Session extends Thread implements ProfileRequester, ChangeListener{
-	private static final long serialVersionUID = 1L;
-	private JComponent sessionView;
-	private ConnectionSession session;
-	private XmlRpcConnection connection = null;
-	private ClientProfileInterface profile;
-	private ConnectionTab jtab;
-	
-	/**
-	 * Log4j logger
-	 */
-	private final static Logger log = Logger.getLogger(Session.class);
+public class Session extends Thread implements ChangeListener{
 
-	public Session(MainWindow window) {
-		jtab = window.getConnectionsTab();
-		sessionView = new ClientProfileController(this).getDisplay();
-		
-		int index = jtab.getTabCount();
-		jtab.insertTab(ResourcePool.getString("profile",this), null, sessionView, null, index);
-		jtab.setSelectedIndex(index);
-	}
-	
-	public Session(MainWindow window, ClientProfileInterface p) {
-		jtab = window.getConnectionsTab();
-		sendProfile(p);
-	}
-
-	public void sendProfile(ClientProfileInterface  p) {
-		profile = p;
-		new Thread(this).start();
-	}
-	
 	@Override
-	public void run() {
-		try {
-			int tabIndex = jtab.indexOfComponent(sessionView);
-			connection = new XmlRpcConnection(profile);
-			session = new ConnectionSession(connection);
-			sessionView = session.getDisplay();
-			
-			if(tabIndex == -1){
-				tabIndex = jtab.getTabCount();
-				jtab.insertTab("---", null, null, null,tabIndex);
-			}
-			
-			jtab.setComponentAt(tabIndex, sessionView);
-			jtab.setTitleAt(tabIndex, profile.toString());
-			jtab.getModel().addChangeListener(this);
-		} catch (Exception e) {
-			log.warn(e.getMessage(),e);
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-	}
-	
-	public boolean isConnected(){
-		return !(connection == null);
-	}
-	
-	public XmlRpcConnection getConnection() {
-		return connection;
-	}
-	
-	public ClientProfileInterface getProfile() {
-		return profile;
-	}
-	
-	public ConnectionSession getSession() {
-		return session;
-	}
-
 	public void stateChanged(ChangeEvent e) {
-		boolean removed = true;
-		for(Component c :jtab.getComponents())
-			if(c.equals(sessionView))
-				removed = false;
+		// TODO Auto-generated method stub
 		
-		if(removed || jtab.getComponentCount() == 0)
-			session.shutdown();
-		
-		if(jtab.getSelectedIndex() >= 0){
-			if(jtab.getSelectedComponent().equals(sessionView)){
-				session.start();
-			}else{
-				session.stop();
-			}
-		}
 	}
-	
-	@Override
-	public String toString() {
-		return profile.toString();
+
+	public XmlRpcConnection getConnection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	public boolean isConnected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

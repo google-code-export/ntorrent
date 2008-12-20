@@ -17,25 +17,45 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.io.xmlrpc;
+package ntorrent.gui;
 
-import java.util.logging.Level;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 
-/**
- * This class is creates a logging level to SSHLogger.
- * (is however maybe unecessary)
- * @author Kim Eik
- *
- */
-public class SSHLoggerLevel extends Level {
+import javax.swing.JFrame;
+import ntorrent.data.Environment;
 
+public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	protected SSHLoggerLevel(String name, int value) {
-		super(name, value);
+	private Toolkit toolkit = Toolkit.getDefaultToolkit();
+	private Dimension screenSize = toolkit.getScreenSize();
+	private Image icon = toolkit.getImage("plugins/ntorrent/icons/ntorrent48.png");
+	
+	public Window(){
+		this(Environment.appName);
 	}
-
-    public static Level SSH =
-        new SSHLoggerLevel("SSH", Level.INFO.intValue()+55);
-    
+	
+	public Window(String title){
+		super(title);
+		setIconImage(icon);
+	}
+	
+	public void drawWindow(){
+		validate();
+		pack();
+		
+		int x = (screenSize.width - getWidth()) / 2;
+		int y = (screenSize.height - getHeight()) / 2;
+		
+		setLocation(x, y);
+		
+		setVisible(true);
+	}
+	
+	public void closeWindow(){
+		setVisible(false);
+		dispose();
+	}
+	
 }

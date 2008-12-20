@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 
 public class SettingsComponentFactory {
@@ -58,6 +59,8 @@ public class SettingsComponentFactory {
 					String label = userSetting.label();
 					if (label.equals("")){
 						label = null;
+					}else{
+						label = ResourcePool.getString(label, this.model);
 					}
 					
 					String oneOf = userSetting.oneOf();
