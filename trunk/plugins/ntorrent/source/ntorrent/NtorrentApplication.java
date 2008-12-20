@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.rtorrent.Global;
 import ntorrent.locale.ResourcePool;
-import ntorrent.profile.model.ClientProfileInterface;
+import ntorrent.profile.model.ConnectionProfile;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsComponentFactory;
 import ntorrent.tools.Serializer;
@@ -154,14 +154,12 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 		
 		/** Draw Gui **/
 		MAIN_WINDOW.drawWindow();
+		
+		/** Start a new session **/
+		MAIN_WINDOW.newSession();
 	}
 	
-	private void newSession(ClientProfileInterface p) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void newSession() {
+	private void newSession(ConnectionProfile p) {
 		// TODO Auto-generated method stub
 		
 	}

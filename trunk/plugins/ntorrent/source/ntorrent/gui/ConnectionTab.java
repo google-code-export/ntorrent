@@ -73,7 +73,7 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if(action.equals(actions[0])){
-			NtorrentApplication.newSession();
+			NtorrentApplication.MAIN_WINDOW.newSession();
 		}else if(action.equals(actions[1])){
 			/**
 			 * This only removes the contents of the tab,
@@ -81,16 +81,17 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 			 */
 			Session remove = null;
 			for(Session s : NtorrentApplication.SESSIONS){
-				try{
+				/*try{
 				Object session = getComponentAt(getSelectedIndex());
 				Object session2 = s.getSession().getDisplay();
 				if(session != null && session.equals(session2))
 					remove = s;
 				}catch(NullPointerException x ){
 					//session2 throws nullpointer if not initialized.
-				}
+				}*/
 			}
-			removeTabAt(getSelectedIndex());
+			if(getTabCount() != 0)
+				removeTabAt(getSelectedIndex());
 			if(remove != null)
 				NtorrentApplication.SESSIONS.remove(remove);
 		}

@@ -32,7 +32,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import ntorrent.gui.window.Window;
 import ntorrent.locale.ResourcePool;
 
 /**
