@@ -30,17 +30,18 @@ public abstract class DefaultSettingsImpl<T> extends Plugin implements SettingsE
 	}
 	
 	@Override
-	public Component getDisplay() {
+	public Component getSettingsDisplay() {
 		return scf.getDisplay();
 	}
 
 	@Override
-	public void saveActionPerformed() throws Exception {
+	public void saveActionPerformedOnSettings() throws Exception {
 		scf.restoreToModel();
 	}
 	
-	public String toString() {
-		return ResourcePool.getString("settings.name", this);
+	@Override
+	public String getSettingsDisplayName() {
+		return this.getDescriptor().getId();
 	}
 
 }

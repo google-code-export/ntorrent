@@ -19,36 +19,31 @@
  */
 package ntorrent.settings;
 
-import java.awt.Component;
-import java.lang.reflect.Field;
 import java.util.HashSet;
-import java.util.Vector;
-
-import org.java.plugin.ObjectFactory;
-import org.java.plugin.Plugin;
-import org.java.plugin.PluginLifecycleException;
-import org.java.plugin.PluginManager;
-import org.java.plugin.boot.ApplicationPlugin;
-import org.java.plugin.registry.Extension;
-import org.java.plugin.registry.ExtensionPoint;
-import org.java.plugin.registry.PluginDescriptor;
-import org.java.plugin.registry.PluginRegistry;
 
 import ntorrent.NtorrentApplication;
-import ntorrent.data.Environment;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsWindow;
 
-import sun.reflect.Reflection;
-import sun.reflect.ReflectionFactory;
+import org.java.plugin.Plugin;
+import org.java.plugin.PluginLifecycleException;
+import org.java.plugin.PluginManager;
+import org.java.plugin.registry.Extension;
+import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
 
 /**
  * @author Kim Eik
  *
  */
 public class SettingsController {
-	private final static PluginManager manager = NtorrentApplication.MANAGER;
-	private final static ExtensionPoint ext = NtorrentApplication.REGISTRY.getExtensionPoint("ntorrent@SettingsExtension");
+	private final PluginManager manager;
+	private final ExtensionPoint ext;
+	
+	public SettingsController() {
+		this.manager = NtorrentApplication.MANAGER;
+		this.ext = manager.getRegistry().getExtensionPoint("ntorrent@SettingsExtension");
+	}
 	
 	public void drawWindow(){
 		HashSet<SettingsExtension> set = new HashSet<SettingsExtension>();

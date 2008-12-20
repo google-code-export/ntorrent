@@ -73,8 +73,8 @@ public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	}
 
 
-	public void saveActionPerformed() throws Exception {
-		super.saveActionPerformed();
+	public void saveActionPerformedOnSettings() throws Exception {
+		super.saveActionPerformedOnSettings();
 		setWindowSkin();
 		Serializer.serialize(getModel(), Environment.getNtorrentDir());
 	}

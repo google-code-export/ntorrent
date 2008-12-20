@@ -11,23 +11,23 @@ import javax.swing.JOptionPane;
 
 import ntorrent.gui.MainWindow;
 import ntorrent.io.rtorrent.Global;
-import ntorrent.io.socket.Client;
 import ntorrent.locale.ResourcePool;
 import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsComponentFactory;
+import ntorrent.tools.Serializer;
 
 import org.apache.log4j.Logger;
 import org.java.plugin.PluginManager;
 import org.java.plugin.boot.Application;
-import org.java.plugin.registry.PluginRegistry;
+import org.java.plugin.boot.ApplicationPlugin;
+import org.java.plugin.util.ExtendedProperties;
 
-public class NtorrentApplication implements Application, SettingsExtension {
+public class NtorrentApplication extends ApplicationPlugin implements Application, SettingsExtension {
+
 
 	/** PluginManager **/
 	public static PluginManager MANAGER;
-	
-	public static PluginRegistry REGISTRY;
 	
 	/** GUI **/
 	public static MainWindow MAIN_WINDOW;
@@ -36,7 +36,7 @@ public class NtorrentApplication implements Application, SettingsExtension {
 	public static final Vector<Session> SESSIONS = new Vector<Session>();
 	
 	/** Settings **/
-	public static final NtorrentSettingsModel SETTINGS = new NtorrentSettingsModel();
+	public static NtorrentSettingsModel SETTINGS = new NtorrentSettingsModel();
 	
 	/** Settings facilitator **/
 	public static SettingsComponentFactory scf;
@@ -46,17 +46,27 @@ public class NtorrentApplication implements Application, SettingsExtension {
 	 */
 	private final static Logger log = Logger.getLogger(NtorrentApplication.class);
 	
-	public NtorrentApplication(PluginManager manager) {
-		MANAGER = manager;
-		REGISTRY = manager.getRegistry();
+	@Override
+	protected Application initApplication(ExtendedProperties config,String[] args) throws Exception {
+		log.info("initApplication() called");
+		try{
+			log.info("restoring settings from NtorrentSettingsModel");
+			SETTINGS = Serializer.deserialize(NtorrentSettingsModel.class);
+		}catch(Exception x){
+			log.debug("could not restore ntorrent settings", x);
+		}
+		
+		log.info("setting public PluginManager");
+		MANAGER = getManager();
+		
+		log.info("init SettingsComponentFactory");
 		scf = new SettingsComponentFactory(SETTINGS);
+		
+		log.info("init MainWindow");
 		MAIN_WINDOW = new MainWindow();
 		
 		//TODO restore language
 		//ResourcePool.setLocale(Environment.getUserLanguage(),Environment.getUserCountry());
-
-		/** License **/
-		System.out.println(ResourcePool.getString("lic",this));
 		
 		/** Loading environment **/
 
@@ -87,10 +97,26 @@ public class NtorrentApplication implements Application, SettingsExtension {
 				main.getJpf().restore();
 			}
 		}.start();*/
+		return this;
 	}
-	
+
+	@Override
+	protected void doStart() throws Exception {
+		log.info(this.getClass()+": doStart() called");
+	}
+
+	@Override
+	protected void doStop() throws Exception {
+		log.info(this.getClass()+": doStop() called");
+	}
+
 	@Override
 	public void startApplication() throws Exception {
+		log.info(this.getClass()+": startApplication() called");
+		
+		/** License **/
+		log.info("printing license");
+		System.out.println(ResourcePool.getString("lic",this));
 		
 		/** autoconnect **/
 		/*try{
@@ -129,7 +155,7 @@ public class NtorrentApplication implements Application, SettingsExtension {
 		/** Draw Gui **/
 		MAIN_WINDOW.drawWindow();
 	}
-
+	
 	private void newSession(ClientProfileInterface p) {
 		// TODO Auto-generated method stub
 		
@@ -244,12 +270,19 @@ public class NtorrentApplication implements Application, SettingsExtension {
 	}
 
 	@Override
-	public Component getDisplay() {
-		return null;
+	public Component getSettingsDisplay() {
+		return scf.getDisplay();
 	}
 
 	@Override
-	public void saveActionPerformed() throws Exception {
+	public void saveActionPerformedOnSettings() throws Exception {
 		scf.restoreToModel();
+		Serializer.serialize(SETTINGS);
 	}
+
+	@Override
+	public String getSettingsDisplayName() {
+		return this.getDescriptor().getId();
+	}
+
 }

@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import ntorrent.NtorrentApplication;
+import ntorrent.NtorrentSettingsModel;
 /**
  * This class takes care of serializing and deserializing class states, and is ment for a tool for
  * plugins that needs saving and restorations of class states.
@@ -20,6 +23,10 @@ public abstract class Serializer {
 	private static final long serialVersionUID = 1L;
 	private static final String prefix = "data/";
 	private static final String postfix = ".dat";
+	
+	public static void serialize(Serializable obj) throws IOException{
+		serialize(obj, NtorrentApplication.SETTINGS.getNtorrent());
+	}
 	
 	/**
 	 * Saves a serializable object to the parent directory/data/$[getClassName(Class obj)]
@@ -67,6 +74,10 @@ public abstract class Serializer {
 			throw new IllegalArgumentException(e);
 		}
 	}
+
+	public static <T> T deserialize(Class<T> obj) {
+		return deserialize(obj, NtorrentApplication.SETTINGS.getNtorrent());
+	}	
 	
 	/**
 	 * Generates a lowercase classname with the postfix .dat
@@ -76,7 +87,6 @@ public abstract class Serializer {
 	protected static String getClassName(Class obj){
 		return obj.getName().toLowerCase()+postfix;
 	}
-
 	
 }
 

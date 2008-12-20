@@ -15,6 +15,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
+
+import ntorrent.NtorrentApplication;
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 
 public class SettingsComponentFactory {
@@ -23,6 +26,11 @@ public class SettingsComponentFactory {
 	private final Class clazz;
 	private final SettingsComponentContainer container = new SettingsComponentContainer();
 
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(SettingsComponentFactory.class);
+	
 	public SettingsComponentFactory(final Object model) throws IllegalArgumentException {
 		this.model = model;
 		this.clazz = model.getClass();
@@ -109,11 +117,15 @@ public class SettingsComponentFactory {
 	
 	private final boolean methodExist(Field f) throws IllegalArgumentException, SecurityException, IllegalAccessException{
 		try {
-			Method[] methods = getMethods(f.getName());
-			return methods != null && f.isAnnotationPresent(UserSetting.class);
+			if(f.isAnnotationPresent(UserSetting.class))
+				if(getMethods(f.getName()) != null)
+					return true;
+				else
+					throw new RuntimeException("UserSetting annotation defined on "+f.getName()+", but no getters or setters methods!");
 		} catch (NoSuchFieldException e) {
-			return false;
+			log.debug(e.getMessage(),e);
 		}
+		return false;
 	}
 	
 	/**
@@ -149,6 +161,7 @@ public class SettingsComponentFactory {
 			final Method setMethod = clazz.getDeclaredMethod("set"+firstCharUpper(property),new Class[]{propertyType});
 			return new Method[]{getMethod,setMethod};
 		} catch (NoSuchMethodException e) {
+			log.debug("Could not find method",e);
 			return null;
 		}
 	}
