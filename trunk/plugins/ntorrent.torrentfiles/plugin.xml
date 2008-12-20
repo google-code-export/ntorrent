@@ -1,22 +1,11 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
 <plugin id="ntorrent.torrentfiles" version="0.1" class="ntorrent.torrentfiles.TorrentFilesController">
-	<requires>
-		<import plugin-id="ntorrent.torrenttable" />
-		<import plugin-id="ntorrent.jpf" />
-		<import plugin-id="ntorrent.session" />
-		<import plugin-id="ntorrent.io.rtorrent" />
-		<import plugin-id="ntorrent.io.xmlrpc" />
-	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
 		<library id="locale" path="locale/" type="resources" />
 	</runtime>
-	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="HandledPlugin">
-		<parameter id="java-spec" value="1.5" />
-		<parameter id="name" value="Torrent files" />
-	</extension>
 	<extension plugin-id="ntorrent.session" point-id="SessionExtension" id="SessionExtension" />
 </plugin>

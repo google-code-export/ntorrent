@@ -26,7 +26,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
-import ntorrent.jpf.PluginHandlerMenuBar;
 import ntorrent.locale.ResourcePool;
 
 public class MainMenuBar extends JMenuBar {

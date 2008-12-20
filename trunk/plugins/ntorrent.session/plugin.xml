@@ -1,12 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
 <plugin id="ntorrent.session" version="0.1">
-	<requires>
-		<import plugin-id="ntorrent.data" />
-		<import plugin-id="redstone.xmlrpc" />
-		<import plugin-id="ntorrent.torrenttable" />
-		<import plugin-id="ntorrent.locale" />
-	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
