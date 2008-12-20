@@ -1,11 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
 <plugin id="ntorrent.torrenttable.sorter" version="0.1" class="ntorrent.torrenttable.sorter.TorrentTableSorter">
-	<requires>
-		<import plugin-id="ntorrent.jpf" />
-		<import plugin-id="ntorrent.session" />
-		<import plugin-id="ntorrent.torrenttable" />
-	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
@@ -14,9 +9,5 @@
 			<export prefix="*" />
 		</library>
 	</runtime>
-	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="TableSorterPlugin">
-		<parameter id="java-spec" value="1.6" />
-		<parameter id="name" value="Torrent sorter" />
-	</extension>
 	<extension plugin-id="ntorrent.session" point-id="SessionExtension" id="TorrentTableExtension" />
 </plugin>

@@ -3,7 +3,6 @@
 	<classpathentry kind="src" output="plugins/redstone.xmlrpc/classes" path="plugins/redstone.xmlrpc/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.io.rtorrent/classes" path="plugins/ntorrent.io.rtorrent/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.tools/classes" path="plugins/ntorrent.tools/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.jpf/classes" path="plugins/ntorrent.jpf/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentfiles/classes" path="plugins/ntorrent.torrentfiles/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentinfo/classes" path="plugins/ntorrent.torrentinfo/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrenttable/classes" path="plugins/ntorrent.torrenttable/source"/>
