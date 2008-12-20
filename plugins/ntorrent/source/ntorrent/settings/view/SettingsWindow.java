@@ -40,6 +40,7 @@ import org.apache.log4j.Logger;
 import tests.ntorrent.settings.TestModel;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.gui.window.Window;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.SettingsPluginListItem;
@@ -49,7 +50,7 @@ import ntorrent.settings.model.SettingsPluginListModel;
  * @author Kim Eik
  *
  */
-public class SettingsWindow extends JFrame implements ListSelectionListener, ActionListener {
+public class SettingsWindow extends Window implements ListSelectionListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final SettingsExtension[] elements;
 	private final JPanel content = new JPanel(new BorderLayout());
