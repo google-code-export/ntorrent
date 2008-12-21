@@ -9,10 +9,10 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import ntorrent.connection.model.ConnectionProfile;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.rtorrent.Global;
 import ntorrent.locale.ResourcePool;
-import ntorrent.profile.model.ConnectionProfile;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsComponentFactory;
 import ntorrent.tools.Serializer;

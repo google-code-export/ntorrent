@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
 <plugin id="ntorrent.statusbar.throttle" version="0.1" class="ntorrent.statusbar.throttle.ThrottleController">
+	<requires>
+		<import plugin-id="ntorrent" />
+		<import plugin-id="ntorrent.session" />
+	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
