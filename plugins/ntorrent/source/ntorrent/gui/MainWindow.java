@@ -33,8 +33,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.connection.view.ConnectionProfileView;
 import ntorrent.locale.ResourcePool;
-import ntorrent.profile.view.ConnectionProfileView;
 import ntorrent.settings.SettingsController;
 
 /**

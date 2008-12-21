@@ -1,4 +1,4 @@
-package ntorrent.profile.view;
+package ntorrent.connection.view;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -8,8 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
+import org.java.plugin.PluginLifecycleException;
+import org.java.plugin.PluginManager;
 import org.java.plugin.registry.Extension;
 import org.java.plugin.registry.ExtensionPoint;
+import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
 import ntorrent.NtorrentApplication;
@@ -29,11 +32,17 @@ public class ConnectionProfileView extends JPanel implements ItemListener{
 		
 		if(boxModel.getSize() == 0){
 			/** Get extensions but only if boxModel is empty**/
-			PluginRegistry registry = NtorrentApplication.MANAGER.getRegistry();
+			PluginManager manager = NtorrentApplication.MANAGER;
+			PluginRegistry registry = manager.getRegistry();
 			ExtensionPoint extension = registry.getExtensionPoint("ntorrent@ConnectionProfileExtension");
 			for(Extension ext : extension.getAvailableExtensions()){
-				log.info(ext.getId());
-				boxModel.addElement(ext);
+				PluginDescriptor descr = ext.getDeclaringPluginDescriptor();
+				log.info("Adding: "+descr.getId());
+				try {
+					boxModel.addElement(manager.getPlugin(descr.getId()));
+				} catch (PluginLifecycleException e) {
+					log.warn("could not add "+descr.getId()+" to connection types", e);
+				}
 			}
 		}
 		box.addItemListener(this);

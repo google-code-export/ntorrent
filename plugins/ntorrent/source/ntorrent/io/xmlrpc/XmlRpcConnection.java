@@ -19,13 +19,13 @@
  */
 package ntorrent.io.xmlrpc;
 
+import ntorrent.connection.model.ConnectionProfile;
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.rtorrent.File;
 import ntorrent.io.rtorrent.Global;
 import ntorrent.io.rtorrent.PeerConnection;
 import ntorrent.io.rtorrent.System;
 import ntorrent.io.rtorrent.Tracker;
-import ntorrent.profile.model.ConnectionProfile;
 
 import org.apache.log4j.Logger;
 

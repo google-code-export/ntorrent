@@ -1,4 +1,4 @@
-package ntorrent.profile.model;
+package ntorrent.connection.model;
 
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 

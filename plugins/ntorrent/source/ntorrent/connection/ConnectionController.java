@@ -1,4 +1,4 @@
-package ntorrent.profile;
+package ntorrent.connection;
 
 import javax.swing.JComponent;
 

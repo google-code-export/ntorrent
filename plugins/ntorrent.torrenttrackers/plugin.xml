@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
 <plugin id="ntorrent.torrenttrackers" version="0.1" class="ntorrent.torrenttrackers.TorrentTrackersController">
+	<requires>
+		<import plugin-id="ntorrent" />
+		<import plugin-id="ntorrent.session" />
+	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
 		<library id="locale" path="locale/" type="resources" />
 	</runtime>
-	<extension plugin-id="ntorrent.jpf" point-id="HandledPlugin" id="TorrentTrackers">
-		<parameter id="java-spec" value="1.5" />
-		<parameter id="name" value="Torrent trackers" />
-	</extension>
 	<extension plugin-id="ntorrent.session" point-id="SessionExtension" id="TorrentTrackersExtension" />
 </plugin>
