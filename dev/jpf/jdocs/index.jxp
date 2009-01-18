@@ -1,0 +1,68 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2007 Dmitry Olshansky
+// $Id: index.jxp,v 1.5 2007/05/19 14:58:34 ddimon Exp $
+// Updated by Michael Dawson 19/01/2006
+%>
+<%
+include("/functions.ijxp");
+
+printHeader("Home");
+printMenu("index");
+%>
+<div class="content">
+	<h1>Java Plug-in Framework (JPF) Project</h1>
+	<p>Welcome to the <b>J</b>ava <b>P</b>lug-in <b>F</b>ramework project, the <a href="http://www.opensource.org" target="_new">open source, LGPL licensed</a> plug-in infrastructure library for new or existing Java projects. JPF can greatly improve the modularity and extensibility of your Java systems and minimize support and maintenance costs.</p>
+	<h3>What is JPF?</h3>
+	<p>JPF provides a runtime engine that dynamically discovers and loads "plug-ins". A plug-in is a structured component that describes itself to JPF using a "manifest". JPF maintains a <a href="api/org/java/plugin/registry/PluginRegistry.html">registry</a> of available plug-ins and the functions they provide (via <a href="api/org/java/plugin/registry/ExtensionPoint.html">extension points</a> and 
+		<a href="api/org/java/plugin/registry/Extension.html">extensions</a>).</p>
+	<p>One major goal of JPF is that the application (and its end-user) should not pay any memory or performance penalty for plug-ins that are installed, but not used. Plug-ins are added to the <a href="api/org/java/plugin/registry/PluginRegistry.html">registry</a> at application start-up or while the application is running but they are not loaded until they are called.</p>
+	<h3>Main features</h3>
+   	<dl>
+		<dt>Open framework architecture</dt>
+		<dd>The framework API is designed as a set of Java interfaces and abstract classes. Developers can choose to implement their own "vision" of plug-ins and Framework runtime behavior. "Standard" or default implementations are provided by JPF so developers can start using the framework quickly and easily.</dd>
+		<dt>Clear and consistent API design</dt>
+		<dd>The JPF API has been carefully designed in order to reduce the the time developers need to become familiar with it.</dd>
+		<dt>Built-in integrity check</dt>
+		<dd>Registered plug-ins are checked for consistency during JPF start up and a detailed report of results is available.</dd>
+		<dt>Plug-ins are self-documenting</dt>
+		<dd>Plug-in developers may include documentation in the plug-in manifest. This includes inline comments or references to documents bundled with the plug-in.</dd>
+		<dt>Plug-in dependency check</dt>
+		<dd>Plug-in developers can declare dependencies between plug-ins. Dependency declarations can include the desired version ID and versions matching rules.</dd>
+		<dt>Strongly typed <a href="api/org/java/plugin/registry/Extension.html">extension</a> parameters</dt>
+		<dd>The plug-in manifest syntax provides a mechanism for declaring <b>typed</b> <a href="api/org/java/plugin/registry/ExtensionPoint.html">extension points</a> parameters. This information is used by JPF when finding and loading <a href="api/org/java/plugin/registry/Extension.html">extensions</a>.</dd>
+		<dt>Lazy plug-in activation</dt>
+		<dd>Plug-in classes are loaded into memory only when they are actually needed. This feature is provided by specially designed Java class loaders instantiated for each plug-in.</dd>
+		<dt>"On the fly" plug-in registration and activation</dt>
+		<dd>Plug-ins can be "hot-registered" and even de-registered during application execution. What's more, registered plug-ins can be activated and deactivated "on the fly", minimizing runtime resource usage.</dd>
+	</dl>
+	<h3>What can JPF bring to your Java project?</h3>
+	<dl>
+		<dt>Plug-in component model</dt>
+		<dd>A JPF Plug-in is a component that has: a name (ID), a version identifier, code and/or other resources, a well-defined import interface, a well-defined export interface, and well-defined places where it can be extended (<a href="api/org/java/plugin/registry/ExtensionPoint.html">extension points</a>). You can think of plug-ins as a module for your application.</dd>
+		<dt>Divide large applications into smaller, more manageable parts</dt>
+		<dd>Building applications as a set of independent, cooperating components is particularly useful when developing in teams.</dd>
+		<dt>Explicitly define the systems architecture</dt>
+		<dd>Plug-ins, prerequisites, <a href="api/org/java/plugin/registry/ExtensionPoint.html">extension points</a> and <a href="api/org/java/plugin/registry/Extension.html">extensions</a> allow you to clearly define the architecture of your system in an easy-to-understand and standard way.</dd>
+		<dt>Make the application easily extendable</dt>
+		<dd>With <a href="api/org/java/plugin/registry/ExtensionPoint.html">extension points</a> you can allow other developers to extend your application simply.</dd>
+		<dt>Documentation embedded into the system</dt>
+		<dd>This is more than javadoc. You can include documentation in the plug-in manifest and link it with any additional resources.</dd>
+		<dt>Tight control over application consistency</dt>
+		<dd>JPF's built-in integrity check keeps a close watch on your application's health, reducing maintenance costs.</dd>
+		<dt>Improved resource reuse</dt>
+		<dd>The JPF <a href="api/org/java/plugin/registry/ExtensionPoint.html">extension points</a> mechanism lets you easily share your code and other resources among different applications.</dd>
+	</dl>
+	<h3>Current version and status</h3>
+	<p>The latest framework version is <strong>1.0.2</strong> for Java 2 and <strong>1.5.1</strong> for Java 5. It was released on <strong>May 19, 2007</strong> and has been designated as <strong>production quality</strong>. The framework API is considered to be stable and "frozen". The runtime behavior of the framework has been reported as very stable (some projects using JPF have reported containing dozens and hundreds of plug-ins, <a href="stories.html">see references</a>).</p>
+	<p>If JPF starts successfully - it just works and works :)</p>
+	<h3>Demo application</h3>
+	<p>The best way to get a feel for JPF and how to use it is to look at the example modular application provided with JPF and try to write your own JPF plug-ins. This <b>demo application</b> is available from the JPF <a href="http://sourceforge.net/project/showfiles.php?group_id=110394">download page</a>.</p>
+	<p>The demo application includes a "Plug-in Browser Tool" that may be useful to analyze the plug-in structure and dependencies.</p>
+	<h3>Background</h3>
+	<p>This project was inspired by and continues to be influenced by the <a href="http://www.eclipse.org" target="_new">Eclipse Platform</a> - an open source Java IDE and "rich client" GUI applications platform.</p>
+	<p>The plug-in architecture used by Eclipse was taken as the basic model for JPF in early 2004. JPF is can be considered as an attempt to "decouple" the plug-in framework from Eclipse 2.x for use in any Java project. Note that although Eclipse plug-ins are visually very similar to JPF plug-ins, they are NOT compatible and thus can't be used together.</p>
+</div>
+<%
+printFooter();
+%>
