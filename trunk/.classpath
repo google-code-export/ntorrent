@@ -17,6 +17,8 @@
 	<classpathentry kind="src" output="plugins/ntorrent.data/classes" path="plugins/ntorrent.data/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.statusbar.throttle/classes" path="plugins/ntorrent.statusbar.throttle/source"/>
 	<classpathentry kind="src" path="plugins/ntorrent.connection.socket/source"/>
+	<classpathentry kind="src" path="plugins/ntorrent.connection.http/source"/>
+	<classpathentry kind="src" path="plugins/ntorrent.connection.ssh/source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
