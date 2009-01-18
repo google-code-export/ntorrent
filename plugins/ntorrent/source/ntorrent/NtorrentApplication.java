@@ -51,7 +51,9 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 		log.info("initApplication() called");
 		try{
 			log.info("restoring settings from NtorrentSettingsModel");
-			SETTINGS = Serializer.deserialize(NtorrentSettingsModel.class);
+			NtorrentSettingsModel model = Serializer.deserialize(NtorrentSettingsModel.class);
+			if(model != null)
+				SETTINGS = model;
 		}catch(Exception x){
 			log.debug("could not restore ntorrent settings", x);
 		}
