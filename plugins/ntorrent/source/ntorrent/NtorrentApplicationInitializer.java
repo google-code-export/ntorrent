@@ -1,8 +1,6 @@
 package ntorrent;
 
-import java.io.File;
 import java.net.URL;
-import java.util.Properties;
 
 import ntorrent.splash.NtorrentSplashHandler;
 
@@ -11,7 +9,6 @@ import org.java.plugin.boot.Boot;
 import org.java.plugin.boot.BootErrorHandler;
 import org.java.plugin.boot.DefaultApplicationInitializer;
 import org.java.plugin.boot.SplashHandler;
-import org.java.plugin.util.ExtendedProperties;
 
 public class NtorrentApplicationInitializer extends DefaultApplicationInitializer {
 	

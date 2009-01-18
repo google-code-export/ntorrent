@@ -1,11 +1,17 @@
 package ntorrent.connection.view;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+
+import ntorrent.NtorrentApplication;
+import ntorrent.connection.model.ConnectionProfile;
+import ntorrent.connection.model.ConnectionProfileExtension;
 
 import org.apache.log4j.Logger;
 import org.java.plugin.PluginLifecycleException;
@@ -15,11 +21,12 @@ import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-import ntorrent.NtorrentApplication;
-import ntorrent.gui.Window;
-
 public class ConnectionProfileView extends JPanel implements ItemListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static DefaultComboBoxModel boxModel = new DefaultComboBoxModel();
 	private final JComboBox box = new JComboBox(boxModel);
 	
@@ -29,6 +36,8 @@ public class ConnectionProfileView extends JPanel implements ItemListener{
 	private final static Logger log = Logger.getLogger(ConnectionProfileView.class);
 	
 	public ConnectionProfileView() {
+		super(new BorderLayout());
+		box.addItemListener(this);
 		
 		if(boxModel.getSize() == 0){
 			/** Get extensions but only if boxModel is empty**/
@@ -45,12 +54,23 @@ public class ConnectionProfileView extends JPanel implements ItemListener{
 				}
 			}
 		}
-		box.addItemListener(this);
-		add(box);
+		
+		JPanel container = new JPanel();
+		container.add(box);
+		add(container,BorderLayout.NORTH);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		log.info(e);
+		log.trace(e);
+		ConnectionProfileExtension<ConnectionProfile> connectionProfileExtension = (ConnectionProfileExtension<ConnectionProfile>)e.getItem();
+		Component display = connectionProfileExtension.getDisplay();
+		if(e.getStateChange() == ItemEvent.SELECTED){
+			add(display);
+			validate();
+		}else if(e.getStateChange() == ItemEvent.DESELECTED){
+			remove(display);
+		}
 	}
 }
