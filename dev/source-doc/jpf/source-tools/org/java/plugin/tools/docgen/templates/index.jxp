@@ -1,0 +1,22 @@
+<%
+// Java Plug-in Framework (JPF)
+// Copyright (C) 2004 - 2005 Dmitry Olshansky
+// $Id$
+%>
+<!DOCTYPE html public "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+
+<html>
+<head>
+	<title>JPF Plug-ins Documentation</title>
+</head>
+
+<frameset rows="50,*" framespacing="0" frameborder="0" bordercolor="#FFFFFF">
+    <frame name="menuFrame" src="<%= relativePath %>/menu.html" marginwidth="10" marginheight="10" scrolling="no" frameborder="0" bordercolor="#FFFFFF" noresize>
+    <frame name="mainFrame" src="<%= relativePath %>/overview.html" marginwidth="10" marginheight="10" scrolling="auto" frameborder="0" bordercolor="#FFFFFF" noresize>
+	<noframes>
+		<h2>Frame Alert</h2>
+		<p>This document is designed to be viewed using the frames feature. If you see this message, you are using a non-frame-capable web client.</p>
+	</noframes>
+</frameset>
+
+</html>
