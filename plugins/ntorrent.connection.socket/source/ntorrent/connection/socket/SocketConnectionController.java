@@ -13,17 +13,19 @@ import ntorrent.locale.ResourcePool;
 
 public class SocketConnectionController extends Plugin implements ConnectionProfileExtension<SocketConnectionProfile> {
 
-	private final SocketConnectionView display = new SocketConnectionView();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final SocketConnectionProfile connectionProfile = new SocketConnectionProfile();
+	private transient SocketConnectionView display;
+	private String name = null;
 	
 	/**
 	 * Log4j logger
 	 */
 	private final static Logger log = Logger.getLogger(SocketConnectionController.class);
 	
-	public SocketConnectionController() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	@Override
 	public SocketConnectionProfile getConnectionProfile() {
@@ -32,6 +34,9 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 
 	@Override
 	public Component getDisplay() {
+		if(display == null){
+			display = new SocketConnectionView(connectionProfile);
+		}
 		return display;
 	}
 
@@ -45,9 +50,15 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 		log.info("doStop() called");
 	}
 	
-	@Override
-	public String toString() {
-		return ResourcePool.getString("connection.socket", this);
+	public String getName() {
+		if(name == null)
+			return ResourcePool.getString("connection.socket", this);
+		return name;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 
 }

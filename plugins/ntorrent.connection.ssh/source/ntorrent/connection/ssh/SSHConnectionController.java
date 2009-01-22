@@ -15,6 +15,7 @@ public class SSHConnectionController extends Plugin implements ConnectionProfile
 
 	private final SSHConnectionView display = new SSHConnectionView();
 	private final SSHConnectionProfile connectionProfile = new SSHConnectionProfile();
+	private String name;
 	
 	/**
 	 * Log4j logger
@@ -45,9 +46,14 @@ public class SSHConnectionController extends Plugin implements ConnectionProfile
 		log.info("doStop() called");
 	}
 	
-	@Override
-	public String toString() {
-		return ResourcePool.getString("connection.ssh", this);
+	public String getName() {
+		if(name == null)
+			return ResourcePool.getString("connection.ssh", this);
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
