@@ -1,15 +1,9 @@
 package ntorrent.connection.model;
 
-import ntorrent.io.xmlrpc.XmlRpcConnection;
+import java.io.Serializable;
 
-public interface ConnectionProfile {
-	
-	
-	/**
-	 * Returns the connection
-	 * TODO soon to be deprecated, as were implementing an extra layer between
-	 * with the ntorrent protocol.
-	 * @return
-	 */
-	public XmlRpcConnection getConnection();	
+
+public interface ConnectionProfile extends Serializable {
+	public boolean isConnectOnStartup();
+	public void setConnectOnStartup(boolean connectOnStartup);
 }

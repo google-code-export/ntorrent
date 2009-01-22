@@ -5,10 +5,15 @@ import ntorrent.io.xmlrpc.XmlRpcConnection;
 
 public class HTTPConnectionProfile implements ConnectionProfile {
 
-	@Override
-	public XmlRpcConnection getConnection() {
+	public boolean isConnectOnStartup() {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
+
+	public void setConnectOnStartup(boolean connectOnStartup) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

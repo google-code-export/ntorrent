@@ -25,7 +25,15 @@ public abstract class Serializer {
 	private static final String postfix = ".dat";
 	
 	public static void serialize(Serializable obj) throws IOException{
-		serialize(obj, NtorrentApplication.SETTINGS.getNtorrent());
+		serialize(obj, NtorrentApplication.SETTINGS.getNtorrent(),getClassName(obj.getClass()));
+	}
+	
+	public static void serialize(Serializable obj, String name) throws IOException{
+		serialize(obj, NtorrentApplication.SETTINGS.getNtorrent(), name);
+	}
+	
+	public static void serialize(Serializable obj, File parent) throws IOException{
+		serialize(obj, parent,getClassName(obj.getClass()));
 	}
 	
 	/**
@@ -34,8 +42,8 @@ public abstract class Serializer {
 	 * @param parent
 	 * @throws IOException
 	 */
-	public static void serialize(Serializable obj, File parent) throws IOException{
-		File file = new File(parent,prefix+(getClassName(obj.getClass())));
+	public static void serialize(Serializable obj, File parent, String name) throws IOException{
+		File file = new File(parent,prefix+name+postfix);
 		if(!file.exists()){
 			if(!file.getParentFile().exists())
 				file.getParentFile().mkdirs();
@@ -57,17 +65,15 @@ public abstract class Serializer {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static <T> T deserialize(Class<T> obj, File parent){
+	public static <T> T deserialize(Class<T> obj, File parent, String name){
 		try {
-			File file = new File(parent,prefix+(getClassName(obj)));
+			File file = new File(parent,prefix+name+postfix);
 			if(file.exists()){
 				FileInputStream stream = new FileInputStream(file);
 				ObjectInputStream objectstream = new ObjectInputStream(stream);			
 				return (T) objectstream.readObject();
 			}
 			return null;
-		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("Cant deserialize nonexistant file",e);
 		} catch (IOException e) {
 			throw new RuntimeException("Error on reading serialized class",e);
 		} catch (ClassNotFoundException e) {
@@ -76,8 +82,16 @@ public abstract class Serializer {
 	}
 
 	public static <T> T deserialize(Class<T> obj) {
-		return deserialize(obj, NtorrentApplication.SETTINGS.getNtorrent());
-	}	
+		return deserialize(obj, NtorrentApplication.SETTINGS.getNtorrent(),getClassName(obj));
+	}
+	
+	public static <T> T deserialize(Class<T> obj, String name) {
+		return deserialize(obj, NtorrentApplication.SETTINGS.getNtorrent(),name);
+	}
+	
+	public static <T> T deserialize(Class<T> obj, File parent){
+		return deserialize(obj, parent,getClassName(obj));
+	}
 	
 	/**
 	 * Generates a lowercase classname with the postfix .dat
@@ -85,7 +99,7 @@ public abstract class Serializer {
 	 * @return
 	 */
 	protected static String getClassName(Class obj){
-		return obj.getName().toLowerCase()+postfix;
+		return obj.getName().toLowerCase();
 	}
 	
 }

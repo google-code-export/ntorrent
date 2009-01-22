@@ -14,6 +14,7 @@ public class HTTPConnectionController extends Plugin implements ConnectionProfil
 
 	private final HTTPConnectionView display = new HTTPConnectionView();
 	private final HTTPConnectionProfile connectionProfile = new HTTPConnectionProfile();
+	private String name;
 	
 	/**
 	 * Log4j logger
@@ -43,10 +44,15 @@ public class HTTPConnectionController extends Plugin implements ConnectionProfil
 	protected void doStop() throws Exception {
 		log.info("doStop() called");
 	}
-	
-	@Override
-	public String toString() {
-		return ResourcePool.getString("connection.http", this);
+
+	public String getName() {
+		if(name == null)
+			return ResourcePool.getString("connection.http", this);
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
