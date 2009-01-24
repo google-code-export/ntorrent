@@ -36,6 +36,11 @@ import org.java.plugin.registry.PluginRegistry;
 
 public class ConnectionProfileView extends JPanel implements ItemListener, ListSelectionListener, ActionListener{
 	
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(ConnectionProfileView.class);
+	
 	public final static String PROFILE_SERIALIZE_NAME = "ntorrent.profiles";
 	
 	private static final long serialVersionUID = 1L;
@@ -49,11 +54,6 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 	private final JButton save = new JButton();
 	private final JButton delete = new JButton();
 	private ConnectionProfileExtension focusedComponent = null;
-	
-	/**
-	 * Log4j logger
-	 */
-	private final static Logger log = Logger.getLogger(ConnectionProfileView.class);
 	
 	public ConnectionProfileView() {
 		box.addItemListener(this);
@@ -110,7 +110,7 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 		log.trace(e);
 		ConnectionProfileExtension<ConnectionProfile> connectionProfileExtension = (ConnectionProfileExtension<ConnectionProfile>)e.getItem();
 		if(e.getStateChange() == ItemEvent.SELECTED){
-			setFocusedComponent(connectionProfileExtension);
+			setFocusedComponent(getClonedInstance(connectionProfileExtension));
 			//clear profile list selection
 			if(!profiles.isSelectionEmpty())
 				profiles.clearSelection();
@@ -126,6 +126,16 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 		container.validate();
 		container.repaint();
 	}
+	
+	private ConnectionProfileExtension getClonedInstance(ConnectionProfileExtension obj){
+		try {
+			return obj.getClonedInstance();
+		} catch (CloneNotSupportedException e) {
+			log.fatal(e);
+			JOptionPane.showMessageDialog(this, e.getMessage(),null,JOptionPane.ERROR_MESSAGE);
+		}
+		return obj;
+	}
 
 	public void valueChanged(ListSelectionEvent e) {
 		log.trace(e);
@@ -135,39 +145,64 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 				if(profiles.getSelectedIndices().length == 1)
 					if(profiles.getSelectedValue() instanceof ConnectionProfileExtension<?>){
 						ConnectionProfileExtension<ConnectionProfile> selectedVal = (ConnectionProfileExtension<ConnectionProfile>)selectedObj;
-						setFocusedComponent(selectedVal);
-
 						//set connection type selection to current selected profile
 						for(int x = (boxModel.getSize()-1); x >= 0; x--){
 							Object value = boxModel.getElementAt(x);
 							if(value.getClass().equals(selectedVal.getClass())){
-								box.setSelectedIndex(x);
+								boxModel.setSelectedItem(value);
 								break;
 							}
 						}
+						setFocusedComponent(getClonedInstance(selectedVal));
 					}
 			}
 		}
 		
+	}
+	
+	private boolean isConnectionExtensionEqual(ConnectionProfileExtension obj1, ConnectionProfileExtension obj2){
+		return obj1.getName().equals(obj2.getName());
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == save){
 			String name = JOptionPane.showInputDialog(this,ResourcePool.getString("profile.name", this),focusedComponent.getName());
 			if(name.length() > 0){
-				focusedComponent.setName(name);
-				if(!listModel.contains(focusedComponent))
-					listModel.addElement(focusedComponent);
-				profiles.updateUI();
-				try {
-					Serializer.serialize(listModel,PROFILE_SERIALIZE_NAME);
-				} catch (IOException x) {
-					//Save error.
-					JOptionPane.showMessageDialog(
-							this, 
-							ResourcePool.getString("profile.error.ioexception.message",this)+"\n"+x.getMessage(),
-							ResourcePool.getString("profile.error.ioexception.title",this),
-							JOptionPane.ERROR_MESSAGE);
+				focusedComponent.saveEvent();
+				profiles.clearSelection();
+				ConnectionProfileExtension profileToSave = getClonedInstance(focusedComponent);
+				profileToSave.setName(name);
+				boolean saveProfile = true;
+				for(int x = (listModel.getSize()-1); x >= 0 ; x--){
+					ConnectionProfileExtension listedProfile = (ConnectionProfileExtension) listModel.get(x);
+					if(isConnectionExtensionEqual(profileToSave, listedProfile)){
+						int result = JOptionPane.showConfirmDialog(
+								this, 
+								ResourcePool.getString("profile.confirm.overwrite.message", this),
+								ResourcePool.getString("profile.confirm.overwrite.title", this),
+								JOptionPane.YES_NO_OPTION
+								);
+						if(result == JOptionPane.YES_OPTION){
+							listModel.removeElement(listedProfile);
+						}else{
+							saveProfile = false;
+						}
+						break;
+					}
+				}
+				if(saveProfile){
+					listModel.addElement(profileToSave);
+					profiles.updateUI();
+					try {
+						Serializer.serialize(listModel,PROFILE_SERIALIZE_NAME);
+					} catch (IOException x) {
+						//Save error.
+						JOptionPane.showMessageDialog(
+								this, 
+								ResourcePool.getString("profile.error.ioexception.message",this)+"\n"+x.getMessage(),
+								ResourcePool.getString("profile.error.ioexception.title",this),
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}else{
 				//Save error.
@@ -178,7 +213,38 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}else if(e.getSource() == delete){
-			
+			if(profiles.isSelectionEmpty()){
+				JOptionPane.showMessageDialog(
+						this,
+						ResourcePool.getString("profile.error.delete.message", this),
+						ResourcePool.getString("profile.error.delete.title", this),
+						JOptionPane.WARNING_MESSAGE
+						);
+			}else{
+				int result = JOptionPane.showConfirmDialog(
+						this, 
+						ResourcePool.getString("profile.confirm.delete.message", this),
+						ResourcePool.getString("profile.confirm.delete.title", this),
+						JOptionPane.YES_NO_OPTION
+						);
+				if(result == JOptionPane.YES_OPTION){
+					for(Object selected : profiles.getSelectedValues()){
+						listModel.removeElement(selected);
+					}
+					profiles.clearSelection();
+					profiles.updateUI();
+					try {
+						Serializer.serialize(listModel,PROFILE_SERIALIZE_NAME);
+					} catch (IOException x) {
+						//Save error.
+						JOptionPane.showMessageDialog(
+								this, 
+								ResourcePool.getString("profile.error.ioexception.message",this)+"\n"+x.getMessage(),
+								ResourcePool.getString("profile.error.ioexception.title",this),
+								JOptionPane.ERROR_MESSAGE);
+					}					
+				}
+			}
 		}else if(e.getSource() == connect){
 			
 		}

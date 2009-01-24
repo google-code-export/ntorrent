@@ -1,30 +1,16 @@
 package ntorrent.connection.socket.view;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import org.apache.log4j.Logger;
 
 import ntorrent.connection.socket.model.SocketConnectionProfile;
 import ntorrent.locale.ResourcePool;
+
+import org.apache.log4j.Logger;
 
 public class SocketConnectionView extends JPanel {
 

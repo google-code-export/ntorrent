@@ -4,7 +4,7 @@ import ntorrent.connection.model.ConnectionProfile;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 
 public class SocketConnectionProfile implements ConnectionProfile {
-	
+	private static final long serialVersionUID = 1L;
 	private String host = "localhost";
 	private String port;
 	private boolean connectOnStartup;
@@ -31,5 +31,9 @@ public class SocketConnectionProfile implements ConnectionProfile {
 	
 	public void setHost(String host) {
 		this.host = host;
+	}
+	
+	public SocketConnectionProfile getClonedInstance() throws CloneNotSupportedException {
+		return (SocketConnectionProfile) this.clone();
 	}
 }

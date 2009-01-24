@@ -55,5 +55,15 @@ public class SSHConnectionController extends Plugin implements ConnectionProfile
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public SSHConnectionController getClonedInstance() throws CloneNotSupportedException {
+		return (SSHConnectionController) this.clone();
+	}
+
+	public void saveEvent() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
