@@ -15,5 +15,8 @@ public class SSHConnectionProfile implements ConnectionProfile {
 		
 	}
 
-
+	@Override
+	public SSHConnectionProfile getClonedInstance() throws CloneNotSupportedException {
+		return this.getClonedInstance();
+	}
 }

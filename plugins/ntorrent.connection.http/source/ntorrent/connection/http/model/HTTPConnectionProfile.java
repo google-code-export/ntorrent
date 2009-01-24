@@ -15,5 +15,9 @@ public class HTTPConnectionProfile implements ConnectionProfile {
 		
 	}
 
+	@Override
+	public HTTPConnectionProfile getClonedInstance() throws CloneNotSupportedException {
+		return this.getClonedInstance();
+	}
 
 }

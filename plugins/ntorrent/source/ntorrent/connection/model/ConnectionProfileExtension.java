@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import ntorrent.connection.socket.view.SocketConnectionView;
 
-public interface ConnectionProfileExtension<T extends ConnectionProfile> extends Serializable {	
+public interface ConnectionProfileExtension<T extends ConnectionProfile> extends Serializable,Cloneable {	
 	/**
 	 * @return
 	 */
@@ -43,5 +43,19 @@ public interface ConnectionProfileExtension<T extends ConnectionProfile> extends
 	 * to set a user specified name.
 	 */
 	public void setName(String name);
+	
+	/**
+	 * Returns a cloned object of this instance,
+	 * the implementation should include cloning of object references.
+	 * @return ConnectionProfileExtension
+	 * @throws CloneNotSupportedException, should never throw this exception.
+	 */
+	public ConnectionProfileExtension getClonedInstance() throws CloneNotSupportedException;
+	
+	/**
+	 * This method is executed on when the save button is clicked. 
+	 * The controller should update the ConnectionProfile model on this event.
+	 */
+	public void saveEvent();
 	
 }

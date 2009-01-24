@@ -17,7 +17,7 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final SocketConnectionProfile connectionProfile = new SocketConnectionProfile();
+	private SocketConnectionProfile connectionProfile = new SocketConnectionProfile();
 	private transient SocketConnectionView display;
 	private String name = null;
 	
@@ -58,6 +58,17 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public ConnectionProfileExtension getClonedInstance() throws CloneNotSupportedException {
+		SocketConnectionController newObj = (SocketConnectionController) this.clone();
+		newObj.connectionProfile = connectionProfile.getClonedInstance();
+		newObj.display = new SocketConnectionView(newObj.connectionProfile);
+		return newObj;
+	}
+
+	public void saveEvent() {
+		display.updateModel();
 	}
 	
 
