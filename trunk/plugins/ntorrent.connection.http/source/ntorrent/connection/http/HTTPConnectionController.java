@@ -8,9 +8,10 @@ import org.java.plugin.Plugin;
 import ntorrent.connection.http.model.HTTPConnectionProfile;
 import ntorrent.connection.http.view.HTTPConnectionView;
 import ntorrent.connection.model.ConnectionProfileExtension;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 
-public class HTTPConnectionController extends Plugin implements ConnectionProfileExtension<HTTPConnectionProfile> {
+public class HTTPConnectionController extends Plugin implements ConnectionProfileExtension {
 
 	private static final long serialVersionUID = 1L;
 	private final HTTPConnectionView display = new HTTPConnectionView();
@@ -24,11 +25,6 @@ public class HTTPConnectionController extends Plugin implements ConnectionProfil
 	
 	public HTTPConnectionController() {
 		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	public HTTPConnectionProfile getConnectionProfile() {
-		return connectionProfile;
 	}
 
 	@Override
@@ -64,6 +60,17 @@ public class HTTPConnectionController extends Plugin implements ConnectionProfil
 	public void saveEvent() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void connectEvent() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public XmlRpcConnection getConnection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

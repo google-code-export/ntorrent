@@ -38,9 +38,8 @@ import redstone.xmlrpc.XmlRpcProxy;
  * This class handles an xmlrpc connection.
  * @author Kim Eik
  */
-public class XmlRpcConnection {
-	private final ConnectionProfile profile;
-	private XmlRpcClient client;
+public abstract class XmlRpcConnection {
+	protected XmlRpcClient client;
 	
 	/**
 	 * Log4j logger
@@ -51,9 +50,15 @@ public class XmlRpcConnection {
 	 * @param p
 	 * @throws XmlRpcException
 	 */
-	public XmlRpcConnection(ConnectionProfile profile) throws XmlRpcException {
-		this.profile = profile;
+	public XmlRpcConnection(ConnectionProfile profile){
+		log.info("initiating a new connection with class: "+this.getClass());
 	}
+	
+	public abstract void connect();
+	
+	public abstract void reconnect();
+	
+	public abstract void disconnect();
 	
 	/**
 	 * Returns the raw XmlRpcClient
@@ -111,12 +116,9 @@ public class XmlRpcConnection {
 		return (Tracker)XmlRpcProxy.createProxy("t",new Class[] { Tracker.class }, client);
 	}
 	
-	/**
-	 * Returns the profile submitted to this XmlRpcConnection instance.
-	 * @return ClientProfileInterface
-	 */
-	public ConnectionProfile getProfile() {
-		return profile;
+	@Override
+	public String toString() {
+		return client.getClass().toString();
 	}
 
 }

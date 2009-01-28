@@ -6,14 +6,14 @@ import ntorrent.io.xmlrpc.XmlRpcConnection;
 public class SocketConnectionProfile implements ConnectionProfile {
 	private static final long serialVersionUID = 1L;
 	private String host = "localhost";
-	private String port;
+	private Integer port;
 	private boolean connectOnStartup;
 
 	public String getHost() {
 		return host;
 	}
 	
-	public String getPort() {
+	public Integer getPort() {
 		return port;
 	}
 	
@@ -25,7 +25,7 @@ public class SocketConnectionProfile implements ConnectionProfile {
 		this.connectOnStartup = connectOnStartup;
 	}
 	
-	public void setPort(String port) {
+	public void setPort(int port) {
 		this.port = port;
 	}
 	

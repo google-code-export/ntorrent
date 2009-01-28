@@ -60,13 +60,13 @@ public class SocketConnectionView extends JPanel {
 	
 	public void updateView(){
 		hostField.setText(model.getHost());
-		portField.setText(model.getPort());
+		portField.setText((model.getPort() != null ? ""+model.getPort() : ""));
 		connectOnStartup.setSelected(model.isConnectOnStartup());
 	}
 	
 	public void updateModel(){
 		model.setHost(hostField.getText());
-		model.setPort(portField.getText());
+		model.setPort(Integer.parseInt(portField.getText()));
 		model.setConnectOnStartup(connectOnStartup.isSelected());
 	}
 }

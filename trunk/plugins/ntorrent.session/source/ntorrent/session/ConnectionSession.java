@@ -158,7 +158,7 @@ public class ConnectionSession implements EventListener {
 	 */
 	public void stop(){
 		started = false;
-		log.info("Stopping: "+connection.getProfile() + " ["+ttc+"]");
+		log.info("Stopping: "+connection + " ["+ttc+"]");
 		ttc.pause();
 		notifySessionStateListeners();
 	}
@@ -168,7 +168,7 @@ public class ConnectionSession implements EventListener {
 	 */
 	public void start() {
 		started = true;
-		log.info("Starting: "+connection.getProfile() + " ["+ttc+"]");
+		log.info("Starting: "+connection + " ["+ttc+"]");
 		ttc.unpause();
 		notifySessionStateListeners();
 	}
@@ -179,7 +179,7 @@ public class ConnectionSession implements EventListener {
 	public void shutdown(){
 		shutdown = true;
 		stop();
-		log.info("Shutting down: "+connection.getProfile() + " ["+ttc+"]");
+		log.info("Shutting down: "+connection + " ["+ttc+"]");
 		ttc.shutdown();
 	}
 	
