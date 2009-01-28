@@ -1,7 +1,6 @@
 package ntorrent.connection.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,10 +18,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import ntorrent.NtorrentApplication;
-import ntorrent.connection.model.ConnectionProfile;
 import ntorrent.connection.model.ConnectionProfileExtension;
-import ntorrent.connection.socket.SocketConnectionController;
-import ntorrent.connection.socket.model.SocketConnectionProfile;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 
@@ -108,7 +104,7 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		log.trace(e);
-		ConnectionProfileExtension<ConnectionProfile> connectionProfileExtension = (ConnectionProfileExtension<ConnectionProfile>)e.getItem();
+		ConnectionProfileExtension connectionProfileExtension = (ConnectionProfileExtension)e.getItem();
 		if(e.getStateChange() == ItemEvent.SELECTED){
 			setFocusedComponent(getClonedInstance(connectionProfileExtension));
 			//clear profile list selection
@@ -143,8 +139,8 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 			if(e.getSource() == profiles){
 				Object selectedObj = profiles.getSelectedValue();
 				if(profiles.getSelectedIndices().length == 1)
-					if(profiles.getSelectedValue() instanceof ConnectionProfileExtension<?>){
-						ConnectionProfileExtension<ConnectionProfile> selectedVal = (ConnectionProfileExtension<ConnectionProfile>)selectedObj;
+					if(profiles.getSelectedValue() instanceof ConnectionProfileExtension){
+						ConnectionProfileExtension selectedVal = (ConnectionProfileExtension)selectedObj;
 						//set connection type selection to current selected profile
 						for(int x = (boxModel.getSize()-1); x >= 0; x--){
 							Object value = boxModel.getElementAt(x);
@@ -163,10 +159,10 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 	private boolean isConnectionExtensionEqual(ConnectionProfileExtension obj1, ConnectionProfileExtension obj2){
 		return obj1.getName().equals(obj2.getName());
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == save){
-			String name = JOptionPane.showInputDialog(this,ResourcePool.getString("profile.name", this),focusedComponent.getName());
+	
+	private void saveProfile(){
+		String name = JOptionPane.showInputDialog(this,ResourcePool.getString("profile.name", this),focusedComponent.getName());
+		if(name != null)
 			if(name.length() > 0){
 				focusedComponent.saveEvent();
 				profiles.clearSelection();
@@ -211,42 +207,82 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 						ResourcePool.getString("profile.error.name.message",this),
 						ResourcePool.getString("profile.error.name.title",this),
 						JOptionPane.ERROR_MESSAGE);
-			}
-		}else if(e.getSource() == delete){
-			if(profiles.isSelectionEmpty()){
-				JOptionPane.showMessageDialog(
-						this,
-						ResourcePool.getString("profile.error.delete.message", this),
-						ResourcePool.getString("profile.error.delete.title", this),
-						JOptionPane.WARNING_MESSAGE
-						);
-			}else{
-				int result = JOptionPane.showConfirmDialog(
-						this, 
-						ResourcePool.getString("profile.confirm.delete.message", this),
-						ResourcePool.getString("profile.confirm.delete.title", this),
-						JOptionPane.YES_NO_OPTION
-						);
-				if(result == JOptionPane.YES_OPTION){
-					for(Object selected : profiles.getSelectedValues()){
-						listModel.removeElement(selected);
-					}
-					profiles.clearSelection();
-					profiles.updateUI();
-					try {
-						Serializer.serialize(listModel,PROFILE_SERIALIZE_NAME);
-					} catch (IOException x) {
-						//Save error.
-						JOptionPane.showMessageDialog(
-								this, 
-								ResourcePool.getString("profile.error.ioexception.message",this)+"\n"+x.getMessage(),
-								ResourcePool.getString("profile.error.ioexception.title",this),
-								JOptionPane.ERROR_MESSAGE);
-					}					
+			}		
+	}
+	
+	private void deleteProfile(){
+		if(profiles.isSelectionEmpty()){
+			JOptionPane.showMessageDialog(
+					this,
+					ResourcePool.getString("profile.error.delete.message", this),
+					ResourcePool.getString("profile.error.delete.title", this),
+					JOptionPane.WARNING_MESSAGE
+					);
+		}else{
+			int result = JOptionPane.showConfirmDialog(
+					this, 
+					ResourcePool.getString("profile.confirm.delete.message", this),
+					ResourcePool.getString("profile.confirm.delete.title", this),
+					JOptionPane.YES_NO_OPTION
+					);
+			if(result == JOptionPane.YES_OPTION){
+				for(Object selected : profiles.getSelectedValues()){
+					listModel.removeElement(selected);
 				}
+				profiles.clearSelection();
+				profiles.updateUI();
+				try {
+					Serializer.serialize(listModel,PROFILE_SERIALIZE_NAME);
+				} catch (IOException x) {
+					//Save error.
+					JOptionPane.showMessageDialog(
+							this, 
+							ResourcePool.getString("profile.error.ioexception.message",this)+"\n"+x.getMessage(),
+							ResourcePool.getString("profile.error.ioexception.title",this),
+							JOptionPane.ERROR_MESSAGE);
+				}					
 			}
-		}else if(e.getSource() == connect){
-			
+		}		
+	}
+	
+	private void connect(){
+		focusedComponent.connectEvent();
+		try{
+			new Thread(){
+				public void run() {
+					focusedComponent.getConnection().connect();
+				};
+			}.run();
+			//TODO send connection to a new session.
+			//TODO show progressbar on .connect()
+		}catch(Exception x){
+			log.fatal(x);
+			JOptionPane.showMessageDialog(
+					this, 
+					x.getMessage(),
+					x.getMessage(),
+					JOptionPane.ERROR_MESSAGE
+					);
+		}
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		try{
+			if(e.getSource() == save){
+				saveProfile();
+			}else if(e.getSource() == delete){
+				deleteProfile();
+			}else if(e.getSource() == connect){
+				connect();
+			}
+		}catch (Exception x) {
+			log.fatal(x);
+			JOptionPane.showMessageDialog(
+					this, 
+					x.getMessage(),
+					x.getMessage(),
+					JOptionPane.ERROR_MESSAGE
+					);
 		}
 	}
 	

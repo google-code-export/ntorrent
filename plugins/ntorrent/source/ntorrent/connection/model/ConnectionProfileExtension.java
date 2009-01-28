@@ -3,13 +3,9 @@ package ntorrent.connection.model;
 import java.awt.Component;
 import java.io.Serializable;
 
-import ntorrent.connection.socket.view.SocketConnectionView;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
 
-public interface ConnectionProfileExtension<T extends ConnectionProfile> extends Serializable,Cloneable {	
-	/**
-	 * @return
-	 */
-	public T getConnectionProfile();
+public interface ConnectionProfileExtension extends Serializable,Cloneable {	
 	
 	/**
 	 * This method should return a Component that is to be displayed
@@ -54,8 +50,23 @@ public interface ConnectionProfileExtension<T extends ConnectionProfile> extends
 	
 	/**
 	 * This method is executed on when the save button is clicked. 
-	 * The controller should update the ConnectionProfile model on this event.
+	 * The recieving class should update the ConnectionProfile model 
+	 * and validate input fields on this event.
+	 * @throws IllegalArgumentException when incorrect input is specified.
 	 */
-	public void saveEvent();
+	public void saveEvent() throws IllegalArgumentException;
+
+	/**
+	 * This method is executed when the connect button is clicked.
+	 * The recieving class should initialize the connection 
+	 * object and validate input fields.
+	 * @throws IllegalArgumentException when incorrect input is specified.
+	 */
+	public void connectEvent() throws IllegalArgumentException;
+	
+	/**
+	 * Returns the connection object.
+	 */
+	public XmlRpcConnection getConnection();
 	
 }

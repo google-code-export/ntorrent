@@ -2,16 +2,16 @@ package ntorrent.connection.socket;
 
 import java.awt.Component;
 
+import ntorrent.connection.model.ConnectionProfileExtension;
+import ntorrent.connection.socket.model.SocketConnectionProfile;
+import ntorrent.connection.socket.view.SocketConnectionView;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.locale.ResourcePool;
+
 import org.apache.log4j.Logger;
 import org.java.plugin.Plugin;
 
-import ntorrent.connection.model.ConnectionProfileExtension;
-import ntorrent.connection.socket.SocketConnectionController;
-import ntorrent.connection.socket.model.SocketConnectionProfile;
-import ntorrent.connection.socket.view.SocketConnectionView;
-import ntorrent.locale.ResourcePool;
-
-public class SocketConnectionController extends Plugin implements ConnectionProfileExtension<SocketConnectionProfile> {
+public class SocketConnectionController extends Plugin implements ConnectionProfileExtension {
 
 	/**
 	 * 
@@ -20,17 +20,12 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	private SocketConnectionProfile connectionProfile = new SocketConnectionProfile();
 	private transient SocketConnectionView display;
 	private String name = null;
+	private transient SocketConnection connection;
 	
 	/**
 	 * Log4j logger
 	 */
 	private final static Logger log = Logger.getLogger(SocketConnectionController.class);
-	
-	
-	@Override
-	public SocketConnectionProfile getConnectionProfile() {
-		return connectionProfile;
-	}
 
 	@Override
 	public Component getDisplay() {
@@ -67,8 +62,31 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 		return newObj;
 	}
 
+	@Override
 	public void saveEvent() {
-		display.updateModel();
+		updateAndValidate();
+	}
+
+	@Override
+	public void connectEvent() {
+		updateAndValidate();
+		this.connection = new SocketConnection(this.connectionProfile);
+	}
+	
+	private void updateAndValidate(){
+		try{
+			 display.updateModel();
+		}catch (Exception e) {
+			throw new IllegalArgumentException(
+					ResourcePool.getString("validate.error", this),
+					e
+				);
+		}
+	}
+
+	@Override
+	public XmlRpcConnection getConnection() {
+		return this.connection;
 	}
 	
 

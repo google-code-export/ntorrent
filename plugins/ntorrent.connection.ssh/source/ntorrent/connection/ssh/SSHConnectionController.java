@@ -9,9 +9,10 @@ import ntorrent.connection.model.ConnectionProfileExtension;
 import ntorrent.connection.ssh.SSHConnectionController;
 import ntorrent.connection.ssh.model.SSHConnectionProfile;
 import ntorrent.connection.ssh.view.SSHConnectionView;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 
-public class SSHConnectionController extends Plugin implements ConnectionProfileExtension<SSHConnectionProfile> {
+public class SSHConnectionController extends Plugin implements ConnectionProfileExtension {
 
 	private final SSHConnectionView display = new SSHConnectionView();
 	private final SSHConnectionProfile connectionProfile = new SSHConnectionProfile();
@@ -24,11 +25,6 @@ public class SSHConnectionController extends Plugin implements ConnectionProfile
 	
 	public SSHConnectionController() {
 		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	public SSHConnectionProfile getConnectionProfile() {
-		return connectionProfile;
 	}
 
 	@Override
@@ -64,6 +60,17 @@ public class SSHConnectionController extends Plugin implements ConnectionProfile
 	public void saveEvent() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void connectEvent() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public XmlRpcConnection getConnection() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
