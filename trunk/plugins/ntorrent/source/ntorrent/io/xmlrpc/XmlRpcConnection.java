@@ -60,6 +60,8 @@ public abstract class XmlRpcConnection {
 	
 	public abstract void disconnect();
 	
+	public abstract boolean isConnected();
+	
 	/**
 	 * Returns the raw XmlRpcClient
 	 * @return

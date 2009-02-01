@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import ntorrent.connection.model.ConnectionProfile;
 import ntorrent.gui.MainWindow;
 import ntorrent.io.rtorrent.Global;
+import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsComponentFactory;
@@ -161,11 +162,6 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 		MAIN_WINDOW.newSession();
 	}
 	
-	private void newSession(ConnectionProfile p) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	/**
 	 * Sends a raw byte for byte torrent file to a session and starts the torrent.
 	 * @param torrent
@@ -216,7 +212,7 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 		log.info(line);
 		Vector<Session> sessionList = new Vector<Session>();
 			for(Session s : SESSIONS){
-				if(s.isConnected())
+				if(s.getConnection().isConnected())
 					sessionList.add(s);
 			}
 		

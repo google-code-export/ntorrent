@@ -11,13 +11,16 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.connection.ConnectionController;
 import ntorrent.connection.model.ConnectionProfileExtension;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
@@ -40,18 +43,23 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 	public final static String PROFILE_SERIALIZE_NAME = "ntorrent.profiles";
 	
 	private static final long serialVersionUID = 1L;
+	private final ConnectionController controller;
 	private final static DefaultComboBoxModel boxModel = new DefaultComboBoxModel();
 	private final static DefaultListModel listModel = ConnectionProfileView.restoreProfileModel();
 	private final static ConnectionProfileRenderer renderer = new ConnectionProfileRenderer();
-	private final JPanel container = new JPanel(new BorderLayout());
+	private final JPanel mainContainer = new JPanel(new BorderLayout());
+	private final JPanel connectContainer = new JPanel(new BorderLayout());
 	private final JComboBox box = new JComboBox(boxModel);
 	private final JList profiles = new JList(listModel);
 	private final JButton connect = new JButton();
 	private final JButton save = new JButton();
 	private final JButton delete = new JButton();
+	private final JProgressBar connectBar = new JProgressBar();
 	private ConnectionProfileExtension focusedComponent = null;
 	
-	public ConnectionProfileView() {
+	public ConnectionProfileView(ConnectionController connectionController) {
+		this.controller = connectionController;
+		
 		box.addItemListener(this);
 		box.setRenderer(renderer);
 		
@@ -77,8 +85,8 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 		JPanel boxPanel = new JPanel();
 		boxPanel.add(box);
 		
-		container.add(boxPanel,BorderLayout.NORTH);
-		container.add(profiles,BorderLayout.EAST);
+		mainContainer.add(boxPanel,BorderLayout.NORTH);
+		mainContainer.add(profiles,BorderLayout.EAST);
 		
 		//buttons
 		JPanel buttonPanel = new JPanel();
@@ -95,9 +103,19 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 		save.addActionListener(this);
 		delete.addActionListener(this);
 		
-		container.add(buttonPanel,BorderLayout.SOUTH);
+		mainContainer.add(buttonPanel,BorderLayout.SOUTH);
 		
-		add(container);
+		//connecting progress bar
+		connectBar.setStringPainted(true);
+		connectBar.setString(ResourcePool.getString("connecting", this));
+		connectBar.setIndeterminate(true);
+		connectContainer.add(connectBar);
+		
+		//adding to container
+		add(mainContainer);
+		connectContainer.setVisible(false);
+		add(connectContainer);
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -115,12 +133,12 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 	
 	private void setFocusedComponent(ConnectionProfileExtension profile){
 		if(focusedComponent != null)
-			container.remove(focusedComponent.getDisplay());
+			mainContainer.remove(focusedComponent.getDisplay());
 		
-		container.add(profile.getDisplay());
+		mainContainer.add(profile.getDisplay());
 		focusedComponent = profile;
-		container.validate();
-		container.repaint();
+		mainContainer.validate();
+		mainContainer.repaint();
 	}
 	
 	private ConnectionProfileExtension getClonedInstance(ConnectionProfileExtension obj){
@@ -248,21 +266,19 @@ public class ConnectionProfileView extends JPanel implements ItemListener, ListS
 	private void connect(){
 		focusedComponent.connectEvent();
 		try{
-			new Thread(){
-				public void run() {
-					focusedComponent.getConnection().connect();
-				};
-			}.run();
-			//TODO send connection to a new session.
-			//TODO show progressbar on .connect()
+			controller.connect(focusedComponent.getConnection());
+			mainContainer.setVisible(false);
+			connectContainer.setVisible(true);
 		}catch(Exception x){
-			log.fatal(x);
+			log.fatal(x.getMessage(),x);
 			JOptionPane.showMessageDialog(
 					this, 
 					x.getMessage(),
 					x.getMessage(),
 					JOptionPane.ERROR_MESSAGE
-					);
+			);
+			connectContainer.setVisible(false);
+			mainContainer.setVisible(true);
 		}
 	}
 	

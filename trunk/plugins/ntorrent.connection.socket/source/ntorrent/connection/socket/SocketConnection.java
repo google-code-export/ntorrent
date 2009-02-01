@@ -32,4 +32,9 @@ public class SocketConnection extends XmlRpcConnection {
 		connect();
 	}
 
+	@Override
+	public boolean isConnected() {
+		return ((XmlRpcSocketClient)client).getConnection().isConnected();
+	}
+
 }
