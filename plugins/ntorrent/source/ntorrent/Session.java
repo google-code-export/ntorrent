@@ -24,27 +24,29 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.session.ConnectionSession;
 
 /**
  * A ntorrent session
  */
-public class Session extends Thread implements ChangeListener{
+public class Session implements Runnable{
 
+	
+	private final XmlRpcConnection connection;
+	private ConnectionSession connectionSession;
+
+	public Session(XmlRpcConnection connection) {
+		this.connection = connection;
+	}
+	
 	@Override
-	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void run() {
+		connectionSession = new ConnectionSession(this.connection);
+		NtorrentApplication.MAIN_WINDOW.getConnectionsTab().add(connectionSession.getDisplay());
 	}
-
+	
 	public XmlRpcConnection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.connection;
 	}
-
-	public boolean isConnected() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 }

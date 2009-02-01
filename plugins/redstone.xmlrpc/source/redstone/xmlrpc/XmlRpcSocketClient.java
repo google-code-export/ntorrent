@@ -49,10 +49,15 @@ public class XmlRpcSocketClient extends XmlRpcClient {
 		}
 	}
 	
+	public Socket getConnection() {
+		return connection;
+	}
+	
 	@Override
 	protected void beginCall(String methodName) throws XmlRpcException {
 		try {
-			connection = new Socket(host,port);
+			if(connection == null)
+				connection = new Socket(host,port);
 		} catch (Exception e) {
 			throw new XmlRpcException(e.getMessage(),e);
 		}

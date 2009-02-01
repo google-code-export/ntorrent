@@ -33,6 +33,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.Session;
+import ntorrent.connection.ConnectionController;
 import ntorrent.connection.view.ConnectionProfileView;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.SettingsController;
@@ -87,7 +89,19 @@ public class MainWindow extends Window implements ActionListener {
 	
 	public void newSession() {
 		int index = connectionsTab.getTabCount();
-		connectionsTab.addTab(""+connectionsTab.getTabCount(),new ConnectionProfileView());
+		connectionsTab.insertTab(
+				ResourcePool.getString("profile", this),
+				null, 
+				new ConnectionController().getDisplay(),
+				null, 
+				index
+			);
+		//connectionsTab.addTab(ResourcePool.getString("profile", this),new ConnectionProfileView());
 		connectionsTab.setSelectedIndex(index);
+	}
+	
+	@Deprecated
+	public static ConnectionTab getConnectionsTab() {
+		return connectionsTab;
 	}
 }
