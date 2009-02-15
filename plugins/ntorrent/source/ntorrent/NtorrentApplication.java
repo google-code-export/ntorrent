@@ -9,8 +9,9 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import ntorrent.connection.ConnectionController;
 import ntorrent.connection.model.ConnectionProfile;
-import ntorrent.gui.MainWindow;
+import ntorrent.core.view.component.MainWindow;
 import ntorrent.io.rtorrent.Global;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
@@ -159,7 +160,7 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 		MAIN_WINDOW.drawWindow();
 		
 		/** Start a new session **/
-		MAIN_WINDOW.newSession();
+		MAIN_WINDOW.connectDialogue();
 	}
 	
 	/**

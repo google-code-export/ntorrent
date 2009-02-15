@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui;
+package ntorrent.core.view.component;
 
 
 import java.awt.BorderLayout;
@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -36,6 +37,7 @@ import ntorrent.NtorrentApplication;
 import ntorrent.Session;
 import ntorrent.connection.ConnectionController;
 import ntorrent.connection.view.ConnectionProfileView;
+import ntorrent.core.view.component.util.Window;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.SettingsController;
 
@@ -46,6 +48,7 @@ import ntorrent.settings.SettingsController;
 public class MainWindow extends Window implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
+	private final static ConnectionController connectionController = new ConnectionController();
 	private final MainMenuBar menuBar = new MainMenuBar(this);
 	private final SettingsController settings;
 	
@@ -54,9 +57,7 @@ public class MainWindow extends Window implements ActionListener {
 		setPreferredSize(new Dimension(768,640));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setJMenuBar(menuBar);
-		JPanel frame = new JPanel(new BorderLayout());
-		frame.add(connectionsTab);
-		setContentPane(frame);
+		//setContentPane(connectionsTab);
 		this.settings = new SettingsController();
 	}
 		
@@ -77,7 +78,7 @@ public class MainWindow extends Window implements ActionListener {
 				NtorrentApplication.clientSoConn(line);
 			}
 		}else if(c.equals(ids[2])){
-			newSession();
+			connectDialogue();
 		}else if(c.equals(ids[3])){
 			System.exit(0);
 		}else if(c.equals(ids[4])){
@@ -87,21 +88,27 @@ public class MainWindow extends Window implements ActionListener {
 		}
 	}
 	
-	public void newSession() {
-		int index = connectionsTab.getTabCount();
-		connectionsTab.insertTab(
-				ResourcePool.getString("profile", this),
-				null, 
-				new ConnectionController().getDisplay(),
-				null, 
-				index
-			);
+	//public void newSession() {
+	//	int index = connectionsTab.getTabCount();
+	//	connectionsTab.insertTab(
+	//			ResourcePool.getString("profile", this),
+	//			null, 
+	//			new ConnectionController().getDisplay(),
+	//			null, 
+	//			index
+	//		);
 		//connectionsTab.addTab(ResourcePool.getString("profile", this),new ConnectionProfileView());
-		connectionsTab.setSelectedIndex(index);
-	}
+	//	connectionsTab.setSelectedIndex(index);
+	//}
 	
 	@Deprecated
 	public static ConnectionTab getConnectionsTab() {
 		return connectionsTab;
+	}
+
+	public void connectDialogue() {
+		setContentPane(connectionController.getDisplay());
+		validate();
+		pack();
 	}
 }

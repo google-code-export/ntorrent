@@ -26,8 +26,8 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.core.view.component.MainWindow;
 import ntorrent.data.Environment;
-import ntorrent.gui.MainWindow;
 import ntorrent.session.ConnectionSession;
 import ntorrent.settings.DefaultSettingsImpl;
 import ntorrent.skins.model.PrettyLookAndFeelInfo;

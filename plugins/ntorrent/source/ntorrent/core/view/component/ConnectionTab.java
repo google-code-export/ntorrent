@@ -17,7 +17,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ntorrent.gui;
+package ntorrent.core.view.component;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +39,7 @@ import ntorrent.locale.ResourcePool;
 public class ConnectionTab extends JTabbedPane implements MouseListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static JPopupMenu popup = new JPopupMenu();
+	//TODO remove menu on tab
 	public final static String[] actions = {
 		"tab.new",
 		"tab.close"
@@ -73,9 +74,10 @@ public class ConnectionTab extends JTabbedPane implements MouseListener, ActionL
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if(action.equals(actions[0])){
-			NtorrentApplication.MAIN_WINDOW.newSession();
+			//NtorrentApplication.MAIN_WINDOW.newSession();
 		}else if(action.equals(actions[1])){
 			/**
+			 * TODO
 			 * This only removes the contents of the tab,
 			 * not the processes behind it!!!
 			 */
