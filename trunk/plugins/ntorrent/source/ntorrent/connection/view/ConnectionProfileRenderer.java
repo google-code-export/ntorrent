@@ -2,6 +2,7 @@ package ntorrent.connection.view;
 
 import java.awt.Component;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -21,6 +22,7 @@ public class ConnectionProfileRenderer implements ListCellRenderer {
 				label = ((ConnectionProfileExtension)value).getName();
 			}
 			renderer.setText(label != null ? label : value.toString());
+			renderer.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 10));
 		}
 		return c;
 	}

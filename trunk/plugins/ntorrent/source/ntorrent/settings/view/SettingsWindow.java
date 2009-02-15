@@ -40,7 +40,7 @@ import org.apache.log4j.Logger;
 import tests.ntorrent.settings.TestModel;
 
 import ntorrent.NtorrentApplication;
-import ntorrent.gui.Window;
+import ntorrent.core.view.component.util.Window;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.SettingsPluginListItem;
