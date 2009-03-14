@@ -3,6 +3,7 @@ package ntorrent.connection.socket;
 import java.awt.Component;
 
 import ntorrent.connection.model.ConnectionProfileExtension;
+import ntorrent.connection.model.ProxyProfile;
 import ntorrent.connection.socket.model.SocketConnectionProfile;
 import ntorrent.connection.socket.view.SocketConnectionView;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
@@ -21,6 +22,7 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	private transient SocketConnectionView display;
 	private String name = null;
 	private transient SocketConnection connection;
+	private ProxyProfile proxyProfile;
 	
 	/**
 	 * Log4j logger
@@ -70,7 +72,7 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	@Override
 	public void connectEvent() {
 		updateAndValidate();
-		this.connection = new SocketConnection(this.connectionProfile);
+		this.connection = new SocketConnection(this.connectionProfile,this.proxyProfile);
 	}
 	
 	private void updateAndValidate(){
@@ -88,6 +90,10 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	public XmlRpcConnection getConnection() {
 		return this.connection;
 	}
-	
+
+	@Override
+	public void setProxyConnectionInfo(ProxyProfile profile) {
+		this.proxyProfile = profile;
+	}
 
 }

@@ -31,6 +31,8 @@ import ntorrent.NtorrentApplication;
 import ntorrent.connection.ConnectionController;
 import ntorrent.connection.model.ConnectListener;
 import ntorrent.connection.model.ConnectionProfileExtension;
+import ntorrent.connection.model.ProxyProfile;
+import ntorrent.connection.model.ProxyProfileImpl;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 
@@ -46,12 +48,12 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 	/**
 	 * Log4j logger
 	 */
-	private final static Logger log = Logger.getLogger(ConnectionProfileView.class);
+	private final static Logger log = Logger.getLogger(ConnectionView.class);
 	
 	public final static String PROFILE_SERIALIZE_NAME = "ntorrent.profiles";
 	
 	private static final long serialVersionUID = 1L;
-	private final ConnectListener listener;
+	private final ConnectListener connectionListener;
 	private final static DefaultComboBoxModel boxModel = new DefaultComboBoxModel();
 	private final static DefaultListModel listModel = ConnectionView.restoreProfileModel();
 	private final static ConnectionProfileRenderer renderer = new ConnectionProfileRenderer();
@@ -66,9 +68,11 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 	private final JButton proxySettings = new JButton();
 	private final JProgressBar connectBar = new JProgressBar();
 	private ConnectionProfileExtension focusedComponent = null;
+
+	private ProxyProfile proxyProfile = new ProxyProfileImpl();
 	
-	public ConnectionView(ConnectListener listener) {
-		this.listener = listener;
+	public ConnectionView(ConnectListener connectionListener,ActionListener actionListener) {
+		this.connectionListener = connectionListener;
 		
 		box.addItemListener(this);
 		box.setRenderer(renderer);
@@ -102,7 +106,7 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		profileContainer.add(new JScrollPane(profiles),BorderLayout.EAST);
 		
 		//buttons
-		JPanel buttonPanel = new JPanel();
+		JPanel buttonPanel = new JPanel(new GridLayout(2,2,1,1));
 		
 		save.setText(ResourcePool.getString("profile.connection.save", this));
 		delete.setText(ResourcePool.getString("profile.connection.delete", this));
@@ -111,12 +115,13 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		
 		buttonPanel.add(connect);
 		buttonPanel.add(save);
-		buttonPanel.add(delete);
 		buttonPanel.add(proxySettings);
+		buttonPanel.add(delete);
 		
 		connect.addActionListener(this);
 		save.addActionListener(this);
 		delete.addActionListener(this);
+		proxySettings.addActionListener(actionListener);
 		
 		mainContainer.add(buttonPanel,BorderLayout.SOUTH);
 		
@@ -125,9 +130,10 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		connectBar.setString(ResourcePool.getString("connecting", this));
 		connectBar.setIndeterminate(true);
 		connectContainer.add(connectBar);
+	
 		
 		//adding to container
-		add(ResourcePool.getString("connection", this), mainContainer);
+		add(mainContainer);
 		//connectContainer.setVisible(false);
 		//add(connectContainer);
 	}
@@ -281,7 +287,7 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 	private void connect(){
 		focusedComponent.connectEvent();
 		try{
-			listener.connect(focusedComponent.getConnection());
+			connectionListener.connect(focusedComponent.getConnection());
 			mainContainer.setVisible(false);
 			connectContainer.setVisible(true);
 		}catch(Exception x){
@@ -299,14 +305,13 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 	
 	public void actionPerformed(ActionEvent e) {
 		try{
-			if(e.getSource() == save){
+			Object src = e.getSource();
+			if(src == save){
 				saveProfile();
-			}else if(e.getSource() == delete){
+			}else if(src == delete){
 				deleteProfile();
-			}else if(e.getSource() == connect){
+			}else if(src == connect){
 				connect();
-			}else if(e.getSource() == proxySettings){
-				//TODO open proxy view
 			}
 		}catch (Exception x) {
 			log.fatal(x);
@@ -317,6 +322,10 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 					JOptionPane.ERROR_MESSAGE
 					);
 		}
+	}
+	
+	public void setProxyProfile(ProxyProfile profile){
+		this.proxyProfile = profile;
 	}
 	
 	private final static DefaultListModel restoreProfileModel(){
@@ -330,5 +339,9 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		if(model == null)
 			model = new DefaultListModel();
 		return model;
+	}
+
+	public ProxyProfile getProxyProfile() {
+		return this.proxyProfile;
 	}
 }

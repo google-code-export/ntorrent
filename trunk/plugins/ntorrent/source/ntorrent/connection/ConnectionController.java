@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 import ntorrent.Session;
 import ntorrent.connection.model.ConnectListener;
 import ntorrent.connection.view.ConnectionProfileView;
+import ntorrent.connection.view.ProxyView;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 
 public class ConnectionController implements ConnectListener {

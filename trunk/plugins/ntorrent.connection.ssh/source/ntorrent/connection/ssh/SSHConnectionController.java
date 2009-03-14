@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.java.plugin.Plugin;
 
 import ntorrent.connection.model.ConnectionProfileExtension;
+import ntorrent.connection.model.ProxyProfile;
 import ntorrent.connection.ssh.SSHConnectionController;
 import ntorrent.connection.ssh.model.SSHConnectionProfile;
 import ntorrent.connection.ssh.view.SSHConnectionView;
@@ -73,4 +74,9 @@ public class SSHConnectionController extends Plugin implements ConnectionProfile
 		return null;
 	}
 
+	@Override
+	public void setProxyConnectionInfo(ProxyProfile profile) {
+		// TODO Auto-generated method stub
+		
+	}
 }
