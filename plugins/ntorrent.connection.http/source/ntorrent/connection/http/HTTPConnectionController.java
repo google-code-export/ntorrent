@@ -8,6 +8,7 @@ import org.java.plugin.Plugin;
 import ntorrent.connection.http.model.HTTPConnectionProfile;
 import ntorrent.connection.http.view.HTTPConnectionView;
 import ntorrent.connection.model.ConnectionProfileExtension;
+import ntorrent.connection.model.ProxyProfile;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
 
@@ -73,4 +74,9 @@ public class HTTPConnectionController extends Plugin implements ConnectionProfil
 		return null;
 	}
 
+	@Override
+	public void setProxyConnectionInfo(ProxyProfile profile) {
+		// TODO Auto-generated method stub
+		
+	}
 }

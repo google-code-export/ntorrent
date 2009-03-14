@@ -47,15 +47,36 @@ import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-public class ConnectionProfileView extends JPanel {
-
-	private final ConnectionView connectionTab;
-	private final ProxyView proxyTab = new ProxyView();
+public class ConnectionProfileView extends JPanel implements ActionListener {
+	/**
+	 * Log4j logger
+	 */
+	private final static Logger log = Logger.getLogger(ConnectionProfileView.class);
+	
+	private final ConnectionView connectionView;
+	private final ProxyView proxyView;
 	
 	public ConnectionProfileView(ConnectListener listener) {
-		connectionTab  = new ConnectionView(listener);
-		add(connectionTab);
-		//addTab(ResourcePool.getString("profile.proxy.settings", this), proxyTab);
+		connectionView  = new ConnectionView(listener,this);
+		proxyView = new ProxyView(this);
+		proxyView.setVisible(false);
+		add(connectionView);
+		add(proxyView);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			connectionView.setVisible(!connectionView.isVisible());
+			proxyView.setVisible(!proxyView.isVisible());
+			if(e.getSource() == proxyView){
+				connectionView.setProxyProfile(proxyView.getProxyProfile().getClonedInstance());
+			}else{
+				proxyView.setProxyProfile(connectionView.getProxyProfile().getClonedInstance());
+			}
+		} catch (CloneNotSupportedException x) {
+			log.error(x.getMessage(),x);
+		}
 	}
 	
 }

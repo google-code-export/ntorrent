@@ -41,6 +41,12 @@ public interface ConnectionProfileExtension extends Serializable,Cloneable {
 	public void setName(String name);
 	
 	/**
+	 * Attaches proxy information to the connection.
+	 * @param profile
+	 */
+	public void setProxyConnectionInfo(ProxyProfile profile);
+	
+	/**
 	 * Returns a cloned object of this instance,
 	 * the implementation should include cloning of object references.
 	 * @return ConnectionProfileExtension
