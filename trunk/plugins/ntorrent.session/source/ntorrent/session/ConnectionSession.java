@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
-import ntorrent.data.Environment;
+import ntorrent.NtorrentApplication;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.session.view.SessionFrame;
 import ntorrent.torrenttable.TorrentTableController;
@@ -33,7 +33,7 @@ public class ConnectionSession implements EventListener {
 	
 	private final SessionFrame session;
 	
-	private final PluginManager manager = Environment.getPluginManager();
+	private final PluginManager manager = NtorrentApplication.MANAGER;
 	private final PluginRegistry registry = manager.getRegistry();
 	private final ExtensionPoint ext = registry.getExtensionPoint("ntorrent.session", "SessionExtension");
 	

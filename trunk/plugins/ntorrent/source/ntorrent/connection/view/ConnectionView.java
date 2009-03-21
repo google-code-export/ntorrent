@@ -285,6 +285,7 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 	}
 	
 	private void connect(){
+		focusedComponent.setProxyConnectionInfo(proxyProfile);
 		focusedComponent.connectEvent();
 		try{
 			connectionListener.connect(focusedComponent.getConnection());

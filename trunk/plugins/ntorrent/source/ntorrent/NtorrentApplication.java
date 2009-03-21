@@ -27,6 +27,8 @@ import org.java.plugin.util.ExtendedProperties;
 
 public class NtorrentApplication extends ApplicationPlugin implements Application, SettingsExtension {
 
+	/** App name **/
+	public final static String APP_NAME = "nTorrent-0.5";
 
 	/** PluginManager **/
 	public static PluginManager MANAGER;

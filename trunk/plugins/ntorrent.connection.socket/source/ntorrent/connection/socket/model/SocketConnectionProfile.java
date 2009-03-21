@@ -36,4 +36,9 @@ public class SocketConnectionProfile implements ConnectionProfile {
 	public SocketConnectionProfile getClonedInstance() throws CloneNotSupportedException {
 		return (SocketConnectionProfile) this.clone();
 	}
+	
+	@Override
+	public String toString() {
+		return this.getHost()+":"+this.getPort();
+	}
 }

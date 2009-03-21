@@ -69,4 +69,16 @@ public class ProxyProfileImpl implements ProxyProfile {
 	public ProxyProfile getClonedInstance() throws CloneNotSupportedException {
 		return (ProxyProfile) this.clone();
 	}
+	
+	@Override
+	public String toString() {
+		String out = "Proxy="+this.proxyType+" - ";
+		if(usingAuth){
+			out+=this.username+"@";
+		}
+		if(this.host != null && this.port != null){
+			out+=this.host+":"+this.port;
+		}
+		return out;
+	}
 }

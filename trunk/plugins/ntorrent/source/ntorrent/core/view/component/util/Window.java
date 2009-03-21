@@ -24,7 +24,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import ntorrent.data.Environment;
+
+import ntorrent.NtorrentApplication;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +34,7 @@ public class Window extends JFrame {
 	private Image icon = toolkit.getImage("plugins/ntorrent/icons/ntorrent48.png");
 	
 	public Window(){
-		this(Environment.appName);
+		this(NtorrentApplication.APP_NAME);
 	}
 	
 	public Window(String title){
