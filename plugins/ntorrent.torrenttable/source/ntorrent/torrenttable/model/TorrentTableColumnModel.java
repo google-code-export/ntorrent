@@ -19,7 +19,6 @@
  */
 package ntorrent.torrenttable.model;
 
-import java.io.FileNotFoundException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Vector;
@@ -27,7 +26,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
-import ntorrent.data.Environment;
+import ntorrent.NtorrentApplication;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 
@@ -75,21 +74,24 @@ public class TorrentTableColumnModel implements Serializable{
 		createTableColumnModel();
 		
 		try{
-			TorrentTableColumnModel obj = Serializer.deserialize(TorrentTableColumnModel.class, Environment.getNtorrentDir());
-			Vector<ColumnModel> columnModel = obj.columnModel;
-			Vector<TableColumn> tableColumns = new Vector<TableColumn>();
-			for(ColumnModel c : columnModel){
-				int index = model.getColumnIndex(c.name);
-				TableColumn tc = model.getColumn(index);
-				tableColumns.add(tc);
-				model.removeColumn(tc);
-				tc.setPreferredWidth(c.width);
+			TorrentTableColumnModel obj = Serializer.deserialize(TorrentTableColumnModel.class, NtorrentApplication.SETTINGS.getNtorrent());
+			//TODO dont deserialize here, deserialize in the object referencing this.
+			if(obj != null){
+				Vector<ColumnModel> columnModel = obj.columnModel;
+				Vector<TableColumn> tableColumns = new Vector<TableColumn>();
+				for(ColumnModel c : columnModel){
+					int index = model.getColumnIndex(c.name);
+					TableColumn tc = model.getColumn(index);
+					tableColumns.add(tc);
+					model.removeColumn(tc);
+					tc.setPreferredWidth(c.width);
+				}
+				
+				clearTableColumnModel();
+				
+				for(TableColumn t : tableColumns)
+					model.addColumn(t);
 			}
-			
-			clearTableColumnModel();
-			
-			for(TableColumn t : tableColumns)
-				model.addColumn(t);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

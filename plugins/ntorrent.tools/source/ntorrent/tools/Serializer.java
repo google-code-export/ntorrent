@@ -24,14 +24,33 @@ public abstract class Serializer {
 	private static final String prefix = "data/";
 	private static final String postfix = ".dat";
 	
+	/**
+	 * Serializes an object and gives and stores the output file in the default
+	 * ntorrent dir.
+	 * @param obj
+	 * @throws IOException
+	 */
 	public static void serialize(Serializable obj) throws IOException{
 		serialize(obj, NtorrentApplication.SETTINGS.getNtorrent(),getClassName(obj.getClass()));
 	}
 	
+	/**
+	 * Serializes an object and gives the output file a name. and stores the file in 
+	 * the default ntorrent dir.
+	 * @param obj
+	 * @param name
+	 * @throws IOException
+	 */
 	public static void serialize(Serializable obj, String name) throws IOException{
 		serialize(obj, NtorrentApplication.SETTINGS.getNtorrent(), name);
 	}
 	
+	/**
+	 * Serializes a object and stores it as the objects classname in the given parent folder.
+	 * @param obj
+	 * @param parent
+	 * @throws IOException
+	 */
 	public static void serialize(Serializable obj, File parent) throws IOException{
 		serialize(obj, parent,getClassName(obj.getClass()));
 	}

@@ -25,6 +25,10 @@ public class NtorrentSettingsModel implements Serializable {
 		return intSocketPort;
 	}
 	
+	/**
+	 * Returns the ntorrent user dir
+	 * @return
+	 */
 	public File getNtorrent() {
 		return ntorrent;
 	}

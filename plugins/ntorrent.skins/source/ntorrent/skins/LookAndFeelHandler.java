@@ -23,16 +23,14 @@ package ntorrent.skins;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.apache.log4j.Logger;
-
 import ntorrent.NtorrentApplication;
 import ntorrent.core.view.component.MainWindow;
-import ntorrent.data.Environment;
-import ntorrent.session.ConnectionSession;
 import ntorrent.settings.DefaultSettingsImpl;
 import ntorrent.skins.model.PrettyLookAndFeelInfo;
 import ntorrent.skins.model.SkinModel;
 import ntorrent.tools.Serializer;
+
+import org.apache.log4j.Logger;
 
 public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	
@@ -42,7 +40,7 @@ public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	private final static Logger log = Logger.getLogger(LookAndFeelHandler.class);
 	
 	public LookAndFeelHandler() {
-		super(Serializer.deserialize(SkinModel.class, Environment.getNtorrentDir()));
+		super(Serializer.deserialize(SkinModel.class, NtorrentApplication.SETTINGS.getNtorrent()));
 	}
 	
 	@Override
@@ -76,7 +74,7 @@ public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	public void saveActionPerformedOnSettings() throws Exception {
 		super.saveActionPerformedOnSettings();
 		setWindowSkin();
-		Serializer.serialize(getModel(), Environment.getNtorrentDir());
+		Serializer.serialize(getModel());
 	}
 
 }

@@ -209,10 +209,18 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 			}
 	
 		} catch (XmlRpcException e) {
+			this.log.warn("Xmlrpcerr",e);
 			//im pretty sure we need to add a global listener for theese exceptions, and not just in this table.
 			int i = JOptionPane.showConfirmDialog(table, "Disconnected! reconnect?\n("+e.getMessage()+")",e.toString(),JOptionPane.YES_NO_OPTION);
 			if(i == JOptionPane.YES_OPTION){
+				if(!this.connection.isConnected()){
+					this.connection.reconnect();
+				}
 				run();
+			}else{
+				if(this.connection.isConnected()){
+					this.connection.disconnect();
+				}
 			}
 		} catch (XmlRpcFault e) {
 			// TODO Auto-generated catch block

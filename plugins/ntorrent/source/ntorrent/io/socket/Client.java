@@ -6,9 +6,9 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import org.apache.log4j.Logger;
+import ntorrent.NtorrentApplication;
 
-import ntorrent.data.Environment;
+import org.apache.log4j.Logger;
 
 
 
@@ -20,7 +20,7 @@ public class Client {
 	private final static Logger log = Logger.getLogger(Client.class);
 	
 	public Client(String[] args) throws IOException {
-		Socket link = new Socket(InetAddress.getLocalHost(), Environment.getIntSocketPort());
+		Socket link = new Socket(InetAddress.getLocalHost(), NtorrentApplication.SETTINGS.getIntSocketPort());
 		PrintWriter out = new PrintWriter(link.getOutputStream(), true);
 		for(String s : args){
 			out.println(s);

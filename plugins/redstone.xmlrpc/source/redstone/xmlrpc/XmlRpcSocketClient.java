@@ -57,7 +57,7 @@ public class XmlRpcSocketClient extends XmlRpcClient {
 	@Override
 	protected void beginCall(String methodName) throws XmlRpcException {
 		try {
-			if(connection == null)
+			//if(connection == null) each request needs a new socket?
 				connection = new Socket(host,port);
 		} catch (Exception e) {
 			throw new XmlRpcException(e.getMessage(),e);

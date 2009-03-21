@@ -24,8 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -35,15 +33,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 
-import org.apache.log4j.Logger;
-
-import ntorrent.data.Environment;
 import ntorrent.locale.ResourcePool;
 import ntorrent.tools.Serializer;
 import ntorrent.torrenttable.model.TorrentTableColumnModel;
-import ntorrent.torrenttable.model.TorrentTableModel;
+
+import org.apache.log4j.Logger;
 
 public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListener{
 	private static final long serialVersionUID = 1L;
@@ -78,7 +73,7 @@ public class TorrentTableHeaderPopupMenu extends JPopupMenu implements ItemListe
 				//doesnt work.
 				try {
 					if(model instanceof Serializable){
-						Serializer.serialize(model, Environment.getNtorrentDir());
+						Serializer.serialize(model);
 					}
 				} catch (IOException x) {
 					log.warn(x.getMessage(),x);
