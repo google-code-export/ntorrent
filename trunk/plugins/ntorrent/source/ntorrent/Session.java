@@ -23,6 +23,7 @@ package ntorrent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ntorrent.core.view.component.util.Window;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.session.ConnectionSession;
 
@@ -34,15 +35,18 @@ public class Session implements Runnable{
 	
 	private final XmlRpcConnection connection;
 	private ConnectionSession connectionSession;
+	private final String name;
 
-	public Session(XmlRpcConnection connection) {
+	public Session(String name, XmlRpcConnection connection) {
+		this.name = name;
 		this.connection = connection;
 	}
 	
 	@Override
 	public void run() {
 		connectionSession = new ConnectionSession(this.connection);
-		NtorrentApplication.MAIN_WINDOW.getConnectionsTab().add(connectionSession.getDisplay());
+		NtorrentApplication.MAIN_WINDOW.addToConnectionsTab(this.name, connectionSession.getDisplay());
+		NtorrentApplication.MAIN_WINDOW.showConnectionsTab();
 	}
 	
 	public XmlRpcConnection getConnection() {

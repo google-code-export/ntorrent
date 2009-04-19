@@ -134,8 +134,8 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		
 		//adding to container
 		add(mainContainer);
-		//connectContainer.setVisible(false);
-		//add(connectContainer);
+		add(connectContainer);
+		resetVisibility();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -288,9 +288,9 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		focusedComponent.setProxyConnectionInfo(proxyProfile);
 		focusedComponent.connectEvent();
 		try{
-			connectionListener.connect(focusedComponent.getConnection());
 			mainContainer.setVisible(false);
 			connectContainer.setVisible(true);
+			connectionListener.connect(focusedComponent);
 		}catch(Exception x){
 			log.fatal(x.getMessage(),x);
 			JOptionPane.showMessageDialog(
@@ -329,6 +329,19 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		this.proxyProfile = profile;
 	}
 	
+	@Override
+	public void setVisible(boolean flag) {
+		super.setVisible(flag);
+		if(flag){
+			resetVisibility();
+		}
+	}
+	
+	private void resetVisibility() {
+		mainContainer.setVisible(true);
+		connectContainer.setVisible(false);
+	}
+
 	private final static DefaultListModel restoreProfileModel(){
 		DefaultListModel model = null;
 		try{

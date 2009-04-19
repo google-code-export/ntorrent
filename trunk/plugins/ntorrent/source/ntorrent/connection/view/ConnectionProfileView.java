@@ -59,9 +59,9 @@ public class ConnectionProfileView extends JPanel implements ActionListener {
 	public ConnectionProfileView(ConnectListener listener) {
 		connectionView  = new ConnectionView(listener,this);
 		proxyView = new ProxyView(this);
-		proxyView.setVisible(false);
 		add(connectionView);
 		add(proxyView);
+		reset();
 	}
 
 	@Override
@@ -77,6 +77,11 @@ public class ConnectionProfileView extends JPanel implements ActionListener {
 		} catch (CloneNotSupportedException x) {
 			log.error(x.getMessage(),x);
 		}
+	}
+
+	public void reset() {
+		connectionView.setVisible(true);
+		proxyView.setVisible(false);
 	}
 	
 }

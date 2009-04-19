@@ -12,7 +12,8 @@ import ntorrent.locale.ResourcePool;
 import org.apache.log4j.Logger;
 import org.java.plugin.Plugin;
 
-public class SocketConnectionController extends Plugin implements ConnectionProfileExtension {
+public class SocketConnectionController extends Plugin implements
+		ConnectionProfileExtension {
 
 	/**
 	 * 
@@ -23,15 +24,16 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	private String name = null;
 	private transient SocketConnection connection;
 	private ProxyProfile proxyProfile;
-	
+
 	/**
 	 * Log4j logger
 	 */
-	private final static Logger log = Logger.getLogger(SocketConnectionController.class);
+	private final static Logger log = Logger
+			.getLogger(SocketConnectionController.class);
 
 	@Override
 	public Component getDisplay() {
-		if(display == null){
+		if (display == null) {
 			display = new SocketConnectionView(connectionProfile);
 		}
 		return display;
@@ -46,19 +48,21 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	protected void doStop() throws Exception {
 		log.info("doStop() called");
 	}
-	
+
 	public String getName() {
-		if(name == null)
+		if (name == null)
 			return ResourcePool.getString("connection.socket", this);
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public ConnectionProfileExtension getClonedInstance() throws CloneNotSupportedException {
-		SocketConnectionController newObj = (SocketConnectionController) this.clone();
+	public ConnectionProfileExtension getClonedInstance()
+			throws CloneNotSupportedException {
+		SocketConnectionController newObj = (SocketConnectionController) this
+				.clone();
 		newObj.connectionProfile = connectionProfile.getClonedInstance();
 		newObj.display = new SocketConnectionView(newObj.connectionProfile);
 		return newObj;
@@ -72,17 +76,18 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	@Override
 	public void connectEvent() {
 		updateAndValidate();
-		this.connection = new SocketConnection(this.connectionProfile,this.proxyProfile);
+		this.connection = new SocketConnection(this.connectionProfile,
+				this.proxyProfile);
+		if(this.name == null)
+			this.name = this.connectionProfile.toString();
 	}
-	
-	private void updateAndValidate(){
-		try{
-			 display.updateModel();
-		}catch (Exception e) {
-			throw new IllegalArgumentException(
-					ResourcePool.getString("validate.error", this),
-					e
-				);
+
+	private void updateAndValidate() {
+		try {
+			display.updateModel();
+		} catch (Exception e) {
+			throw new IllegalArgumentException(ResourcePool.getString(
+					"validate.error", this), e);
 		}
 	}
 
@@ -95,5 +100,4 @@ public class SocketConnectionController extends Plugin implements ConnectionProf
 	public void setProxyConnectionInfo(ProxyProfile profile) {
 		this.proxyProfile = profile;
 	}
-
 }
