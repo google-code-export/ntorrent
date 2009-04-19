@@ -20,23 +20,20 @@
 package ntorrent.core.view.component;
 
 
-import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import ntorrent.NtorrentApplication;
-import ntorrent.Session;
 import ntorrent.connection.ConnectionController;
-import ntorrent.connection.view.ConnectionProfileView;
 import ntorrent.core.view.component.util.Window;
 import ntorrent.locale.ResourcePool;
 import ntorrent.settings.SettingsController;
@@ -78,7 +75,7 @@ public class MainWindow extends Window implements ActionListener {
 				NtorrentApplication.clientSoConn(line);
 			}
 		}else if(c.equals(ids[2])){
-			connectDialogue();
+			showConnectDialogue();
 		}else if(c.equals(ids[3])){
 			System.exit(0);
 		}else if(c.equals(ids[4])){
@@ -88,26 +85,20 @@ public class MainWindow extends Window implements ActionListener {
 		}
 	}
 	
-	//public void newSession() {
-	//	int index = connectionsTab.getTabCount();
-	//	connectionsTab.insertTab(
-	//			ResourcePool.getString("profile", this),
-	//			null, 
-	//			new ConnectionController().getDisplay(),
-	//			null, 
-	//			index
-	//		);
-		//connectionsTab.addTab(ResourcePool.getString("profile", this),new ConnectionProfileView());
-	//	connectionsTab.setSelectedIndex(index);
-	//}
+	public void showConnectDialogue() {
+		Container connectionView = connectionController.getDisplay();
+		connectionView.setVisible(true);
+		setContentPane(connectionView);
+		validate();
+		pack();
+	}
 	
-	@Deprecated
-	public static ConnectionTab getConnectionsTab() {
-		return connectionsTab;
+	public void addToConnectionsTab(String title, Component c){
+		connectionsTab.add(title, c);
 	}
 
-	public void connectDialogue() {
-		setContentPane(connectionController.getDisplay());
+	public void showConnectionsTab() {
+		setContentPane(connectionsTab);
 		validate();
 		pack();
 	}

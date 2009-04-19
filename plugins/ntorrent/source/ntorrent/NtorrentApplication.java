@@ -162,7 +162,7 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 		MAIN_WINDOW.drawWindow();
 		
 		/** Start a new session **/
-		MAIN_WINDOW.connectDialogue();
+		MAIN_WINDOW.showConnectDialogue();
 	}
 	
 	/**

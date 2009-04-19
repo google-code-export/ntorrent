@@ -1,22 +1,16 @@
 package ntorrent.connection;
 
-import java.awt.Component;
 import java.awt.Container;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 import ntorrent.Session;
 import ntorrent.connection.model.ConnectListener;
+import ntorrent.connection.model.ConnectionProfileExtension;
 import ntorrent.connection.view.ConnectionProfileView;
-import ntorrent.connection.view.ProxyView;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 
-public class ConnectionController implements ConnectListener {
+public class ConnectionController implements ConnectListener  {
 	private static ConnectionProfileView display = null;
 	private Session session = null;
-
 
 	public Container getDisplay() {
 		if(display == null){
@@ -26,15 +20,17 @@ public class ConnectionController implements ConnectListener {
 	}
 
 	@Override
-	public void connect(final XmlRpcConnection connection) throws Exception {
+	public void connect(final ConnectionProfileExtension connectionProfile) throws Exception {
 		try{
 			new Thread(){
 				public void run() {
+					XmlRpcConnection connection = connectionProfile.getConnection();
 					connection.connect();
-					session = new Session(connection);
+					session = new Session(connectionProfile.getName(),connection);
 					session.run();
+					display.reset();
 				};
-			}.run();
+			}.start();
 		}catch (Exception e) {
 			throw e;
 		}
