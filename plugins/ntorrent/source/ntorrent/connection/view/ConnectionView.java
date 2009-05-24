@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.Proxy;
 
 import javax.swing.DefaultComboBoxModel;
@@ -44,7 +45,7 @@ import org.java.plugin.registry.ExtensionPoint;
 import org.java.plugin.registry.PluginDescriptor;
 import org.java.plugin.registry.PluginRegistry;
 
-public class ConnectionView extends JPanel implements ItemListener, ListSelectionListener, ActionListener {
+public class ConnectionView extends JPanel implements ItemListener, ListSelectionListener, ActionListener, UncaughtExceptionHandler {
 	/**
 	 * Log4j logger
 	 */
@@ -290,17 +291,9 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 		try{
 			mainContainer.setVisible(false);
 			connectContainer.setVisible(true);
-			connectionListener.connect(focusedComponent);
-		}catch(Exception x){
-			log.fatal(x.getMessage(),x);
-			JOptionPane.showMessageDialog(
-					this, 
-					x.getMessage(),
-					x.getMessage(),
-					JOptionPane.ERROR_MESSAGE
-			);
-			connectContainer.setVisible(false);
-			mainContainer.setVisible(true);
+			connectionListener.connect(focusedComponent,this);
+		}catch (Exception e) {
+			this.uncaughtException(Thread.currentThread(), e);
 		}
 	}
 	
@@ -357,5 +350,18 @@ public class ConnectionView extends JPanel implements ItemListener, ListSelectio
 
 	public ProxyProfile getProxyProfile() {
 		return this.proxyProfile;
+	}
+
+	@Override
+	public void uncaughtException(Thread t, Throwable x) {
+		log.fatal(x.getMessage(),x);
+		JOptionPane.showMessageDialog(
+				this, 
+				x.getMessage(),
+				x.getMessage(),
+				JOptionPane.ERROR_MESSAGE
+		);
+		connectContainer.setVisible(false);
+		mainContainer.setVisible(true);
 	}
 }

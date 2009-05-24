@@ -40,7 +40,7 @@ public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	private final static Logger log = Logger.getLogger(LookAndFeelHandler.class);
 	
 	public LookAndFeelHandler() {
-		super(Serializer.deserialize(SkinModel.class, NtorrentApplication.SETTINGS.getNtorrent()));
+		super(Serializer.deserialize(SkinModel.class, NtorrentApplication.SETTINGS.getNtorrent()),SkinModel.class);
 	}
 	
 	@Override
@@ -61,12 +61,14 @@ public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
 	
 	private void setWindowSkin(){
 		MainWindow w = NtorrentApplication.MAIN_WINDOW;
-		try {
-			UIManager.setLookAndFeel(getModel().getLafClass().getClassName());
-			SwingUtilities.updateComponentTreeUI(w);
-			w.pack();
-		} catch (Exception x){
-			log.warn(x.getMessage(),x);
+		if(getModel().getLafClass() != null){
+			try {
+				UIManager.setLookAndFeel(getModel().getLafClass().getClassName());
+				SwingUtilities.updateComponentTreeUI(w);
+				w.pack();
+			} catch (Exception x){
+				log.warn(x.getMessage(),x);
+			}
 		}
 	}
 

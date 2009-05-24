@@ -1,4 +1,4 @@
-package tests.ntorrent.util;
+package ntorrent.util;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

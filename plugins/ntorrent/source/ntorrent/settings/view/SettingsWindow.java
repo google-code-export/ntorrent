@@ -37,11 +37,11 @@ import javax.swing.event.ListSelectionListener;
 
 import org.apache.log4j.Logger;
 
-import tests.ntorrent.settings.TestModel;
 
 import ntorrent.NtorrentApplication;
 import ntorrent.core.view.component.util.Window;
 import ntorrent.locale.ResourcePool;
+import ntorrent.settings.TestModel;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.SettingsPluginListItem;
 import ntorrent.settings.model.SettingsPluginListModel;
@@ -124,60 +124,60 @@ public class SettingsWindow extends Window implements ListSelectionListener, Act
 		dispose();
 	}
 	
-	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException{
-		JFrame window = new SettingsWindow(new SettingsExtension[]{new SettingsExtension(){
-
-			public Component getSettingsDisplay() {
-				return new JLabel("halloen");
-			}
-
-			public void saveActionPerformedOnSettings() {
-				System.out.println("save this state");
-			}
-
-			@Override
-			public String getSettingsDisplayName() {
-				return "plugin1";
-			}
-			
-		},
-		new SettingsExtension(){
-			final TestModel t = new TestModel();
-			final SettingsComponentFactory s = new SettingsComponentFactory(t);
-			public Component getSettingsDisplay() {
-				try {
-					
-					return s.getDisplay();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return null;
-			}
-
-			public void saveActionPerformedOnSettings() throws Exception {
-				s.restoreToModel();
-				System.out.println(t.getCharacter()+"\n" +
-						t.getDuble()+"\n" +
-						t.getFl0at()+"\n" +
-						t.getIint()+"\n" +
-						t.getL0ng()+"\n" +
-						t.getSh0rt()+"\n" +
-						t.getString()+"\n" +
-						t.getByt3()+"\n" +
-						t.getE()+"\n");
-			}
-			
-			@Override
-			public String getSettingsDisplayName() {
-				return "plugin2";
-			}
-			
-		}
-			
-		});
-		window.pack();
-		window.validate();
-		window.setVisible(true);
-	}
+//	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException{
+//		JFrame window = new SettingsWindow(new SettingsExtension[]{new SettingsExtension(){
+//
+//			public Component getSettingsDisplay() {
+//				return new JLabel("halloen");
+//			}
+//
+//			public void saveActionPerformedOnSettings() {
+//				System.out.println("save this state");
+//			}
+//
+//			@Override
+//			public String getSettingsDisplayName() {
+//				return "plugin1";
+//			}
+//			
+//		},
+//		new SettingsExtension(){
+//			final TestModel t = new TestModel();
+//			final SettingsComponentFactory s = new SettingsComponentFactory(t);
+//			public Component getSettingsDisplay() {
+//				try {
+//					
+//					return s.getDisplay();
+//				} catch (IllegalArgumentException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				return null;
+//			}
+//
+//			public void saveActionPerformedOnSettings() throws Exception {
+//				s.restoreToModel();
+//				System.out.println(t.getCharacter()+"\n" +
+//						t.getDuble()+"\n" +
+//						t.getFl0at()+"\n" +
+//						t.getIint()+"\n" +
+//						t.getL0ng()+"\n" +
+//						t.getSh0rt()+"\n" +
+//						t.getString()+"\n" +
+//						t.getByt3()+"\n" +
+//						t.getE()+"\n");
+//			}
+//			
+//			@Override
+//			public String getSettingsDisplayName() {
+//				return "plugin2";
+//			}
+//			
+//		}
+//			
+//		});
+//		window.pack();
+//		window.validate();
+//		window.setVisible(true);
+//	}
 }

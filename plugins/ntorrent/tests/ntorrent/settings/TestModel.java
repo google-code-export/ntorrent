@@ -1,4 +1,4 @@
-package tests.ntorrent.settings;
+package ntorrent.settings;
 
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 

@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" output="plugins/redstone.xmlrpc/classes" path="plugins/redstone.xmlrpc/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.io.rtorrent/classes" path="plugins/ntorrent.io.rtorrent/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.tools/classes" path="plugins/ntorrent.tools/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentfiles/classes" path="plugins/ntorrent.torrentfiles/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentinfo/classes" path="plugins/ntorrent.torrentinfo/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrenttable/classes" path="plugins/ntorrent.torrenttable/source"/>
@@ -14,18 +13,18 @@
 	<classpathentry kind="src" output="plugins/ntorrent.torrentlabels/classes" path="plugins/ntorrent.torrentlabels/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent/classes" path="plugins/ntorrent/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.locale/classes" path="plugins/ntorrent.locale/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.data/classes" path="plugins/ntorrent.data/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.statusbar.throttle/classes" path="plugins/ntorrent.statusbar.throttle/source"/>
 	<classpathentry kind="src" path="plugins/ntorrent.connection.socket/source"/>
 	<classpathentry kind="src" path="plugins/ntorrent.connection.http/source"/>
 	<classpathentry kind="src" path="plugins/ntorrent.connection.ssh/source"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="source-doc/jpf/source"/>
+	<classpathentry kind="src" path="plugins/ntorrent/tests"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="/ntorrent-source-doc/jpf/source"/>
 	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
 	<classpathentry kind="lib" path="lib/jpf-tools.jar"/>
 	<classpathentry kind="lib" path="lib/jxp.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5/junit-4.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/apache-log4j-1.2.15/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/log4j/log4j.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

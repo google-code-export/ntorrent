@@ -22,6 +22,7 @@ package ntorrent.settings;
 import java.util.HashSet;
 
 import ntorrent.NtorrentApplication;
+import ntorrent.plugins.NTorrentPlugins;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsWindow;
 
@@ -50,16 +51,17 @@ public class SettingsController {
 		try {
 			for(Extension e : ext.getAvailableExtensions()){
 				PluginDescriptor pd = e.getDeclaringPluginDescriptor();
-				if(manager.isPluginActivated(pd)){
+				//if(manager.isPluginActivated(pd)){
 					Plugin plugin = manager.getPlugin(pd.getId());
 					if(plugin instanceof SettingsExtension){
 						set.add((SettingsExtension) plugin);
 					}
-				}
+				//}
 			}
 		} catch (PluginLifecycleException x) {
 			x.printStackTrace();
 		}
+		set.add(new NTorrentPlugins());
 		SettingsExtension[] array = new SettingsExtension[set.size()];
 		set.toArray(array);
 		SettingsWindow window = new SettingsWindow(array);
