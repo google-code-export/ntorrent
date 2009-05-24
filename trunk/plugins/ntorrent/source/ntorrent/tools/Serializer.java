@@ -3,7 +3,6 @@ package ntorrent.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,7 +10,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import ntorrent.NtorrentApplication;
-import ntorrent.NtorrentSettingsModel;
 /**
  * This class takes care of serializing and deserializing class states, and is ment for a tool for
  * plugins that needs saving and restorations of class states.

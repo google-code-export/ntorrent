@@ -1,6 +1,7 @@
 package ntorrent.connection;
 
 import java.awt.Container;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 import ntorrent.Session;
 import ntorrent.connection.model.ConnectListener;
@@ -20,20 +21,17 @@ public class ConnectionController implements ConnectListener  {
 	}
 
 	@Override
-	public void connect(final ConnectionProfileExtension connectionProfile) throws Exception {
-		try{
-			new Thread(){
-				public void run() {
-					XmlRpcConnection connection = connectionProfile.getConnection();
-					connection.connect();
-					session = new Session(connectionProfile.getName(),connection);
-					session.run();
-					display.reset();
-				};
-			}.start();
-		}catch (Exception e) {
-			throw e;
-		}
+	public void connect(final ConnectionProfileExtension connectionProfile, final UncaughtExceptionHandler exceptionHandler) throws Exception {
+		Thread connectionThread = new Thread(connectionProfile.getName()){
+			public void run() {
+				XmlRpcConnection connection = connectionProfile.getConnection();
+				connection.connect();
+				session = new Session(connectionProfile.getName(),connection);
+				session.run();
+				display.reset();
+			};	
+		};
+		connectionThread.setUncaughtExceptionHandler(exceptionHandler);
+		connectionThread.start();
 	}
-
 }

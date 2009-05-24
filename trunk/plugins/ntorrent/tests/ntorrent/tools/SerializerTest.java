@@ -1,4 +1,4 @@
-package tests.ntorrent.tools;
+package ntorrent.tools;
 
 import java.io.File;
 

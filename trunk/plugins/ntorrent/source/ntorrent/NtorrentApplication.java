@@ -15,6 +15,7 @@ import ntorrent.core.view.component.MainWindow;
 import ntorrent.io.rtorrent.Global;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.locale.ResourcePool;
+import ntorrent.plugins.NTorrentPlugins;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.view.SettingsComponentFactory;
 import ntorrent.tools.Serializer;
@@ -103,6 +104,7 @@ public class NtorrentApplication extends ApplicationPlugin implements Applicatio
 				main.getJpf().restore();
 			}
 		}.start();*/
+		NTorrentPlugins.restoreSettings();
 		return this;
 	}
 

@@ -2,6 +2,9 @@ package ntorrent.skins.model;
 
 import java.io.Serializable;
 
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import ntorrent.settings.model.SettingsExtension.UserSetting;
 
 public class SkinModel implements Serializable {

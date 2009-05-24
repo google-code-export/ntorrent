@@ -10,18 +10,19 @@ import org.java.plugin.Plugin;
 
 public abstract class DefaultSettingsImpl<T> extends Plugin implements SettingsExtension {
 	private final SettingsComponentFactory scf;
-	private final T model; 
+	protected final T model; 
 	
 	@SuppressWarnings("unchecked")
-	public DefaultSettingsImpl(T model){
+	public DefaultSettingsImpl(T model, Class<T> c){
 		try {
-			if(model == null)
-				this.model = (T) model.getClass().newInstance();
-			else
+			if(model == null){
+				this.model = c.newInstance();
+			}else{
 				this.model = model;
-			this.scf = new SettingsComponentFactory(model);
+			}
+			this.scf = new SettingsComponentFactory(this.model);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e.getMessage(),e);
 		}
 	}
 	
@@ -39,6 +40,9 @@ public abstract class DefaultSettingsImpl<T> extends Plugin implements SettingsE
 		scf.restoreToModel();
 	}
 	
+	/**
+	 * This method should be overidden.
+	 */
 	@Override
 	public String getSettingsDisplayName() {
 		return this.getDescriptor().getId();
