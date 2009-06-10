@@ -9,7 +9,6 @@ import ntorrent.settings.model.SettingsExtension;
 import ntorrent.tools.Serializer;
 
 import org.apache.log4j.Logger;
-import org.java.plugin.PluginLifecycleException;
 
 
 public class NTorrentPlugins implements SettingsExtension {
@@ -32,14 +31,18 @@ public class NTorrentPlugins implements SettingsExtension {
 			model = new PluginList();
 	}
 	
-	public static void restoreSettings() throws PluginLifecycleException{
-		for(String id : model.getDisabledPlugins()){
-			NtorrentApplication.MANAGER.deactivatePlugin(id);
-		}
-		
-		for(String id : model.getEnabledPlugins()){
-			NtorrentApplication.MANAGER.activatePlugin(id);
-		}
+	public static void restoreSettings(){
+			for(String id : model.getDisabledPlugins()){
+				NtorrentApplication.MANAGER.deactivatePlugin(id);
+			}
+			
+			for(String id : model.getEnabledPlugins()){
+				try{
+					NtorrentApplication.MANAGER.activatePlugin(id);
+				}catch (Exception e) {
+					log.warn(e.getMessage(),e);
+				}
+			}
 	}
 
 	@Override
