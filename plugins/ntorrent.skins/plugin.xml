@@ -9,9 +9,6 @@
 			<export prefix="*" />
 		</library>
 		<library id="locale" path="locale/" type="resources"/>
-				<library id="log4j" path="../../lib/log4j/log4j.jar" type="code">
-			<export prefix="*" />
-		</library>	
 	</runtime>
 	<extension plugin-id="ntorrent" point-id="SettingsExtension" id="SettingsExtension" />
 </plugin>
