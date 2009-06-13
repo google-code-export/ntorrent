@@ -34,13 +34,13 @@ import ntorrent.torrenttable.model.Torrent;
 public class TorrentClassRenderer extends JPanel implements TableCellRenderer {
 	private static final long serialVersionUID = 1L;
 
-	private static final ImageIcon stoppedIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/stopped.png");
-	private static final ImageIcon startedIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/started.png");
-	private static final ImageIcon messageIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/emblem-important.png");
-	private static final ImageIcon upIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/uploading.png");
-	private static final ImageIcon downIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downloading.png");
-	private static final ImageIcon dandupIcon = new ImageIcon("plugins/ntorrent.torrenttable/icons/downandup.png");
-	private static final ImageIcon hashing = new ImageIcon("plugins/ntorrent.torrenttable/icons/hashing.png");
+	private static final ImageIcon stoppedIcon = new ImageIcon("plugins/ntorrent/icons/stopped.png");
+	private static final ImageIcon startedIcon = new ImageIcon("plugins/ntorrent/icons/started.png");
+	private static final ImageIcon messageIcon = new ImageIcon("plugins/ntorrent/icons/emblem-important.png");
+	private static final ImageIcon upIcon = new ImageIcon("plugins/ntorrent/icons/uploading.png");
+	private static final ImageIcon downIcon = new ImageIcon("plugins/ntorrent/icons/downloading.png");
+	private static final ImageIcon dandupIcon = new ImageIcon("plugins/ntorrent/icons/downandup.png");
+	private static final ImageIcon hashing = new ImageIcon("plugins/ntorrent/icons/hashing.png");
 	
 	private static final int selectedRowHeight = 40;
 	private static final int standardRowHeight = 20;

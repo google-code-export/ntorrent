@@ -4,10 +4,8 @@
 	<classpathentry kind="src" output="plugins/ntorrent.io.rtorrent/classes" path="plugins/ntorrent.io.rtorrent/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentfiles/classes" path="plugins/ntorrent.torrentfiles/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentinfo/classes" path="plugins/ntorrent.torrentinfo/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.torrenttable/classes" path="plugins/ntorrent.torrenttable/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrenttrackers/classes" path="plugins/ntorrent.torrenttrackers/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrenttable.sorter/classes" path="plugins/ntorrent.torrenttable.sorter/source"/>
-	<classpathentry kind="src" output="plugins/ntorrent.session/classes" path="plugins/ntorrent.session/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.trayicon/classes" path="plugins/ntorrent.trayicon/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.skins/classes" path="plugins/ntorrent.skins/source"/>
 	<classpathentry kind="src" output="plugins/ntorrent.torrentlabels/classes" path="plugins/ntorrent.torrentlabels/source"/>
@@ -18,9 +16,10 @@
 	<classpathentry kind="src" path="plugins/ntorrent.connection.http/source"/>
 	<classpathentry kind="src" path="plugins/ntorrent.connection.ssh/source"/>
 	<classpathentry kind="src" path="plugins/ntorrent/tests"/>
+	<classpathentry kind="src" path="lib/ntorrent/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/jpf.jar" sourcepath="/ntorrent-source-doc/jpf/source"/>
-	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="source-doc/jpf/source-boot"/>
+	<classpathentry kind="lib" path="lib/jpf-boot.jar" sourcepath="/ntorrent-source-doc/jpf/source-boot"/>
 	<classpathentry kind="lib" path="lib/jpf-tools.jar"/>
 	<classpathentry kind="lib" path="lib/jxp.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5/junit-4.5.jar"/>

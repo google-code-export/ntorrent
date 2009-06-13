@@ -41,7 +41,6 @@ import org.apache.log4j.Logger;
 import ntorrent.NtorrentApplication;
 import ntorrent.core.view.component.util.Window;
 import ntorrent.locale.ResourcePool;
-import ntorrent.settings.TestModel;
 import ntorrent.settings.model.SettingsExtension;
 import ntorrent.settings.model.SettingsPluginListItem;
 import ntorrent.settings.model.SettingsPluginListModel;

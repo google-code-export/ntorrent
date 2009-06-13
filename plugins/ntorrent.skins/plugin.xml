@@ -2,13 +2,16 @@
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
 <plugin id="ntorrent.skins" version="0.1" class="ntorrent.skins.LookAndFeelHandler">
 	<requires>
-		<import plugin-id="ntorrent" />
+		<import plugin-id="ntorrent" reverse-lookup="true"/>
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
 			<export prefix="*" />
 		</library>
 		<library id="locale" path="locale/" type="resources"/>
+				<library id="log4j" path="../../lib/log4j/log4j.jar" type="code">
+			<export prefix="*" />
+		</library>	
 	</runtime>
 	<extension plugin-id="ntorrent" point-id="SettingsExtension" id="SettingsExtension" />
 </plugin>
