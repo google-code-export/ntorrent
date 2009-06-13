@@ -100,7 +100,6 @@ test      - runs some tests
 		</antcall>
 		<copy todir="${build.home}/lib">
 			<fileset dir="lib" includes="*.jar" />
-			<fileset dir="lib/log4j" includes="*.jar"/>
 		</copy>
 		<copy todir="${build.home}">
 			<fileset dir="." includes="README,LICENSE,*.*" excludes="launch4j.xml,codetemplates.xml,build.xml,.*" />
