@@ -2,20 +2,12 @@ package ntorrent.splash;
 
 import java.awt.Frame;
 import java.awt.Image;
-import java.awt.Label;
-import java.awt.SplashScreen;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-import ntorrent.NtorrentApplication;
-
-import org.apache.log4j.Logger;
 import org.java.plugin.boot.SplashHandler;
 import org.java.plugin.util.ExtendedProperties;
 

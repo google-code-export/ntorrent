@@ -3,7 +3,6 @@
 <plugin id="ntorrent.torrenttrackers" version="0.1" class="ntorrent.torrenttrackers.TorrentTrackersController">
 	<requires>
 		<import plugin-id="ntorrent" />
-		<import plugin-id="ntorrent.session" />
 	</requires>
 	<runtime>
 		<library id="src" path="classes/" type="code">
@@ -11,5 +10,5 @@
 		</library>
 		<library id="locale" path="locale/" type="resources" />
 	</runtime>
-	<extension plugin-id="ntorrent.session" point-id="SessionExtension" id="TorrentTrackersExtension" />
+	<extension plugin-id="ntorrent" point-id="SessionExtension" id="TorrentTrackersExtension" />
 </plugin>

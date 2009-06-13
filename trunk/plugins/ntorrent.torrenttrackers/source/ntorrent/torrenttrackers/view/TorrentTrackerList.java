@@ -58,12 +58,12 @@ public class TorrentTrackerList extends JList implements ActionListener,MouseLis
 				String iconUrl = null;
 				if(tt.isEnabled()){
 					if(tt.isOpen()){
-						iconUrl = "plugins/ntorrent.torrenttable/icons/downandup.png";
+						iconUrl = "plugins/ntorrent/icons/downandup.png";
 					}else{
-						iconUrl = "plugins/ntorrent.torrenttable/icons/started.png";
+						iconUrl = "plugins/ntorrent/icons/started.png";
 					}
 				}else{
-					iconUrl = "plugins/ntorrent.torrenttable/icons/stopped.png";
+					iconUrl = "plugins/ntorrent/icons/stopped.png";
 				}
 				
 				JPanel panel = new JPanel(new BorderLayout());

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="nTorrent" default="help" basedir=".">
 	<property name="app.name" value="nTorrent" />
-	<property name="app.version" value="0.5" />
+	<property name="app.version" value="0.6" />
 	<property name="app.jar" value="lib/jpf-boot.jar" />
 	<property name="app.mainclass" value="org.java.plugin.boot.Boot" />
 
@@ -14,7 +14,8 @@
 	<property name="jarbundler.jar" value="${basedir}/lib/jarbundler/jarbundler-1.9.jar" />
 
 	<path id="classpath">
-		<fileset dir="lib" includes="*.jar" />
+		<fileset dir="lib" includes="*.jar"/>
+		<pathelement location="lib/ntorrent.jar"/>
 	</path>
 
 	<typedef resource="org/java/plugin/tools/ant/jpf-tasks.properties">
@@ -66,14 +67,22 @@ test      - runs some tests
 		<mkdir dir="${release.home}" />
 	</target>
 
+	<target name="-build-ntorrent-boot">
+		<mkdir dir="${build.home}/ntorrent.boot" />
+		<mkdir dir="${build.home}/lib" />
+		<javac srcdir="lib/ntorrent/src" destdir="${build.home}/ntorrent.boot" debug="true" target="1.5" optimize="false">
+			<classpath refid="classpath"/>
+		</javac>
+		<jar destfile="${build.home}/lib/ntorrent.jar" basedir="${build.home}/ntorrent.boot" />
+	</target>
+	
 	<target name="-build-plugins">
 		<mkdir dir="${build.home}/plugins" />
 		<ant dir="plugins/redstone.xmlrpc" target="${target}" />
 		<ant dir="plugins/ntorrent.locale" target="${target}" />
 		<ant dir="plugins/ntorrent.io.rtorrent" target="${target}" />
 		<ant dir="plugins/ntorrent" target="${target}" />
-		<ant dir="plugins/ntorrent.session" target="${target}" />
-		<ant dir="plugins/ntorrent.torrenttable" target="${target}" />
+		<ant dir="plugins/ntorrent.connection.socket" target="${target}" />
 		<ant dir="plugins/ntorrent.skins" target="${target}" />
 		<ant dir="plugins/ntorrent.torrentlabels" target="${target}" />
 		<ant dir="plugins/ntorrent.torrenttable.sorter" target="${target}" />
@@ -85,11 +94,13 @@ test      - runs some tests
 	</target>
 
 	<target name="build" depends="-init" description="Builds entire project">
+		<antcall target="-build-ntorrent-boot" />
 		<antcall target="-build-plugins">
 			<param name="target" value="build" />
 		</antcall>
 		<copy todir="${build.home}/lib">
 			<fileset dir="lib" includes="*.jar" />
+			<fileset dir="lib/log4j" includes="*.jar"/>
 		</copy>
 		<copy todir="${build.home}">
 			<fileset dir="." includes="README,LICENSE,*.*" excludes="launch4j.xml,codetemplates.xml,build.xml,.*" />
@@ -100,7 +111,7 @@ test      - runs some tests
 	<target name="run" depends="build" description="Runs application">
 		<java jar="${app.jar}"
 		      dir="${build.home}"
-		      fork="true" />
+		      fork="true"/>
 	</target>
 
 	<target name="check"

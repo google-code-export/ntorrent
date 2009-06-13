@@ -35,7 +35,7 @@ public class ConnectionSession implements EventListener {
 	
 	private final PluginManager manager = NtorrentApplication.MANAGER;
 	private final PluginRegistry registry = manager.getRegistry();
-	private final ExtensionPoint ext = registry.getExtensionPoint("ntorrent.session", "SessionExtension");
+	private final ExtensionPoint ext = registry.getExtensionPoint("ntorrent", "SessionExtension");
 	
 	private final HashMap<PluginDescriptor,Collection<PluginDescriptor>> dependencies = 
 		new HashMap<PluginDescriptor, Collection<PluginDescriptor>>();
