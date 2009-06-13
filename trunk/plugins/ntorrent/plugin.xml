@@ -14,9 +14,6 @@
 		<library type="resources" path="icons/" id="icons">
 			<export prefix="*"/>
 		</library>
-		<library id="log4j" path="../../lib/log4j/log4j.jar" type="code">
-			<export prefix="*" />
-		</library>		
 	</runtime>
 	<extension-point id="ConnectionProfileExtension" />	
 	<extension-point id="SettingsExtension" />
