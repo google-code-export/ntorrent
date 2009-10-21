@@ -75,6 +75,8 @@ public class TorrentTableModel extends AbstractTableModel  {
 					return tor.getRatio();
 				case 11:
 					return tor.getPriority();
+				case 12:
+					return tor.getLabel();
 			}
 			
 		}catch(ArrayIndexOutOfBoundsException x){

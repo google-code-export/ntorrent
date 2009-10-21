@@ -19,14 +19,13 @@
  */
 package ntorrent.torrenttable.model;
 
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Torrent implements Comparable<Torrent>, Comparator<Torrent> {
 
-	private String hash,name,message;
+	private String hash,name,message,label;
 	private Boolean started;
 	private Boolean hashChecking;
 	private Byte completedBytes,upTotal,sizeBytes;
@@ -260,6 +259,14 @@ public class Torrent implements Comparable<Torrent>, Comparator<Torrent> {
 	
 	public Boolean isHashChecking() {
 		return hashChecking;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
+	public String getLabel() {
+		return label;
 	}
 
 }
