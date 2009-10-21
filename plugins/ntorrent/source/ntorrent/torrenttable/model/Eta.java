@@ -25,7 +25,7 @@ import java.util.Comparator;
 public class Eta implements Comparable<Eta>, Comparator<Eta>{
 
 	private Integer sec;
-	private Integer[] div = {60,60,60,24,7,4,12};
+	private Integer[] div = {60,60,24,24,7,4,12};
 	private String[] unit = {"s","m","h","D","W","M","Y"};
 	private int l = 0;
 	
