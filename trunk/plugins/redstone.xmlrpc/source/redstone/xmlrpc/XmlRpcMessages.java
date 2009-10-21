@@ -1,5 +1,5 @@
-/*
-    Copyright © 2006 by Redstone Handelsbolag
+ï»¿/*
+    Copyright ?2006 by Redstone Handelsbolag
     All Rights Reserved.
 
     The copyright to the source code herein is the property of
