@@ -47,6 +47,7 @@ public class MainWindow extends Window implements ActionListener {
 	private final static ConnectionTab connectionsTab = new ConnectionTab(JTabbedPane.TOP);
 	private final MainMenuBar menuBar = new MainMenuBar(this);
 	private final PluginHandlerMenuBar jpf = new PluginHandlerMenuBar(menuBar);
+	private String lastAccessPath = null;
 	
 	public MainWindow() {
 		super();
@@ -62,11 +63,12 @@ public class MainWindow extends Window implements ActionListener {
 		String c = e.getActionCommand();
 		String[] ids = MainMenuBar.identifiers;
 		if(c.equals(ids[0])){
-			TorrentFileChooser chooser = new TorrentFileChooser();
+			TorrentFileChooser chooser = new TorrentFileChooser(lastAccessPath);
 			int result = chooser.showOpenDialog(this);
 			if(result == JFileChooser.APPROVE_OPTION){
 				for(File f : chooser.getSelectedFiles()){
 					Main.clientSoConn(f.getAbsolutePath());
+					lastAccessPath = f.getAbsolutePath();
 				}
 			}
 		}else if(c.equals(ids[1])){
