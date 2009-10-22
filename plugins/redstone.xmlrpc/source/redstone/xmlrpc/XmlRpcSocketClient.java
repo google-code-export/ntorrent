@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Proxy;
 import java.net.Socket;
 
 import redstone.xmlrpc.util.Scgi;
@@ -50,15 +49,10 @@ public class XmlRpcSocketClient extends XmlRpcClient {
 		}
 	}
 	
-	public Socket getConnection() {
-		return connection;
-	}
-	
 	@Override
 	protected void beginCall(String methodName) throws XmlRpcException {
 		try {
-			//if(connection == null) each request needs a new socket?
-				connection = new Socket(host,port);
+			connection = new Socket(host,port);
 		} catch (Exception e) {
 			throw new XmlRpcException(e.getMessage(),e);
 		}

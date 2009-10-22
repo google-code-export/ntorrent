@@ -19,64 +19,67 @@
  */
 package ntorrent.skins;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.logging.Logger;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
-import ntorrent.NtorrentApplication;
-import ntorrent.core.view.component.MainWindow;
-import ntorrent.settings.DefaultSettingsImpl;
-import ntorrent.skins.model.PrettyLookAndFeelInfo;
-import ntorrent.skins.model.SkinModel;
-import ntorrent.tools.Serializer;
+import ntorrent.Main;
+import ntorrent.gui.MainWindow;
+import ntorrent.locale.ResourcePool;
 
-import org.apache.log4j.Logger;
+import org.java.plugin.Plugin;
 
-public class LookAndFeelHandler extends DefaultSettingsImpl<SkinModel> {
-	
-	/**
-	 * Log4j logger
-	 */
-	private final static Logger log = Logger.getLogger(LookAndFeelHandler.class);
-	
-	public LookAndFeelHandler() {
-		super(Serializer.deserialize(SkinModel.class, NtorrentApplication.SETTINGS.getNtorrent()),SkinModel.class);
-	}
+public class LookAndFeelHandler extends Plugin implements ItemListener {
+
+	JMenuBar bar = Main.getMainWindow().getJMenuBar();
+	JMenu skins = new JMenu(ResourcePool.getString("skins","locale",this));
+	ButtonGroup bgroup = new ButtonGroup();
 	
 	@Override
 	protected void doStart() throws Exception {
-		setWindowSkin();
+		
+		for(LookAndFeelInfo lafi : UIManager.getInstalledLookAndFeels()){
+			JRadioButtonMenuItem radio = new JRadioButtonMenuItem(lafi.getName());
+			String currentLF = UIManager.getLookAndFeel().getClass().getName();
+			radio.setName(lafi.getClassName());
+			if(currentLF.equals(lafi.getClassName()))
+				radio.setSelected(true);
+			radio.addItemListener(this);
+			bgroup.add(radio);
+			skins.add(radio);
+		}
+		bar.add(skins);
+		bar.revalidate();
+		bar.repaint();
 	}
 
 	@Override
 	protected void doStop() throws Exception {
-		setDefaultWindowSkin();
-	}
-	
-	private void setDefaultWindowSkin(){
-		getModel().setLafClass(new PrettyLookAndFeelInfo(null,UIManager.getSystemLookAndFeelClassName()));
-		setWindowSkin();
+		bar.remove(skins);
+		bar.revalidate();
+		bar.repaint();
 	}
 
-	
-	private void setWindowSkin(){
-		MainWindow w = NtorrentApplication.MAIN_WINDOW;
-		if(getModel().getLafClass() != null){
+	public void itemStateChanged(ItemEvent e) {
+		if(e.getStateChange() == ItemEvent.SELECTED){
+			JRadioButtonMenuItem radio = ((JRadioButtonMenuItem)e.getItem());
+			MainWindow w = Main.getMainWindow();
 			try {
-				UIManager.setLookAndFeel(getModel().getLafClass().getClassName());
+				UIManager.setLookAndFeel(radio.getName());
 				SwingUtilities.updateComponentTreeUI(w);
 				w.pack();
 			} catch (Exception x){
-				log.warn(x.getMessage(),x);
+				Logger.global.warning(x.getMessage());
 			}
 		}
-	}
-
-
-	public void saveActionPerformedOnSettings() throws Exception {
-		super.saveActionPerformedOnSettings();
-		setWindowSkin();
-		Serializer.serialize(getModel());
 	}
 
 }

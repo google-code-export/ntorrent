@@ -20,37 +20,113 @@
 
 package ntorrent;
 
+import java.awt.Component;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ntorrent.core.view.component.util.Window;
+import ntorrent.gui.ConnectionTab;
+import ntorrent.gui.MainWindow;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
+import ntorrent.locale.ResourcePool;
+import ntorrent.profile.ClientProfileController;
+import ntorrent.profile.ProfileRequester;
+import ntorrent.profile.model.ClientProfileInterface;
 import ntorrent.session.ConnectionSession;
 
 /**
  * A ntorrent session
  */
-public class Session implements Runnable{
+public class Session extends Thread implements ProfileRequester, ChangeListener{
+	private static final long serialVersionUID = 1L;
+	private JComponent sessionView;
+	private ConnectionSession session;
+	private XmlRpcConnection connection = null;
+	private ClientProfileInterface profile;
+	private ConnectionTab jtab;
 
+	public Session(MainWindow window) {
+		jtab = window.getConnectionsTab();
+		sessionView = new ClientProfileController(this).getDisplay();
+		
+		int index = jtab.getTabCount();
+		jtab.insertTab(ResourcePool.getString("profile","locale",this), null, sessionView, null, index);
+		jtab.setSelectedIndex(index);
+	}
 	
-	private final XmlRpcConnection connection;
-	private ConnectionSession connectionSession;
-	private final String name;
+	public Session(MainWindow window, ClientProfileInterface p) {
+		jtab = window.getConnectionsTab();
+		sendProfile(p);
+	}
 
-	public Session(String name, XmlRpcConnection connection) {
-		this.name = name;
-		this.connection = connection;
+	public void sendProfile(ClientProfileInterface  p) {
+		profile = p;
+		new Thread(this).start();
 	}
 	
 	@Override
 	public void run() {
-		connectionSession = new ConnectionSession(this.connection);
-		NtorrentApplication.MAIN_WINDOW.addToConnectionsTab(this.name, connectionSession.getDisplay());
-		NtorrentApplication.MAIN_WINDOW.showConnectionsTab();
+		try {
+			int tabIndex = jtab.indexOfComponent(sessionView);
+			connection = new XmlRpcConnection(profile);
+			session = new ConnectionSession(connection);
+			sessionView = session.getDisplay();
+			
+			if(tabIndex == -1){
+				tabIndex = jtab.getTabCount();
+				jtab.insertTab("---", null, null, null,tabIndex);
+			}
+			
+			jtab.setComponentAt(tabIndex, sessionView);
+			jtab.setTitleAt(tabIndex, profile.toString());
+			jtab.getModel().addChangeListener(this);
+		} catch (Exception e) {
+			Logger.global.log(Level.WARNING, e.getMessage(), e);
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	public boolean isConnected(){
+		return !(connection == null);
 	}
 	
 	public XmlRpcConnection getConnection() {
-		return this.connection;
+		return connection;
+	}
+	
+	public ClientProfileInterface getProfile() {
+		return profile;
+	}
+	
+	public ConnectionSession getSession() {
+		return session;
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		boolean removed = true;
+		for(Component c :jtab.getComponents())
+			if(c.equals(sessionView))
+				removed = false;
+		
+		if(removed || jtab.getComponentCount() == 0)
+			session.shutdown();
+		
+		if(jtab.getSelectedIndex() >= 0){
+			if(jtab.getSelectedComponent().equals(sessionView)){
+				session.start();
+			}else{
+				session.stop();
+			}
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return profile.toString();
 	}
 
 }

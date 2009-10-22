@@ -40,7 +40,7 @@ public class TorrentTrackerPopupMenu extends JPopupMenu {
 	
 	public TorrentTrackerPopupMenu(ActionListener listener) {
 		for(String s : MENU_ITEMS){
-			JMenuItem item = new JMenuItem(ResourcePool.getString(s, this));
+			JMenuItem item = new JMenuItem(ResourcePool.getString(s, "locale", this));
 			item.setActionCommand(s);
 			item.addActionListener(listener);
 			add(item);

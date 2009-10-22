@@ -23,9 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
-import org.apache.log4j.Logger;
-
+import java.util.logging.Logger;
 
 /**
  * This class gives access to locale sensitive data.
@@ -34,41 +32,26 @@ import org.apache.log4j.Logger;
  */
 public class ResourcePool {
 	/** Locale specification **/
-	private static Locale locale = Locale.getDefault();
+	private static Locale locale;
 	
 	/** Translations **/
-	private final static HashMap<Integer,ResourceBundle> messages = new HashMap<Integer, ResourceBundle>();
-	
-	/**
-	 * Log4j logger
-	 */
-	private final static Logger log = Logger.getLogger(ResourcePool.class);
-	
+	private final static HashMap<Integer,ResourceBundle> messages = new HashMap<Integer, ResourceBundle>();	
 	public static String getString(String key, String bundle,Object obj) {
-		Class<?> classObj;
-		if(!(obj instanceof Class))
-			classObj = obj.getClass();
-		else
-			classObj = (Class<?>) obj;
-		
-		ClassLoader loader = classObj.getClassLoader();
+		ClassLoader loader = obj.getClass().getClassLoader();
 		int id = loader.hashCode();
 		try{
 			if(!messages.containsKey(id)){
 				messages.put(id, ResourceBundle.getBundle(bundle,locale,loader));
-				log.debug("Added new resource bundle to resource pool. ("+id+")");
+				Logger.global.info("Added new resource bundle to resource pool. ("+id+")");
 			}
 			return messages.get(id).getString(key);	
 		}catch(MissingResourceException x){
-			log.trace("Unknown key ["+key+"] requested from class "+classObj.getName()+" in resource pool with bundle="+bundle);
+			Logger.global.info("Unknown key ["+key+"] requested from class "+obj.getClass().getName()+" in resource pool with bundle="+bundle);
 		}catch(Exception x){
-			log.warn("Resource bundle "+bundle+" is missing from "+obj.getClass().getName()+"!",x);
+			x.printStackTrace();
+			//Logger.global.warning("Resource bundle "+bundle+" is missing from "+obj.getClass().getName()+"!");
 		}
-		return "??"+key+"??";
-	}
-	
-	public static String getString(String key, Object obj){
-		return getString(key,"locale",obj);
+		return key;
 	}
 	
 	public static Locale getLocale() {

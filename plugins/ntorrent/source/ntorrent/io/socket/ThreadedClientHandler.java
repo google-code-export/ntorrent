@@ -26,10 +26,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
-
-import ntorrent.NtorrentApplication;
+import ntorrent.Main;
 
 
 
@@ -42,18 +42,13 @@ class ThreadedClientHandler extends Thread {
 	private static Socket client;
 
 	private BufferedReader in;
-	
-	/**
-	 * Log4j logger
-	 */
-	private final static Logger log = Logger.getLogger(ThreadedClientHandler.class);
 
 	public ThreadedClientHandler(Socket socket) {
 		client = socket;
 		try {
 			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 		} catch (IOException e) {
-			log.warn(e.getMessage(),e);
+			Logger.global.log(Level.WARNING, e.getMessage());;
 		}
 	}
 
@@ -63,21 +58,22 @@ class ThreadedClientHandler extends Thread {
 				try {
 					String line = in.readLine();
 					if(line != null){
-						NtorrentApplication.clientSoConn(line);
+						Main.clientSoConn(line);
 					}
 				}catch(Exception x){
-					log.warn(x.getMessage(),x);
+					Logger.global.log(Level.WARNING, x.getMessage());
 				}
 			} while (in.ready());
 		} catch (IOException e) {
-			log.warn(e.getMessage(),e);
+			System.out.println("here");
+			Logger.global.log(Level.WARNING, e.getMessage());
 		} finally {
 			try {
 				if (client != null) {
 					client.close();
 				}
 			} catch (IOException e) {
-				log.warn(e.getMessage(),e);
+				Logger.global.log(Level.WARNING, e.getMessage());
 			}
 		}
 	}
