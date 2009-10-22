@@ -21,6 +21,7 @@ package ntorrent.statusbar.throttle.view;
 
 import java.awt.Dimension;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -34,6 +35,9 @@ import ntorrent.locale.ResourcePool;
 public class ThrottlePane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final JSpinner up,down;
+	private final JLabel upLabel, downLabel;
+	private String unit = "(KB/s)";
+	private String upMsg, downMsg;
 		
 	public ThrottlePane(SpinnerNumberModel upModel, SpinnerNumberModel downModel) {
 		up = new JSpinner(upModel);
@@ -42,13 +46,22 @@ public class ThrottlePane extends JPanel {
 		up.setPreferredSize(new Dimension(60,20));
 		down.setPreferredSize(new Dimension(60,20));
 		
-		up.setToolTipText(ResourcePool.getString("upload", "locale", this));
-		down.setToolTipText(ResourcePool.getString("download", "locale", this));
+		upMsg = ResourcePool.getString("upload", "locale", this) + " " + unit;
+		downMsg = ResourcePool.getString("download", "locale", this) + " " + unit;
+		
+		up.setToolTipText(upMsg);
+		down.setToolTipText(downMsg);
 		
 		upModel.setMinimum(0);
 		downModel.setMinimum(0);
 		
+		upLabel = new JLabel(upMsg);
+		downLabel = new JLabel(downMsg);
+		
+		add(upLabel);
 		add(up);
+		add(new JLabel("  ")); // add extra spaces
+		add(downLabel);
 		add(down);
 	}
 
