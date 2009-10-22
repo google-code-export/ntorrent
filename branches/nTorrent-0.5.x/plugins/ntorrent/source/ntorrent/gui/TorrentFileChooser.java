@@ -30,21 +30,30 @@ import javax.swing.filechooser.FileFilter;
  */
 public class TorrentFileChooser extends JFileChooser {
 	private static final long serialVersionUID = 1L;
-
+	
+	public TorrentFileChooser(String path) {
+		super(path);
+		init();
+	}
+	
 	public TorrentFileChooser() {
+		init();
+	}
+	
+	private void init() {
 		setMultiSelectionEnabled(true);
 		setFileFilter(new FileFilter(){
-
+			
 			@Override
 			public boolean accept(File f) {
 				return f.isDirectory() || f.getName().endsWith(".torrent");
 			}
-
+			
 			@Override
 			public String getDescription() {
 				return ".torrent";
 			}
-			
 		});
 	}
+	
 }
