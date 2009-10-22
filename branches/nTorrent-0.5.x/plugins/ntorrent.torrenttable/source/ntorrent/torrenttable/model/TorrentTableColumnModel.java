@@ -46,7 +46,8 @@ public class TorrentTableColumnModel implements Serializable{
 		"eta",
 		"percent",
 		"ratio",
-		"priority"
+		"priority",
+		"label"
 	};
 	
 	public static transient final int[] widths = {
@@ -56,6 +57,7 @@ public class TorrentTableColumnModel implements Serializable{
 		50,
 		20,
 		20,
+		50,
 		50,
 		50,
 		50,

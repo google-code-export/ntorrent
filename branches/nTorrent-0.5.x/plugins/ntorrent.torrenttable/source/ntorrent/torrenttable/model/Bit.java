@@ -28,7 +28,7 @@ public class Bit extends DataUnit{
 
 	
 	protected String[] getUnitDesc() {
-		String[] s = {"b/s","Kb/s","Mb/s","Gb/s"}; 
+		String[] s = {"B/s","KB/s","MB/s","GB/s"}; 
 		return s;
 	}
 
