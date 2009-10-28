@@ -19,6 +19,7 @@
  */
 package ntorrent.torrentinfo;
 
+import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.swing.JScrollPane;
@@ -117,6 +118,19 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 			if(tiedToFile.length() > 0){
 				insertText("\n\n"+ResourcePool.getString("tied", bundle, this)+":\n", BOLD);
 				insertText(tiedToFile, null);
+			}
+			
+			//add target free diskspace
+			if (d.is_open(hash) > 0) {
+				insertText("\n\n"+ResourcePool.getString("freediskspace", bundle, this)+":\n", BOLD);
+				long diskspace = d.get_free_diskspace(hash);
+				NumberFormat formatter = NumberFormat.getInstance(ResourcePool.getLocale());
+				if (diskspace < 1024*1024) {
+					insertText("" + formatter.format(diskspace / 1024) + "KB", null);
+				} else {
+					insertText("" + formatter.format(diskspace / 1024 / 1024)
+							+ "MB", null);
+				}
 			}
 
 		}
