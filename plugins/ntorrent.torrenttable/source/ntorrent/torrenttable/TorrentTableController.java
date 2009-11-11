@@ -32,7 +32,9 @@ import javax.swing.event.ListSelectionListener;
 import ntorrent.io.rtorrent.Download;
 import ntorrent.io.xmlrpc.XmlRpcConnection;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentEvent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
+import ntorrent.torrenttable.model.TorrentStateListener;
 import ntorrent.torrenttable.model.TorrentTableModel;
 import ntorrent.torrenttable.view.TorrentTable;
 import ntorrent.torrenttable.view.TorrentTableJPopupMenu;
@@ -50,6 +52,7 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 	
 	private final Vector<String> download_variable = new Vector<String>();
 	private final Vector<TorrentSelectionListener > torrentSelectionListeners = new Vector<TorrentSelectionListener>();
+	private final Vector<TorrentStateListener> torrentStateListeners = new Vector<TorrentStateListener>();
 	
 	private SelectionValueInterface selectionMethod = null;
 	private boolean pause = false;
@@ -225,6 +228,12 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 		download_variable.setElementAt(view, 0);
 		controllerThread.interrupt();
 	}
+	
+	protected void processEvent(TorrentEvent event) {
+		for (TorrentStateListener listener : torrentStateListeners) {
+			listener.torrentStateChanged(event);
+		}
+	}
 
 	public void torrentActionPerformed(final Torrent[] tor, final String command) {
 		//invoking the commands asynchronously so the gui won't be blocked
@@ -237,25 +246,36 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
             		String hash = t.getHash();
             		if(command.equals(mitems[0])){
             			//open
-            			if(!t.isStarted())
+            			if(!t.isStarted()) {
             				d.open(hash);
+            				processEvent(new TorrentEvent(t, TorrentEvent.UNKNOWN, TorrentEvent.TORRENT_OPEN));
+            			}
             		}else if(command.equals(mitems[1])){
         				//start
-            			if(!t.isStarted())
+            			if(!t.isStarted()) {
             				d.start(hash);
+            				processEvent(new TorrentEvent(t, TorrentEvent.UNKNOWN, TorrentEvent.TORRENT_START));
+            			}
         			}else if(command.equals(mitems[3]) || command.equals(mitems[4])){
         				boolean close = command.equals(mitems[4]);
         				//stop
-        				if(t.isStarted())
+        				if(t.isStarted()) {
         					d.stop(hash);
+        					processEvent(new TorrentEvent(t, TorrentEvent.TORRENT_START, TorrentEvent.TORRENT_STOP));
+        				}
         				//stop and close
-        				if(close);
+        				if(close) {
         					d.close(hash);
+        					processEvent(new TorrentEvent(t, TorrentEvent.UNKNOWN, TorrentEvent.TORRENT_CLOSE));
+        				}
         			}else if(command.equals(mitems[6])){
         				//erase
-        				if(t.isStarted())
+        				if(t.isStarted()) {
         					d.stop(hash);
+        					processEvent(new TorrentEvent(t, TorrentEvent.TORRENT_START, TorrentEvent.TORRENT_STOP));
+        				}
         				d.erase(hash);
+        				processEvent(new TorrentEvent(t, TorrentEvent.TORRENT_STOP, TorrentEvent.TORRENT_ERASE));
         				table.getSelectionModel().clearSelection();
         			}else if(command.equals(mitems[7])){
         				//check hash
@@ -336,5 +356,20 @@ public class TorrentTableController implements TorrentTableInterface, ListSelect
 			}
 		}
 		return tor;
+	}
+
+	@Override
+	public void addTorrentStateListener(TorrentStateListener listener) {
+		if (!torrentStateListeners.contains(listener)) {
+			torrentStateListeners.add(listener);
+		}
+		
+	}
+
+	@Override
+	public void removeTorrentStateListener(TorrentStateListener listener) {
+		if (listener != null) {
+			torrentStateListeners.remove(listener);
+		}
 	}
 }

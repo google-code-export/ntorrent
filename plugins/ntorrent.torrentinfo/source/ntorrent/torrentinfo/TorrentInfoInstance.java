@@ -36,13 +36,15 @@ import ntorrent.session.ConnectionSession;
 import ntorrent.session.SessionInstance;
 import ntorrent.torrenttable.TorrentTableInterface;
 import ntorrent.torrenttable.model.Torrent;
+import ntorrent.torrenttable.model.TorrentEvent;
 import ntorrent.torrenttable.model.TorrentSelectionListener;
+import ntorrent.torrenttable.model.TorrentStateListener;
 
 /**
  * @author Kim Eik
  *
  */
-public class TorrentInfoInstance implements SessionInstance,TorrentSelectionListener {
+public class TorrentInfoInstance implements SessionInstance,TorrentSelectionListener, TorrentStateListener {
 	private final JTabbedPane tab;
 	private final JTextPane textPane = new JTextPane();
 	private final JScrollPane scrollpane = new JScrollPane(textPane);
@@ -88,51 +90,60 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		
 		//add this as a torrent selection listener
 		tc.addTorrentSelectionListener(this);
+		
+		tc.addTorrentStateListener(this);
 	}
 
 	public void stop() {
 		started = false;
 		tc.removeTorrentSelectionListener(this);
+		tc.removeTorrentStateListener(this);
 		tab.removeTabAt(tab.indexOfComponent(scrollpane));
 	}
 
 	public synchronized void torrentsSelected(Torrent[] tor) {
 		//NO LONGER THREAD SAFE!
+		if (tor.length == 1) {
+			refreshState(tor[0]);
+		} else {
+			textPane.setText("");
+		}
+	}
+	
+	protected void refreshState(Torrent torrent) {
 		textPane.setText("");
-		if(tor.length == 1){
-			String hash = tor[0].getHash();
-			
-			insertText(ResourcePool.getString("name", bundle, this)+":\n", BOLD);
-			insertText("["+(d.is_open(hash) == 1 ? 
-						ResourcePool.getString("open", bundle, this) : 
-						ResourcePool.getString("closed", bundle, this))
-				+"] - "+d.get_name(hash),null);
-			insertText("\n\n"+ResourcePool.getString("hash", bundle, this)+":\n", BOLD);
-			insertText(hash, null);
-			insertText("\n\n"+ResourcePool.getString("directory", bundle, this)+":\n", BOLD);
-			insertText(d.get_directory(hash), null);
-			insertText("\n\n"+ResourcePool.getString("date-created", bundle, this)+":\n", BOLD);
-			insertText(new Date(d.get_creation_date(hash)*1000).toString(), null);
-			
-			String tiedToFile = d.get_tied_to_file(hash);
-			if(tiedToFile.length() > 0){
-				insertText("\n\n"+ResourcePool.getString("tied", bundle, this)+":\n", BOLD);
-				insertText(tiedToFile, null);
+		
+		String hash = torrent.getHash();
+		
+		insertText(ResourcePool.getString("name", bundle, this)+":\n", BOLD);
+		insertText("["+(d.is_open(hash) == 1 ? 
+					ResourcePool.getString("open", bundle, this) : 
+					ResourcePool.getString("closed", bundle, this))
+			+"] - "+d.get_name(hash),null);
+		insertText("\n\n"+ResourcePool.getString("hash", bundle, this)+":\n", BOLD);
+		insertText(hash, null);
+		insertText("\n\n"+ResourcePool.getString("directory", bundle, this)+":\n", BOLD);
+		insertText(d.get_directory(hash), null);
+		insertText("\n\n"+ResourcePool.getString("date-created", bundle, this)+":\n", BOLD);
+		insertText(new Date(d.get_creation_date(hash)*1000).toString(), null);
+		
+		String tiedToFile = d.get_tied_to_file(hash);
+		if(tiedToFile.length() > 0){
+			insertText("\n\n"+ResourcePool.getString("tied", bundle, this)+":\n", BOLD);
+			insertText(tiedToFile, null);
+		}
+		
+		//add target free diskspace
+		if (d.is_open(hash) > 0) {
+			insertText("\n\n"+ResourcePool.getString("freediskspace", bundle, this)+":\n", BOLD);
+			long diskspace = d.get_free_diskspace(hash);
+			NumberFormat formatter = NumberFormat.getInstance(ResourcePool.getLocale());
+			if (diskspace < 1024*1024) {
+				insertText("" + formatter.format(diskspace / 1024) + "KB", null);
+			} else {
+				insertText("" + formatter.format(diskspace / 1024 / 1024)
+						+ "MB", null);
 			}
-			
-			//add target free diskspace
-			if (d.is_open(hash) > 0) {
-				insertText("\n\n"+ResourcePool.getString("freediskspace", bundle, this)+":\n", BOLD);
-				long diskspace = d.get_free_diskspace(hash);
-				NumberFormat formatter = NumberFormat.getInstance(ResourcePool.getLocale());
-				if (diskspace < 1024*1024) {
-					insertText("" + formatter.format(diskspace / 1024) + "KB", null);
-				} else {
-					insertText("" + formatter.format(diskspace / 1024 / 1024)
-							+ "MB", null);
-				}
-			}
-
 		}
 	}
 	
@@ -142,6 +153,13 @@ public class TorrentInfoInstance implements SessionInstance,TorrentSelectionList
 		      textPane.getDocument().getLength(), text, set);
 		} catch (BadLocationException e) {
 		  e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void torrentStateChanged(TorrentEvent event) {
+		if (event.getSource() != null) {
+			refreshState(event.getSource());
 		}
 	}	
 
