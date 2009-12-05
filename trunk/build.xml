@@ -12,11 +12,16 @@
 	<property name="launch4j.config" value="${basedir}/launch4j.xml" />
 	
 	<property name="jarbundler.jar" value="${basedir}/lib/jarbundler/jarbundler-1.9.jar" />
+	
+	<property name="ntorrent-boot.lib" value="${basedir}/lib/ntorrent"/>
+	<property name="ntorrent-boot.dir" value="${build.home}/ntorrent-boot"/>
+	<property name="ntorrent-boot.jar" value="${build.home}/lib/ntorrent-boot.jar"/>
+	
 
 	<path id="classpath">
 		<fileset dir="lib" includes="*.jar"/>
-		<pathelement location="lib/ntorrent.jar"/>
 	</path>
+	
 
 	<typedef resource="org/java/plugin/tools/ant/jpf-tasks.properties">
 		<classpath refid="classpath" />
@@ -61,6 +66,7 @@ test      - runs some tests
 
 	<target name="-init">
 		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/lib" />
 	</target>
 	
 	<target name="-rinit">
@@ -68,12 +74,10 @@ test      - runs some tests
 	</target>
 
 	<target name="-build-ntorrent-boot">
-		<mkdir dir="${build.home}/ntorrent.boot" />
-		<mkdir dir="${build.home}/lib" />
-		<javac srcdir="lib/ntorrent/src" destdir="${build.home}/ntorrent.boot" debug="true" target="1.5" optimize="false">
-			<classpath refid="classpath"/>
-		</javac>
-		<jar destfile="${build.home}/lib/ntorrent.jar" basedir="${build.home}/ntorrent.boot" />
+		<mkdir dir="${ntorrent-boot.dir}"/>
+		<javac srcdir="${ntorrent-boot.lib}" classpathref="classpath" destdir="${ntorrent-boot.dir}" debug="true" target="1.5" optimize="false"/>
+		<jar destfile="${ntorrent-boot.jar}" basedir="${ntorrent-boot.dir}" />
+		<delete dir="${ntorrent-boot.dir}"/>
 	</target>
 	
 	<target name="-build-plugins">
@@ -105,10 +109,17 @@ test      - runs some tests
 			<fileset dir="." includes="README,LICENSE,*.*" excludes="launch4j.xml,codetemplates.xml,build.xml,.*" />
 		</copy>
 		<chmod perm="+x" file="${build.home}/nTorrent.sh" />
+		
+		<!-- update manifest -->
+		  <jar destfile="${build.home}/${app.jar}" update="true">
+		    <manifest>
+		      <attribute name="Class-Path" value="jpf.jar jpf-tools.jar log4j.jar ntorrent-boot.jar"/>
+		    </manifest>
+		  </jar>
 	</target>
 
 	<target name="run" depends="build" description="Runs application">
-		<java jar="${app.jar}"
+		<java jar="${build.home}/${app.jar}"
 		      dir="${build.home}"
 		      fork="true"/>
 	</target>
